@@ -1,0 +1,18 @@
+service:
+    NAME: ras-integration-tests
+    VERSION: 0.0.1
+    SCHEME: http
+    HOST: 0.0.0.0
+    PORT: 8090
+    DEBUG: True
+    LOG_LEVEL: info
+
+    secure-messaging-service:
+        scheme: http
+        host: localhost
+        port: 5050
+        api:
+          info: /info
+          messages: /messages
+
+
