@@ -3,12 +3,13 @@ from behave import given, then
 from flask import json
 import requests
 
-from run_tests import SECURE_MESSAGING_SERVICE, SECURE_MESSAGING_SERVICE_API
+from config import settings
 
 
 @given('the user requests endpoint info')
 def step_impl_requests_endpoint_info(context):
-    context.response = requests.get(SECURE_MESSAGING_SERVICE + SECURE_MESSAGING_SERVICE_API.get('info'))
+    context.response = requests.get(settings.SECURE_MESSAGING_SERVICE +
+                                    settings.SECURE_MESSAGING_SERVICE_API.get('info'))
 
 
 @then('the endpoint info is returned')
