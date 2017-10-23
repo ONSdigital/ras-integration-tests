@@ -1,5 +1,4 @@
 import nose
-import config
 import requests
 
 from config import Config
