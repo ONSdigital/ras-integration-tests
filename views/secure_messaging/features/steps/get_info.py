@@ -1,15 +1,15 @@
 import nose
-from behave import given, then
-from flask import json
+import config
 import requests
 
-from config import settings
+from config import Config
+from behave import given, then
+from flask import json
 
 
 @given('the user requests endpoint info')
 def step_impl_requests_endpoint_info(context):
-    context.response = requests.get(settings.SECURE_MESSAGING_SERVICE +
-                                    settings.SECURE_MESSAGING_SERVICE_API.get('info'))
+    context.response = requests.get(Config.RAS_SECURE_MESSAGE_SERVICE_API)
 
 
 @then('the endpoint info is returned')
