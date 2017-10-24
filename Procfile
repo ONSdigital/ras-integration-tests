@@ -1,1 +1,1 @@
-web: python run_tests.py
+web: python run.py
