@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh 'cat /proc/self/cgroup'
+                sh 'whoami'
                 sh 'pip install -r requirements.txt'
                 sh 'behave'
             }
