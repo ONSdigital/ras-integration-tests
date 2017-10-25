@@ -1,7 +1,13 @@
 #!/usr/bin/env groovy
 pipeline {
 
-    agent { docker { image 'python:latest' } }
+    agent {
+        docker {
+            image 'python:latest'
+            args '-u root'
+        }
+    }
+
     stages {
         stage('Clone') {
             steps {
@@ -10,9 +16,8 @@ pipeline {
         }
         stage('Test') {
             steps {
-                docker.image('python:latest').inside {
-                    sh 'pip install -r requirements.txt'
-                }
+                sh 'pip install -r requirements.txt'
+                sh 'behave'
             }
         }
     }
