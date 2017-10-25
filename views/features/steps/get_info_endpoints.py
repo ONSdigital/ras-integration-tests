@@ -58,7 +58,7 @@ def step_impl_fs_endpoint_info_is_returned(context):
 @when('the backstage endpoint info is returned')
 def step_impl_bs_endpoint_info_is_returned(context):
     response = json.loads(context.response.text)
-    nose.tools.assert_equal(response['name'], 'ras-backstage')
+    nose.tools.assert_equal(response['name'], 'RAS Int Backstage Service')
     nose.tools.assert_equal(response['version'], '0.0.1')
 
 
