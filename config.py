@@ -13,4 +13,14 @@ class Config(object):
                                                      RAS_SECURE_MESSAGE_SERVICE_HOST,
                                                      RAS_SECURE_MESSAGE_SERVICE_PORT)
 
-    RAS_SECURE_MESSAGE_SERVICE_API = RAS_SECURE_MESSAGE_SERVICE + '/info'
+    RAS_SECURE_MESSAGE_INFO = RAS_SECURE_MESSAGE_SERVICE + '/info'
+
+    RAS_FRONTSTAGE_SERVICE_HOST = os.getenv('RAS_FRONTSTAGE_SERVICE_HOST', 'localhost')
+    RAS_FRONTSTAGE_SERVICE_PORT = os.getenv('RAS_FRONTSTAGE_SERVICE_PORT', 8080)
+    RAS_FRONTSTAGE_SERVICE_PROTOCOL = os.getenv('RAS_FRONTSTAGE_SERVICE_PROTOCOL', 'http')
+    RAS_FRONTSTAGE_SERVICE = '{}://{}:{}'.format(RAS_FRONTSTAGE_SERVICE_PROTOCOL,
+                                                 RAS_FRONTSTAGE_SERVICE_HOST,
+                                                 RAS_FRONTSTAGE_SERVICE_PORT)
+
+    RAS_FRONTSTAGE_INFO = RAS_FRONTSTAGE_SERVICE + '/info'
+
