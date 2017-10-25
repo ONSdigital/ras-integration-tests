@@ -13,9 +13,9 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh 'whoami'
-                sh 'pip install -r requirements.txt'
-                sh 'behave'
+                sh 'docker ps'
+                // sh 'pip install -r requirements.txt'
+                // sh 'behave'
             }
         }
     }
