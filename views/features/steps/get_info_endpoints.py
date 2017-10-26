@@ -8,37 +8,37 @@ from flask import json
 
 @given('the user requests secure message endpoint info')
 def step_impl_requests_sm_endpoint_info(context):
-    context.response = requests.get(Config.RAS_SECURE_MESSAGE_INFO)
+    context.response = requests.get(Config.RAS_SECURE_MESSAGE_SERVICE + Config.RAS_INFO)
 
 
 @given('the user requests frontstage endpoint info')
 def step_impl_requests_fs_endpoint_info(context):
-    context.response = requests.get(Config.RAS_FRONTSTAGE_INFO)
+    context.response = requests.get(Config.RAS_FRONTSTAGE_SERVICE + Config.RAS_INFO)
 
 
 @given('the user requests backstage endpoint info')
 def step_impl_requests_bs_endpoint_info(context):
-    context.response = requests.get(Config.RAS_BACKSTAGE_INFO)
+    context.response = requests.get(Config.RAS_BACKSTAGE_SERVICE + Config.RAS_INFO)
 
 
 @given('the user requests party endpoint info')
 def step_impl_requests_party_endpoint_info(context):
-    context.response = requests.get(Config.RAS_PARTY_INFO)
+    context.response = requests.get(Config.RAS_PARTY_SERVICE + Config.RAS_INFO)
 
 
 @given('the user requests collection instrument endpoint info')
 def step_impl_requests_ci_endpoint_info(context):
-    context.response = requests.get(Config.RAS_COLLECTION_INSTRUMENT_INFO)
+    context.response = requests.get(Config.RAS_COLLECTION_INSTRUMENT_SERVICE + Config.RAS_INFO)
 
 
 @given('the user requests django endpoint info')
 def step_impl_requests_django_endpoint_info(context):
-    context.response = requests.get(Config.RAS_DJANGO_INFO)
+    context.response = requests.get(Config.RAS_DJANGO_SERVICE + Config.RAS_INFO)
 
 
 @given('the user requests api gateway endpoint info')
 def step_impl_requests_api_gw_endpoint_info(context):
-    context.response = requests.get(Config.RAS_API_GATEWAY_INFO)
+    context.response = requests.get(Config.RAS_API_GATEWAY_SERVICE + Config.RAS_INFO)
 
 
 @when('the secure message endpoint info is returned')
