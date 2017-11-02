@@ -41,8 +41,3 @@ class Config(object):
                                              RAS_DJANGO_SERVICE_HOST,
                                              RAS_DJANGO_SERVICE_PORT)
 
-    RAS_API_GATEWAY_SERVICE_HOST = os.getenv('RAS_API_GATEWAY_SERVICE_HOST', 'localhost')
-    RAS_API_GATEWAY_SERVICE_PORT = os.getenv('RAS_API_GATEWAY_SERVICE_PORT', 8083)
-    RAS_API_GATEWAY_SERVICE = '{}://{}:{}'.format(RAS_PROTOCOL,
-                                                  RAS_API_GATEWAY_SERVICE_HOST,
-                                                  RAS_API_GATEWAY_SERVICE_PORT)
