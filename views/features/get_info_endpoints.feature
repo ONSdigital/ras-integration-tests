@@ -13,3 +13,4 @@ Feature: Get info endpoints
     |party |
     |collection instrument |
     |django |
+    |frontstage-api |
