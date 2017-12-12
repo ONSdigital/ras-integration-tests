@@ -10,7 +10,6 @@ Feature: Get info endpoints
     |action  |
     |action exporter |
     |backstage |
-    |backstage ui |
     |case |
     |collection exercise |
     |collection instrument |

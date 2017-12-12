@@ -97,7 +97,7 @@ def action_endpoint_info_is_returned(context):
 def action_exporter_endpoint_info_is_returned(context):
     response = json.loads(context.response.text)
     nose.tools.assert_equal(response['name'], 'actionexportersvc')
-    nose.tools.assert_equal(response['version'], '10.49.4-SNAPSHOT')
+    nose.tools.assert_equal(response['version'], '10.49.1-SNAPSHOT')
 
 
 @when('the backstage endpoint info is returned')
@@ -111,7 +111,7 @@ def backstage_endpoint_info_is_returned(context):
 def case_endpoint_info_is_returned(context):
     response = json.loads(context.response.text)
     nose.tools.assert_equal(response['name'], 'casesvc')
-    nose.tools.assert_equal(response['version'], '10.49.4-SNAPSHOT')
+    nose.tools.assert_equal(response['version'], '10.49.1-SNAPSHOT')
 
 
 @when('the collection exercise endpoint info is returned')
@@ -153,7 +153,14 @@ def frontstage_endpoint_info_is_returned(context):
 def iac_endpoint_info_is_returned(context):
     response = json.loads(context.response.text)
     nose.tools.assert_equal(response['name'], 'iacsvc')
-    nose.tools.assert_equal(response['version'], '10.49.4-SNAPSHOT')
+    nose.tools.assert_equal(response['version'], '10.49.1-SNAPSHOT')
+
+
+@when('the notify gateway endpoint info is returned')
+def notify_gateway_endpoint_info_is_returned(context):
+    response = json.loads(context.response.text)
+    nose.tools.assert_equal(response['name'], 'notifygatewaysvc')
+    nose.tools.assert_equal(response['version'], '10.49.2-SNAPSHOT')
 
 
 @when('the party endpoint info is returned')
@@ -164,7 +171,7 @@ def party_endpoint_info_is_returned(context):
 
 
 @when('the response operations ui endpoint info is returned')
-def reponse_operations_ui_endpoint_info_is_returned(context):
+def response_operations_ui_endpoint_info_is_returned(context):
     response = json.loads(context.response.text)
     nose.tools.assert_equal(response['name'], 'response-operations-ui')
     nose.tools.assert_equal(response['version'], '0.0.1')
