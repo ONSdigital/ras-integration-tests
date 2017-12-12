@@ -124,8 +124,8 @@ def collection_exercise_endpoint_info_is_returned(context):
 @when('the collection instrument endpoint info is returned')
 def collection_instrument_endpoint_info_is_returned(context):
     response = json.loads(context.response.text)
-    nose.tools.assert_equal(response['name'], 'collectioninstrumentsvc')
-    nose.tools.assert_equal(response['version'], '0.1.1')
+    nose.tools.assert_equal(response['name'], 'ras-collection-instrument')
+    nose.tools.assert_equal(response['version'], '1.0.2')
 
 
 @when('the django endpoint info is returned')
