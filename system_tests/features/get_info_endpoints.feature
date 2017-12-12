@@ -7,10 +7,20 @@ Feature: Get info endpoints
 
    Examples: Services
     |service |
-    |secure message |
-    |frontstage |
+    |action  |
+    |action exporter |
     |backstage |
-    |party |
+    |backstage ui |
+    |case |
+    |collection exercise |
     |collection instrument |
     |django |
     |frontstage-api |
+    |frontstage |
+    |iac |
+    |notify gateway |
+    |party |
+    |response operations ui |
+    |sample |
+    |secure message |
+    |survey |
