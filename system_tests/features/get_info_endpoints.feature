@@ -1,8 +1,8 @@
 Feature: Get info endpoints
 
   Scenario Outline: System hits service get info endpoint
-    Given the system requests <service> endpoint info
-    When  the <service> endpoint info is returned
+    Given the <service> service is running
+    When  the system requests <service> endpoint info
     Then   a success status code (200) is returned
 
    Examples: Services
