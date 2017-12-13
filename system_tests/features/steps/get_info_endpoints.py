@@ -1,6 +1,4 @@
-import nose
 import requests
-import json
 
 from config import Config
 from behave import given, when
