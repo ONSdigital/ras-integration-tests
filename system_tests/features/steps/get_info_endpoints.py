@@ -1,11 +1,13 @@
+import nose
 import requests
+import json
 
 from config import Config
 from behave import given, when
 
 
-@given('the ${service} service is running')
-def service_running():
+@given('services are running')
+def services_running(_):
     pass
 
 
@@ -87,3 +89,4 @@ def requests_secure_message_endpoint_info(context):
 @when('the system requests survey endpoint info')
 def requests_survey_endpoint_info(context):
     context.response = requests.get(Config.SURVEY_SERVICE + Config.INFO)
+
