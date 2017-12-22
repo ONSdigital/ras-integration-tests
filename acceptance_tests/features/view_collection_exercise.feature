@@ -9,8 +9,7 @@ Feature: View Collection Exercise
       | Short name  |
       | Legal basis |
       | Survey ID   |
-#    And the internal user can view all collection exercises for a survey
-#      |
+   # And the internal user can view all collection exercises for a survey
 
 
 #  Scenario: No collection exercises exist

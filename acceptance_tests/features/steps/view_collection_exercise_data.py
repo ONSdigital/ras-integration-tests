@@ -15,6 +15,9 @@ def internal_user_views_the_collection_exercise_page(_):
 
 @then('the internal user can view relevant attributes for a survey')
 def internal_user_can_view_relevant_attributes_for_a_survey(context):
-    attributes = collection_exercise.get_survey_attributes()
+    context.attributes = collection_exercise.get_survey_attributes()
 
-    # Assert string matching against context table from scenario here
+    # TODO Assert string matching against context table from scenario here
+
+@then('')
+def

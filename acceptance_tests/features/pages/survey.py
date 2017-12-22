@@ -16,5 +16,5 @@ def get_surveys():
             'name': row.find_by_name('tbl-surveys-title').value,
             'short_name': row.find_by_name('tbl-surveys-abbreviation').value,
             'legal_basis': row.find_by_name('tbl-surveys-legal-basis').value,
-        })
+            })
     return surveys
