@@ -7,7 +7,11 @@ def go_to(survey):
 
 
 def get_survey_attributes():
-    attributes = []
-    survey_data = browser.find_by_css('.survey-info').first
-
-    # Figure out more elegant way of getting at the list attributes in the page then via CSS search
+    survey_data = browser.find_by_id('survey-attributes').first
+    survey_attributes = {
+        'survey_id': survey_data.find_by_name('survey-id').value,
+        'survey_title': survey_data.find_by_name('survey-title').value,
+        'survey_abbreviation': survey_data.find_by_name('survey-abbreviation').value,
+        'survey_legal_basis': survey_data.find_by_name('survey-legal-basis').value,
+    }
+    return survey_attributes
