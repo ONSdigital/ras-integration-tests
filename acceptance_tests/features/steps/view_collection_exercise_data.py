@@ -13,7 +13,7 @@ def internal_user_views_the_collection_exercise_page(_, survey):
     collection_exercise.go_to(survey)
 
 
-@then('the internal user can view relevant attributes for BRES')
+@then('the internal user can view relevant attributes for the survey')
 def internal_user_can_view_relevant_attributes_for_the_survey(context):
     attributes = collection_exercise.get_survey_attributes()
     for row in context.table:
@@ -23,7 +23,7 @@ def internal_user_can_view_relevant_attributes_for_the_survey(context):
         assert attributes['survey_legal_basis'] == row['survey_legal_basis']
 
 
-@then('the internal user can view all collection exercises for BRES')
+@then('the internal user can view all collection exercises for the survey')
 def the_internal_user_can_view_all_collection_exercises_for_a_survey(_):
     # Validate collection exercise table headers
     table_headers = collection_exercise.get_table_headers()
