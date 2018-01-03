@@ -3,7 +3,7 @@ from config import Config
 
 
 def go_to(survey):
-    browser.visit(Config.RESPONSE_OPERATIONS_UI_COLLECTION_EXERCISE.format(survey))
+    browser.visit('{}/surveys/{}'.format(Config.RESPONSE_OPERATIONS_UI, survey))
 
 
 def get_survey_attributes():
