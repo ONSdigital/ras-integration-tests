@@ -5,9 +5,39 @@ Feature: View Collection Exercise
 
 
   Scenario: View attributes for a survey
-    Given collection exercises for BRES exist in the system
-    When the internal user views the collection exercise page for BRES
-    Then the internal user can view relevant attributes for the survey
-      | survey_id | survey_title                            | survey_abbreviation | survey_legal_basis           |
-      | 221       | Business Register and Employment Survey | BRES                | Statistics of Trade Act 1947 |
-    And the internal user can view all collection exercises for the survey
+    Given collection exercises for QBS exist in the system
+    When the internal user views the collection exercise page for QBS
+    Then the internal user can view relevant attributes for QBS
+      | survey_id | survey_title              | survey_abbreviation | survey_legal_basis           |
+      | 139       | Quarterly Business Survey | QBS                 | Statistics of Trade Act 1947 |
+    And the internal user can view all collection exercises for QBS
+      | period | shown_to_respondent_as |
+      | 1803   | 9 March 2018           |
+      | 1806   | 15 June 2018           |
+      | 1809   | 14 September 2018      |
+      | 1812   | 14 December 2018       |
+
+
+  Scenario Outline: Ensure collection exercise exists for a survey
+    Given all surveys have collection exercises
+    When the internal user views the collection exercise page for <survey_abbreviation>
+    Then there is at least one collection exercise
+
+    Examples:
+      | survey_abbreviation |
+      | RSI                 |
+      | AIFDI               |
+      | AOFDI               |
+      | QIFDI               |
+      | QOFDI               |
+      | Sand&Gravel         |
+      | Blocks              |
+      | Bricks              |
+      | MWSS                |
+      | PCS                 |
+      | QBS                 |
+      | ASHE                |
+      | NBS                 |
+      | OFATS               |
+      | GovERD              |
+      | BRES                |
