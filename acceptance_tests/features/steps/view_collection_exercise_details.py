@@ -15,9 +15,7 @@ def internal_user_views_2017_bres_collection_exercise(_):
 
 @then('the user is able to view the survey details and period for that survey')
 def internal_user_can_view_bres_2017_collection_exercise_details(_):
-    survey_info = collection_exercise_details.get_survey_info()
-    assert survey_info == "221 - Business Register and Employment Survey (BRES)"
-    period = collection_exercise_details.get_period()
-    assert period == "BRES_2017"
-    user_description = collection_exercise_details.get_user_description()
-    assert user_description == "August 2017"
+    ce_details = collection_exercise_details.get_collection_exercise_details()
+    assert ce_details['survey_info'] == "221 - Business Register and Employment Survey (BRES)"
+    assert ce_details['period'] == "BRES_2017"
+    assert ce_details['user_description'] == "August 2017"
