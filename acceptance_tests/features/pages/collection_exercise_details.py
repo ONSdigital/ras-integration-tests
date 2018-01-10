@@ -9,6 +9,7 @@ def go_to(survey, period):
 def get_collection_exercise_details():
     ce_details = {
         "survey_info": browser.find_by_name('survey-info').value,
+        "survey_title": browser.find_by_name('survey-title').value,
         "period": browser.find_by_name('period').value,
         "user_description": browser.find_by_name('user-description').value
     }
