@@ -15,16 +15,16 @@ def bres_2017_events_exist(_):
 
 @when('the internal user navigates to the collection exercise details page')
 def internal_user_views_2017_bres_collection_exercise(_):
-    collection_exercise_details.go_to('bres', 'BRES_2017')
+    collection_exercise_details.go_to('QBS', '1803')
 
 
 @then('the user is able to view the survey details and period for that survey')
 def internal_user_can_view_bres_2017_collection_exercise_details(_):
     ce_details = collection_exercise_details.get_collection_exercise_details()
-    assert ce_details['survey_info'] == "221 BRES"
-    assert ce_details['survey_title'] == "Business Register and Employment Survey"
-    assert ce_details['period'] == "221_201712"
-    assert ce_details['user_description'] == "August 2017"
+    assert ce_details['survey_info'] == "139 QBS"
+    assert ce_details['survey_title'] == "Quarterly Business Survey"
+    assert ce_details['period'] == "1803"
+    assert ce_details['user_description'] == "9 March 2018"
 
 
 @then('the user is able to view the event dates for that collection exercise')
