@@ -13,3 +13,14 @@ def get_collection_exercise_details():
         "user_description": browser.find_by_name('user-description').value
     }
     return ce_details
+
+
+def get_collection_exercise_events():
+    ce_events = {
+        "mps": browser.find_by_name('mps-date').value,
+        "go_live": browser.find_by_name('go-live-date').value,
+        "return_by": browser.find_by_name('return-by-date').value,
+        "first_reminder": browser.find_by_name('first-reminder-date').value,
+        "exercise_end": browser.find_by_name('exercise-end-date').value
+    }
+    return ce_events
