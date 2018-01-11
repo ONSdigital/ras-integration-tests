@@ -3,16 +3,16 @@ from behave import given, when, then
 from acceptance_tests.features.pages import collection_exercise_details
 
 
-@given('the 2017 collection exercise for the BRES survey has been created')
-def bres_2017_exists(_):
+@given('the 1803 collection exercise for the QBS survey has been created')
+def qbs_1803_exists(_):
     pass
 
 
-@given('the 2017 collection exercise events for the BRES survey has been created')
+@given('the 1803 collection exercise events for the QBS survey has been created')
 def bres_2017_events_exist(_):
     pass
 
-
+  
 @when('the internal user navigates to the collection exercise details page')
 def internal_user_views_2017_bres_collection_exercise(_):
     collection_exercise_details.go_to('QBS', '1803')
