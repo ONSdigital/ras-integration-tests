@@ -6,6 +6,10 @@ def go_to(survey, period):
     browser.visit('{}/surveys/{}/{}'.format(Config.RESPONSE_OPERATIONS_UI, survey, period))
 
 
+def get_page_title():
+    return browser.find_by_name('page-ce-title').value
+
+
 def get_collection_exercise_details():
     ce_details = {
         "survey_info": browser.find_by_name('survey-info').value,
