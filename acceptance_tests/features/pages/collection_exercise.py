@@ -38,6 +38,6 @@ def get_table_headers():
     return table.find_by_tag('thead').value
 
 
-def click_qbs_1803_survey_link():
+def click_qbs_1803_ce_link():
     link = browser.find_by_name('ce-link-1803')
     link.click()

@@ -22,5 +22,5 @@ def internal_user_can_navigate_to_surveys_list(_):
 
 @then('the user can view and click on a link to the 1803 QBS collection exercise page')
 def internal_user_can_navigate_to_surveys_list(_):
-    collection_exercise.click_qbs_1803_survey_link()
+    collection_exercise.click_qbs_1803_ce_link()
     assert collection_exercise_details.get_page_title() == 'QBS 1803'
