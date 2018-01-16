@@ -3,7 +3,7 @@ from config import Config
 
 
 def go_to():
-    browser.visit(Config.RESPONSE_OPERATIONS_UI)
+    browser.visit('{}/surveys'.format(Config.RESPONSE_OPERATIONS_UI))
 
 
 def get_surveys():

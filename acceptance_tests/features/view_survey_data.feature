@@ -13,7 +13,7 @@ Feature: View survey data
       | 063       | Annual Outward Foreign Direct Investment Survey               | AOFDI             | Statistics of Trade Act 1947        |
       | 064       | Quarterly Inward Foreign Direct Investment Survey             | QIFDI             | Statistics of Trade Act 1947        |
       | 065       | Quarterly Outward Foreign Direct Investment Survey            | QOFDI             | Statistics of Trade Act 1947        |
-      | 066       | Quarterly Survey of Building Materials Sand and Gravel        | Sand&Gravel       | Statistics of Trade Act 1947 - BEIS |
+      | 066       | Quarterly Survey of Building Materials Sand and Gravel        | Sand & Gravel     | Statistics of Trade Act 1947 - BEIS |
       | 073       | Monthly Survey of Building Materials Concrete Building Blocks | Blocks            | Statistics of Trade Act 1947 - BEIS |
       | 074       | Monthly Survey of Building Materials Bricks                   | Bricks            | Voluntary - BEIS                    |
       | 134       | Monthly Wages and Salaries Survey                             | MWSS              | Statistics of Trade Act 1947        |
