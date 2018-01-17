@@ -33,3 +33,7 @@ def get_collection_instrument_success_text():
 
 def click_survey_breadcrumb():
     browser.find_by_id('breadcrumb-2').click()
+
+
+def get_last_breadcrumb():
+    return browser.find_by_id('breadcrumb-4').text

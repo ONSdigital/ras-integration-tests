@@ -3,9 +3,18 @@ Feature: Breadcrumb Navigation
   I need to understand where I am within the system's hierarchical structure
   So that I can navigate back through the hierarchy
 
-  Scenario: User navigates to the homepage
+  Scenario: User navigates to the surveys page from collection exercise
     Given the 1803 collection exercise for the QBS survey has been created
     When the internal user navigates to the collection exercise details page
     And the user clicks the survey breadcrumb link
     Then the user is taken to the surveys page
 
+  Scenario: User navigates to the homepage
+    Given the user accesses the system
+    When the internal user navigates to the home page
+    Then the user does not see a breadcrumbs trail
+
+  Scenario: User can tell which page they are on in the hierarchical structure
+    Given the 1803 collection exercise for the QBS survey has been created
+    When the internal user navigates to the collection exercise details page
+    Then the last breadcrumb displays the current page title
