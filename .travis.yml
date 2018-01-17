@@ -11,3 +11,6 @@ install:
 script:
   - pipenv check --style . --max-line-length 120
 
+branches:
+  only:
+    - master
