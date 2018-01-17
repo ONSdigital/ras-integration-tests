@@ -22,7 +22,7 @@ def get_collection_exercise_details():
 
 
 def select_sample():
-    test_file = 'resources/business-survey-sample-date.csv'
+    test_file = 'resources/sample_files/business-survey-sample-date.csv'
     browser.driver.find_element_by_id('sampleFile').send_keys(abspath(test_file))
 
 
