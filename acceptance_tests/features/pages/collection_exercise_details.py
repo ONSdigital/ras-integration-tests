@@ -23,9 +23,13 @@ def get_collection_exercise_details():
 
 def load_collection_instrument():
     test_file = 'resources/collection_instrument_files/064_0001_201803.xlsx'
-    browser.driver.find_element_by_id('ciFile').send_keys(abspath(test_file))
+    browser.driver.find_by_id('ciFile').send_keys(abspath(test_file))
     browser.find_by_id('btn-load-ci').click()
 
 
 def get_collection_instrument_success_text():
     return browser.find_by_id('collection-instrument-success').text
+
+
+def click_survey_breadcrumb():
+    browser.find_by_id('breadcrumb-2').click()
