@@ -3,7 +3,11 @@ from config import Config
 
 
 def go_to():
-    browser.visit(Config.RESPONSE_OPERATIONS_UI)
+    browser.visit("{}/surveys".format(Config.RESPONSE_OPERATIONS_UI))
+
+
+def get_page_title():
+    return browser.find_by_name('page-surveys-title').value
 
 
 def get_surveys():
@@ -18,3 +22,8 @@ def get_surveys():
             'legal_basis': row.find_by_name('tbl-surveys-legal-basis').value,
         })
     return surveys
+
+
+def click_qbs_survey_link():
+    link = browser.find_by_name('survey-link-QBS')
+    link.click()
