@@ -17,4 +17,4 @@ Feature: Breadcrumb Navigation
   Scenario: User can tell which page they are on in the hierarchical structure
     Given the 1803 collection exercise for the QBS survey has been created
     When the internal user navigates to the collection exercise details page
-    Then the last breadcrumb displays the current page title
+    Then the user can see breadcrumbs showing the site hierarchy

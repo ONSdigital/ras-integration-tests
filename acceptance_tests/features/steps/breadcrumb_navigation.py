@@ -23,6 +23,10 @@ def internal_user_cannot_see_breadcrumb_trail(_):
     assert not home.get_breadcrumbs_list()
 
 
-@then('the last breadcrumb displays the current page title')
+@then('the user can see breadcrumbs showing the site hierarchy')
 def is_last_breadcrumb_the_title(_):
-    assert collection_exercise_details.get_last_breadcrumb() == '1803'
+    breadcrumbs = collection_exercise_details.get_breadcrumbs()
+    assert breadcrumbs[0] == 'Home'
+    assert breadcrumbs[1] == 'Surveys'
+    assert breadcrumbs[2] == '139 QBS'
+    assert breadcrumbs[3] == '1803'

@@ -35,5 +35,9 @@ def click_survey_breadcrumb():
     browser.find_by_id('breadcrumb-2').click()
 
 
+def get_breadcrumbs():
+    return [browser.find_by_id(f'breadcrumb-{number}').text for number in range(1, 5)]
+
+
 def get_last_breadcrumb():
     return browser.find_by_id('breadcrumb-4').text
