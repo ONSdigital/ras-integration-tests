@@ -51,3 +51,13 @@ def has_sample_preview():
 
 def cancel_sample_preview():
     browser.find_by_id('btn-cancel-load-sample').click()
+
+
+def load_collection_instrument():
+    test_file = 'resources/collection_instrument_files/064_0001_201803.xlsx'
+    browser.driver.find_element_by_id('ciFile').send_keys(abspath(test_file))
+    browser.find_by_id('btn-load-ci').click()
+
+
+def get_collection_instrument_success_text():
+    return browser.find_by_id('collection-instrument-success').text
