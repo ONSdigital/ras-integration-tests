@@ -15,12 +15,12 @@ def internal_user_can_navigate_to_surveys_list(_):
 
 
 @then('the user can view and click on a link to the QBS survey page')
-def internal_user_can_navigate_to_surveys_list(_):
+def internal_user_can_navigate_to_survey_page(_):
     survey.click_qbs_survey_link()
     assert collection_exercise.get_page_title() == 'Quarterly Business Survey'
 
 
 @then('the user can view and click on a link to the 1803 QBS collection exercise page')
-def internal_user_can_navigate_to_surveys_list(_):
+def internal_user_can_navigate_to_collection_exercise(_):
     collection_exercise.click_qbs_1803_ce_link()
     assert collection_exercise_details.get_page_title() == 'QBS 1803'
