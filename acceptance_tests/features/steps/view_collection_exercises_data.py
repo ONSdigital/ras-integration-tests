@@ -38,7 +38,8 @@ def the_internal_user_can_view_all_collection_exercises_for_qbs(context):
     # Validate rows to ensure values are in the correct columns
     collection_exercises = collection_exercise.get_collection_exercises()
     for row in context.table:
-        collection_exercises_by_period = next(filter(lambda ce: ce['exercise_ref'].value == row['period'], collection_exercises))
+        collection_exercises_by_period = next(filter(lambda ce: ce['exercise_ref'].value == row['period'],
+                                                     collection_exercises))
         assert collection_exercises_by_period['exercise_ref'].value == row['period']
         assert collection_exercises_by_period['user_description'].value == row['shown_to_respondent_as']
 
