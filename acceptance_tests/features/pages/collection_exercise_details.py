@@ -21,8 +21,7 @@ def get_collection_exercise_details():
     return ce_details
 
 
-def load_collection_instrument():
-    test_file = 'resources/collection_instrument_files/064_0001_201803.xlsx'
+def load_collection_instrument(test_file):
     browser.driver.find_element_by_id('ciFile').send_keys(abspath(test_file))
     browser.find_by_id('btn-load-ci').click()
 
@@ -41,3 +40,8 @@ def get_breadcrumbs():
 
 def get_last_breadcrumb():
     return browser.find_by_id('breadcrumb-4').text
+
+
+def get_collection_instruments():
+    tds = browser.find_by_id('collection-instruments-table').find_by_tag('tbody').find_by_tag('td')
+    return list(map(lambda td: td.value, tds))

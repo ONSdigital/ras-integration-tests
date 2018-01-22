@@ -1,10 +1,4 @@
-import logging
-
 from behave import __main__ as behave_executable
-from structlog import wrap_logger
-
-
-logger = wrap_logger(logging.getLogger(__name__))
 
 
 if __name__ == '__main__':
