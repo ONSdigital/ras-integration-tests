@@ -8,6 +8,7 @@ name = "pypi"
 [packages]
 
 
+
 [dev-packages]
 
 behave = "*"
@@ -16,6 +17,7 @@ requests = "*"
 structlog = "*"
 splinter = "*"
 chromedriver-installer = "*"
+testfixtures = "*"
 
 
 [requires]

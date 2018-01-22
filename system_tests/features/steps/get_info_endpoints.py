@@ -87,4 +87,3 @@ def requests_secure_message_endpoint_info(context):
 @when('the system requests survey endpoint info')
 def requests_survey_endpoint_info(context):
     context.response = requests.get(Config.SURVEY_SERVICE + Config.INFO)
-

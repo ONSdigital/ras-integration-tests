@@ -1,6 +1,6 @@
 import logging
 
-from structlog import wrap_logger  #NOQA  # pylint: disable=wrong-import-position
+from structlog import wrap_logger  # NOQA  # pylint: disable=wrong-import-position
 from behave import __main__ as behave_executable
 
 
