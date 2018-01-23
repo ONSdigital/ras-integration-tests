@@ -30,18 +30,6 @@ def get_collection_instrument_success_text():
     return browser.find_by_id('collection-instrument-success').text
 
 
-def click_survey_breadcrumb():
-    browser.find_by_id('breadcrumb-2').click()
-
-
-def get_breadcrumbs():
-    return [browser.find_by_id(f'breadcrumb-{number}').text for number in range(1, 5)]
-
-
-def get_last_breadcrumb():
-    return browser.find_by_id('breadcrumb-4').text
-
-
 def get_collection_instruments():
     tds = browser.find_by_id('collection-instruments-table').find_by_tag('tbody').find_by_tag('td')
     return list(map(lambda td: td.value, tds))

@@ -23,7 +23,7 @@ pipeline {
             steps {
                 sh 'pip install pipenv'
                 sh 'pipenv install --dev'
-                sh 'npm install -g phantomjs-prebuilt'
+                sh 'npm install -g chromedriver'
             }
         }
         stage('system tests') {

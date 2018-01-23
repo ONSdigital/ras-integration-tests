@@ -9,7 +9,3 @@ def go_to():
 def click_surveys_link():
     link = browser.find_by_name('surveys-link')
     link.click()
-
-
-def get_breadcrumbs_list():
-    return browser.find_by_id("breadcrumbs")
