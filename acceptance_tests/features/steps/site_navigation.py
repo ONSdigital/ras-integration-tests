@@ -23,5 +23,5 @@ def should_be_able_to_click_qbs_survey_link(_):
 @then('the user can view and click on a link to the 1803 QBS collection exercise page')
 def should_be_able_to_click_qbs_collection_exercise_link(_):
     collection_exercise.click_qbs_1803_ce_link()
-    assert collection_exercise_details.get_page_title() == '1803 | QBS | Surveys | Survey Data Collection'
+    assert collection_exercise_details.get_page_title() == '139 QBS 1803 | Surveys | Survey Data Collection'
 
