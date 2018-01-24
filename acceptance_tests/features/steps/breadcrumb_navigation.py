@@ -15,12 +15,13 @@ def internal_user_clicks_survey_breadcrumb(_):
 
 @then('the user is taken to the surveys page')
 def internal_user_is_taken_to_surveys_page(_):
+    print(survey.get_page_title())
     assert survey.get_page_title() == "Surveys | Survey Data Collection"
 
 
 @then('the user does not see a breadcrumbs trail')
 def internal_user_cannot_see_breadcrumb_trail(_):
-    assert not breadcrumbs.get_breadcrumbs()
+    assert not breadcrumbs.breadcrumbs_exists()
 
 
 @then('the user can see breadcrumbs showing the site hierarchy')
