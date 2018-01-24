@@ -7,7 +7,7 @@ def go_to():
 
 
 def get_page_title():
-    return browser.find_by_name('page-surveys-title').value
+    return browser.title
 
 
 def get_surveys():

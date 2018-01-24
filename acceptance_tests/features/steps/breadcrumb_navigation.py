@@ -15,7 +15,7 @@ def internal_user_clicks_survey_breadcrumb(_):
 
 @then('the user is taken to the surveys page')
 def internal_user_is_taken_to_surveys_page(_):
-    assert survey.get_page_title() == "Surveys"
+    assert survey.get_page_title() == "Surveys | Survey Data Collection"
 
 
 @then('the user does not see a breadcrumbs trail')
