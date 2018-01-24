@@ -24,4 +24,3 @@ def should_be_able_to_click_qbs_survey_link(_):
 def should_be_able_to_click_qbs_collection_exercise_link(_):
     collection_exercise.click_qbs_1803_ce_link()
     assert collection_exercise_details.get_page_title() == '139 QBS 1803 | Surveys | Survey Data Collection'
-
