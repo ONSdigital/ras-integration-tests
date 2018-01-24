@@ -30,8 +30,8 @@ def internal_user_can_view_bres_2017_collection_exercise_details(_):
 @then('the user is able to view the event dates for that collection exercise')
 def internal_user_can_view_bres_2017_collection_exercise_events(_):
     ce_events = collection_exercise_details.get_collection_exercise_events()
-    assert ce_events['mps'] == "Mon 11 Sep 2017 23:00 GMT"
-    assert ce_events['go_live'] == "Mon 11 Sep 2017 23:00 GMT"
-    assert ce_events['return_by'] == "Sun 06 Oct 2018 00:00 GMT"
-    assert ce_events['first_reminder'] == "???"
-    assert ce_events['exercise_end'] == "Fri 29 Jun 2018 23:00 GMT"
+    assert ce_events['mps'] == "Wed 14 Mar 2018 00:00 GMT"
+    assert ce_events['go_live'] == "Mon 19 Mar 2018 00:00 GMT"
+    assert ce_events['return_by'] == "Sat 27 Mar 2018 00:00 GMT"
+    assert ce_events['first_reminder'] == "Tue 03 Apr 2018 00:00 GMT"
+    assert ce_events['exercise_end'] == "Thu 30 Apr 2020 00:00 GMT"
