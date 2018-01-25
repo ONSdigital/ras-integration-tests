@@ -15,7 +15,6 @@ def internal_user_clicks_survey_breadcrumb(_):
 
 @then('the user is taken to the surveys page')
 def internal_user_is_taken_to_surveys_page(_):
-    print(survey.get_page_title())
     assert survey.get_page_title() == "Surveys | Survey Data Collection"
 
 
