@@ -12,7 +12,7 @@ def qbs_1803_exists(_):
 def bres_2017_events_exist(_):
     pass
 
-  
+
 @when('the internal user navigates to the collection exercise details page')
 def internal_user_views_2017_bres_collection_exercise(_):
     collection_exercise_details.go_to('QBS', '1803')
