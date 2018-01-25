@@ -53,6 +53,11 @@ def cancel_sample_preview():
     browser.find_by_id('btn-cancel-load-sample').click()
 
 
+def get_loaded_sample():
+    tds = browser.find_by_id('sample-table').find_by_tag('tbody').find_by_tag('td')
+    return list(map(lambda td: td.value, tds))
+
+
 def load_collection_instrument(test_file):
     browser.driver.find_element_by_id('ciFile').send_keys(abspath(test_file))
     browser.find_by_id('btn-load-ci').click()

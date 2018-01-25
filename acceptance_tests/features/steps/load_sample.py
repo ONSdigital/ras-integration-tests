@@ -25,8 +25,8 @@ def internal_user_presented_with_sample_details(_):
     assert collection_exercise_details.has_sample_preview()
 
 
-@given('the user is presented with sample details')
-def given_internal_user_presented_with_sample_details(_):
+@given('the user is presented with sample details for QBS 1803')
+def given_internal_user_presented_with_sample_details_for_qbs_1803(_):
     collection_exercise_details.go_to('QBS', '1803')
     collection_exercise_details.select_sample()
     assert collection_exercise_details.has_sample_preview()
