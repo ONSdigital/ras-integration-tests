@@ -7,7 +7,7 @@ from acceptance_tests.features.pages import collection_exercise_details
 def load_sample(_):
     collection_exercise_details.load_sample()
     success_text = collection_exercise_details.get_sample_success_text()
-    assert success_text == 'Sample loaded'
+    assert success_text == 'Sample successfully loaded'
 
 
 @given('the internal user navigated to the collection exercise details page')
