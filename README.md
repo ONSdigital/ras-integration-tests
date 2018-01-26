@@ -2,8 +2,12 @@
 # ras-integration-tests
 System / API tests for RAS & RM services
 
+## Prerequisites
+1. Install [pyenv](https://github.com/pyenv/pyenv)
+1. Install [pipenv](https://github.com/pypa/pipenv)
 
-# Running the tests
+
+## Running the tests
 
 To override any environmental variables you should export any variables before running the tests with behave e.g. `export HEADLESS=False`.
 The environmental variables are defined in [config.py](config.py)
