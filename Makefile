@@ -3,10 +3,10 @@ RM_TOOLS_REPO_URL = git@github.com:ONSdigital/rm-tools.git
 
 .PHONY: system_tests acceptance_tests
 
-system_tests: tmp_rm_tools 
+system_tests:
 	pipenv run behave system_tests/features # This will only run the system tests
 
-acceptance_tests: system_tests
+acceptance_tests: system_tests tmp_rm_tools
 	pipenv run behave acceptance_tests/features # This will only run the acceptance tests
 
 install:
