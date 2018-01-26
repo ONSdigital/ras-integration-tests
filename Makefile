@@ -14,7 +14,7 @@ install:
 
 tmp_rm_tools: 
 	git clone ${RM_TOOLS_REPO_URL} tmp_rm_tools
-	cd tmp_rm_tools/collex-loader;python load.py config/app-config.json
+	cd tmp_rm_tools/collex-loader && python load.py config/collex-config.json
 
 clean:
 	rm -rf tmp_rm_tools
