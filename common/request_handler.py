@@ -8,7 +8,7 @@ from structlog import wrap_logger
 logger = wrap_logger(logging.getLogger(__name__))
 
 
-def request_handler(method, url, auth=None, headers=None, json=None, data=None, files=None, fail=True):
+def request_handler(method, url, auth=None, headers=None, json=None, data=None, files=None):
     response = None
     try:
         if method == 'GET':
