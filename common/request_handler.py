@@ -19,8 +19,8 @@ def request_handler(method, url, auth=None, headers=None, json=None, data=None, 
             response = requests.put(url, auth=auth, headers=headers, json=json)
         else:
             logger.error('Invalid request method', method=str(method), url=url)
-    except ConnectionError as e:
-        logger.error('Failed to connect to external service', method=method, url=url, exception=str(e))
+    except ConnectionError:
+        logger.exception('Failed to connect to external service', method=method, url=url)
         return False
 
     return response
