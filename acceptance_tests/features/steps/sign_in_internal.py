@@ -11,45 +11,45 @@ def go_to_sign_in(_):
 def sign_in_correct_username_and_password(_):
     sign_in_internal.enter_correct_username()
     sign_in_internal.enter_correct_password()
-    sign_in_internal.internal_sign_in_btn()
+    sign_in_internal.internal_sign_in_button()
 
 
 @when('They enter an incorrect username and correct password')
 def sign_in_incorrect_username_and_correct_password(_):
     sign_in_internal.enter_incorrect_username()
     sign_in_internal.enter_correct_password()
-    sign_in_internal.internal_sign_in_btn()
+    sign_in_internal.internal_sign_in_button()
 
 
 @when('They enter a correct username and incorrect password')
 def sign_in_correct_username_and_incorrect_password(_):
     sign_in_internal.enter_correct_username()
     sign_in_internal.enter_incorrect_password()
-    sign_in_internal.internal_sign_in_btn()
+    sign_in_internal.internal_sign_in_button()
 
 
 @when('They enter an incorrect username and password')
 def sign_in_incorrect_username_and_password(_):
     sign_in_internal.enter_incorrect_username()
     sign_in_internal.enter_incorrect_password()
-    sign_in_internal.internal_sign_in_btn()
+    sign_in_internal.internal_sign_in_button()
 
 
 @when('They enter a correct username and no password')
 def sign_in_correct_username_and_no_password(_):
     sign_in_internal.enter_correct_username()
-    sign_in_internal.internal_sign_in_btn()
+    sign_in_internal.internal_sign_in_button()
 
 
 @when('They enter no username and a correct password')
 def sign_in_no_username_and_correct_password(_):
     sign_in_internal.enter_correct_password()
-    sign_in_internal.internal_sign_in_btn()
+    sign_in_internal.internal_sign_in_button()
 
 
 @when('They enter no username and no password')
 def sign_in_no_username_and_no_password(_):
-    sign_in_internal.internal_sign_in_btn()
+    sign_in_internal.internal_sign_in_button()
 
 
 @then('The user is directed to their home page')
@@ -59,4 +59,9 @@ def sign_in_directed_to_home_page(_):
 
 @then('The user is notified that an error has occurred')
 def error_occurred(_):
+    pass
+
+
+@then('The user is notified that an authentication error has occurred')
+def authentication_error_occurred(_):
     pass

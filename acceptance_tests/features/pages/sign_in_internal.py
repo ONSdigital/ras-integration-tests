@@ -22,5 +22,5 @@ def enter_incorrect_password():
     browser.driver.find_element_by_id('password').send_keys('words')
 
 
-def internal_sign_in_btn():
+def internal_sign_in_button():
     browser.find_by_id('SIGN_IN_BUTTON').click()

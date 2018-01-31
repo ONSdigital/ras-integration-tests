@@ -3,8 +3,6 @@ Feature: Internal user signs in
   I need to sign in to the SDC system
   So that I can access my SDC account and carry out a number of actions
 
-  Background: Internal user is already signed in
-    Given The internal user is already signed in
 
   Scenario: User signs in correctly
     Given The user has an active account and is assigned a username and password
