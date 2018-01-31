@@ -3,6 +3,9 @@ Feature: View survey data
   I need to view the survey details for all 'RRM on-boarding' surveys are stored in RM
   So that I am assured the survey details are correct
 
+  Background: Internal user is already signed in
+    Given The internal user is already signed in
+
   Scenario: View all default surveys
     Given surveys exist in the system
     When the internal user views the survey page

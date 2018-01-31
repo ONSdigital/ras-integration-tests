@@ -4,7 +4,10 @@ Feature: Load SEFT collection instruments
     and given survey
   So that I am assured that the right collection instrument is available for the right RU
 
+    Background: Internal user is already signed in
+      Given The internal user is already signed in
+
     Scenario: Load collection instrument
-    Given the 201803 collection exercise for the QIFDI survey has been created
-    When the internal user navigates to the collection exercise details page for QIFDI 201803
-    Then the user is able to load the collection instruments
+      Given the 201803 collection exercise for the QIFDI survey has been created
+      When the internal user navigates to the collection exercise details page for QIFDI 201803
+      Then the user is able to load the collection instruments
