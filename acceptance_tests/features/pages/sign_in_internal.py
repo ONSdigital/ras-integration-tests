@@ -6,12 +6,20 @@ def go_to():
     browser.visit(Config.RESPONSE_OPERATIONS_UI + '/sign-in')
 
 
-def enter_username():
+def enter_correct_username():
     browser.driver.find_element_by_id('username').send_keys(str(Config.INTERNAL_USERNAME))
 
 
-def enter_password():
+def enter_incorrect_username():
+    browser.driver.find_element_by_id('username').send_keys('username')
+
+
+def enter_correct_password():
     browser.driver.find_element_by_id('password').send_keys(str(Config.INTERNAL_PASSWORD))
+
+
+def enter_incorrect_password():
+    browser.driver.find_element_by_id('password').send_keys('password')
 
 
 def internal_sign_in_btn():
