@@ -15,17 +15,17 @@ def sign_in(_):
 
 
 @when('They enter an incorrect username and/or password')
-def sign_in(_):
+def sign_in_with_incorrect_details(_):
     sign_in_internal.enter_incorrect_password()
     sign_in_internal.enter_incorrect_password()
     sign_in_internal.internal_sign_in_btn()
 
 
 @then('The user is directed to their home page?')
-def sign_in(_):
+def get_home_page(_):
     pass
 
 
 @then('The user is notified that an error has occurred')
-def sign_in(_):
+def error_occurred(_):
     pass
