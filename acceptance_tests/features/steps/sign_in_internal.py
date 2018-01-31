@@ -58,5 +58,5 @@ def sign_in_directed_to_home_page(_):
 
 
 @then('The user is notified that an error has occurred')
-def sign_in_notified_of_error(_):
+def error_occurred(_):
     pass

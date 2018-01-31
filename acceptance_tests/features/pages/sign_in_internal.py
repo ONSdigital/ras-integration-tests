@@ -11,7 +11,7 @@ def enter_correct_username():
 
 
 def enter_incorrect_username():
-    browser.driver.find_element_by_id('username').send_keys('username')
+    browser.driver.find_element_by_id('username').send_keys('someone')
 
 
 def enter_correct_password():
@@ -19,7 +19,7 @@ def enter_correct_password():
 
 
 def enter_incorrect_password():
-    browser.driver.find_element_by_id('password').send_keys('password')
+    browser.driver.find_element_by_id('password').send_keys('words')
 
 
 def internal_sign_in_btn():
