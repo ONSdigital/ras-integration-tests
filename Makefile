@@ -14,7 +14,9 @@ install:
 
 tmp_rm_tools: 
 	git clone ${RM_TOOLS_REPO_URL} tmp_rm_tools
-	cd tmp_rm_tools/collex-loader && python load.py config/collex-config.json
-
+	# Run with pipenv to ensure python 3.6 is used
+	cd tmp_rm_tools/collex-loader\
+	&& pipenv run python load.py config/collex-config.json\
+	&& pipenv run python load_events.py config/event-config.json
 clean:
 	rm -rf tmp_rm_tools
