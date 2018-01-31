@@ -1,26 +1,18 @@
-from behave import given, when, then
+from acceptance_tests import browser
+from config import Config
 
 
-@given('The user has an active account and is assigned an username and password')
-def sign_in(_):
-    pass
+def go_to():
+    browser.visit(Config.RESPONSE_OPERATIONS_UI + '/sign-in')
 
 
-@when('They enter the correct username and password')
-def sign_in(_):
-    pass
+def enter_username():
+    browser.driver.find_element_by_id('username').send_keys(str(Config.INTERNAL_USERNAME))
 
 
-@when('They enter an incorrect username and / or password')
-def sign_in(_):
-    pass
+def enter_password():
+    browser.driver.find_element_by_id('password').send_keys(str(Config.INTERNAL_PASSWORD))
 
 
-@then('The user is directed to their home page?')
-def sign_in(_):
-    pass
-
-
-@then('The user is notified that an error has occurred')
-def sign_in(_):
-    pass
+def internal_sign_in_btn():
+    browser.find_by_id('SIGN_IN_BUTTON').click()

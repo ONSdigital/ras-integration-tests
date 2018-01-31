@@ -76,3 +76,6 @@ class Config(object):
     SURVEY_SERVICE_HOST = os.getenv('SURVEY_SERVICE_HOST', 'localhost')
     SURVEY_SERVICE_PORT = os.getenv('SURVEY_SERVICE_PORT', 8080)
     SURVEY_SERVICE = '{}://{}:{}'.format(PROTOCOL, SURVEY_SERVICE_HOST, SURVEY_SERVICE_PORT)
+
+    INTERNAL_USERNAME = os.getenv('INTERNAL_USERNAME', 'user')
+    INTERNAL_PASSWORD = os.getenv('INTERNAL_PASSWORD', 'pass')

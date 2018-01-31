@@ -1,17 +1,20 @@
+from acceptance_tests.features.pages import sign_in_internal
 from behave import given, when, then
 
 
 @given('The user has an active account and is assigned an username and password')
-def sign_in(_):
-    pass
+def go_to_sign_in(_):
+    sign_in_internal.go_to()
 
 
 @when('They enter the correct username and password')
 def sign_in(_):
-    pass
+    sign_in_internal.enter_username()
+    sign_in_internal.enter_password()
+    sign_in_internal.internal_sign_in_btn()
 
 
-@when('They enter an incorrect username and / or password')
+@when('They enter an incorrect username and/or password')
 def sign_in(_):
     pass
 
