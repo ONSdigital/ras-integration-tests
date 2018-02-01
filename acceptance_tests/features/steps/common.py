@@ -14,9 +14,9 @@ def signed_in_frontstage(context):
     browser.find_by_id('SIGN_IN_BUTTON').click()
 
 
-@then('the user signs out')
-def signed_out_frontstage(context):
-    browser.find_by_id('SIGN_OUT_BUTTON').click()
+@then('the internal user signs out')
+def signed_out_internal(context):
+    browser.find_by_id('sign-out-btn').click()
 
 
 @given('The internal user is already signed in')

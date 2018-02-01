@@ -17,6 +17,7 @@ def before_all(context):
     database_controller.reset_ras_database()
     common.signed_in_rops(context)
     enrolment_setup()
+    common.signed_out_internal(context)
 
 
 def enrolment_setup():
