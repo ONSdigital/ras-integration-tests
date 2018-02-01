@@ -54,12 +54,16 @@ def sign_in_no_username_and_no_password(_):
 
 @then('The user is directed to their home page')
 def sign_in_directed_to_home_page(_):
-
     pass
 
 
-@then('The user is notified that an error has occurred')
-def error_occurred(_):
+@then('The user is notified that a username is required')
+def sign_in_username_required(_):
+    pass
+
+
+@then('The user is notified that a password is required')
+def sign_in_password_required(_):
     pass
 
 

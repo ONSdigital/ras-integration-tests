@@ -32,9 +32,10 @@ Feature: Internal user signs in
   Scenario: User attempts sign in and is notified that they are required to enter a username
     Given The user has an active account and is assigned a username and password
     When They enter no username and a correct password
-    Then The user is notified that an authentication error has occurred
+    Then The user is notified that a username is required
 
   Scenario: User attempts sign in and is notified that they are required to enter a username and password
     Given The user has an active account and is assigned a username and password
     When They enter no username and no password
-    Then The user is notified that an authentication error has occurred
+    Then The user is notified that a username is required
+    And The user is notified that a password is required
