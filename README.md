@@ -15,10 +15,21 @@ System / API tests for RAS & RM services
 To override any environmental variables you should export any variables before running the tests with behave e.g. `export HEADLESS=False`.
 The environmental variables are defined in [config.py](config.py)
 
+
 ### Headless
 ```bash
 npm install -g phantomjs-prebuilt 
 pipenv install --dev
+```
+
+```bash
+make tmp_rm_tools # Will load data for tests
+```
+
+Use Response-Operations-UI to load collection instruments manually.
+Then:
+```bash
+make set_up
 make acceptance_tests # Will load any data needed for the tests and run the system tests and acceptance tests
 ```
 
@@ -35,6 +46,8 @@ make system_tests # Will run the system tests
 make clean # Will delete tmp_rm_tools
 make tmp_rm_tools # Will load data for tests
 ```
+
+
 
 ### Debugging tests in Pycharm
 1. Set the environmental variable in pycharm HEADLESS=FALSE. Some instructions to do that https://www.jetbrains.com/help/pycharm/python-console.html

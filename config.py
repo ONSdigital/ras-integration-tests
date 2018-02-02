@@ -5,6 +5,12 @@ class Config(object):
     PROTOCOL = os.getenv('PROTOCOL', 'http')
     INFO = '/info'
 
+    RESPONDENT_USERNAME = os.getenv('RESPONDENT_USERNAME', 'example@example.com')
+    RESPONDENT_PASSWORD = os.getenv('RESPONDENT_PASSWORD', 'password')
+
+    INTERNAL_USERNAME = os.getenv('INTERNAL_USERNAME', 'user')
+    INTERNAL_PASSWORD = os.getenv('INTERNAL_PASSWORD', 'pass')
+
     ACTION_SERVICE_HOST = os.getenv('ACTION_SERVICE_HOST', 'localhost')
     ACTION_SERVICE_PORT = os.getenv('ACTION_SERVICE_PORT', 8151)
     ACTION_SERVICE = '{}://{}:{}'.format(PROTOCOL, ACTION_SERVICE_HOST, ACTION_SERVICE_PORT)
@@ -77,9 +83,6 @@ class Config(object):
     SURVEY_SERVICE_PORT = os.getenv('SURVEY_SERVICE_PORT', 8080)
     SURVEY_SERVICE = '{}://{}:{}'.format(PROTOCOL, SURVEY_SERVICE_HOST, SURVEY_SERVICE_PORT)
 
-    INTERNAL_USERNAME = os.getenv('INTERNAL_USERNAME', 'user')
-    INTERNAL_PASSWORD = os.getenv('INTERNAL_PASSWORD', 'pass')
-
     CF_DATABASE_TOOL_HOST = os.getenv('CF_DATABASE_TOOL_HOST', 'localhost')
     CF_DATABASE_TOOL_PORT = os.getenv('CF_DATABASE_TOOL_PORT', 9000)
     CF_DATABASE_TOOL = '{}://{}:{}'.format(PROTOCOL, CF_DATABASE_TOOL_HOST, CF_DATABASE_TOOL_PORT)
@@ -87,3 +90,10 @@ class Config(object):
     SECURITY_USER_NAME = os.getenv('SECURITY_USER_NAME', 'admin')
     SECURITY_USER_PASSWORD = os.getenv('SECURITY_USER_PASSWORD', 'secret')
     BASIC_AUTH = (SECURITY_USER_NAME, SECURITY_USER_PASSWORD)
+
+    OAUTH_CLIENT_ID = os.getenv('OAUTH_CLIENT_ID', 'ons@ons.gov')
+    OAUTH_CLIENT_SECRET = os.getenv('OAUTH_CLIENT_SECRET', 'password')
+
+    PARTY_DATABASE_URI = os.getenv('PARTY_DATABASE_URI', "postgres://postgres:postgres@localhost:6432/postgres")
+    DJANGO_OAUTH_DATABASE_URI = os.getenv('DJANGO_OAUTH_DATABASE_URI',
+                                          "postgres://postgres:postgres@localhost:6432/postgres")

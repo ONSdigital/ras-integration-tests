@@ -12,3 +12,4 @@ Feature: Site navigation
     Then the user can view and click on a link to the surveys list page
     And the user can view and click on a link to the QBS survey page
     And the user can view and click on a link to the 1803 QBS collection exercise page
+    And the internal user signs out
