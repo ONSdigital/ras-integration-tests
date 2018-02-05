@@ -5,37 +5,37 @@ Feature: Internal user signs in
 
 
   Scenario: User signs in correctly
-    Given The user has an active account and is assigned a username and password
-    When They enter the correct username and password
-    Then The user is directed to their home page
+    Given the user has an active account and is assigned a username and password
+    When they enter the correct username and password
+    Then the user is directed to their home page
+
+  Scenario: User attempts sign in with incorrect username and receives authentication error
+    Given the user has an active account and is assigned a username and password
+    When they enter an incorrect username and correct password
+    Then the user is notified that an authentication error has occurred
+
+  Scenario: User attempts sign in with incorrect password and receives authentication error
+    Given the user has an active account and is assigned a username and password
+    When they enter a correct username and incorrect password
+    Then the user is notified that an authentication error has occurred
 
   Scenario: User attempts sign in and receives authentication error
-    Given The user has an active account and is assigned a username and password
-    When They enter an incorrect username and correct password
-    Then The user is notified that an authentication error has occurred
-
-  Scenario: User attempts sign in and receives authentication error
-    Given The user has an active account and is assigned a username and password
-    When They enter a correct username and incorrect password
-    Then The user is notified that an authentication error has occurred
-
-  Scenario: User attempts sign in and receives authentication error
-    Given The user has an active account and is assigned a username and password
-    When They enter an incorrect username and password
-    Then The user is notified that an authentication error has occurred
+    Given the user has an active account and is assigned a username and password
+    When they enter an incorrect username and password
+    Then the user is notified that an authentication error has occurred
 
   Scenario: User attempts sign in and is notified that they are required to enter a password
-    Given The user has an active account and is assigned a username and password
-    When They enter a correct username and no password
-    Then The user is notified that a password is required
+    Given the user has an active account and is assigned a username and password
+    When they enter a correct username and no password
+    Then the user is notified that a password is required
 
   Scenario: User attempts sign in and is notified that they are required to enter a username
-    Given The user has an active account and is assigned a username and password
-    When They enter no username and a correct password
-    Then The user is notified that a username is required
+    Given the user has an active account and is assigned a username and password
+    When they enter no username and a correct password
+    Then the user is notified that a username is required
 
   Scenario: User attempts sign in and is notified that they are required to enter a username and password
-    Given The user has an active account and is assigned a username and password
-    When They enter no username and no password
-    Then The user is notified that a username is required
-    And The user is notified that a password is required
+    Given the user has an active account and is assigned a username and password
+    When they enter no username and no password
+    Then the user is notified that a username is required
+    And the user is notified that a password is required
