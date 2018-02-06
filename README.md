@@ -22,14 +22,12 @@ npm install -g phantomjs-prebuilt
 pipenv install --dev
 ```
 
+First prepare the system for acceptance tests(this only needs to be run once)
 ```bash
-make tmp_rm_tools # Will load data for tests
+make setup
 ```
-
-Use Response-Operations-UI to load collection instruments manually.
-Then:
+Then run the acceptance tests, the data added/removed during the tests is reset each time they are run
 ```bash
-make set_up
 make acceptance_tests # Will load any data needed for the tests and run the system tests and acceptance tests
 ```
 
@@ -42,11 +40,10 @@ make acceptance_tests # Will load any data needed for the tests and run system t
 
 ### Commands
 ```bash
+make setup # Prepares data for acceptance tests
 make system_tests # Will run the system tests
-make clean # Will delete tmp_rm_tools
-make tmp_rm_tools # Will load data for tests
+make acceptance_tests # Will run the acceptance tests
 ```
-
 
 
 ### Debugging tests in Pycharm
