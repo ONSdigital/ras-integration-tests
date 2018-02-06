@@ -4,7 +4,6 @@ from structlog import wrap_logger
 
 from controllers import collection_exercise_controller, collection_instrument_controller, database_controller
 
-
 logger = wrap_logger(logging.getLogger(__name__))
 
 
