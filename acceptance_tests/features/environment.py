@@ -13,7 +13,7 @@ def after_all(context):
 
 
 def before_all(context):
-    database_controller.reset_rm_database('resources/database/database_reset_rm.sql')
+    database_controller.execute_rm_sql('resources/database/database_reset_rm.sql')
     database_controller.reset_ras_database()
     common.signed_in_rops(context)
     enrolment_setup()
