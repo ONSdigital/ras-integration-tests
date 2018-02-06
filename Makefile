@@ -20,6 +20,6 @@ tmp_rm_tools:
 	# Run with pipenv to ensure python 3.6 is used
 	cd tmp_rm_tools/collex-loader\
 	&& pipenv run python load.py config/collex-config.json\
-	&& pipenv run python load_events.py config/event-config.json
-clean:
-	rm -rf tmp_rm_tools
+	&& pipenv run python load_events.py config/event-config.json\
+	&& cd ../..\
+	&& rm -rf tmp_rm_tools
