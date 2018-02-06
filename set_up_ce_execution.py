@@ -16,4 +16,4 @@ if __name__ == '__main__':
                                                                             '201801')
     ci_path = 'resources/collection_instrument_files/064_0001_201803.xlsx'
     collection_instrument_controller.upload_collection_instrument(bricks_2018_ce['id'], ci_path)
-    logging.info(f"Collection exercise {bricks_2018_ce['id']} can be executed")
+    logging.info("Required collection exercises can be executed")
