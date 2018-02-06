@@ -23,9 +23,9 @@ def execute_rm_sql(sql_script_file_path):
     response = requests.post(url, auth=Config.BASIC_AUTH, headers=headers, data=sql_script)
 
     if response.status_code != 201:
-        logger.error('Database reset failed', status=response.status_code)
+        logger.error('SQL execution failed', status=response.status_code, sql_script=sql_script_file_path)
 
-    logger.debug('Database is successfully reset')
+    logger.debug('Executed SQL script', sql_script=sql_script_file_path)
     return response.text
 
 
