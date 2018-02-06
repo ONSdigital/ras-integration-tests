@@ -14,7 +14,7 @@ setup:
 	&& pipenv run python load_events.py config/event-config.json\
 	&& cd ../..\
 	&& rm -rf tmp_rm_tools
-	pipenv run python set_up_ce_execution.py
+	pipenv run python setup_scripts/set_up_ce_execution.py
 	# Acceptance tests can now be run
 
 system_tests:

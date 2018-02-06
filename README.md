@@ -31,12 +31,14 @@ Then run the acceptance tests, the data added/removed during the tests is reset 
 make acceptance_tests # Will load any data needed for the tests and run the system tests and acceptance tests
 ```
 
+
 ### Chrome
 ```bash
 export HEADLESS=False
 pipenv install --dev
 make acceptance_tests # Will load any data needed for the tests and run system tests and acceptance tests
 ```
+
 
 ### Commands
 ```bash
@@ -46,10 +48,17 @@ make acceptance_tests # Will run the acceptance tests
 ```
 
 
+### Config
+Config is set by environment variables in [config.py](config.py)
+
+If any config is updated it also has to be updated in the Jenkinsfile
+
+
 ### Debugging tests in Pycharm
 1. Set the environmental variable in pycharm HEADLESS=FALSE. Some instructions to do that https://www.jetbrains.com/help/pycharm/python-console.html
 1. Stick a breakpoint at the point you want to debug
 1. Debug the `run.py` and wait to hit the breakpoint
+
 
 ### Troubleshooting
 #### Failing tests
