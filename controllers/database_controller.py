@@ -71,7 +71,8 @@ def get_iac_for_collection_exercise(collection_exercise_id):
     }
     sql_statement = "SELECT c.iac FROM casesvc.case c " \
                     "INNER JOIN casesvc.casegroup g ON g.id = c.casegroupid " \
-                    f"WHERE c.statefk = 'ACTIONABLE' AND c.SampleUnitType = 'B' AND g.collectionexerciseid = '{collection_exercise_id}' " \
+                    "WHERE c.statefk = 'ACTIONABLE' AND c.SampleUnitType = 'B' " \
+                    f"AND g.collectionexerciseid = '{collection_exercise_id}' " \
                     "ORDER BY c.createddatetime DESC LIMIT 1;"
     response = requests.post(url, auth=Config.BASIC_AUTH, headers=headers, data=sql_statement)
     return response.text[4:-1]

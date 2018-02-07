@@ -43,8 +43,8 @@ def execute_collection_exercises():
 
 
 def poll_database_for_iac(survey_id, period):
+    collection_exercise_id = collection_exercise_controller.get_collection_exercise(survey_id, period)['id']
     while True:
-        collection_exercise_id = collection_exercise_controller.get_collection_exercise(survey_id, period)['id']
         if database_controller.get_iac_for_collection_exercise(collection_exercise_id):
             break
         time.sleep(5)
