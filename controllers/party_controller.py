@@ -26,6 +26,20 @@ def register_respondent(email_address, first_name, last_name, password, phone_nu
     response = requests.post(url, json=registration_data, auth=Config.BASIC_AUTH)
 
     if response.status_code != 200:
-        logger.error('Failed to register_respondent in tests', status=response.status_code)
+        logger.error('Failed to register respondent', status=response.status_code)
+        raise Exception('Failed to register respondent')
 
     return json.loads(response.text)
+
+
+def add_survey(party_id, enrolment_code):
+    logger.debug('Adding a survey')
+    url = f'{Config.PARTY_SERVICE}/party-api/v1/respondents/add_survey'
+    request_json = {"party_id": party_id, "enrolment_code": enrolment_code}
+    response = requests.post(url, json=request_json, auth=Config.BASIC_AUTH)
+
+    if response.status_code != 200:
+        logger.error('Failed to add survey', status=response.status_code)
+        raise Exception('Failed to add survey')
+
+    logger.debug('Successfully added a survey')
