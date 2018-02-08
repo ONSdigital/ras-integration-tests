@@ -1,5 +1,6 @@
 from acceptance_tests import browser
 
 
-def internal_sign_out_link():
-    browser.find_by_id('SIGN_OUT_LINK').click()
+def signed_out_successfully_message():
+    browser.find_by_id('successfully-signed-out')
+

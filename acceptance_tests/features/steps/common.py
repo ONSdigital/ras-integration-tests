@@ -1,4 +1,4 @@
-from behave import given, then
+from behave import given, then, when
 
 from acceptance_tests.features.pages import sign_in_respondent
 from acceptance_tests.features.pages import sign_in_internal
@@ -14,6 +14,7 @@ def signed_in_frontstage(context):
     browser.find_by_id('SIGN_IN_BUTTON').click()
 
 
+@when('they click the sign out link')
 @then('the internal user signs out')
 def signed_out_internal(context):
     browser.find_by_id('sign-out-btn').click()
