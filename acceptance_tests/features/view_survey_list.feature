@@ -9,11 +9,11 @@ Feature: View survey list
   @us060-filterCEByGoLive_s01
   Scenario: Respondent can view collection exercise after the Go Live Event
     Given the go live event for the collection exercise has passed
-    When access to do list in my surveys
+    When the respondent views the survey list todo page
     Then the respondent is displayed that collection exercise
 
   @us060-filterCEByGoLive_s02
   Scenario: Respondent cannot view the collection exercise prior to the collection exercise Go Live Event
     Given the go live event for the collection exercise has not passed
-    When access to do list in my surveys
+    When the respondent views the survey list todo page
     Then the respondent is not displayed that collection exercise

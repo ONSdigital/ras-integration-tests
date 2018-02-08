@@ -20,6 +20,10 @@ def after_all(context):
     browser.quit()
 
 
+def after_scenario():
+    browser.cookies.delete()
+
+
 def before_all(context):
     database_controller.execute_rm_sql('resources/database/database_reset_rm.sql')
     database_controller.reset_ras_database()
