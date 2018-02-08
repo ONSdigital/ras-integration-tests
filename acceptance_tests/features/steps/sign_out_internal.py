@@ -7,6 +7,6 @@ def click_sign_out_link():
     sign_out_internal.internal_sign_out_link()
 
 
-@then('the user is logged out and shown the homepage')
+@then('the user is logged out and shown the sign in page and they see a succesfully signed out message')
 def view_home_page():
     pass

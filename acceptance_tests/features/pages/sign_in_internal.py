@@ -24,3 +24,11 @@ def enter_incorrect_password():
 
 def internal_sign_in_button():
     browser.find_by_id('SIGN_IN_BUTTON').click()
+
+
+def username_required():
+    browser.find_link_by_text('Username is required')
+
+
+def password_required():
+    browser.find_link_by_text('Password is required')

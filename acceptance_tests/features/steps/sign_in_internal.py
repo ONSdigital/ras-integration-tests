@@ -1,3 +1,4 @@
+from acceptance_tests import browser
 from acceptance_tests.features.pages import sign_in_internal
 from behave import given, when, then
 
@@ -54,19 +55,27 @@ def sign_in_no_username_and_no_password(_):
 
 @then('the user is directed to their home page')
 def sign_in_directed_to_home_page(_):
+    # TODO: Update to check for more distinct home page feature when implemented
     pass
 
 
 @then('the user is notified that a username is required')
 def sign_in_username_required(_):
-    pass
+    sign_in_internal.username_required()
 
 
 @then('The user is notified that a password is required')
 def sign_in_password_required(_):
-    pass
+    sign_in_internal.password_required()
 
 
-@then('The user is notified that an authentication error has occurred')
+@then('the user is notified that a username and password is required')
+def sign_in_username_and_password_required(_):
+    assert browser.find_by_id('error-count').value() == 'There are 2 errors'
+    sign_in_internal.username_required()
+    sign_in_internal.password_required()
+
+
+@then('the user is notified that an authentication error has occurred')
 def authentication_error_occurred(_):
     pass

@@ -8,6 +8,7 @@ Feature: Internal user signs in
     Given the user has an active account and is assigned a username and password
     When they enter the correct username and password
     Then the user is directed to their home page
+    And the user signs out
 
   Scenario: User attempts sign in with incorrect username and receives authentication error
     Given the user has an active account and is assigned a username and password
@@ -37,5 +38,4 @@ Feature: Internal user signs in
   Scenario: User attempts sign in and is notified that they are required to enter a username and password
     Given the user has an active account and is assigned a username and password
     When they enter no username and no password
-    Then the user is notified that a username is required
-    And the user is notified that a password is required
+    Then the user is notified that a username and password is required
