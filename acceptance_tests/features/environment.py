@@ -20,10 +20,6 @@ def after_all(context):
     browser.quit()
 
 
-def after_scenario():
-    browser.cookies.delete()
-
-
 def before_all(context):
     database_controller.execute_rm_sql('resources/database/database_reset_rm.sql')
     database_controller.reset_ras_database()
@@ -73,3 +69,7 @@ def enrol_respondent(party_id, survey_id, period):
     collection_exercise_id = collection_exercise_controller.get_collection_exercise(survey_id, period)['id']
     enrolment_code = database_controller.get_iac_for_collection_exercise(collection_exercise_id)
     party_controller.add_survey(party_id, enrolment_code)
+
+
+def after_feature(context, feature):
+    browser.cookies.delete()
