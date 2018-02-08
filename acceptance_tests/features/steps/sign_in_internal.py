@@ -1,4 +1,4 @@
-from acceptance_tests.features.pages import sign_in_internal
+from acceptance_tests.features.pages import sign_in_internal, home
 from behave import given, when, then
 
 
@@ -54,8 +54,7 @@ def sign_in_no_username_and_no_password(_):
 
 @then('the user is directed to their home page')
 def sign_in_directed_to_home_page(_):
-    # TODO: Update to check for more distinct home page feature when implemented
-    pass
+    home.click_surveys_link()
 
 
 @then('the user is notified that a username is required')
@@ -76,4 +75,4 @@ def sign_in_username_and_password_required(_):
 
 @then('the user is notified that an authentication error has occurred')
 def authentication_error_occurred(_):
-    pass
+    sign_in_internal.authentication_error_message()
