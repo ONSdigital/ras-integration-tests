@@ -20,5 +20,5 @@ def internal_user_presented_with_correct_ru(_):
 
 
 @when('the internal user enters a RU Name')
-def internal_user_enters_ru_ref(_):
+def internal_user_enters_ru_name(_):
     reporting_units.search_reporting_unit('Office for national statistics')
