@@ -10,7 +10,7 @@ def given_internal_user_on_find_ru_page(_):
 
 @when('the internal user enters a RU Ref')
 def internal_user_enters_ru_ref(_):
-    reporting_units.enter_in_search('49900000005')
+    reporting_units.search_reporting_unit('49900000005')
 
 
 @then('the Reporting Unit is displayed back to the user')
@@ -21,4 +21,4 @@ def internal_user_presented_with_correct_ru(_):
 
 @when('the internal user enters a RU Name')
 def internal_user_enters_ru_ref(_):
-    reporting_units.enter_in_search('Office for national statistics')
+    reporting_units.search_reporting_unit('Office for national statistics')

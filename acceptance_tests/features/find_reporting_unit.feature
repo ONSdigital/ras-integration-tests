@@ -10,8 +10,10 @@ Feature: Find Reporting Unit
     Given the internal user navigates to the find RU page
     When the internal user enters a RU Ref
     Then the Reporting Unit is displayed back to the user
+    And the internal user signs out
 
   Scenario: Find a Reporting Unit by its Company Name
     Given the internal user navigates to the find RU page
     When the internal user enters a RU Name
     Then the Reporting Unit is displayed back to the user
+    And the internal user signs out

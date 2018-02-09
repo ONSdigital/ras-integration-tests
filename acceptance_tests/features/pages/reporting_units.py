@@ -6,8 +6,9 @@ def go_to_find_ru():
     browser.visit('{}/reporting-units'.format(Config.RESPONSE_OPERATIONS_UI))
 
 
-def enter_in_search(query):
+def search_reporting_unit(query):
     browser.find_by_id('query').fill(query)
+    browser.find_by_id('btn-search-ru').click()
 
 
 def get_reporting_units():
