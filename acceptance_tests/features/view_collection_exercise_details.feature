@@ -4,7 +4,7 @@ Feature: View collection exercise details
   So that I am assured the collection exercise is correct
 
   Background: Internal user is already signed in
-    Given The internal user is already signed in
+    Given the internal user is already signed in
 
   Scenario: View collection exercise details
     Given the 1803 collection exercise for the QBS survey has been created

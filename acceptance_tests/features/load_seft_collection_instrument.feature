@@ -6,7 +6,7 @@ Feature: Load SEFT collection instruments
 
 
   Background: Internal user is already signed in
-    Given The internal user is already signed in
+    Given the internal user is already signed in
 
   Scenario: Load collection instrument
     Given the 201803 collection exercise for the QIFDI survey has been created

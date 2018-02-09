@@ -4,7 +4,7 @@ Feature: Breadcrumb Navigation
   So that I can navigate back through the hierarchy
 
   Background: Internal user is already signed in
-    Given The internal user is already signed in
+    Given the internal user is already signed in
 
   Scenario: User navigates to the surveys page from collection exercise
     Given the 1803 collection exercise for the QBS survey has been created

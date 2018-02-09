@@ -4,7 +4,7 @@ Feature: View Collection Exercise
   So that I can manage the collection exercises
 
   Background: Internal user is already signed in
-    Given The internal user is already signed in
+    Given the internal user is already signed in
 
   Scenario: View attributes for a survey
     Given collection exercises for QBS exist in the system

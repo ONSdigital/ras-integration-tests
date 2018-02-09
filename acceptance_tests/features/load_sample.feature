@@ -4,7 +4,7 @@ Feature: Load sample
    So that a sample file exists in the system
 
   Background: Internal user is already signed in
-    Given The internal user is already signed in
+    Given the internal user is already signed in
 
   Scenario: Preview sample
     Given the internal user navigates to the collection exercise details page for QBS 1803

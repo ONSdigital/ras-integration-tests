@@ -1,9 +1,20 @@
-from acceptance_tests.features.steps.common import signed_in_rops
-from acceptance_tests.features.pages import collection_exercise_details
+import logging
+
+import requests
+from structlog import wrap_logger
+
+from config import Config
 
 
-def load_collection_instrument_bricks_201801():
-    signed_in_rops()
-    collection_exercise_details.go_to('Bricks', '201801')
-    collection_exercise_details.load_collection_instrument(
-        test_file='resources/collection_instrument_files/064_0001_201803.xlsx')
+logger = wrap_logger(logging.getLogger(__name__))
+
+
+def upload_collection_instrument(collection_exercise_id, file_path):
+    logger.info('Uploading collection instrument', collection_exercise_id=collection_exercise_id)
+    url = f'{Config.COLLECTION_INSTRUMENT_SERVICE}/' \
+          f'collection-instrument-api/1.0.2/upload/{collection_exercise_id}'
+    mimetype = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    files = {"file": ('test_collection_instrument.xlxs', open(file_path, 'rb'), mimetype)}
+    response = requests.post(url=url, auth=Config.BASIC_AUTH, files=files)
+    response.raise_for_status()
+    logger.info('Successfully uploaded collection instrument', collection_exercise_id=collection_exercise_id)

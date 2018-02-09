@@ -10,7 +10,7 @@ from config import Config
 logger = wrap_logger(logging.getLogger(__name__))
 
 
-def reset_rm_database(sql_script_file_path):
+def execute_rm_sql(sql_script_file_path):
     logger.debug('Executing SQL script', sql_script=sql_script_file_path)
 
     url = Config.CF_DATABASE_TOOL + '/sql'
@@ -23,9 +23,9 @@ def reset_rm_database(sql_script_file_path):
     response = requests.post(url, auth=Config.BASIC_AUTH, headers=headers, data=sql_script)
 
     if response.status_code != 201:
-        logger.error('Database reset failed', status=response.status_code)
+        logger.error('SQL execution failed', status=response.status_code, sql_script=sql_script_file_path)
 
-    logger.debug('Database is successfully reset')
+    logger.debug('Executed SQL script', sql_script=sql_script_file_path)
     return response.text
 
 
@@ -64,12 +64,26 @@ def select_iac():
     return response.text[4:-1]
 
 
-def enrol_party(respondant_uuid):
+def get_iac_for_collection_exercise(collection_exercise_id):
+    url = Config.CF_DATABASE_TOOL + '/sql'
+    headers = {
+        'Content-Type': 'text/plain'
+    }
+    sql_statement = "SELECT c.iac FROM casesvc.case c " \
+                    "INNER JOIN casesvc.casegroup g ON g.id = c.casegroupid " \
+                    "WHERE c.statefk = 'ACTIONABLE' AND c.SampleUnitType = 'B' " \
+                    f"AND g.collectionexerciseid = '{collection_exercise_id}' " \
+                    "ORDER BY c.createddatetime DESC LIMIT 1;"
+    response = requests.post(url, auth=Config.BASIC_AUTH, headers=headers, data=sql_statement)
+    return response.text[4:-1]
+
+
+def enrol_party(respondent_uuid):
     case_id = None
 
-    sql_statement_update_enrolment = f"UPDATE partysvc.enrolment SET status = 'ENABLED' WHERE respondent_id = (SELECT id FROM partysvc.respondent WHERE party_uuid = '{respondant_uuid}');"  # NOQA
-    sql_get_case_id = f"SELECT case_id FROM partysvc.pending_enrolment WHERE respondent_id = (SELECT id FROM partysvc.respondent WHERE party_uuid = '{respondant_uuid}');"  # NOQA
-    sql_delete_pending_enrolment = f"DELETE FROM partysvc.pending_enrolment WHERE respondent_id = (SELECT id FROM partysvc.respondent WHERE party_uuid = '{respondant_uuid}');"  # NOQA
+    sql_statement_update_enrolment = f"UPDATE partysvc.enrolment SET status = 'ENABLED' WHERE respondent_id = (SELECT id FROM partysvc.respondent WHERE party_uuid = '{respondent_uuid}');"  # NOQA
+    sql_get_case_id = f"SELECT case_id FROM partysvc.pending_enrolment WHERE respondent_id = (SELECT id FROM partysvc.respondent WHERE party_uuid = '{respondent_uuid}');"  # NOQA
+    sql_delete_pending_enrolment = f"DELETE FROM partysvc.pending_enrolment WHERE respondent_id = (SELECT id FROM partysvc.respondent WHERE party_uuid = '{respondent_uuid}');"  # NOQA
 
     engine = create_engine(Config.PARTY_DATABASE_URI)
     connection = engine.connect()
