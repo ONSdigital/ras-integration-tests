@@ -15,5 +15,6 @@ def internal_user_views_the_survey_page(_):
 
 @then('the internal user is displayed the correct reporting unit details')
 def internal_user_views_correct_reporting_unit_details(_):
-    assert reporting_unit.get_ru_ref() == '49900000001'
-    assert reporting_unit.get_ru_name() == 'RUNAME1_COMPANY1 RUNNAME2_COMPANY1'
+    ru_details = reporting_unit.get_ru_details()
+    assert ru_details['ru_ref'] == '49900000001'
+    assert ru_details['name'] == 'RUNAME1_COMPANY1 RUNNAME2_COMPANY1'

@@ -1,7 +1,7 @@
 Feature: Display reporting unit page
   As an internal user
-  I need to to be able to view RU details
-  So that I can undertake a number of potential actions related to that RU
+  I need to to be able to view reporting unit details
+  So that I can undertake a number of potential actions related to that reporting unit
 
   Background: Internal user is already signed in
     Given the internal user is already signed in
