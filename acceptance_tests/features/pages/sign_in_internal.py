@@ -32,3 +32,7 @@ def username_required():
 
 def password_required():
     browser.find_link_by_text('Password is required')
+
+
+def authentication_error_message():
+    browser.find_by_id('try-again-link')
