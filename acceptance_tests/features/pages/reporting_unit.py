@@ -7,4 +7,8 @@ def go_to(ru_ref):
 
 
 def get_ru_ref():
-    return browser.find_by_id('RU_REF').value
+    return browser.find_by_id('RU_REF').text
+
+
+def get_ru_name():
+    return browser.find_by_id('RU_NAME').text
