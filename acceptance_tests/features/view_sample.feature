@@ -4,7 +4,7 @@ Feature: View sample
    So that I am reasonably assured that it is the right sample file for the collection exercise
 
   Background: Internal user is already signed in
-    Given The internal user is already signed in
+    Given the internal user is already signed in
 
   Scenario: View sample in context of the specific collection exercise
     Given the user has loaded the sample in context of 1803 collection exercise for the QBS
