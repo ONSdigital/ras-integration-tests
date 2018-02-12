@@ -1,10 +1,22 @@
-from acceptance_tests.features.pages import sign_in_internal, home
+from acceptance_tests.features.pages import sign_in_internal, home, sign_out_internal
 from behave import given, when, then
 
 
 @given('the user has an active account and is assigned a username and password')
 def go_to_sign_in(_):
+    try_sign_out()
     sign_in_internal.go_to()
+
+
+def try_sign_out():
+    """
+    Sign out if already signed in
+    :return:
+    """
+    try:
+        sign_out_internal.sign_out()
+    except AttributeError:
+        pass
 
 
 @when('they enter the correct username and password')
