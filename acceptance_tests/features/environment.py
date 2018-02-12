@@ -1,5 +1,5 @@
-import time
 import logging
+import time
 
 from structlog import wrap_logger
 
@@ -8,7 +8,6 @@ from acceptance_tests.features.steps import common
 from config import Config
 from controllers import collection_exercise_controller, database_controller, sample_controller
 from controllers import party_controller, django_oauth_controller, case_controller
-
 
 logger = wrap_logger(logging.getLogger(__name__))
 
@@ -71,5 +70,5 @@ def enrol_respondent(party_id, survey_id, period):
     party_controller.add_survey(party_id, enrolment_code)
 
 
-def after_feature(context, feature):
+def after_scenario(context, feature):
     browser.cookies.delete()

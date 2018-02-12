@@ -18,14 +18,12 @@ Feature: View Collection Exercise
       | 1806   | 15 June 2018           | Created |
       | 1809   | 14 September 2018      | Created |
       | 1812   | 14 December 2018       | Created |
-    And the internal user signs out
 
 
   Scenario Outline: Ensure collection exercise exists for a survey
     Given all surveys have collection exercises
     When the internal user views the collection exercise page for <survey_abbreviation>
     Then there is at least one collection exercise
-    And the internal user signs out
 
     Examples:
       | survey_abbreviation |
