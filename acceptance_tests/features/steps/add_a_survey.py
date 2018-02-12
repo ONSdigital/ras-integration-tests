@@ -5,6 +5,7 @@ from controllers.database_controller import select_iac
 from acceptance_tests.features.pages import surveys_todo, add_survey
 
 
+@when('the respondent views the survey list todo page')
 @when('access to do list in my surveys')
 def surveys_to_do_list(context):
     surveys_todo.go_to()

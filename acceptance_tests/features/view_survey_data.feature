@@ -4,7 +4,7 @@ Feature: View survey data
   So that I am assured the survey details are correct
 
   Background: Internal user is already signed in
-    Given The internal user is already signed in
+    Given the internal user is already signed in
 
   Scenario: View all default surveys
     Given surveys exist in the system

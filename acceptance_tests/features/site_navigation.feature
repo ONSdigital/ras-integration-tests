@@ -4,7 +4,7 @@ Feature: Site navigation
   So that they can get to the page they wish to view
 
   Background: Internal user is already signed in
-    Given The internal user is already signed in
+    Given the internal user is already signed in
 
   Scenario: User navigates to collection exercise
     Given the 1803 collection exercise for the QBS survey has been created

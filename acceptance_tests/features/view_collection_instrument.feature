@@ -4,7 +4,7 @@ Feature: View Collection Instruments
   So that I am assured that the right CI is available for the right RU(s)
 
     Background: Internal user is already signed in
-      Given The internal user is already signed in
+      Given the internal user is already signed in
 
     Scenario: View Collection Instruments
       Given the collection instruments have been loaded
