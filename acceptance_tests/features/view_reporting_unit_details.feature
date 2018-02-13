@@ -6,7 +6,7 @@ Feature: Display reporting unit page
   Background: Internal user is already signed in
     Given the internal user is already signed in
 
-  @us044-RUDetailsPresentedToUser_s01
+  @us044_s01
   Scenario: The reporting unit details are presented to the user
     Given the reporting unit 49900000001 is in the system
     When the internal user views the 49900000001 reporting unit page
