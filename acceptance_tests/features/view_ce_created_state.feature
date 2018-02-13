@@ -1,0 +1,26 @@
+Feature: View created state of a collection exercise
+  As a Collection Exercise Coordinator
+  I need to be able to view the state of a collection exercise when it is 'Created'
+  So that I know that the collection exercise exists for a survey
+
+  Background: Internal user is already signed in
+    Given: the internal user is already signed in
+
+  Scenario: The 'Created' state is to be displayed when the collection exercise is created
+    Given the collection exercises for that survey exist
+    When the internal user navigates to the survey details page
+    Then the status of a collection exercise is 'Created'
+    And the internal user signs out
+
+  Scenario: The state for each collection exercise can be viewed on survey details page
+    Given the internal user is on the surveys page
+    When the internal user navigate to the survey details page
+    Then the internal user are able to see the status for each collection exercise
+    And the internal user signs out
+
+  Scenario: The 'Created' state can be viewed on the collection exercise details page
+    Given the internal user is on the survey details page
+    When the internal user navigate to the collection exercise details page
+    Then the displayed status should be Created
+    And the internal user signs out
+
