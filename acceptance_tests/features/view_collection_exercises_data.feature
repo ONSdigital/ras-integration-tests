@@ -6,6 +6,7 @@ Feature: View Collection Exercise
   Background: Internal user is already signed in
     Given the internal user is already signed in
 
+  @skip
   Scenario: View attributes for a survey
     Given collection exercises for QBS exist in the system
     When the internal user views the collection exercise page for QBS

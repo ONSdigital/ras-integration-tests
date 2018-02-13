@@ -29,6 +29,12 @@ def before_all(context):
     sign_out_internal.sign_out()
 
 
+def before_scenario(_, scenario):
+    if "skip" in scenario.effective_tags:
+        scenario.skip("Marked with @skip")
+        return
+
+
 def execute_collection_exercises():
     test_file = 'resources/sample_files/business-survey-sample-date.csv'
     sample_controller.load_sample('bricks', '201801', test_file)

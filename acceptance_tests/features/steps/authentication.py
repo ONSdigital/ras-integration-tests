@@ -16,7 +16,6 @@ def signed_in_respondent(_):
         browser.find_by_id('SIGN_IN_BUTTON').click()
 
 
-
 @given('The internal user is already signed in')
 def signed_in_internal(_):
     sign_in_internal.go_to()
