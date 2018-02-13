@@ -1,6 +1,7 @@
 from behave import given, when, then
 
 from acceptance_tests import browser
+from acceptance_tests.features.pages import collection_exercise, collection_exercise_details
 from config import Config
 from controllers.collection_exercise_controller import get_survey_collection_exercises
 
@@ -15,7 +16,7 @@ def ce_exist_for_survey():
 @when('the internal user navigates to survey details page')
 @given('the internal user is on the survey details page')
 def view_survey_details():
-    browser.visit('{}/surveys/{}'.format(Config.RESPONSE_OPERATIONS_UI, 'Bricks'))
+    collection_exercise.go_to('Bricks')
 
 
 @then('the state of the collection exercise is created')
@@ -38,7 +39,7 @@ def all_ce_have_states(context):
 
 @when('the internal user navigate to the collection exercise details page')
 def view_ce_details():
-    browser.visit('{}/surveys/{}/{}'.format(Config.RESPONSE_OPERATIONS_UI, 'Bricks', '201801'))
+    collection_exercise_details.go_to('Bricks', '201801')
 
 
 @then('the displayed status should be Created')
