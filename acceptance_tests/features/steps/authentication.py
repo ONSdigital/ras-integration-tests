@@ -1,13 +1,13 @@
-from behave import given, then, when
+from behave import given
 
-from acceptance_tests.features.pages import sign_in_respondent
-from acceptance_tests.features.pages import sign_in_internal
 from acceptance_tests import browser
+from acceptance_tests.features.pages import sign_in_internal
+from acceptance_tests.features.pages import sign_in_respondent
 from config import Config
 
 
 @given('the respondent is signed into their account')
-def signed_in_frontstage(_):
+def signed_in_respondent(_):
     sign_in_respondent.go_to()
     # Only attempt to sign in if not already signed in otherwise implicitly redirected to homepage
     if '/sign-in' in browser.url:
@@ -16,14 +16,9 @@ def signed_in_frontstage(_):
         browser.find_by_id('SIGN_IN_BUTTON').click()
 
 
-@when('they click the sign out link')
-@then('the internal user signs out')
-def signed_out_internal(_):
-    browser.find_by_id('sign-out-btn').click()
-
 
 @given('The internal user is already signed in')
-def signed_in_rops(_):
+def signed_in_internal(_):
     sign_in_internal.go_to()
     # Only attempt to sign in if not already signed in otherwise implicitly redirected to homepage
     if '/sign-in' in browser.url:

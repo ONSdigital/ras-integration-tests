@@ -4,6 +4,7 @@ import time
 from structlog import wrap_logger
 
 from acceptance_tests import browser
+from acceptance_tests.features.pages import sign_out_internal
 from acceptance_tests.features.steps import authentication
 from config import Config
 from controllers import collection_exercise_controller, database_controller, sample_controller
@@ -22,10 +23,10 @@ def after_all(context):
 def before_all(context):
     database_controller.execute_rm_sql('resources/database/database_reset_rm.sql')
     database_controller.reset_ras_database()
-    authentication.signed_in_rops(context)
+    authentication.signed_in_internal(context)
     execute_collection_exercises()
     register_respondent(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201801')
-    authentication.signed_out_internal(context)
+    sign_out_internal.sign_out()
 
 
 def execute_collection_exercises():
