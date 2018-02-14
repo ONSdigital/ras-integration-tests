@@ -33,5 +33,5 @@ def view_ce_details():
 
 @then('the displayed status should be Created')
 def ce_details_state_is_created():
-    ce_state = browser.find_by_id('ce_status').value
+    ce_state = collection_exercise_details.get_status()
     assert ce_state == 'Created'

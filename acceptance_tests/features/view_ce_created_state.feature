@@ -4,7 +4,7 @@ Feature: View created state of a collection exercise
   So that I know that the collection exercise exists for a survey
 
   Background: Internal user is already signed in
-    Given: the internal user is already signed in
+    Given the internal user is already signed in
 
   @us040_s01
   Scenario: The 'Created' state is to be displayed when the collection exercise is created
