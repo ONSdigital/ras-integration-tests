@@ -1,8 +1,6 @@
 from behave import given, when, then
 
-from acceptance_tests import browser
 from acceptance_tests.features.pages import collection_exercise, collection_exercise_details
-from config import Config
 from controllers.collection_exercise_controller import get_survey_collection_exercises
 
 
