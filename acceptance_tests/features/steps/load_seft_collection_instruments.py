@@ -23,6 +23,7 @@ def internal_user_uploads_non_xlsx_file(_):
     collection_exercise_details.load_collection_instrument('resources/collection_instrument_files/wrong_ci_type.html')
 
 
+@when('the user loads the collection instruments')
 @then('the user is able to load the collection instruments')
 def load_collection_instruments(_):
     collection_exercise_details.load_collection_instrument(

@@ -3,6 +3,7 @@ from behave import given, when, then
 from acceptance_tests.features.pages import collection_exercise_details
 
 
+@when('the user loads the sample')
 @then('the user is able to load the sample')
 def load_sample(_):
     collection_exercise_details.load_sample()
