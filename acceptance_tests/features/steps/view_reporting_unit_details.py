@@ -35,3 +35,4 @@ def internal_internal_user_presented_correct_associated_collection_exercises(_):
     assert associated_ces[0]['company_name'] == 'RUNAME1_COMPANY1 RUNNAME2_COMPANY1'
     assert associated_ces[0]['company_region'] == 'GB'
     assert associated_ces[0]['status'] == 'Not started'
+
