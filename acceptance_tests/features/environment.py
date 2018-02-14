@@ -1,14 +1,14 @@
-import time
 import logging
+import time
 
 from structlog import wrap_logger
 
 from acceptance_tests import browser
-from acceptance_tests.features.steps import common
+from acceptance_tests.features.pages import sign_out_internal
+from acceptance_tests.features.steps import authentication
 from config import Config
 from controllers import collection_exercise_controller, database_controller, sample_controller
 from controllers import party_controller, django_oauth_controller, case_controller
-
 
 logger = wrap_logger(logging.getLogger(__name__))
 
@@ -23,10 +23,16 @@ def after_all(context):
 def before_all(context):
     database_controller.execute_rm_sql('resources/database/database_reset_rm.sql')
     database_controller.reset_ras_database()
-    common.signed_in_rops(context)
+    authentication.signed_in_internal(context)
     execute_collection_exercises()
     register_respondent(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201801')
-    common.signed_out_internal(context)
+    sign_out_internal.sign_out()
+
+
+def before_scenario(_, scenario):
+    if "skip" in scenario.effective_tags:
+        scenario.skip("Marked with @skip")
+        return
 
 
 def execute_collection_exercises():
@@ -69,7 +75,3 @@ def enrol_respondent(party_id, survey_id, period):
     collection_exercise_id = collection_exercise_controller.get_collection_exercise(survey_id, period)['id']
     enrolment_code = database_controller.get_iac_for_collection_exercise(collection_exercise_id)
     party_controller.add_survey(party_id, enrolment_code)
-
-
-def after_feature(context, feature):
-    browser.cookies.delete()

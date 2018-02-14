@@ -28,7 +28,8 @@ def get_collection_exercises():
     for row in rows:
         exercises.append({
             "exercise_ref": row.find_by_name('tbl-ce-period'),
-            "user_description": row.find_by_name('tbl-ce-shown-as')
+            "user_description": row.find_by_name('tbl-ce-shown-as'),
+            "state": row.find_by_name('tbl-ce-status')
         })
     return exercises
 
