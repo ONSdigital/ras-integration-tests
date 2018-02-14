@@ -12,11 +12,9 @@ Feature: View reporting unit details
     Given the reporting unit 49900000001 is in the system
     When the internal user views the 49900000001 reporting unit page
     Then the internal user is presented with the associated surveys
-    And the internal user signs out
 
   @us045-viewSurveysAndCEs_s02
   Scenario: Able to view all collection exercises associated to the displayed RU Ref
     Given the reporting unit 49900000001 is in the system
     When the internal user views the 49900000001 reporting unit page
     Then the internal user is presented with the associated collection exercises
-    And the internal user signs out
