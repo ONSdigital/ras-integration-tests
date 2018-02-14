@@ -11,4 +11,3 @@ Feature: Display reporting unit page
     Given the reporting unit 49900000001 is in the system
     When the internal user views the 49900000001 reporting unit page
     Then the internal user is displayed the correct reporting unit details
-    And the internal user signs out
