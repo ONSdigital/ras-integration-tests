@@ -27,4 +27,3 @@ Feature: View survey data
       | 225       | Outward Foreign Affiliates Statistics Survey                  | OFATS             | Statistics of Trade Act 1947        |
       | 500       | Government Research and Development Survey                    | GovERD            | GovERD                              |
       | 221       | Business Register and Employment Survey                       | BRES              | Statistics of Trade Act 1947        |
-    And the internal user signs out
