@@ -5,7 +5,7 @@ from config import Config
 
 
 def go_to(survey, period):
-    browser.visit('{}/surveys/{}/{}'.format(Config.RESPONSE_OPERATIONS_UI, survey, period))
+    browser.visit(f'{Config.RESPONSE_OPERATIONS_UI}/surveys/{survey}/{period}')
 
 
 def get_page_title():
