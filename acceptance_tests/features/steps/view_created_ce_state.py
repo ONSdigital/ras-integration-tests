@@ -19,22 +19,11 @@ def view_survey_details():
     collection_exercise.go_to('Bricks')
 
 
-@then('the state of the collection exercise is created')
+@then('the status of a collection exercise is Created')
 def survey_ce_state_is_created(context):
     for row in context.table:
         if row['period'] == '201801':
             assert row['status'] == 'Created'
-
-
-@given("the internal user is on the survey's page")
-def view_surveys():
-    browser.visit('{}/surveys'.format(Config.RESPONSE_OPERATIONS_UI))
-
-
-@then('the internal user is able to see the status for each collection exercise')
-def all_ce_have_states(context):
-    for row in context.table:
-        assert row['status'] is not None
 
 
 @when('the internal user navigate to the collection exercise details page')
