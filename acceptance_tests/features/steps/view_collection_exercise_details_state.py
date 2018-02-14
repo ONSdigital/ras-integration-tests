@@ -16,5 +16,5 @@ def internal_user_views_2017_bres_collection_exercise(_):
 
 @then('the user is able to view the status of the collection exercise')
 def ce_details_state_is_displayed():
-    ce_state = browser.find_by_id('ce_status').value
+    collection_exercise_details.get_status()
     assert ce_state != ''
