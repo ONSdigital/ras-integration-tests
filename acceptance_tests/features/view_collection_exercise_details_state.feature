@@ -10,4 +10,3 @@ Feature: View the state of a collection exercise on the details page
     Given the 1803 collection exercise for the QBS survey has been created
     When the internal user navigates to the collection exercise details page for QBS 1803
     Then the user is able to view the status of the collection exercise
-    And the internal user signs out
