@@ -6,7 +6,6 @@ Feature: View Collection Exercise
   Background: Internal user is already signed in
     Given the internal user is already signed in
 
-  @skip
   Scenario: View attributes for a survey
     Given collection exercises for QBS exist in the system
     When the internal user views the collection exercise page for QBS
@@ -16,7 +15,7 @@ Feature: View Collection Exercise
     And the internal user can view all collection exercises for QBS
       | period | shown_to_respondent_as | status  |
       | 1803   | 9 March 2018           | Created |
-      | 1806   | 15 June 2018           | Created |
+      | 1806   | 15 June 2018           | Scheduled |
       | 1809   | 14 September 2018      | Created |
       | 1812   | 14 December 2018       | Created |
 
