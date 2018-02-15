@@ -4,7 +4,7 @@ Feature: View ready for review state of a collection exercise
   So that I know that all of the mandatory components of a collection exercise have been populated
 
   Background: Internal user is already signed in
-    Given: the internal user is already signed in
+    Given the internal user is already signed in
 
   @us042_s01
   Scenario: The 'Ready for Review' state is displayed after a collection instrument is loaded
