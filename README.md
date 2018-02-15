@@ -18,7 +18,7 @@ The environmental variables are defined in [config.py](config.py)
 
 ### Headless
 ```bash
-npm install -g phantomjs-prebuilt 
+npm install -g phantomjs-prebuilt
 pipenv install --dev
 ```
 
@@ -45,6 +45,7 @@ make acceptance_tests # Will load any data needed for the tests and run system t
 make setup # Prepares data for acceptance tests
 make system_tests # Will run the system tests
 make acceptance_tests # Will run the acceptance tests
+make test # Will run all the tests
 ```
 
 
