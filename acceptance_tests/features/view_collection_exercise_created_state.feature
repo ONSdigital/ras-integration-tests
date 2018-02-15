@@ -11,11 +11,9 @@ Feature: View created state of a collection exercise
     Given the collection exercises for that survey exist
     When the internal user navigates to the survey details page
     Then the status of a collection exercise is Created
-    And the internal user signs out
 
   @us040_s02
   Scenario: The 'Created' state can be viewed on the collection exercise details page
     Given the internal user is on the survey details page
     When the internal user navigate to the collection exercise details page
     Then the displayed status should be Created
-    And the internal user signs out

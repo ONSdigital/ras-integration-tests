@@ -21,22 +21,34 @@ def get_survey_attributes():
     return survey_attributes
 
 
+def get_row_attributes(row):
+    return {
+        'exercise_ref': row.find_by_name('tbl-ce-period').value,
+        'user_description': row.find_by_name('tbl-ce-shown-as').value,
+        'state': row.find_by_name('tbl-ce-status').value,
+    }
+
+
 def get_collection_exercises():
-    exercises = []
-    table = browser.find_by_id('tbl-collection-exercise').first
-    rows = table.find_by_tag('tbody').find_by_tag('tr')
-    for row in rows:
-        exercises.append({
-            "exercise_ref": row.find_by_name('tbl-ce-period'),
-            "user_description": row.find_by_name('tbl-ce-shown-as'),
-            "state": row.find_by_name('tbl-ce-status')
-        })
-    return exercises
+    return [get_row_attributes(row) for row in get_table_rows()]
+
+
+def get_table():
+    return browser.find_by_id('tbl-collection-exercise').first
 
 
 def get_table_headers():
-    table = browser.find_by_id('tbl-collection-exercise').first
-    return table.find_by_tag('thead').value
+    return get_table().find_by_tag('thead').value
+
+
+def get_table_rows():
+    return get_table().find_by_tag('tbody').find_by_tag('tr')
+
+
+def get_table_row_by_period(period):
+    for row in get_collection_exercises():
+        if row['exercise_ref'] == period:
+            return row
 
 
 def click_qbs_1803_ce_link():
