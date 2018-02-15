@@ -7,13 +7,19 @@ Feature: View reporting unit details
   Background: Internal user is already signed in
     Given the internal user is already signed in
 
-  @us045-viewSurveysAndCEs_s01
+  @us044_s01
+  Scenario: The reporting unit details are presented to the user
+    Given the reporting unit 49900000001 is in the system
+    When the internal user views the 49900000001 reporting unit page
+    Then the internal user is displayed the correct reporting unit details
+
+  @us045_s01
   Scenario: Able to view all surveys associated to the displayed RU Ref
     Given the reporting unit 49900000001 is in the system
     When the internal user views the 49900000001 reporting unit page
     Then the internal user is presented with the associated surveys
 
-  @us045-viewSurveysAndCEs_s02
+  @us045_s02
   Scenario: Able to view all collection exercises associated to the displayed RU Ref
     Given the reporting unit 49900000001 is in the system
     When the internal user views the 49900000001 reporting unit page
