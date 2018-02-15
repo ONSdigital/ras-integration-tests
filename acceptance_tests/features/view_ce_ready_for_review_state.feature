@@ -8,14 +8,14 @@ Feature: View ready for review state of a collection exercise
 
   @us042_s01
   Scenario: The 'Ready for Review' state is displayed after a collection instrument is loaded
-    Given the 201803 collection exercise for the QIFDI survey is Scheduled
+    Given the 201809 collection exercise for the RSI survey is Scheduled
     And the user has loaded the sample
     When the user loads the collection instruments
     Then the status of the collection exercise is Ready for Review
 
   @us042_s02
   Scenario: The 'Ready for Review' state is displayed after a sample is loaded
-    Given the 201803 collection exercise for the QIFDI survey is Scheduled
+    Given the 201810 collection exercise for the RSI survey is Scheduled
     And the user has loaded the collection instruments
     When the user loads the sample
     Then the status of the collection exercise is Ready for Review

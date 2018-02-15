@@ -3,9 +3,16 @@ from behave import given, when, then
 from acceptance_tests.features.pages import collection_exercise_details
 
 
-@given('the 201803 collection exercise for the QIFDI survey is Scheduled')
+@given('the 201809 collection exercise for the RSI survey is Scheduled')
 def qifdi_201803_exists_and_scheduled_displayed(_):
-    collection_exercise_details.go_to('QBS', '1803')
+    collection_exercise_details.go_to('RSI', '1809')
+    ce_state = collection_exercise_details.get_status()
+    assert ce_state == 'Scheduled'
+
+
+@given('the 201810 collection exercise for the RSI survey is Scheduled')
+def qifdi_201803_exists_and_scheduled_displayed(_):
+    collection_exercise_details.go_to('RSI', '1810')
     ce_state = collection_exercise_details.get_status()
     assert ce_state == 'Scheduled'
 
