@@ -15,10 +15,8 @@ def get_ru_details():
 
 
 def get_associated_surveys():
-    surveys = []
-    survey_titles = browser.find_by_css('h3')
-    for title in survey_titles:
-        surveys.append(title.value)
+    survey_titles = browser.find_by_name('survey-titles')
+    surveys = [title.value for title in survey_titles]
     return surveys
 
 
