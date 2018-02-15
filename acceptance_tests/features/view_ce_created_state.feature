@@ -19,4 +19,3 @@ Feature: View created state of a collection exercise
     When the internal user navigate to the collection exercise details page
     Then the displayed status should be Created
     And the internal user signs out
-
