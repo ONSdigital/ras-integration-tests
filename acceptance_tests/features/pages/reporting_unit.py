@@ -34,3 +34,21 @@ def get_associated_collection_exercises():
                 "status": row.find_by_name('tbl-ce-status').value
             })
     return exercises
+
+
+def get_associated_respondents():
+    respondents = []
+    respondents_tables = browser.find_by_name('tbl-respondents-for-survey')
+
+    for table in respondents_tables:
+        rows = table.find_by_tag('tbody').find_by_tag('tr')
+        for row in rows:
+            details = row.find_by_name('tbl-respondent-details').first
+            respondents.append({
+                "enrolementStatus": row.find_by_name('tbl-enrolment-status').value,
+                "name": details.find_by_name('tbl-respondent-name').value,
+                "email": details.find_by_name('tbl-respondent-email').value,
+                "phone": details.find_by_name('tbl-respondent-phone').value,
+                "accountStatus": details.find_by_name('tbl-respondent-status').value
+            })
+    return respondents
