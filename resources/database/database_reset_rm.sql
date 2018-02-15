@@ -24,7 +24,7 @@ TRUNCATE collectionexercise.sampleunitgroup CASCADE;
 ALTER SEQUENCE collectionexercise.sampleunitgrouppkseq RESTART WITH 1;
 ALTER SEQUENCE collectionexercise.sampleunitpkseq RESTART WITH 1;
 
-UPDATE collectionexercise.collectionexercise SET statefk = 'CREATED';
+UPDATE collectionexercise.collectionexercise SET statefk = 'CREATED' where not statefk = 'SCHEDULED';
 DELETE FROM collectionexercise.samplelink;
 
 
