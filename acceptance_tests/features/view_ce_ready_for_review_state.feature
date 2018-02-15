@@ -7,11 +7,15 @@ Feature: View ready for review state of a collection exercise
     Given: the internal user is already signed in
 
   @us042_s01
-  Scenario: The 'Ready for Review' state is to be displayed when a sample and collection instrument are loaded
-    Given the 201803 collection exercise for the QIFDI survey has been created
-    When the internal user navigates to the collection exercise details page for QIFDI 201803
-    And the status of the collection exercise is Scheduled
-    And the user loads the sample
-    And the user loads the collection instruments
+  Scenario: The 'Ready for Review' state is displayed after a collection instrument is loaded
+    Given the 201803 collection exercise for the QIFDI survey is Scheduled
+    And the user has loaded the sample
+    When the user loads the collection instruments
     Then the status of the collection exercise is Ready for Review
-    And the internal user signs out
+
+  @us042_s02
+  Scenario: The 'Ready for Review' state is displayed after a sample is loaded
+    Given the 201803 collection exercise for the QIFDI survey is Scheduled
+    And the user has loaded the collection instruments
+    When the user loads the sample
+    Then the status of the collection exercise is Ready for Review
