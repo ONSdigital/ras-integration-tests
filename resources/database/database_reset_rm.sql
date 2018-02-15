@@ -20,12 +20,13 @@ ALTER SEQUENCE notifygatewaysvc.messageseq RESTART WITH 1;
 
 TRUNCATE collectionexercise.sampleunit CASCADE;
 TRUNCATE collectionexercise.sampleunitgroup CASCADE;
+TRUNCATE collectionexercise.samplelink CASCADE;
 
 ALTER SEQUENCE collectionexercise.sampleunitgrouppkseq RESTART WITH 1;
 ALTER SEQUENCE collectionexercise.sampleunitpkseq RESTART WITH 1;
+ALTER SEQUENCE collectionexercise.samplelinkpkseq RESTART WITH 1;
 
 UPDATE collectionexercise.collectionexercise SET statefk = 'CREATED' where not statefk = 'SCHEDULED';
-DELETE FROM collectionexercise.samplelink;
 
 
 /* Clean Case DB */

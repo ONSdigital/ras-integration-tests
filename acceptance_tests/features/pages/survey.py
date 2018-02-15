@@ -3,7 +3,7 @@ from config import Config
 
 
 def go_to():
-    browser.visit("{}/surveys".format(Config.RESPONSE_OPERATIONS_UI))
+    browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/surveys")
 
 
 def get_page_title():
