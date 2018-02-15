@@ -26,7 +26,7 @@ ALTER SEQUENCE collectionexercise.sampleunitgrouppkseq RESTART WITH 1;
 ALTER SEQUENCE collectionexercise.sampleunitpkseq RESTART WITH 1;
 ALTER SEQUENCE collectionexercise.samplelinkpkseq RESTART WITH 1;
 
-UPDATE collectionexercise.collectionexercise SET statefk = 'CREATED';
+UPDATE collectionexercise.collectionexercise SET statefk = 'INIT';
 
 
 /* Clean Case DB */
