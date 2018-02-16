@@ -1,5 +1,5 @@
 import time
-import logging
+from logging import getLogger
 
 from structlog import wrap_logger
 
@@ -9,8 +9,7 @@ from config import Config
 from controllers import collection_exercise_controller, database_controller, sample_controller
 from controllers import party_controller, django_oauth_controller, case_controller
 
-
-logger = wrap_logger(logging.getLogger(__name__))
+logger = wrap_logger(getLogger(__name__))
 
 
 def after_all(context):
@@ -31,14 +30,19 @@ def before_all(context):
 
 def execute_collection_exercises():
     test_file = 'resources/sample_files/business-survey-sample-date.csv'
+    logger.info('Loading sample', survey='bricks', period='201801')
     sample_controller.load_sample('bricks', '201801', test_file)
+    logger.info('Loading sample', survey='bricks', period='201812')
     sample_controller.load_sample('bricks', '201812', test_file)
+    logger.info('Executing collection exercise', survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201801')
     collection_exercise_controller.execute_collection_exercise(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54',
                                                                period='201801')
+    logger.info('Executing collection exercise', survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201812')
     collection_exercise_controller.execute_collection_exercise(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54',
                                                                period='201812')
-    logger.info('Waiting for collection exercises execution process to finish...')
+    logger.info('Waiting for collection exercises execution process to finish', survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201801')
     poll_database_for_iac(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201801')
+    logger.info('Waiting for collection exercises execution process to finish', survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201812')
     poll_database_for_iac(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201812')
 
 
