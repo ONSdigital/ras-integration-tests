@@ -19,3 +19,9 @@ Feature: View ready for review state of a collection exercise
     And the user has loaded the collection instruments
     When the user loads the sample
     Then the status of the collection exercise is Ready for Review
+
+  @us042_s03
+  Scenario: The 'Ready for Review' state of a collection exercise is displayed in survey details
+    Given the 201811 collection exercise has a loaded sample and collection instruments
+    When the user navigates to the survey details for RSI
+    Then the status of the 201811 collection exercise is Ready for Review

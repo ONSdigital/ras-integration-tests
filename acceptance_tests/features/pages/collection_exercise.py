@@ -27,9 +27,9 @@ def get_collection_exercises():
     rows = table.find_by_tag('tbody').find_by_tag('tr')
     for row in rows:
         exercises.append({
-            "exercise_ref": row.find_by_name('tbl-ce-period'),
-            "user_description": row.find_by_name('tbl-ce-shown-as'),
-            "state": row.find_by_name('tbl-ce-status')
+            "exercise_ref": row.find_by_name('tbl-ce-period').value,
+            "user_description": row.find_by_name('tbl-ce-shown-as').value,
+            "state": row.find_by_name('tbl-ce-status').value
         })
     return exercises
 
