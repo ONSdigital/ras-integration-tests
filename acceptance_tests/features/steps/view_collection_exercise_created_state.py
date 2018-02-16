@@ -11,7 +11,7 @@ def ce_exist_for_survey(_):
     assert len(collection_exercises) != 0
 
 
-@when('the internal user navigates to survey details page')
+@when('the internal user navigates to the survey details page')
 @given('the internal user is on the survey details page')
 def view_survey_details(_):
     collection_exercise.go_to('Bricks')
@@ -19,13 +19,13 @@ def view_survey_details(_):
 
 @then('the status of a collection exercise is Created')
 def survey_ce_state_is_created(_):
-    row = collection_exercise.get_table_row_by_period('201801')
+    row = collection_exercise.get_table_row_by_period('201806')
     assert row['state'] == 'Created'
 
 
-@when('the internal user navigate to the collection exercise details page')
+@when('the internal user navigates to the collection exercise details page')
 def view_ce_details(_):
-    collection_exercise_details.go_to('Bricks', '201801')
+    collection_exercise_details.go_to('Bricks', '201806')
 
 
 @then('the displayed status should be Created')
