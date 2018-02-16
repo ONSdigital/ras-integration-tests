@@ -22,6 +22,9 @@ def execute_rm_sql(sql_script_file_path):
 
     response = requests.post(url, auth=Config.BASIC_AUTH, headers=headers, data=sql_script)
 
+    # The response from the database tool as of 16/02/18 always comes back with 201 regardless
+    # of whether the sql execution succeded or failed.  If tests are failing, check the database tool's
+    # logs for any sqlExceptions.
     if response.status_code != 201:
         logger.error('SQL execution failed', status=response.status_code, sql_script=sql_script_file_path)
 
