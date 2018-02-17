@@ -1,4 +1,4 @@
-from behave import given, when, then
+from behave import when, then
 
 from acceptance_tests.features.pages import collection_exercise, collection_exercise_details
 
