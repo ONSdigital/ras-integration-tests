@@ -1,5 +1,3 @@
-from http.client import RemoteDisconnected
-
 import requests
 from requests import RequestException
 from retrying import retry
