@@ -5,7 +5,7 @@ from config import Config
 
 
 def go_to(survey, period):
-    browser.visit('{}/surveys/{}/{}'.format(Config.RESPONSE_OPERATIONS_UI, survey, period))
+    browser.visit(f'{Config.RESPONSE_OPERATIONS_UI}/surveys/{survey}/{period}')
 
 
 def get_page_title():
@@ -94,3 +94,7 @@ def get_collection_instruments():
 
 def get_error_header():
     return browser.find_by_id('error-header').text
+
+
+def get_status():
+    return browser.find_by_id('ce_status').text

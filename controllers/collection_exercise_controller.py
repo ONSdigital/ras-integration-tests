@@ -36,3 +36,12 @@ def get_collection_exercise(survey_id, period):
         raise Exception(f'No collection exercise found with exerciseRef {period}')
     logger.info('Successfully retrieved collection exercises', survey_id=survey_id, exercise_ref=period)
     return collection_exercise
+
+
+def get_survey_collection_exercises(survey_id):
+    url = f'{Config.COLLECTION_EXERCISE}/collectionexercises/survey/{survey_id}'
+    response = requests.get(url=url, auth=Config.BASIC_AUTH)
+    response.raise_for_status()
+    collection_exercises = response.json()
+
+    return collection_exercises

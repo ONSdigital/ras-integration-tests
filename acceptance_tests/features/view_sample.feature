@@ -10,4 +10,3 @@ Feature: View sample
     Given the user has loaded the sample in context of 1803 collection exercise for the QBS
     When the internal user navigates to the collection exercise details page for QBS 1803
     Then the user is able to view the sample loaded for that collection exercise
-    And the internal user signs out

@@ -8,7 +8,6 @@ Feature: Internal user signs in
     Given the user has an active account and is assigned a username and password
     When they enter the correct username and password
     Then the user is directed to their home page
-    And the internal user signs out
 
   Scenario: User attempts sign in with incorrect username and receives authentication error
     Given the user has an active account and is assigned a username and password
