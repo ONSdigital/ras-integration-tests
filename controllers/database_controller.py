@@ -50,6 +50,28 @@ def reset_ras_database():
     connection.execute(reset_oauth_sql)
     trans.commit()
 
+def reset_secure_message_database():
+    engine = create_engine(Config.SECURE_MESSAGE_DATABASE_URI)
+    connection = engine.connect()
+    trans = connection.begin()
+
+    with open('resources/database/database_reset_secure_message.sql', 'r') as sqlScriptFile:
+        sql = sqlScriptFile.read().replace('\n', '')
+
+    connection.execute(sql)
+    trans.commit()
+
+def create_secure_messages():
+    engine = create_engine(Config.SECURE_MESSAGE_DATABASE_URI)
+    connection = engine.connect()
+    trans = connection.begin()
+
+    with open('resources/database/database_reset_secure_message.sql', 'r') as sqlScriptFile:
+        reset_party_sql = sqlScriptFile.read().replace('\n', '')
+
+    connection.execute(reset_party_sql)
+    trans.commit()
+
 
 def select_iac():
     url = Config.CF_DATABASE_TOOL + '/sql'

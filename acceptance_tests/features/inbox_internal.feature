@@ -6,7 +6,7 @@ Feature: Internal inbox
   Background: Internal user is already signed in
     Given the internal user is already signed in
 
-  Scenario: User navigates to the surveys page from collection exercise
+  Scenario: User navigates to secure messaging
     Given the user has access to secure messaging
     When they navigate to the inbox messages
     Then they are informed that there are no messages
