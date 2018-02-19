@@ -11,9 +11,9 @@ start_services:
 	cd tmp_ras_rm_docker_dev\
 	&& make up\
 	&& sleep 5\
-	&& make up\
 	&& docker stop oauth2-service\
-	&& docker start oauth2-service
+	&& docker start oauth2-service\
+	&& make up
 	pipenv run python wait_until_services_up.py
 
 stop_services:
