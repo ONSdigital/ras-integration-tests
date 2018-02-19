@@ -12,6 +12,8 @@ env:
 
 cache:
   - pip
+  directories:
+    - /home/travis/docker/
 
 before_install:
   - if [ -f ${DOCKER_CACHE_FILE} ]; then gunzip -c ${DOCKER_CACHE_FILE} | docker load; fi
