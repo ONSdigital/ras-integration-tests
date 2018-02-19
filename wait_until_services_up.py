@@ -20,7 +20,7 @@ def retry_if_http_error(exception):
     return isinstance(exception, RequestException) or isinstance(exception, HealthCheckException)
 
 
-@retry(retry_on_exception=retry_if_http_error, wait_fixed=10000, stop_max_delay=300000, wrap_exception=True)
+@retry(retry_on_exception=retry_if_http_error, wait_fixed=10000, stop_max_delay=400000, wrap_exception=True)
 def check_services():
     for port in [Config.ACTION_SERVICE_PORT, Config.BACKSTAGE_SERVICE_PORT,
                  Config.CASE_SERVICE_PORT, Config.COLLECTION_EXERCISE_SERVICE_PORT,
@@ -34,7 +34,7 @@ def check_services():
         try:
             resp = requests.get(f'http://localhost:{port}/info')
             resp.raise_for_status()
-        except (ConnectionError, RemoteDisconnected):
+        except Exception:
             raise HealthCheckException(port)
 
 
