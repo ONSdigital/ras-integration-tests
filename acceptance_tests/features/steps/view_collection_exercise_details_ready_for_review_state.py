@@ -5,21 +5,21 @@ from acceptance_tests.features.pages import collection_exercise, collection_exer
 
 @given('the 201809 collection exercise for the RSI survey is Scheduled')
 def rsi_201809_exists_and_scheduled_displayed(_):
-    collection_exercise_details.go_to('RSI', '1809')
+    collection_exercise_details.go_to('RSI', '201809')
     ce_state = collection_exercise_details.get_status()
     assert ce_state == 'Scheduled'
 
 
 @given('the 201810 collection exercise for the RSI survey is Scheduled')
 def rsi_201810_exists_and_scheduled_displayed(_):
-    collection_exercise_details.go_to('RSI', '1810')
+    collection_exercise_details.go_to('RSI', '201810')
     ce_state = collection_exercise_details.get_status()
     assert ce_state == 'Scheduled'
 
 
 @given('the 201811 collection exercise has a loaded sample and collection instruments')
 def rsi_201811_exists_and_loaded_sample_cis(_):
-    collection_exercise_details.go_to('RSI', '1811')
+    collection_exercise_details.go_to('RSI', '201811')
     ce_state = collection_exercise_details.get_status()
     assert ce_state == 'Scheduled'
     collection_exercise_details.load_sample()
@@ -39,9 +39,9 @@ def navigate_to_rsi_details(_):
 @then('the status of the 201811 collection exercise is Ready for Review')
 def rsi_201811_is_ready_for_review(_):
     collection_exercises = collection_exercise.get_collection_exercises()
-    assert '1811' in (ce['exercise_ref'] for ce in collection_exercises)
+    assert '201811' in (ce['exercise_ref'] for ce in collection_exercises)
     for ce in collection_exercises:
-        if ce['exercise_ref'] == '1811':
+        if ce['exercise_ref'] == '201811':
             assert ce['state'] == 'Ready for Review'
 
 
