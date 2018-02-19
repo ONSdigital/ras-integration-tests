@@ -8,11 +8,11 @@ python: '3.6'
 
 env:
   global:
-    - DOCKER_CACHE_FILE=/home/travis/docker/cache.tar.gz
+    - DOCKER_CACHE_FILE=$HOME/docker/cache.tar.gz
 
 cache:
   directories:
-    - /home/travis/docker/
+    - $HOME/docker/
 
 before_install:
   - if [ -f ${DOCKER_CACHE_FILE} ]; then gunzip -c ${DOCKER_CACHE_FILE} | docker load; fi
