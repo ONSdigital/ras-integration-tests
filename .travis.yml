@@ -14,6 +14,7 @@ install:
   - pipenv install --dev --deploy
   - npm install -g phantomjs-prebuilt
   - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD";
+  - docker network create rasrmdockerdev_default
 
 script:
   - pipenv check --style . --max-line-length 120
