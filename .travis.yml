@@ -11,6 +11,7 @@ env:
     - DOCKER_CACHE_FILE=$HOME/docker/cache.tar.gz
 
 cache:
+  pip: true
   directories:
     - $HOME/docker/
 
