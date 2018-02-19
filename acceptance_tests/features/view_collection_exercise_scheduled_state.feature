@@ -17,3 +17,9 @@ Feature: View scheduled state of a collection exercise
     Given the 1803 collection exercise for the QBS survey has been created
     When the internal user navigates to the collection exercise details page for QBS 1803
     Then the status of the collection exercise is displayed as Scheduled
+
+  @us041_s03
+  Scenario: The 'Scheduled' state is displayed after events are loaded
+    Given the 201806 collection exercise for the Bricks survey is Created
+    When the user loads the mandatory events
+    Then the status of the collection exercise is displayed as Scheduled

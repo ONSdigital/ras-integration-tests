@@ -45,3 +45,17 @@ def get_survey_collection_exercises(survey_id):
     collection_exercises = response.json()
 
     return collection_exercises
+
+
+def post_event_to_collection_exercise(survey_id, period, event_tag, date_str):
+    collection_exercise_id = get_collection_exercise(survey_id, period)['id']
+    logger.info('Adding an event', collection_exercise_id=collection_exercise_id, event_tag=event_tag)
+
+    url = f'{Config.COLLECTION_EXERCISE}/collectionexercises/{collection_exercise_id}/events'
+    post_data = {'tag': event_tag, 'timestamp': date_str}
+    response = requests.post(url, auth=Config.BASIC_AUTH, json=post_data)
+    if response.status_code not in (201, 409):
+        logger.error('Failed to post event', status=response.status_code)
+        raise Exception(f'Failed to post event {collection_exercise_id}')
+
+    logger.info('Event added')

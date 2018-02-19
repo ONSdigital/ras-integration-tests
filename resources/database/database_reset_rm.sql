@@ -28,7 +28,6 @@ ALTER SEQUENCE collectionexercise.samplelinkpkseq RESTART WITH 1;
 
 UPDATE collectionexercise.collectionexercise SET statefk = 'CREATED' where not statefk = 'SCHEDULED';
 
-
 /* Clean Case DB */
 
 TRUNCATE casesvc.case CASCADE;
