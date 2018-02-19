@@ -47,9 +47,11 @@ def execute_collection_exercises():
     logger.info('Executing collection exercise', survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201812')
     collection_exercise_controller.execute_collection_exercise(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54',
                                                                period='201812')
-    logger.info('Waiting for collection exercises execution process to finish', survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201801')
+    logger.info('Waiting for collection exercises execution process to finish',
+                survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201801')
     poll_database_for_iac(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201801')
-    logger.info('Waiting for collection exercises execution process to finish', survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201812')
+    logger.info('Waiting for collection exercises execution process to finish',
+                survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201812')
     poll_database_for_iac(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201812')
 
 
