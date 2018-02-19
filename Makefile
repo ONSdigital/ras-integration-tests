@@ -1,5 +1,5 @@
-RM_TOOLS_REPO_URL = git@github.com:ONSdigital/rm-tools.git
-RAS_RM_REPO_URL = git@github.com:ONSdigital/ras-rm-docker-dev.git
+RM_TOOLS_REPO_URL = https://github.com/ONSdigital/rm-tools.git
+RAS_RM_REPO_URL = https://github.com/ONSdigital/ras-rm-docker-dev.git
 
 .PHONY: test system_tests acceptance_tests
 
