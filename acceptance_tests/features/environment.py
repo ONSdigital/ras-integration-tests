@@ -39,6 +39,11 @@ def before_scenario(_, scenario):
         return
 
 
+def after_step(context, step):
+    if step.status == "failed":
+        logger.exception('Failed step', scenario=context.scenario.name, step=step.name, html=browser.html)
+
+
 def execute_collection_exercises():
     test_file = 'resources/sample_files/business-survey-sample-date.csv'
     logger.info('Loading sample', survey='bricks', period='201801')
