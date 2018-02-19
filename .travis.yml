@@ -6,17 +6,8 @@ services:
 language: python
 python: '3.6'
 
-env:
-  global:
-    - DOCKER_CACHE_FILE=$HOME/docker/cache.tar.gz
-
 cache:
-  pip: true
-  directories:
-    - $HOME/docker/
-
-before_install:
-  - if [ -f ${DOCKER_CACHE_FILE} ]; then gunzip -c ${DOCKER_CACHE_FILE} | docker load; fi
+  - pip
 
 install:
   - pip install pipenv==8.3.2
@@ -27,9 +18,7 @@ install:
 
 script:
   - pipenv check --style . --max-line-length 120
-  - make start_services
-  - mkdir -p $(dirname ${DOCKER_CACHE_FILE}) && docker save $(docker images -qa) | gzip > ${DOCKER_CACHE_FILE}
-  - make setup acceptance_tests stop_services
+  - make start_services setup acceptance_tests stop_services
 
 branches:
   only:
