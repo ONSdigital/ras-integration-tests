@@ -10,10 +10,8 @@ start_services:
 	git clone --depth 1 ${RAS_RM_REPO_URL} tmp_ras_rm_docker_dev
 	cd tmp_ras_rm_docker_dev\
 	&& make up\
-	&& sleep 5\
 	&& docker stop oauth2-service\
-	&& docker start oauth2-service\
-	&& make up
+	&& docker start oauth2-service
 	pipenv run python wait_until_services_up.py
 
 stop_services:
