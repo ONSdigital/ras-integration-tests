@@ -37,13 +37,13 @@ def internal_internal_user_presented_correct_associated_surveys(_):
 
 @then('the internal user is presented with the associated collection exercises')
 def internal_internal_user_presented_correct_associated_collection_exercises(_):
-    logger.info('internal_internal_user_presented_correct_associated_collection_exercises', html=browser.html)
     associated_ces = reporting_unit.get_associated_collection_exercises()
+    logger.info('internal_internal_user_presented_correct_associated_collection_exercises', html=browser.html, associated_ces=associated_ces)
     assert len(associated_ces) == 1
     assert associated_ces[0]['exercise_ref'] == '201801'
     assert associated_ces[0]['company_name'] == 'RUNAME1_COMPANY1 RUNNAME2_COMPANY1'
     assert associated_ces[0]['company_region'] == 'GB'
-    assert eq_(associated_ces[0]['status'], 'Not started')
+    assert associated_ces[0]['status'] == 'Not started', associated_ces[0]['status']
 
 
 @then('the internal user is presented with the associated respondents')
