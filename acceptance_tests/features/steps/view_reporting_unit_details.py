@@ -1,7 +1,14 @@
+from logging import getLogger
+
 from behave import given, when, then
 from nose.tools import eq_
+from structlog import wrap_logger
 
+from acceptance_tests import browser
 from acceptance_tests.features.pages import reporting_unit
+
+
+logger = wrap_logger(getLogger(__name__))
 
 
 @given('the reporting unit 49900000001 is in the system')
@@ -30,6 +37,7 @@ def internal_internal_user_presented_correct_associated_surveys(_):
 
 @then('the internal user is presented with the associated collection exercises')
 def internal_internal_user_presented_correct_associated_collection_exercises(_):
+    logger.info('internal_internal_user_presented_correct_associated_collection_exercises', html=browser.html)
     associated_ces = reporting_unit.get_associated_collection_exercises()
     assert len(associated_ces) == 1
     assert associated_ces[0]['exercise_ref'] == '201801'
