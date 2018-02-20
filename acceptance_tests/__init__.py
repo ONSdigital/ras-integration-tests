@@ -9,8 +9,6 @@ logging.basicConfig()
 configure(logger_factory=LoggerFactory())
 
 if os.getenv('HEADLESS', 'True') == 'True':
-    browser = Browser('phantomjs')
-elif os.getenv('HEADLESS_CHROME', 'True') == 'True':
     browser = Browser('chrome', headless=True)
 else:
     browser = Browser('chrome')
