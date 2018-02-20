@@ -31,7 +31,7 @@ def get_associated_collection_exercises():
                 "exercise_ref": row.find_by_name('tbl-ce-period').value,
                 "company_name": row.find_by_name('tbl-ce-company-name').value,
                 "company_region": row.find_by_name('tbl-ce-company-region').value,
-                "status": row.find_by_name('tbl-ce-status').value
+                "status": row.find_by_name('tbl-ce-status').text
             })
     return exercises
 
