@@ -23,3 +23,9 @@ Feature: View scheduled state of a collection exercise
     Given the 201806 collection exercise for the Bricks survey is Created
     When the user loads the mandatory events
     Then the status of the collection exercise is displayed as Scheduled
+
+  @us041_s04
+  Scenario: The 'Created' state is displayed after a mandatory event is deleted from a scheduled collection exercise
+    Given the 201806 collection exercise for the QBS survey is Scheduled
+    When the user deletes one of the mandatory events
+    Then the status of the collection exercise is displayed as Created
