@@ -16,8 +16,8 @@ Feature: View Collection Exercise
       | period | shown_to_respondent_as | status  |
       | 1803   | 9 March 2018           | Scheduled |
       | 1806   | 15 June 2018           | Scheduled |
-      | 1809   | 14 September 2018      | Created |
-      | 1812   | 14 December 2018       | Created |
+      | 1809   | 14 September 2018      | Scheduled |
+      | 1812   | 14 December 2018       | Scheduled |
 
 
   Scenario Outline: Ensure collection exercise exists for a survey
