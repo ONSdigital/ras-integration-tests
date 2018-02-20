@@ -42,7 +42,7 @@ def ce_details_state_qbs_is_scheduled(_):
 
 @when('the user deletes one of the mandatory events')
 def delete_ce_event(_):
-    survey_id = '02b9c366-7397-42f7-942a-76dc5876d86d' # QBS
+    survey_id = '02b9c366-7397-42f7-942a-76dc5876d86d'  # QBS
     delete_collection_exercise_event(survey_id, '1806', 'go_live')
     # reload the page to see the new state
     collection_exercise_details.go_to('QBS', '1806')
@@ -51,7 +51,7 @@ def delete_ce_event(_):
 @when('the user loads the mandatory events')
 def load_ce_events(_):
     # Manually adding the events until the functionality exists on the FE
-    survey_id = 'cb8accda-6118-4d3b-85a3-149e28960c54' # Bricks
+    survey_id = 'cb8accda-6118-4d3b-85a3-149e28960c54'  # Bricks
     period = '201806'
     dates = [
         '2018-03-14T17:41:00.000Z',
