@@ -1,4 +1,5 @@
 from behave import given, when, then
+from nose.tools import eq_
 
 from acceptance_tests.features.pages import reporting_unit
 
@@ -34,7 +35,7 @@ def internal_internal_user_presented_correct_associated_collection_exercises(_):
     assert associated_ces[0]['exercise_ref'] == '201801'
     assert associated_ces[0]['company_name'] == 'RUNAME1_COMPANY1 RUNNAME2_COMPANY1'
     assert associated_ces[0]['company_region'] == 'GB'
-    assert 'Not started' in associated_ces[0]['status']
+    assert eq_(associated_ces[0]['status'], 'Not started')
 
 
 @then('the internal user is presented with the associated respondents')
