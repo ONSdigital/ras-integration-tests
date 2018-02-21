@@ -13,6 +13,16 @@ Feature: Internal inbox
 
   Scenario: User is able to view all Inbox messages.
     Given the user has access to secure messaging
-      And the secure message database is populated with messages
+    And the secure message database is populated with messages
     When they navigate to the inbox messages
     Then they are able to view all received messages
+
+  Scenario: User is able to view all the following details
+    Given the user has access to secure messaging
+    When they navigate to the inbox messages
+    Then they are able to view the RU Ref, Subject, From, To, Date/Time for each message
+
+  Scenario: User is able to view all the following details
+    Given the user has access to secure messaging
+    When they navigate to the inbox messages
+    Then they are able to view all received messages in reverse chronological order/latest first
