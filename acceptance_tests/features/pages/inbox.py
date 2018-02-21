@@ -12,8 +12,8 @@ def get_page_title():
 
 def get_messages():
     messages = []
-    table = browser.find_by_id('tbl-messages').first
-    rows = table.find_by_tag('tbl-messages').find_by_tag('tr')
+    table = browser.find_by_id('tbl-messages').find_by_tag('tbody')
+    rows = table.find_by_tag('tr')
     for row in rows:
         messages.append({
             'ru_ref': row.find_by_name('tbl-messages-RU_Ref').value,

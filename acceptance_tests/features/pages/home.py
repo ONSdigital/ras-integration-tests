@@ -11,7 +11,7 @@ def click_surveys_link():
     link.click()
 
 def verify_messages_link_present():
-    messages_link = browser.find_by_id('messages-header-link')
+    messages_link = browser.find_by_id('messages-link')
     if messages_link:
         return True
     else:
