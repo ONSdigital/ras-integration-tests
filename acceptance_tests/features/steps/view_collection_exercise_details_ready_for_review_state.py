@@ -1,5 +1,8 @@
+import time
+
 from behave import given, when, then
 
+from acceptance_tests import browser
 from acceptance_tests.features.pages import collection_exercise, collection_exercise_details
 
 
@@ -65,4 +68,11 @@ def load_collection_instruments(_):
 @then('the status of the collection exercise is Ready for Review')
 def ce_details_state_is_ready_for_review(_):
     ce_state = collection_exercise_details.get_status()
+    # Status updated async so wait until updated
+    for i in range(3):
+        if ce_state == 'Ready for Review':
+            break
+        browser.reload()
+        ce_state = collection_exercise_details.get_status()
+        time.sleep(1)
     assert ce_state == 'Ready for Review'
