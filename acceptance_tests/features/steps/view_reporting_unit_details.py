@@ -1,6 +1,6 @@
+import time
 from logging import getLogger
 
-import time
 from behave import given, when, then
 from structlog import wrap_logger
 

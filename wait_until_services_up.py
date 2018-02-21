@@ -19,21 +19,14 @@ def retry_if_http_error(exception):
 
 
 @retry(retry_on_exception=retry_if_http_error, wait_fixed=10000, stop_max_delay=600000, wrap_exception=True)
-def check_services():
-    for url in [Config.ACTION_SERVICE, Config.ACTION_EXPORTER,
-                 Config.BACKSTAGE_SERVICE, Config.CASE_SERVICE,
-                 Config.COLLECTION_EXERCISE, Config.COLLECTION_INSTRUMENT_SERVICE,
-                 Config.DJANGO_SERVICE, Config.FRONTSTAGE_API_SERVICE,
-                 Config.FRONTSTAGE_SERVICE, Config.IAC_SERVICE, Config.NOTIFY_GATEWAY_SERVICE,
-                 Config.PARTY_SERVICE, Config.RESPONSE_OPERATIONS_UI, Config.SAMPLE_SERVICE,
-                 Config.SECURE_MESSAGE_SERVICE, Config.SURVEY_SERVICE]:
-        try:
-            resp = requests.get(f'{url}/info')
-            resp.raise_for_status()
-        except Exception:
-            raise HealthCheckException(url)
+def check_status(port):
+    try:
+        resp = requests.get(f'http://localhost:{port}/info')
+        resp.raise_for_status()
+    except Exception:
+        raise HealthCheckException(port)
 
 
 if __name__ == '__main__':
-    check_services()
+    [check_status(v) for k, v in dict(vars(Config)).items() if k.endswith('_SERVICE')]
     print('all services are up')
