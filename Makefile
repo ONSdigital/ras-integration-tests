@@ -9,9 +9,7 @@ install:
 start_services:
 	git clone --depth 1 ${RAS_RM_REPO_URL} tmp_ras_rm_docker_dev
 	cd tmp_ras_rm_docker_dev\
-	&& make up\
-	&& docker stop oauth2-service\
-	&& docker start oauth2-service
+	&& make up
 	pipenv run python wait_until_services_up.py
 
 stop_services:
