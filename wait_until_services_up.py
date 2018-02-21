@@ -19,12 +19,12 @@ def retry_if_http_error(exception):
 
 
 @retry(retry_on_exception=retry_if_http_error, wait_fixed=10000, stop_max_delay=600000, wrap_exception=True)
-def check_status(port):
+def check_status(url):
     try:
-        resp = requests.get(f'http://localhost:{port}/info')
+        resp = requests.get(f'{url}/info')
         resp.raise_for_status()
     except Exception:
-        raise HealthCheckException(port)
+        raise HealthCheckException(url)
 
 
 if __name__ == '__main__':
