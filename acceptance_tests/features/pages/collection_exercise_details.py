@@ -103,3 +103,15 @@ def get_error_header():
 
 def get_status():
     return browser.find_by_id('ce_status').text
+
+
+def ready_for_live_button_exists():
+    return browser.find_by_id('btn-ready-for-live')
+
+
+def set_ready_for_live():
+    browser.find_by_id('btn-ready-for-live').click()
+
+
+def get_execution_success():
+    return browser.find_by_id('execution-success').text
