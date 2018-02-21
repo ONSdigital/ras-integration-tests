@@ -3,7 +3,6 @@ from logging import getLogger
 from behave import given, when, then
 from structlog import wrap_logger
 
-from acceptance_tests import browser
 from acceptance_tests.features.pages import reporting_unit
 
 logger = wrap_logger(getLogger(__name__))
@@ -36,8 +35,6 @@ def internal_internal_user_presented_correct_associated_surveys(_):
 @then('the internal user is presented with the associated collection exercises')
 def internal_internal_user_presented_correct_associated_collection_exercises(_):
     associated_ces = reporting_unit.get_associated_collection_exercises()
-    logger.info('internal_internal_user_presented_correct_associated_collection_exercises',
-                html=browser.html, associated_ces=associated_ces)
     assert len(associated_ces) == 1
     assert associated_ces[0]['exercise_ref'] == '201801'
     assert associated_ces[0]['company_name'] == 'RUNAME1_COMPANY1 RUNNAME2_COMPANY1'
