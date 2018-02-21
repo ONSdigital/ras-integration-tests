@@ -55,6 +55,7 @@ def reset_ras_database():
     connection.execute(reset_oauth_sql)
     trans.commit()
 
+
 def reset_secure_message_database():
     logger.info("Clearing down secure message database")
     engine = create_engine(Config.SECURE_MESSAGE_DATABASE_URI)
@@ -68,6 +69,7 @@ def reset_secure_message_database():
     trans.commit()
     connection.close()
 
+
 def create_secure_messages():
     logger.info("Putting party database into known state")
     engine = create_engine(Config.SECURE_MESSAGE_DATABASE_URI)
@@ -76,13 +78,10 @@ def create_secure_messages():
 
     with open('resources/database/secure_message_setup/secure_message_setup.sql', 'r') as sqlScriptFile:
         sql = sqlScriptFile.read().replace('\n', '')
-    try:
-        result = connection.execute(sql)
-        trans.commit()
-        connection.close()
-    except:
-        trans.rollback()
-        raise
+
+    connection.execute(sql)
+    trans.commit()
+    connection.close()
 
 
 def select_iac():
