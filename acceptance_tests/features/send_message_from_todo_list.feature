@@ -9,7 +9,7 @@ Feature: Send message from todo list
   @sm137-01
   Scenario: Able to send a message in relation to each survey on todo list
     When the respondent navigates to their surveys todo list
-    Then the respondent is able to send a message for each of the surveys in their todo list
+    Then the respondent is able to send a message
 
   @sm137-02
   Scenario: Respondent is navigated to create message page when choosing to send message on todo list
@@ -20,19 +20,21 @@ Feature: Send message from todo list
   @sm137-03
   Scenario: The message is to be sent to a selected survey team mailbox
     Given the respondent is sending a message in relation to bricks
-    When the respondent sends the message
-    Then the message is sent to the internal Bricks mailbox
+    When the respondent enters a valid message
+    Then the message will be sent to the internal Bricks mailbox
 
   @sm137-04
   Scenario: Subject field can be max 96 characters long
     Given the respondent chooses to send message to ONS
     When the respondent enters more than 96 characters in the subject field
+    And selects to send message
     Then an error message appears specifying subject too long
 
   @sm137-05
   Scenario: Body field can be max 10000 characters long
     Given the respondent chooses to send message to ONS
     When the respondent enters more than 10000 characters in the body field
+    And selects to send message
     Then an error message appears specifying body too long
 
   @sm137-06
@@ -52,3 +54,17 @@ Feature: Send message from todo list
     Given the respondent chooses to send a valid message to ONS
     When the message is sent
     Then the respondent is navigated to their inbox and notified message sent successfully
+
+  @sm137-09
+  Scenario: Subject field must be populated
+    Given the respondent chooses to send a message to ONS
+    When the respondent populates the body field but not the subject
+    And chooses to send the message
+    Then an error message appears specifying subject must be populated
+
+  @sm137-10
+  Scenario: Body field must be populated
+    Given the respondent chooses to send a message to ONS
+    When the respondent populates the subject field but not the body field
+    And selects to send message
+    Then an error message appears notifying the respondent a body must be supplied
