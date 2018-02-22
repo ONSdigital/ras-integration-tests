@@ -1,6 +1,7 @@
 from logging import getLogger
 import time
 
+from selenium.common.exceptions import WebDriverException
 from structlog import wrap_logger
 
 from acceptance_tests import browser
@@ -22,13 +23,16 @@ def after_all(context):
 
 
 def before_all(context):
-    database_controller.execute_rm_sql('resources/database/database_reset_rm.sql')
-    database_controller.reset_ras_database()
-    authentication.signed_in_internal(context)
-    prepare_collection_exercises()
-    execute_collection_exercises()
-    register_respondent(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201801')
-    sign_out_internal.sign_out()
+    try:
+        database_controller.execute_rm_sql('resources/database/database_reset_rm.sql')
+        database_controller.reset_ras_database()
+        authentication.signed_in_internal(context)
+        prepare_collection_exercises()
+        execute_collection_exercises()
+        register_respondent(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201801')
+        sign_out_internal.sign_out()
+    except WebDriverException:
+        logger.exception('Failed to setup before running tests', html=browser.html)
 
 
 def before_scenario(_, scenario):
@@ -49,6 +53,11 @@ def prepare_collection_exercises():
     logger.info('Loading collection instrument', survey='rsi', period=period)
     ce = collection_exercise_controller.get_collection_exercise(rsi_id, period)
     collection_instrument_controller.upload_collection_instrument(ce['id'], ci_path)
+
+    
+def after_step(context, step):
+    if step.status == "failed":
+        logger.exception('Failed step', scenario=context.scenario.name, step=step.name, html=browser.html)
 
 
 def execute_collection_exercises():
