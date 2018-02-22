@@ -39,5 +39,4 @@ system_tests:
 acceptance_tests: system_tests
 	pipenv run behave acceptance_tests/features # This will only run the acceptance tests
 
-test: system_tests acceptance_tests
-test_once: start_services setup acceptance_tests stop_services
+test: start_services setup acceptance_tests stop_services
