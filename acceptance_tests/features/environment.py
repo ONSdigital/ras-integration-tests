@@ -17,14 +17,6 @@ def after_all(context):
     """
     Close the browser after testing. See https://pythonhosted.org/behave/tutorial.html#environmental-controls
     """
-    # reset changes from us041_s03
-    survey_id = 'cb8accda-6118-4d3b-85a3-149e28960c54'
-    for tag in ['mps', 'go_live', 'return_by', 'first_reminder', 'exercise_end']:
-        collection_exercise_controller.delete_collection_exercise_event(survey_id, '201806', tag)
-    # reset changes from us041_s04
-    survey_id = '02b9c366-7397-42f7-942a-76dc5876d86d'
-    timestamp = '2018-06-18T00:00:00.000Z'
-    collection_exercise_controller.post_event_to_collection_exercise(survey_id, '1806', 'go_live', timestamp)
     browser.quit()
 
 
