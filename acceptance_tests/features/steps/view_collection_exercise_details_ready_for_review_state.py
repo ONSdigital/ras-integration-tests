@@ -44,7 +44,7 @@ def rsi_201811_is_ready_for_review(_):
     collection_exercises = collection_exercise.get_collection_exercises()
     state = next((ce['exercise_ref'] for ce in collection_exercises if ce['exercise_ref'] == '201811'))
     # Status updated async so wait until updated
-    for i in range(3):
+    for i in range(5):
         state = next((ce['state'] for ce in collection_exercises if ce['exercise_ref'] == '201811'))
         if state == 'Ready for Review':
             break
@@ -76,7 +76,7 @@ def load_collection_instruments(_):
 def ce_details_state_is_ready_for_review(_):
     ce_state = collection_exercise_details.get_status()
     # Status updated async so wait until updated
-    for i in range(3):
+    for i in range(5):
         if ce_state == 'Ready for Review':
             break
         browser.reload()

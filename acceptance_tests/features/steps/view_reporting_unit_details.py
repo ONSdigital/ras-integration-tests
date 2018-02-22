@@ -38,7 +38,7 @@ def internal_internal_user_presented_correct_associated_surveys(_):
 def internal_internal_user_presented_correct_associated_collection_exercises(_):
     associated_ces = reporting_unit.get_associated_collection_exercises()
     # Status updated async so wait until updated
-    for i in range(3):
+    for i in range(5):
         if associated_ces[0]['status'] == 'Not started':
             break
         browser.reload()
@@ -55,7 +55,7 @@ def internal_internal_user_presented_correct_associated_collection_exercises(_):
 def internal_internal_user_presented_correct_associated_respondents(_):
     associated_respondents = reporting_unit.get_associated_respondents()
     # Status updated async so wait until updated
-    for i in range(3):
+    for i in range(5):
         if associated_respondents[0]['accountStatus'] == 'Created':
             break
         browser.reload()

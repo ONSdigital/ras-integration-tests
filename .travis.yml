@@ -14,7 +14,6 @@ cache:
 install:
   - pip install pipenv==8.3.2
   - pipenv install --dev --deploy
-  - npm install -g phantomjs-prebuilt
   - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD";
   - docker network create rasrmdockerdev_default
 
