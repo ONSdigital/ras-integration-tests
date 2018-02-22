@@ -7,8 +7,12 @@ install:
 
 setup:
 	# Setting up initial data required for acceptance tests
-	# TODO: Test for folder and pull instead of blindly git cloning and failing if it's there.
-	git clone ${RM_TOOLS_REPO_URL} tmp_rm_tools
+	if [ -d tmp_rm_tools ]; then \
+		echo "tmp_rm_tools exists - pulling"; \
+	 	cd tmp_rm_tools; git pull; cd -; \
+	else \
+		git clone ${RM_TOOLS_REPO_URL} tmp_rm_tools; \
+	fi; \
 	cd tmp_rm_tools/collex-loader\
 	&& pipenv run python load.py config/collex-config.json\
 	&& pipenv run python load_events.py config/event-config.json\
