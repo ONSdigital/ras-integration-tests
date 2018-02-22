@@ -34,5 +34,5 @@ def internal_user_can_view_bres_2017_collection_exercise_events(_):
     assert ce_events['mps'] == "Wednesday 14 Mar 2018 00:00 GMT"
     assert ce_events['go_live'] == "Monday 19 Mar 2018 00:00 GMT"
     assert ce_events['return_by'] == "Tuesday 27 Mar 2018 00:00 GMT"
-    assert ce_events['first_reminder'] == "Tuesday 08 May 2018 00:00 GMT"
+    assert ce_events['reminder'] == "Tuesday 08 May 2018 00:00 GMT"
     assert ce_events['exercise_end'] == "Thursday 30 Apr 2020 00:00 GMT"

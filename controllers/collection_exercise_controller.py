@@ -47,6 +47,22 @@ def get_survey_collection_exercises(survey_id):
     return collection_exercises
 
 
+def get_events_for_collection_exercise(survey_id, period, event_tag=None):
+    collection_exercise_id = get_collection_exercise(survey_id, period)['id']
+    logger.info('Getting events', collection_exercise_id=collection_exercise_id, event_tag=event_tag)
+
+    url = f'{Config.COLLECTION_EXERCISE}/collectionexercises/{collection_exercise_id}/events/'
+    if event_tag:
+        url += event_tag
+    response = requests.get(url, auth=Config.BASIC_AUTH)
+    if not response.ok:
+        logger.error('Failed to get events', status=response.status_code)
+        raise Exception(f'Failed to get events {collection_exercise_id}')
+
+    logger.info('Successfully retrieved events', collection_exercise_id=collection_exercise_id, event_tag=event_tag)
+    return response.json()
+
+
 def post_event_to_collection_exercise(survey_id, period, event_tag, date_str):
     collection_exercise_id = get_collection_exercise(survey_id, period)['id']
     logger.info('Adding an event', collection_exercise_id=collection_exercise_id, event_tag=event_tag)

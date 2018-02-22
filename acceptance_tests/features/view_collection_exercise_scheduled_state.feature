@@ -6,26 +6,32 @@ Feature: View scheduled state of a collection exercise
   Background: Internal user is already signed in
     Given the internal user is already signed in
 
-  @us041_s01
+  @us041_s001
   Scenario: The 'Scheduled' state is displayed for a collection exercise that has event dates
-    Given the 1803 collection exercise for the QBS survey has been created
-    When the internal user navigates to the survey details page for QBS
-    Then the status of the collection exercise is listed as Scheduled
+    Given the mandatory event dates collection exercise for 1803 exist
+    When the user navigates to the collection exercise details page for 1803
+    Then the state of the collection exercise is Scheduled
 
-  @us041_s02
-  Scenario: The 'Scheduled' state is displayed on the details page for a collection exercise that has event dates
-    Given the 1803 collection exercise for the QBS survey has been created
-    When the internal user navigates to the collection exercise details page for QBS 1803
-    Then the status of the collection exercise is displayed as Scheduled
+  @us041_s002
+  Scenario: The state can be viewed on the survey details page
+    Given the user is on the Survey Page
+    When they navigate to the Survey Details page
+    Then they are able to see the Status for each collection exercise
 
-  @us041_s03
+  @us041_s003
+  Scenario: The state can be viewed on the collection exercise details page
+    Given the user is on the Survey Details Page
+    When they navigate to the Collection Exercise Details Page
+    Then they are able to see the Scheduled Status for that Collection Exercise
+
+  @skip
   Scenario: The 'Scheduled' state is displayed after events are loaded
     Given the 201806 collection exercise for the Bricks survey is Created
     When the user loads the mandatory events
-    Then the status of the collection exercise is displayed as Scheduled
+    Then the state of the collection exercise is Scheduled
 
-  @us041_s04
+  @skip
   Scenario: The 'Created' state is displayed after a mandatory event is deleted from a scheduled collection exercise
     Given the 201806 collection exercise for the QBS survey is Scheduled
     When the user deletes one of the mandatory events
-    Then the status of the collection exercise is displayed as Created
+    Then the state of the collection exercise is Created
