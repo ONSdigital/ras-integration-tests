@@ -6,26 +6,26 @@ from controllers.collection_exercise_controller import get_survey_collection_exe
 
 @given('the collection exercises for that survey exist')
 def ce_exist_for_survey(_):
-    bricks_id = 'cb8accda-6118-4d3b-85a3-149e28960c54'
-    collection_exercises = get_survey_collection_exercises(bricks_id)
+    rsi_id = '75b19ea0-69a4-4c58-8d7f-4458c8f43f5c'
+    collection_exercises = get_survey_collection_exercises(rsi_id)
     assert len(collection_exercises) != 0
 
 
 @when('the internal user navigates to the survey details page')
 @given('the internal user is on the survey details page')
 def view_survey_details(_):
-    collection_exercise.go_to('Bricks')
+    collection_exercise.go_to('RSI')
 
 
 @then('the status of a collection exercise is Created')
 def survey_ce_state_is_created(_):
-    row = collection_exercise.get_table_row_by_period('201806')
+    row = collection_exercise.get_table_row_by_period('201801')
     assert row['state'] == 'Created'
 
 
 @when('the internal user navigates to the collection exercise details page')
 def view_ce_details(_):
-    collection_exercise_details.go_to('Bricks', '201806')
+    collection_exercise_details.go_to('RSI', '201801')
 
 
 @then('the displayed status should be Created')

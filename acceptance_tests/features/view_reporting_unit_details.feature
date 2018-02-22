@@ -24,3 +24,9 @@ Feature: View reporting unit details
     Given the reporting unit 49900000001 is in the system
     When the internal user views the 49900000001 reporting unit page
     Then the internal user is presented with the associated collection exercises
+
+  @us046_s01
+  Scenario: Able to view respondent details for the RU Ref for the survey
+    Given the reporting unit 49900000001 is in the system
+    When the internal user views the 49900000001 reporting unit page
+    Then the internal user is presented with the associated respondents

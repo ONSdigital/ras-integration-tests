@@ -66,6 +66,12 @@ def get_collection_exercise_events():
         "return_by": browser.find_by_name('return-by-date').value,
         "reminder": browser.find_by_name('first-reminder-date').value,
         "exercise_end": browser.find_by_name('exercise-end-date').value
+        "ref_period_start": browser.find_by_name('period-start-date').value,
+        "ref_period_end": browser.find_by_name('period-end-date').value,
+        "employment": browser.find_by_name('employment-date').value,
+        "first_reminder": browser.find_by_name('first-reminder-date').value,
+        "second_reminder": browser.find_by_name('second-reminder-date').value,
+        "third_reminder": browser.find_by_name('third-reminder-date').value
     }
     return ce_events
 

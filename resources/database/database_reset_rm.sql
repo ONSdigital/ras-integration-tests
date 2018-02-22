@@ -26,6 +26,7 @@ ALTER SEQUENCE collectionexercise.sampleunitgrouppkseq RESTART WITH 1;
 ALTER SEQUENCE collectionexercise.sampleunitpkseq RESTART WITH 1;
 ALTER SEQUENCE collectionexercise.samplelinkpkseq RESTART WITH 1;
 
+UPDATE collectionexercise.collectionexercise SET statefk = 'SCHEDULED' where statefk = 'READY_FOR_REVIEW';
 UPDATE collectionexercise.collectionexercise SET statefk = 'CREATED' where not statefk = 'SCHEDULED';
 
 /* Clean Case DB */

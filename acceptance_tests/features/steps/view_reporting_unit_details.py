@@ -35,3 +35,14 @@ def internal_internal_user_presented_correct_associated_collection_exercises(_):
     assert associated_ces[0]['company_name'] == 'RUNAME1_COMPANY1 RUNNAME2_COMPANY1'
     assert associated_ces[0]['company_region'] == 'GB'
     assert associated_ces[0]['status'] == 'Not started'
+
+
+@then('the internal user is presented with the associated respondents')
+def internal_internal_user_presented_correct_associated_respondents(_):
+    associated_respondents = reporting_unit.get_associated_respondents()
+    assert len(associated_respondents) == 1
+    assert associated_respondents[0]['enrolementStatus'] == 'Enabled'
+    assert associated_respondents[0]['name'] == 'first_name last_name'
+    assert associated_respondents[0]['email'] == 'example@example.com'
+    assert associated_respondents[0]['phone'] == '0987654321'
+    assert associated_respondents[0]['accountStatus'] == 'Created'
