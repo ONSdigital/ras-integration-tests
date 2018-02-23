@@ -16,6 +16,8 @@ chromedriver-installer = "*"
 testfixtures = "*"
 sqlalchemy = "==1.2.2"
 "psycopg2" = "==2.7.3.2"
+selenium = "==3.8.0"
+retrying = "*"
 
 
 [requires]

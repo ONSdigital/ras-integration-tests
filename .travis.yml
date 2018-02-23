@@ -1,3 +1,10 @@
+sudo: required
+addons:
+  chrome: stable
+
+services:
+  - docker
+
 language: python
 python: '3.6'
 
@@ -7,9 +14,12 @@ cache:
 install:
   - pip install pipenv==8.3.2
   - pipenv install --dev --deploy
+  - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD";
+  - docker network create rasrmdockerdev_default
 
 script:
   - pipenv check --style . --max-line-length 120
+  - make start_services setup acceptance_tests stop_services
 
 branches:
   only:

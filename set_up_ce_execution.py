@@ -1,14 +1,7 @@
-import logging
-
-from structlog import wrap_logger
-
 from controllers import collection_exercise_controller, collection_instrument_controller, database_controller
 
-logger = wrap_logger(logging.getLogger(__name__))
-
-
 if __name__ == '__main__':
-    logging.info("Adding initial data required for executing collection exercises")
+    print("Adding initial data required for executing collection exercises")
     # Add data required to execute collection exercises
     database_controller.execute_rm_sql('resources/database/collection_exercise_setup/bricks_201801_setup.sql')
     database_controller.execute_rm_sql('resources/database/collection_exercise_setup/bricks_201812_setup.sql')
@@ -21,4 +14,4 @@ if __name__ == '__main__':
     ci_path = 'resources/collection_instrument_files/064_0001_201803.xlsx'
     collection_instrument_controller.upload_collection_instrument(bricks_201801_ce['id'], ci_path)
     collection_instrument_controller.upload_collection_instrument(bricks_201812_ce['id'], ci_path)
-    logging.info("Required collection exercises can be executed")
+    print("Required collection exercises can be executed")
