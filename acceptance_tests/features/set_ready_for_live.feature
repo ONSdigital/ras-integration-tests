@@ -3,9 +3,9 @@ Feature: Set a collection exercise as ready for live
   I need to be able to set the collection exercise as 'Ready for Live'
   So that I know that all of the collection exercise details are correct and ready for the collection exercise to go live
 
-
   Background: Internal user is already signed in
     Given the internal user is already signed in
+    And the collection exercises are in the ready for review state
 
   @us028_s001
   @ce_rsi_201812
