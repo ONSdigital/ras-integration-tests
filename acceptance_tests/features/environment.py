@@ -1,6 +1,7 @@
 from logging import getLogger
 import time
 
+from selenium.common.exceptions import WebDriverException
 from structlog import wrap_logger
 
 from acceptance_tests import browser
@@ -21,18 +22,26 @@ def after_all(context):
 
 
 def before_all(context):
-    database_controller.execute_rm_sql('resources/database/database_reset_rm.sql')
-    database_controller.reset_ras_database()
-    authentication.signed_in_internal(context)
-    execute_collection_exercises()
-    register_respondent(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201801')
-    sign_out_internal.sign_out()
+    try:
+        database_controller.execute_rm_sql('resources/database/database_reset_rm.sql')
+        database_controller.reset_ras_database()
+        authentication.signed_in_internal(context)
+        execute_collection_exercises()
+        register_respondent(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201801')
+        sign_out_internal.sign_out()
+    except WebDriverException:
+        logger.exception('Failed to setup before running tests', html=browser.html)
 
 
 def before_scenario(_, scenario):
     if "skip" in scenario.effective_tags:
         scenario.skip("Marked with @skip")
         return
+
+
+def after_step(context, step):
+    if step.status == "failed":
+        logger.exception('Failed step', scenario=context.scenario.name, step=step.name, html=browser.html)
 
 
 def execute_collection_exercises():
