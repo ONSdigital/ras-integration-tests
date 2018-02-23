@@ -23,15 +23,3 @@ Feature: View scheduled state of a collection exercise
     Given the user is on the Survey Details Page
     When they navigate to the Collection Exercise Details Page
     Then they are able to see the Scheduled Status for that Collection Exercise
-
-  @skip
-  Scenario: The 'Scheduled' state is displayed after events are loaded
-    Given the 201806 collection exercise for the Bricks survey is Created
-    When the user loads the mandatory events
-    Then the state of the collection exercise is Scheduled
-
-  @skip
-  Scenario: The 'Created' state is displayed after a mandatory event is deleted from a scheduled collection exercise
-    Given the 201806 collection exercise for the QBS survey is Scheduled
-    When the user deletes one of the mandatory events
-    Then the state of the collection exercise is Created
