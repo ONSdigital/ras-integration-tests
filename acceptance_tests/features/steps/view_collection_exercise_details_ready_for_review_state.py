@@ -1,5 +1,8 @@
+import time
+
 from behave import given, when, then
 
+from acceptance_tests import browser
 from acceptance_tests.features.pages import collection_exercise, collection_exercise_details
 
 
@@ -39,10 +42,17 @@ def navigate_to_rsi_details(_):
 @then('the status of the 201811 collection exercise is Ready for Review')
 def rsi_201811_is_ready_for_review(_):
     collection_exercises = collection_exercise.get_collection_exercises()
+    state = next((ce['exercise_ref'] for ce in collection_exercises if ce['exercise_ref'] == '201811'))
+    # Status updated async so wait until updated
+    for i in range(5):
+        state = next((ce['state'] for ce in collection_exercises if ce['exercise_ref'] == '201811'))
+        if state == 'Ready for Review':
+            break
+        browser.reload()
+        collection_exercises = collection_exercise.get_collection_exercises()
+        time.sleep(1)
     assert '201811' in (ce['exercise_ref'] for ce in collection_exercises)
-    for ce in collection_exercises:
-        if ce['exercise_ref'] == '201811':
-            assert ce['state'] == 'Ready for Review'
+    assert state == 'Ready for Review', state
 
 
 @given('the user has loaded the sample')
@@ -65,4 +75,11 @@ def load_collection_instruments(_):
 @then('the status of the collection exercise is Ready for Review')
 def ce_details_state_is_ready_for_review(_):
     ce_state = collection_exercise_details.get_status()
+    # Status updated async so wait until updated
+    for i in range(5):
+        if ce_state == 'Ready for Review':
+            break
+        browser.reload()
+        ce_state = collection_exercise_details.get_status()
+        time.sleep(1)
     assert ce_state == 'Ready for Review'
