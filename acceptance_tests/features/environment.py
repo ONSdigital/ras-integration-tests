@@ -42,19 +42,28 @@ def before_scenario(_, scenario):
 
 
 def prepare_collection_exercises():
+    # for us028
     rsi_id = '75b19ea0-69a4-4c58-8d7f-4458c8f43f5c'
-    period = '201812'
-
+    periods = ('201812', '201811')
     sample_file = 'resources/sample_files/business-survey-sample-date.csv'
-    logger.info('Loading sample', survey='rsi', period=period)
-    sample_controller.load_sample('rsi', period, sample_file)
-
     ci_path = 'resources/collection_instrument_files/064_0001_201803.xlsx'
-    logger.info('Loading collection instrument', survey='rsi', period=period)
-    ce = collection_exercise_controller.get_collection_exercise(rsi_id, period)
-    collection_instrument_controller.upload_collection_instrument(ce['id'], ci_path)
 
-    
+    for period in periods:
+        logger.info('Loading sample', survey='rsi', period=period)
+        sample_controller.load_sample('rsi', period, sample_file)
+
+        logger.info('Loading collection instrument', survey='rsi', period=period)
+        ce = collection_exercise_controller.get_collection_exercise(rsi_id, period)
+        collection_instrument_controller.upload_collection_instrument(ce['id'], ci_path)
+
+
+def before_step(context, step):
+    try:
+        context.survey, context.survey_period = next(tag.split('_')[1:] for tag in context.tags if tag.startswith('ce'))
+    except StopIteration:
+        context.survey = context.survey_period = None
+
+
 def after_step(context, step):
     if step.status == "failed":
         logger.exception('Failed step', scenario=context.scenario.name, step=step.name, html=browser.html)

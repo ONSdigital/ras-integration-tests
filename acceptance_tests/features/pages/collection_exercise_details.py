@@ -109,9 +109,18 @@ def ready_for_live_button_exists():
     return browser.find_by_id('btn-ready-for-live')
 
 
-def set_ready_for_live():
+def click_ready_for_live():
     browser.find_by_id('btn-ready-for-live').click()
+
+
+def click_ready_for_live_and_confirm():
+    browser.find_by_id('btn-ready-for-live').click()
+    browser.get_alert().accept()
 
 
 def get_execution_success():
     return browser.find_by_id('execution-success').text
+
+
+def get_confirmation_alert():
+    return browser.get_alert()
