@@ -10,7 +10,7 @@ start_services:
 	git clone --depth 1 ${RAS_RM_REPO_URL} tmp_ras_rm_docker_dev
 	cd tmp_ras_rm_docker_dev\
 	&& make pull && make up
-	pipenv run python wait_until_services_up.py
+	time pipenv run python wait_until_services_up.py
 
 stop_services:
 	cd tmp_ras_rm_docker_dev\

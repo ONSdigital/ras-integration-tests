@@ -19,7 +19,7 @@ install:
 
 script:
   - pipenv check --style . --max-line-length 120
-  - make test
+  - travis_wait 20 make test
 
 branches:
   only:
