@@ -13,7 +13,7 @@ Feature: Internal inbox
 
   Scenario: User is able to view all Inbox messages.
     Given the user has access to secure messaging
-    And the secure message database is populated with messages
+    And the respondents and messages have been created
     When they navigate to the inbox messages
     Then they are able to view all received messages
 

@@ -3,6 +3,7 @@ import time
 from behave import given, when, then
 
 from acceptance_tests.features.pages import home, inbox
+from common.respondent_details import RESPONDENT_DETAILS
 from controllers import messages_controller
 
 
@@ -11,11 +12,13 @@ def verify_messages_link_present(_):
     assert home.verify_messages_link_present()
 
 
-@given('the secure message database is populated with messages')
+@given('the respondents and messages have been created')
 def populate_database_with_messages(_):
-    messages_controller.create_message("test subject", "test body")
+    respondent_id = [RESPONDENT_DETAILS.get_respondent_id()]
+    ru_id = RESPONDENT_DETAILS.get_ru_id()
+    messages_controller.create_message(respondent_id, "test subject", "test body", ru_id)
     time.sleep(1)
-    messages_controller.create_message("test subject2", "test body2")
+    messages_controller.create_message(respondent_id, "test subject2", "test body2", ru_id)
 
 
 @when('they navigate to the inbox messages')
