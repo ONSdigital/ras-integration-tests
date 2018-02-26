@@ -1,7 +1,9 @@
+import time
+
 from behave import given, when, then
 
 from acceptance_tests.features.pages import home, inbox
-from controllers import database_controller
+from controllers import messages_controller
 
 
 @given('the user has access to secure messaging')
@@ -11,7 +13,9 @@ def verify_messages_link_present(_):
 
 @given('the secure message database is populated with messages')
 def populate_database_with_messages(_):
-    database_controller.create_secure_messages()
+    messages_controller.create_message("test subject", "test body")
+    time.sleep(1)
+    messages_controller.create_message("test subject2", "test body2")
 
 
 @when('they navigate to the inbox messages')
@@ -36,4 +40,4 @@ def test_inbox_headings(_):
 
 @then('they are able to view all received messages in reverse chronological order/latest first')
 def test_message_order(_):
-    assert inbox.are_messages_in_reverse_chronological_order() > 0
+    assert inbox.are_messages_in_reverse_chronological_order()

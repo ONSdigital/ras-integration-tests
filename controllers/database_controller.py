@@ -70,20 +70,6 @@ def reset_secure_message_database():
     connection.close()
 
 
-def create_secure_messages():
-    logger.info("Putting party database into known state")
-    engine = create_engine(Config.SECURE_MESSAGE_DATABASE_URI)
-    connection = engine.connect()
-    trans = connection.begin()
-
-    with open('resources/database/secure_message_setup/secure_message_setup.sql', 'r') as sqlScriptFile:
-        sql = sqlScriptFile.read().replace('\n', '')
-
-    connection.execute(sql)
-    trans.commit()
-    connection.close()
-
-
 def select_iac():
     url = Config.CF_DATABASE_TOOL + '/sql'
     headers = {
