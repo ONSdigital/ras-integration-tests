@@ -1,9 +1,7 @@
 from behave import given, when, then
 
 from acceptance_tests.features.pages import collection_exercise, collection_exercise_details, survey
-from controllers.collection_exercise_controller import (get_events_for_collection_exercise,
-                                                        post_event_to_collection_exercise,
-                                                        delete_collection_exercise_event)
+from controllers.collection_exercise_controller import get_events_for_collection_exercise
 
 
 MANDATORY_EVENTS = ['mps', 'go_live', 'return_by', 'reminder', 'exercise_end']
