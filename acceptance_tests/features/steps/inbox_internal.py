@@ -30,7 +30,7 @@ def internal_user_views_messages(_):
 
 @then('they are informed that there are no messages')
 def informed_of_no_messages(_):
-    assert inbox.get_no_messages_text().first.text == 'No new messages'
+    assert inbox.get_no_messages_text().text == 'No new messages'
 
 
 @then('they are able to view all received messages')
