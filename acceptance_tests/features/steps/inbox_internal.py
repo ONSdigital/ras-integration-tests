@@ -1,4 +1,5 @@
 import time
+from datetime import datetime
 
 from behave import given, when, then
 
@@ -17,6 +18,7 @@ def populate_database_with_messages(_):
     respondent_id = [RESPONDENT_DETAILS.get_respondent_id()]
     ru_id = RESPONDENT_DETAILS.get_ru_id()
     messages_controller.create_message(respondent_id, "test subject", "test body", ru_id)
+    # 1 sec sleep so that there is a different timestamp on the message
     time.sleep(1)
     messages_controller.create_message(respondent_id, "test subject2", "test body2", ru_id)
 
@@ -38,9 +40,12 @@ def test_presence_of_messages(_):
 
 @then('they are able to view the RU Ref, Subject, From, To, Date/Time for each message')
 def test_inbox_headings(_):
-    assert inbox.are_headings_correct()
+    assert inbox.get_table_heading() == "RU_Ref Business name Subject From To Received"
 
 
 @then('they are able to view all received messages in reverse chronological order/latest first')
 def test_message_order(_):
-    assert inbox.are_messages_in_reverse_chronological_order()
+    messages = inbox.get_messages()
+    first_message_date = datetime.strptime(messages[0].get('received'), '%Y-%m-%d %H:%M:%S')
+    second_message_date = datetime.strptime(messages[1].get('received'), '%Y-%m-%d %H:%M:%S')
+    assert first_message_date > second_message_date
