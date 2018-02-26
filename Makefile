@@ -7,8 +7,13 @@ install:
 	pipenv install --dev
 
 start_services:
-	git clone --depth 1 ${RAS_RM_REPO_URL} tmp_ras_rm_docker_dev
-	cd tmp_ras_rm_docker_dev\
+	if [ -d tmp_ras_rm_docker_dev ]; then \
+		echo "tmp_ras_rm_docker_dev exists - pulling"; \
+	    cd tmp_ras_rm_docker_dev; git pull; cd -; \
+	else \
+	    git clone --depth 1 ${RAS_RM_REPO_URL} tmp_ras_rm_docker_dev; \
+	fi; \
+	cd tmp_ras_rm_docker_dev \
 	&& make pull && make up
 	pipenv run python wait_until_services_up.py
 
