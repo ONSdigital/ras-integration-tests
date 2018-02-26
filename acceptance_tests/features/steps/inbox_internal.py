@@ -13,7 +13,7 @@ def verify_messages_link_present(_):
     assert home.verify_messages_link_present()
 
 
-@given('the respondents and messages have been created')
+@given('the user has got messages in their inbox')
 def populate_database_with_messages(_):
     respondent_id = [RESPONDENT_DETAILS.get_respondent_id()]
     ru_id = RESPONDENT_DETAILS.get_ru_id()

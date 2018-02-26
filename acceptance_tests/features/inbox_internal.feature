@@ -14,8 +14,7 @@ Feature: Internal inbox
 
   @sm111_s02
   Scenario: User is able to view all Inbox messages.
-    Given the user has access to secure messaging
-    And the respondents and messages have been created
+    Given the user has got messages in their inbox
     When they navigate to the inbox messages
     Then they are able to view all received messages
 
