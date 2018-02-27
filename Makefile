@@ -43,10 +43,13 @@ setup:
 	pipenv run python set_up_ce_execution.py
 	# Acceptance tests can now be run
 
+style_tests:
+	pipenv check --style . --max-line-length 120
+
 system_tests:
 	pipenv run behave system_tests/features # This will only run the system tests
 
 acceptance_tests: system_tests
-	pipenv run behave acceptance_tests/features # This will only run the acceptance tests
+	pipenv run behave acceptance_tests/features # This will run the system and acceptance tests
 
-test: start_services setup acceptance_tests stop_services
+test: start_services setup style_tests acceptance_tests stop_services
