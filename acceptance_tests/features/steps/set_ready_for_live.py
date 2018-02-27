@@ -62,10 +62,10 @@ def click_set_ready(_):
     collection_exercise_details.click_ready_for_live()
 
 
-@then('the collection exercise state is changed to Ready for Live')
+@then('the collection exercise state is changed to Setting Ready for Live')
 def view_ready_for_live(_):
     ce_state = collection_exercise_details.get_status()
-    assert ce_state == 'Ready for Live'
+    assert ce_state == 'Setting Ready for Live'
 
 
 @then('they are asked for confirmation before continuing')
