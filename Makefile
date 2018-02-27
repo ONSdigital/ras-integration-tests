@@ -40,6 +40,6 @@ system_tests:
 	pipenv run behave system_tests/features # This will only run the system tests
 
 acceptance_tests:
-	pipenv run behave acceptance_tests/features # This will run the system and acceptance tests
+	pipenv run behave acceptance_tests/features # This will only run the acceptance tests
 
 test: style_tests start_services system_tests setup acceptance_tests stop_services
