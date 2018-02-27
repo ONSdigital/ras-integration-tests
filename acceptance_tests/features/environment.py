@@ -25,6 +25,7 @@ def before_all(context):
     try:
         database_controller.execute_rm_sql('resources/database/database_reset_rm.sql')
         database_controller.reset_ras_database()
+        database_controller.reset_secure_message_database()
         authentication.signed_in_internal(context)
         execute_collection_exercises()
         register_respondent(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201801')

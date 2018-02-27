@@ -32,6 +32,13 @@ def register_respondent(email_address, first_name, last_name, password, phone_nu
     return json.loads(response.text)
 
 
+def get_respondent_details(respondent_id):
+    url = f'{Config.PARTY_SERVICE}/party-api/v1/respondents/id/{respondent_id}'
+    response = requests.get(url=url, auth=Config.BASIC_AUTH)
+    response.raise_for_status()
+    return response.json()
+
+
 def add_survey(party_id, enrolment_code):
     logger.debug('Adding a survey')
     url = f'{Config.PARTY_SERVICE}/party-api/v1/respondents/add_survey'

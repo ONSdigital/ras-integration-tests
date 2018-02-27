@@ -33,6 +33,7 @@ def execute_rm_sql(sql_script_file_path):
 
 
 def reset_ras_database():
+    logger.info("Putting party database into known state")
     engine = create_engine(Config.PARTY_DATABASE_URI)
     connection = engine.connect()
     trans = connection.begin()
@@ -43,6 +44,7 @@ def reset_ras_database():
     connection.execute(reset_party_sql)
     trans.commit()
 
+    logger.info("Putting django database into known state")
     engine = create_engine(Config.DJANGO_OAUTH_DATABASE_URI)
     connection = engine.connect()
     trans = connection.begin()
@@ -52,6 +54,20 @@ def reset_ras_database():
 
     connection.execute(reset_oauth_sql)
     trans.commit()
+
+
+def reset_secure_message_database():
+    logger.info("Clearing down secure message database")
+    engine = create_engine(Config.SECURE_MESSAGE_DATABASE_URI)
+    connection = engine.connect()
+    trans = connection.begin()
+
+    with open('resources/database/database_reset_secure_message.sql', 'r') as sqlScriptFile:
+        sql = sqlScriptFile.read().replace('\n', '')
+
+    connection.execute(sql)
+    trans.commit()
+    connection.close()
 
 
 def select_iac():

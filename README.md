@@ -1,6 +1,6 @@
-[![Build Status](https://travis-ci.org/ONSdigital/ras-integration-tests.svg?branch=master)](https://travis-ci.org/ONSdigital/ras-integration-tests)
+[![Build Status](https://travis-ci.org/ONSdigital/rasrm-acceptance-tests.svg?branch=master)](https://travis-ci.org/ONSdigital/ras-integration-tests)
 
-** **NOTE** ** This repo is to be renamed ras-rm-acceptance-tests
+** **NOTE** ** This repo was renamed from ONSdigital/ras-integration-tests
 
 # ras-integration-tests
 System / API tests for RAS & RM services
@@ -43,8 +43,9 @@ make acceptance_tests # Will load any data needed for the tests and run system t
 ### Commands
 ```bash
 make setup # Prepares data for acceptance tests
+make style_tests # Will check for Flake8 errors
 make system_tests # Will run the system tests
-make acceptance_tests # Will run the acceptance tests
+make acceptance_tests # Will run the system and acceptance tests
 make test # Will run all the tests
 ```
 
