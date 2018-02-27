@@ -27,8 +27,8 @@ def upload_eq_collection_instrument(survey_id, form_type, eq_id):
           f'collection-instrument-api/1.0.2/upload'
 
     classifiers = {
-        "FORM_TYPE": form_type,
-        "EQ_ID": eq_id
+        "form_type": form_type,
+        "eq_id": eq_id
     }
 
     params = {

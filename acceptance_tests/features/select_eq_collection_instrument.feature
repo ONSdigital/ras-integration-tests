@@ -7,6 +7,7 @@ Feature: Select eQ Collection Instruments
   Background: Internal user is already signed in
     Given the internal user is already signed in
 
+  @us029-selectEqCI_s01
   Scenario: The user is able to select the eQ collection instruments to load into the collection exercise
     Given the internal user navigates to the collection exercise details page for QBS 1803
     When the user selects the collection instrument
