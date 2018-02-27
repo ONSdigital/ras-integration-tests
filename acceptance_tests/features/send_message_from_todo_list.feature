@@ -25,14 +25,14 @@ Feature: Send message from todo list
 
   @sm137-04
   Scenario: Subject field can be max 96 characters long
-    Given the respondent chooses to send message to ONS
+    Given the respondent chooses to send a message to ONS
     When the respondent enters more than 96 characters in the subject field
     And selects to send message
     Then an error message appears specifying subject too long
 
   @sm137-05
   Scenario: Body field can be max 10000 characters long
-    Given the respondent chooses to send message to ONS
+    Given the respondent chooses to send a message to ONS
     When the respondent enters more than 10000 characters in the body field
     And selects to send message
     Then an error message appears specifying body too long
@@ -45,14 +45,16 @@ Feature: Send message from todo list
 
   @sm137-07
   Scenario: After message is sent respondent navigated to inbox
-    Given the respondent chooses to send a valid message to ONS
-    When the message is sent
+    Given the respondent chooses to send a message to ONS
+    When the respondent enters a valid message
+    And the message is sent
     Then the respondent is navigated to their inbox
 
   @sm137-08
   Scenario: Respondent receives confirmation message is sent
-    Given the respondent chooses to send a valid message to ONS
-    When the message is sent
+    Given the respondent chooses to send a message to ONS
+    When the respondent enters a valid message
+    And the message is sent
     Then the respondent is navigated to their inbox and notified message sent successfully
 
   @sm137-09
