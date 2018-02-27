@@ -19,7 +19,7 @@ install:
 
 script:
   - pipenv check --style . --max-line-length 120
-  - make start_services setup acceptance_tests stop_services
+  - make test
 
 branches:
   only:
