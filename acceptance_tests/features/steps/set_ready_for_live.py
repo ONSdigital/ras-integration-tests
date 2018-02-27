@@ -33,8 +33,6 @@ def prepare_collection_exercises(_):
                     break
                 time.sleep(1)
 
-        assert state == 'READY_FOR_REVIEW', state
-
 
 @given('the user has checked the contents of the collection exercise and it is all correct')
 def user_checks_ce_contents(context):
