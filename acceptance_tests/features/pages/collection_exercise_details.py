@@ -124,3 +124,23 @@ def get_execution_success():
 
 def get_confirmation_alert():
     return browser.get_alert()
+
+
+def get_processing_info():
+    return browser.find_by_id('processing-info').text
+
+
+def click_refresh_link():
+    browser.click_link_by_id('a-processing-refresh')
+
+
+def form_select_ci_exists():
+    return browser.find_by_id('form-select-ci')
+
+
+def form_load_ci_exists():
+    return browser.find_by_id('form-load-ci')
+
+
+def form_load_sample_exists():
+    return browser.find_by_id('form-load-sample')
