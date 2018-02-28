@@ -20,6 +20,11 @@ def internal_user_views_the_survey_page(_):
     reporting_unit.go_to('49900000001')
 
 
+@when('the internal user navigates to the change response status page for Bricks 201801')
+def internal_user_navigates_to_status_change_for_bricks_201801(_):
+    reporting_unit.click_bricks_201801_change_response_status_link()
+
+
 @then('the internal user is displayed the correct reporting unit details')
 def internal_user_views_correct_reporting_unit_details(_):
     ru_details = reporting_unit.get_ru_details()
@@ -68,3 +73,9 @@ def internal_internal_user_presented_correct_associated_respondents(_):
     assert associated_respondents[0]['email'] == 'example@example.com'
     assert associated_respondents[0]['phone'] == '0987654321'
     assert associated_respondents[0]['accountStatus'] == 'Created'
+
+
+@then('the status \'Completed by phone\' is displayed back to the internal user')
+def status_is_displayed_back_the_internal_user(_):
+    associated_ces = reporting_unit.get_associated_collection_exercises()
+    assert 'Completed by phone' in associated_ces[0]['status']

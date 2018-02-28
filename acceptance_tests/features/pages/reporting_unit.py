@@ -64,3 +64,7 @@ def get_unused_iac(ru_ref, survey_short_name):
         iac_details = survey.find_by_name('enrolment-code').first.value
         if survey_short_name in survey_name and 'Unused enrolment code:' in iac_details:
             return iac_details.split(" ")[3]
+
+
+def click_bricks_201801_change_response_status_link():
+    browser.click_link_by_href('/case/49900000001/change-response-status?survey=Bricks&period=201801')
