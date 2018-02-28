@@ -84,12 +84,12 @@ def error_require_body_and_subject(context):
 
 @then('the respondent is navigated to their inbox')
 def navigated_to_inbox(context):
-    browser.driver.find_element_by_css_selector("#inbox-list.navigation-tabs.navigation-tabs--pills > .navigation-tabs__item.navigation-tabs__item--active > .navigation-tabs__tab")  # NOQA
+    browser.driver.find_element_by_css_selector("a#inbox-list.navigation-tabs__tab.navigation-tabs__tab--active")  # NOQA
 
 
 @then('the respondent is navigated to their inbox and notified message sent successfully')
 def navigated_to_inbox_show_message_sent_notif(context):
-    browser.driver.find_element_by_css_selector("#inbox-list.navigation-tabs.navigation-tabs--pills > .navigation-tabs__item.navigation-tabs__item--active > .navigation-tabs__tab")  # NOQA
+    browser.driver.find_element_by_css_selector("a#inbox-list.navigation-tabs__tab.navigation-tabs__tab--active")  # NOQA
     browser.driver.find_element_by_id("message-success-notif")
 
 
