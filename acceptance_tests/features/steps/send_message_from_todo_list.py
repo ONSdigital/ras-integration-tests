@@ -109,5 +109,5 @@ def populate_subject_no_body(context):
 
 
 @then('an error message appears notifying the respondent a body must be supplied')
-def assert_error_no_subject(context):
+def assert_error_no_body(context):
     browser.driver.find_element_by_link_text('Please enter a message')
