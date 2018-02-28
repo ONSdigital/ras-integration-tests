@@ -49,7 +49,7 @@ def user_checks_ce_contents(context):
     collection_exercise_details.go_to(context.survey, context.survey_period)
     ce_state = collection_exercise_details.get_status()
     assert ce_state == 'Ready for Review', ce_state
-    assert collection_exercise_details.ready_for_live_button_exists(), collection_exercise_details.ready_for_live_button_exists()
+    assert collection_exercise_details.ready_for_live_button_exists()
     assert len(collection_exercise_details.get_collection_instruments()) > 0
     sample = collection_exercise_details.get_loaded_sample()
     assert 'Total businesses' in sample
