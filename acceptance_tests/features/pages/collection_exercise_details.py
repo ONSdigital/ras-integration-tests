@@ -85,12 +85,21 @@ def select_wrong_file_type(test_file):
     browser.driver.find_element_by_id('ciFile').send_keys(abspath(test_file))
 
 
+def add_eq_ci():
+    browser.find_by_name('checkbox-answer').check()
+    browser.find_by_id('btn-add-ci').click()
+
+
 def get_collection_instrument_error_text():
     return browser.driver.find_element_by_id('ciFileErrorText').text
 
 
 def get_collection_instrument_success_text():
     return browser.find_by_id('collection-instrument-success').text
+
+
+def get_collection_instrument_added_success_text():
+    return browser.find_by_id('collection-instrument-added-success').text
 
 
 def get_collection_instruments():
