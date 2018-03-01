@@ -97,6 +97,20 @@ def get_iac_for_collection_exercise(collection_exercise_id):
     return response.text[4:-1]
 
 
+def get_iac_for_collection_exercise_and_ru_ref(collection_exercise_id, ru_ref):
+    url = Config.CF_DATABASE_TOOL + '/sql'
+    headers = {
+        'Content-Type': 'text/plain'
+    }
+    sql_statement = "SELECT c.iac FROM casesvc.case c " \
+                    "INNER JOIN casesvc.casegroup g ON g.id = c.casegroupid " \
+                    "WHERE c.statefk = 'ACTIONABLE' AND c.SampleUnitType = 'B' " \
+                    f"AND g.collectionexerciseid = '{collection_exercise_id}' " \
+                    f"AND g.sampleunitref = '{ru_ref}'; "
+    response = requests.post(url, auth=Config.BASIC_AUTH, headers=headers, data=sql_statement)
+    return response.text[4:-1]
+
+
 def enrol_party(respondent_uuid):
     case_id = None
 

@@ -10,14 +10,19 @@ from acceptance_tests.features.pages import reporting_unit
 logger = wrap_logger(getLogger(__name__))
 
 
-@given('the reporting unit 49900000001 is in the system')
-def reporting_unit_49900000001_is_in_the_system(_):
+@given('the reporting unit {ru_ref} is in the system')
+def reporting_unit_is_in_the_system(_, ru_ref):
     pass
 
 
-@when('the internal user views the 49900000001 reporting unit page')
-def internal_user_views_the_survey_page(_):
-    reporting_unit.go_to('49900000001')
+@when('the internal user views the {ru_ref} reporting unit page')
+def internal_user_views_the_survey_page(_, ru_ref):
+    reporting_unit.go_to(ru_ref)
+
+
+# @when('the internal user views the 49900000002 reporting unit page')
+# def internal_user_views_the_survey_page(_):
+#     reporting_unit.go_to('49900000002')
 
 
 @when('the internal user navigates to the change response status page for Bricks 201801')
