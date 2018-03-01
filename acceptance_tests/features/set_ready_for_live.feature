@@ -17,14 +17,14 @@ Feature: Set a collection exercise as ready for live
     And when refreshing the page once processing has completed, the status is changed to Ready for Live
 
   @us028_s002
-  @ce_rsi_201811
+  @ce_rsi_201806
   Scenario: On choosing to set the collection exercise as 'Ready for Live', the user is asked to confirm before continuing and given the option to cancel
     Given the user has checked the contents of the collection exercise and it is all correct
     When they choose to set the collection exercise as ready for live
     Then they are asked for confirmation before continuing
 
   @us028_s006
-  @ce_rsi_201811
+  @ce_rsi_201806
   Scenario: The user is to be informed if the system is processing the collection exercise
     Given the user has checked the contents of the collection exercise and it is all correct
     When they confirm that the collection exercise is ready to go live
