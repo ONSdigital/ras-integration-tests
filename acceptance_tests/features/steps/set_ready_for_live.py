@@ -4,7 +4,7 @@ import time
 from behave import given, when, then
 from structlog import wrap_logger
 
-from acceptance_tests.features.pages import collection_exercise_details
+from acceptance_tests.features.pages import collection_exercise, collection_exercise_details  # NOQA
 from controllers import (collection_exercise_controller, sample_controller,
                          collection_instrument_controller)
 
@@ -48,7 +48,7 @@ def confirmed_ready(context):
 def user_checks_ce_contents(context):
     collection_exercise_details.go_to(context.survey, context.survey_period)
     ce_state = collection_exercise_details.get_status()
-    assert ce_state == 'Ready for Review', ce_state
+    assert collection_exercise.is_ready_for_review(ce_state), ce_state
     assert collection_exercise_details.ready_for_live_button_exists()
     assert len(collection_exercise_details.get_collection_instruments()) > 0
     sample = collection_exercise_details.get_loaded_sample()
@@ -79,7 +79,7 @@ def click_set_ready(_):
 @then('they are to be informed that the system is setting the status as Ready for Live')
 def view_ready_for_live(_):
     ce_state = collection_exercise_details.get_status()
-    assert ce_state == 'Setting Ready for Live'
+    assert collection_exercise.is_setting_ready_for_live(ce_state), ce_state
     info_panel = collection_exercise_details.get_processing_info()
     assert 'Processing' in info_panel
 
@@ -89,11 +89,11 @@ def refresh_ready_for_live(_):
     collection_exercise_details.click_refresh_link()
     for i in range(5):
         ce_state = collection_exercise_details.get_status()
-        if ce_state == 'Ready for Live':
+        if collection_exercise.is_ready_for_live(ce_state):
             break
         time.sleep(1)
         collection_exercise_details.click_refresh_link()
-    assert ce_state == 'Ready for Live'
+    assert collection_exercise.is_ready_for_live(ce_state), ce_state
 
 
 @then('they are asked for confirmation before continuing')
