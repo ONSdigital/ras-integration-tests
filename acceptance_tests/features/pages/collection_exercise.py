@@ -1,5 +1,19 @@
+from functools import partial
+
 from acceptance_tests import browser
 from config import Config
+
+
+def _is_state(first_state, second_state):
+    return first_state.lower() == second_state.lower()
+
+
+is_created = partial(_is_state, second_state='Created')
+is_scheduled = partial(_is_state, second_state='Scheduled')
+is_ready_for_review = partial(_is_state, second_state='Ready for review')
+is_setting_ready_for_live = partial(_is_state, second_state='Setting ready for live')
+is_ready_for_live = partial(_is_state, second_state='Ready for live')
+is_live = partial(_is_state, second_state='Live')
 
 
 def go_to(survey):
