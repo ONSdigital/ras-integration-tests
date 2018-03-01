@@ -22,3 +22,11 @@ update collectionexercise.collectionexercise
     periodstartdatetime = '2017-09-14 23:00:00+00',
     periodenddatetime = '2017-09-15 22:59:59+00'
     where id=(select id from collectionexercise.collectionexercise where survey_uuid = '02b9c366-7397-42f7-942a-76dc5876d86d' and exerciseref='1809');
+
+update collectionexercise.event
+    set timestamp='2017-09-11 23:00:00+00'
+    where eventpk=(select e.eventpk
+    from collectionexercise.event e
+    inner join collectionexercise.collectionexercise ce
+    on ce.exercisepk=e.collexfk
+    where ce.survey_uuid='02b9c366-7397-42f7-942a-76dc5876d86d' and ce.exerciseref='1809' and e.tag='go_live')
