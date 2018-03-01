@@ -15,7 +15,7 @@ start_services:
 	fi; \
 	cd tmp_ras_rm_docker_dev \
 	&& make pull && make up
-	pipenv run python wait_until_services_up.py
+	time pipenv run python wait_until_services_up.py
 
 stop_services:
 	cd tmp_ras_rm_docker_dev\
