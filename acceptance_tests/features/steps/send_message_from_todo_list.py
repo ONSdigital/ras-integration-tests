@@ -19,7 +19,7 @@ def able_to_send_message_for_survey_ru(context):
 @given('the respondent is sending a message in relation to bricks')
 @when('the respondent chooses to send a message for a specific RU and survey')
 def select_create_message(context):
-    surveys_todo_list(context)
+    surveys_todo.go_to()
     browser.find_by_id('create-message-link-1').click()
 
 
@@ -61,7 +61,8 @@ def check_for_error_subject_too_long(context):
 @when('the respondent enters more than 10000 characters in the body field')
 def body_too_long(context):
     browser.driver.find_element_by_id('secure-message-subject').send_keys('x' * 50)
-    browser.driver.find_element_by_id('secure-message-body').send_keys('y' * 11000)
+    browser.execute_script(f'document.getElementById("secure-message-body").value="{"x" * 9990}";')
+    browser.driver.find_element_by_id('secure-message-body').send_keys('y' * 100)
 
 
 @then('an error message appears specifying body too long')
