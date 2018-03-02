@@ -39,7 +39,7 @@ def internal_internal_user_presented_correct_associated_collection_exercises(_):
     associated_ces = reporting_unit.get_associated_collection_exercises()
     # Status updated async so wait until updated
     for i in range(5):
-        if associated_ces[0]['status'] == 'Not started':
+        if 'Not started' in associated_ces[0]['status']:
             break
         browser.reload()
         associated_ces = reporting_unit.get_associated_collection_exercises()
@@ -48,7 +48,7 @@ def internal_internal_user_presented_correct_associated_collection_exercises(_):
     assert associated_ces[0]['exercise_ref'] == '201801'
     assert associated_ces[0]['company_name'] == 'RUNAME1_COMPANY1 RUNNAME2_COMPANY1'
     assert associated_ces[0]['company_region'] == 'GB'
-    assert associated_ces[0]['status'] == 'Not started', associated_ces[0]['status']
+    assert 'Not started' in associated_ces[0]['status'], associated_ces[0]['status']
 
 
 @then('the internal user is presented with the associated respondents')
