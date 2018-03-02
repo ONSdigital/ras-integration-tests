@@ -67,4 +67,4 @@ def get_unused_iac(ru_ref, survey_short_name):
 
 
 def click_bricks_201801_change_response_status_link():
-    browser.click_link_by_href('/case/49900000002/change-response-status?survey=Bricks&period=201801')
+    browser.click_link_by_href('/case/49900000004/change-response-status?survey=Bricks&period=201801')
