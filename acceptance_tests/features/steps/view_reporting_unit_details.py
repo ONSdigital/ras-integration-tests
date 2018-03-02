@@ -20,11 +20,6 @@ def internal_user_views_the_survey_page(_, ru_ref):
     reporting_unit.go_to(ru_ref)
 
 
-# @when('the internal user views the 49900000002 reporting unit page')
-# def internal_user_views_the_survey_page(_):
-#     reporting_unit.go_to('49900000002')
-
-
 @when('the internal user navigates to the change response status page for Bricks 201801')
 def internal_user_navigates_to_status_change_for_bricks_201801(_):
     reporting_unit.click_bricks_201801_change_response_status_link()

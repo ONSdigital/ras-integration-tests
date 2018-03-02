@@ -5,8 +5,8 @@ Feature: Change response status
 
   @us050_s01
   Scenario: Internal user change response status
-    Given the reporting unit 49900000002 is in the system
-    And the internal user is already signed in
+    Given the internal user is already signed in
+    And the reporting unit 49900000002 is in the system
     When the internal user views the 49900000002 reporting unit page
     And the internal user navigates to the change response status page for Bricks 201801
     And the internal user changes the response status from 'Not started' to 'Completed by phone'

@@ -1,5 +1,6 @@
 from behave import when, given, then
 
+from config import Config
 from acceptance_tests.features.pages import change_response_status, surveys_history
 from controllers.collection_exercise_controller import get_collection_exercise
 from controllers.database_controller import get_iac_for_collection_exercise_and_ru_ref
@@ -9,14 +10,12 @@ from controllers.survey_controller import get_survey_by_shortname
 
 @given('the survey for 49900000002 has been completed by phone')
 def survey_for_49900000002_completed_by_phone(_):
-
     # Add additional survey for 49900000002 for enrolled respondent
     survey_id = get_survey_by_shortname('Bricks').get('id')
     collection_exercise_id = get_collection_exercise(survey_id, '201801').get('id')
     enrolment_code = get_iac_for_collection_exercise_and_ru_ref(collection_exercise_id, '49900000002')
-    party_id = get_party_by_email('example@example.com').get('id')
+    party_id = get_party_by_email(Config.RESPONDENT_USERNAME).get('id')
     add_survey(party_id, enrolment_code)
-
 
 
 @when('the internal user changes the response status from \'Not started\' to \'Completed by phone\'')
