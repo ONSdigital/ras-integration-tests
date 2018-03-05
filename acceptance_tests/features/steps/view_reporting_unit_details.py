@@ -6,23 +6,25 @@ from structlog import wrap_logger
 
 from acceptance_tests import browser
 from acceptance_tests.features.pages import reporting_unit
+from acceptance_tests.features.steps.authentication import signed_in_internal
 
 logger = wrap_logger(getLogger(__name__))
 
 
-@given('the reporting unit {ru_ref} is in the system')
-def reporting_unit_is_in_the_system(_, ru_ref):
+@given('the reporting unit 49900000001 is in the system')
+def reporting_unit_49900000001_is_in_the_system(_):
     pass
 
 
+@given('the internal user is on the reporting unit page for 49900000003')
+def internal_user_is_on_reporting_unit_page(_):
+    signed_in_internal(_)
+    internal_user_views_the_reporting_unit_page(_, '49900000003')
+
+
 @when('the internal user views the {ru_ref} reporting unit page')
-def internal_user_views_the_survey_page(_, ru_ref):
+def internal_user_views_the_reporting_unit_page(_, ru_ref):
     reporting_unit.go_to(ru_ref)
-
-
-@when('the internal user navigates to the change response status page for Bricks 201801')
-def internal_user_navigates_to_status_change_for_bricks_201801(_):
-    reporting_unit.click_bricks_201801_change_response_status_link()
 
 
 @then('the internal user is displayed the correct reporting unit details')

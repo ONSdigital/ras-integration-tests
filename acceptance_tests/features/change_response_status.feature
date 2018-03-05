@@ -5,16 +5,12 @@ Feature: Change response status
 
   @us050_s01
   Scenario: Internal user change response status
-    Given the internal user is already signed in
-    And the reporting unit 49900000004 is in the system
-    When the internal user views the 49900000004 reporting unit page
-    And the internal user navigates to the change response status page for Bricks 201801
-    And the internal user changes the response status from 'Not started' to 'Completed by phone'
+    Given the internal user is on the reporting unit page for 49900000003
+    When the internal user changes the response status from 'Not started' to 'Completed by phone' for 49900000003
     Then the status 'Completed by phone' is displayed back to the internal user
 
-  @us050_s02
+ @us050_s02
   Scenario: Respondent can view response status change
-    Given the respondent is signed into their account
-    And the survey for 49900000004 has been completed by phone
+    Given the survey for 49900000002 has been completed by phone
     When the respondent goes to the history page
-    Then the survey for 49900000004 has the status completed by phone
+    Then the survey for 49900000002 has the status completed by phone
