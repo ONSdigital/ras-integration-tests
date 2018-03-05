@@ -11,11 +11,16 @@ from controllers import (collection_exercise_controller, sample_controller,
 logger = wrap_logger(getLogger(__name__))
 
 
-@given('the collection exercise is in the ready for review state')
-def prepare_collection_exercises(context):
-    survey = context.survey
-    s_id = context.survey_id
-    period = context.survey_period
+def _get_survey_id(survey):
+    return {
+        'rsi': '75b19ea0-69a4-4c58-8d7f-4458c8f43f5c',
+        'bricks': 'cb8accda-6118-4d3b-85a3-149e28960c54',
+    }.get(survey.lower())
+
+
+@given('"{survey}" "{period}" is in the ready for review state')
+def prepare_collection_exercises(_, survey, period):
+    s_id = _get_survey_id(survey)
     sample_file = 'resources/sample_files/business-survey-sample-date.csv'
     ci_path = 'resources/collection_instrument_files/064_0001_201803.xlsx'
 
@@ -36,17 +41,17 @@ def prepare_collection_exercises(context):
         time.sleep(1)
 
 
-@given('the user has confirmed that the collection exercise is ready for go live')
-def confirmed_ready(context):
-    collection_exercise_details.go_to(context.survey, context.survey_period)
+@given('the user has confirmed that "{survey}" "{period}" is ready for go live')
+def confirmed_ready(_, survey, period):
+    collection_exercise_details.go_to(survey, period)
     collection_exercise_details.click_ready_for_live_and_confirm()
     success_text = collection_exercise_details.get_execution_success()
     assert success_text == 'Collection exercise executed'
 
 
-@given('the user has checked the contents of the collection exercise and it is all correct')
-def user_checks_ce_contents(context):
-    collection_exercise_details.go_to(context.survey, context.survey_period)
+@given('the user has checked the contents of "{survey}" "{period}" and it is all correct')
+def user_checks_ce_contents(_, survey, period):
+    collection_exercise_details.go_to(survey, period)
     ce_state = collection_exercise_details.get_status()
     assert collection_exercise.is_ready_for_review(ce_state), ce_state
     assert collection_exercise_details.ready_for_live_button_exists()
@@ -57,9 +62,9 @@ def user_checks_ce_contents(context):
     assert '1' in sample
 
 
-@when('they navigate to the collection exercise details screen')
-def navigate_to_ce(context):
-    collection_exercise_details.go_to(context.survey, context.survey_period)
+@when('they navigate to "{survey}" "{period}" details screen')
+def navigate_to_ce(_, survey, period):
+    collection_exercise_details.go_to(survey, period)
 
 
 @when('they confirm that the collection exercise is ready to go live')

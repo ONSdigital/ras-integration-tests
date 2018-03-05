@@ -41,17 +41,6 @@ def before_scenario(_, scenario):
         return
 
 
-def before_step(context, step):
-    try:
-        context.survey, context.survey_period = next(tag.split('_')[1:] for tag in context.tags if tag.startswith('ce'))
-        context.survey_id = {
-            'rsi': '75b19ea0-69a4-4c58-8d7f-4458c8f43f5c',
-            'bricks': 'cb8accda-6118-4d3b-85a3-149e28960c54',
-        }.get(context.survey.lower())
-    except StopIteration:
-        context.survey = context.survey_period = None
-
-
 def after_step(context, step):
     if step.status == "failed":
         logger.exception('Failed step', scenario=context.scenario.name, step=step.name, html=browser.html)
