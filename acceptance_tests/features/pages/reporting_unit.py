@@ -64,4 +64,3 @@ def get_unused_iac(ru_ref, survey_short_name):
         iac_details = survey.find_by_name('enrolment-code').first.value
         if survey_short_name in survey_name and 'Unused enrolment code:' in iac_details:
             return iac_details.split(" ")[3]
-
