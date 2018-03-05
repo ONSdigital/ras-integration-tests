@@ -19,8 +19,8 @@ def view_survey_details(_):
 
 @then('the status of a collection exercise is Created')
 def survey_ce_state_is_created(_):
-    row = collection_exercise.get_table_row_by_period('201801')
-    assert row['state'] == 'Created'
+    ce_state = collection_exercise.get_table_row_by_period('201801')['state']
+    assert collection_exercise.is_created(ce_state), ce_state
 
 
 @when('the internal user navigates to the collection exercise details page')
@@ -31,4 +31,4 @@ def view_ce_details(_):
 @then('the displayed status should be Created')
 def ce_details_state_is_created(_):
     ce_state = collection_exercise_details.get_status()
-    assert ce_state == 'Created'
+    assert collection_exercise.is_created(ce_state), ce_state

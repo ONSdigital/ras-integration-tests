@@ -25,7 +25,7 @@ def internal_user_views_ce_details(_):
 @then('they are able to see the Scheduled Status for that Collection Exercise')
 def ce_details_state_is_scheduled(_):
     ce_state = collection_exercise_details.get_status()
-    assert ce_state == 'Scheduled', ce_state
+    assert collection_exercise.is_scheduled(ce_state), ce_state
     events = collection_exercise_details.get_collection_exercise_events()
     assert all((value) for value in events.values())
 
@@ -43,5 +43,5 @@ def user_navigate_to_survey_details(_):
 
 @then('they are able to see the Status for each collection exercise')
 def survey_ce_state_is_scheduled(_):
-    row = collection_exercise.get_table_row_by_period('1803')
-    assert row['state'] == 'Scheduled', row['state']
+    ce_state = collection_exercise.get_table_row_by_period('1803')['state']
+    assert collection_exercise.is_scheduled(ce_state), ce_state

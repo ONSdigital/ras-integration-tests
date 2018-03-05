@@ -10,21 +10,21 @@ from acceptance_tests.features.pages import collection_exercise, collection_exer
 def rsi_201809_exists_and_scheduled_displayed(_):
     collection_exercise_details.go_to('RSI', '201809')
     ce_state = collection_exercise_details.get_status()
-    assert ce_state == 'Scheduled'
+    assert collection_exercise.is_scheduled(ce_state), ce_state
 
 
 @given('the 201810 collection exercise for the RSI survey is Scheduled')
 def rsi_201810_exists_and_scheduled_displayed(_):
     collection_exercise_details.go_to('RSI', '201810')
     ce_state = collection_exercise_details.get_status()
-    assert ce_state == 'Scheduled'
+    assert collection_exercise.is_scheduled(ce_state), ce_state
 
 
 @given('the 201811 collection exercise has a loaded sample and collection instruments')
 def rsi_201811_exists_and_loaded_sample_cis(_):
     collection_exercise_details.go_to('RSI', '201811')
     ce_state = collection_exercise_details.get_status()
-    assert ce_state == 'Scheduled'
+    assert collection_exercise.is_scheduled(ce_state), ce_state
     collection_exercise_details.load_sample()
     success_text = collection_exercise_details.get_sample_success_text()
     assert success_text == 'Sample successfully loaded'
@@ -42,17 +42,17 @@ def navigate_to_rsi_details(_):
 @then('the status of the 201811 collection exercise is Ready for Review')
 def rsi_201811_is_ready_for_review(_):
     collection_exercises = collection_exercise.get_collection_exercises()
-    state = next((ce['exercise_ref'] for ce in collection_exercises if ce['exercise_ref'] == '201811'))
+    ce_state = next((ce['exercise_ref'] for ce in collection_exercises if ce['exercise_ref'] == '201811'))
     # Status updated async so wait until updated
     for i in range(5):
-        state = next((ce['state'] for ce in collection_exercises if ce['exercise_ref'] == '201811'))
-        if state == 'Ready for Review':
+        if collection_exercise.is_ready_for_review(ce_state):
             break
+        time.sleep(1)
         browser.reload()
         collection_exercises = collection_exercise.get_collection_exercises()
-        time.sleep(1)
+        ce_state = next((ce['state'] for ce in collection_exercises if ce['exercise_ref'] == '201811'))
     assert '201811' in (ce['exercise_ref'] for ce in collection_exercises)
-    assert state == 'Ready for Review', state
+    assert collection_exercise.is_ready_for_review(ce_state), ce_state
 
 
 @given('the user has loaded the sample')
@@ -77,9 +77,9 @@ def ce_details_state_is_ready_for_review(_):
     ce_state = collection_exercise_details.get_status()
     # Status updated async so wait until updated
     for i in range(5):
-        if ce_state == 'Ready for Review':
+        if collection_exercise.is_ready_for_review(ce_state):
             break
+        time.sleep(1)
         browser.reload()
         ce_state = collection_exercise_details.get_status()
-        time.sleep(1)
-    assert ce_state == 'Ready for Review'
+    assert collection_exercise.is_ready_for_review(ce_state), ce_state

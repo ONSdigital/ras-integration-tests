@@ -12,41 +12,49 @@ System / API tests for RAS & RM services
 
 ## Running the tests
 
-To override any environmental variables you should export any variables before running the tests with behave e.g. `export HEADLESS=False`.
-The environmental variables are defined in [config.py](config.py)
-
+To override any environmental variables you should export any variables before running the tests with behave e.g. `export HEADLESS=False` or by creating a local `.env` file. Most of the environmental variables are defined in [config.py](config.py)
 
 ### Headless
 ```bash
-npm install -g phantomjs-prebuilt
 pipenv install --dev
 ```
 
-First prepare the system for acceptance tests(this only needs to be run once)
+First prepare the system for acceptance tests (this only needs to be run once)
 ```bash
 make setup
 ```
-Then run the acceptance tests, the data added/removed during the tests is reset each time they are run
+Then run the acceptance tests
 ```bash
-make acceptance_tests # Will load any data needed for the tests and run the system tests and acceptance tests
+make acceptance_tests  # Will run the acceptance tests
+```
+
+
+### Phantom JS
+```bash
+npm install -g phantomjs-prebuilt
+export HEADLESS=phantomjs
+pipenv install --dev
+make test
 ```
 
 
 ### Chrome
 ```bash
-export HEADLESS=False
+export HEADLESS=False  # or =True for Chrome in headless mode 
 pipenv install --dev
-make acceptance_tests # Will load any data needed for the tests and run system tests and acceptance tests
+make test
 ```
 
 
 ### Commands
 ```bash
-make setup # Prepares data for acceptance tests
-make style_tests # Will check for Flake8 errors
-make system_tests # Will run the system tests
-make acceptance_tests # Will run the system and acceptance tests
-make test # Will run all the tests
+make start_services  # Brings all the services up using Docker
+make setup  # Prepares data for acceptance tests
+make style_tests  # Will check for Flake8 errors
+make system_tests  # Will run the system tests
+make acceptance_tests  # Will run the acceptance tests
+make stop_services  # Bring down all the Docker services
+make test  # Will bring all the services up and run all the tests
 ```
 
 
@@ -65,5 +73,4 @@ If any config is updated it also has to be updated in the Jenkinsfile
 ### Troubleshooting
 #### Failing tests
 The tests may be failing because you have teared down postgres recently
-1. Run `make clean` to delete tmp_rm_tools
 1. Run `make acceptance_tests` which will reload any data required for the tests
