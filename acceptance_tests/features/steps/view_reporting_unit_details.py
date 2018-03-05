@@ -19,12 +19,12 @@ def reporting_unit_49900000001_is_in_the_system(_):
 @given('the internal user is on the reporting unit page for 49900000003')
 def internal_user_is_on_reporting_unit_page(_):
     signed_in_internal(_)
-    internal_user_views_the_reporting_unit_page(_, '49900000003')
+    reporting_unit.go_to('49900000003')
 
 
-@when('the internal user views the {ru_ref} reporting unit page')
-def internal_user_views_the_reporting_unit_page(_, ru_ref):
-    reporting_unit.go_to(ru_ref)
+@when('the internal user views the 49900000001 reporting unit page')
+def internal_user_views_the_reporting_unit_page(_):
+    reporting_unit.go_to('49900000001')
 
 
 @then('the internal user is displayed the correct reporting unit details')
