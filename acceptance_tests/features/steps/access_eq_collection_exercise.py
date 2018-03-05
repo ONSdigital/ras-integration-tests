@@ -3,14 +3,16 @@ from behave import given, when, then
 from acceptance_tests import browser
 from acceptance_tests.features.pages import add_survey
 from acceptance_tests.features.pages import surveys_todo
-from controllers.database_controller import select_iac_for_qbs
+from acceptance_tests.features.pages.reporting_unit import get_unused_iac
+from acceptance_tests.features.steps.authentication import signed_in_internal
 
 
 @given('the respondent has a CE for an eQ available')
-def respondent_has_eq_ce_available(_):
+def respondent_has_eq_ce_available(context):
     # go_live event datetime is currently being hacked to an earlier date in qbs_1809_setup.sql script
+    signed_in_internal(context)
+    enrolment_code = get_unused_iac(49900000005, 'QBS')
     add_survey.go_to()
-    enrolment_code = select_iac_for_qbs()
     browser.driver.find_element_by_id('ENROLEMENT_CODE_FIELD').send_keys(enrolment_code)
     browser.find_by_id('CONTINUE_BTN').click()
     browser.find_by_id('CONFIRM_SURVEY_BTN').click()

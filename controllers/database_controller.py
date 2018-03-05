@@ -117,16 +117,3 @@ def enrol_party(respondent_uuid):
     trans.commit()
 
     return case_id
-
-
-def select_iac_for_qbs():
-    url = Config.CF_DATABASE_TOOL + '/sql'
-    headers = {
-        'Content-Type': 'text/plain'
-    }
-    # actionplanid is set for qbs in qbs_1809_setup.sql script
-    sql_statement = "SELECT iac FROM casesvc.case " \
-                    "WHERE actionplanid='67ef4dc2-8995-4969-a02d-37f6be746a4c' and statefk='ACTIONABLE' " \
-                    "LIMIT 1;"
-    response = requests.post(url, auth=Config.BASIC_AUTH, headers=headers, data=sql_statement)
-    return response.text[4:-1]
