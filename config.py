@@ -8,8 +8,8 @@ class Config(object):
     RESPONDENT_USERNAME = os.getenv('RESPONDENT_USERNAME', 'example@example.com')
     RESPONDENT_PASSWORD = os.getenv('RESPONDENT_PASSWORD', 'password')
 
-    INTERNAL_USERNAME = os.getenv('INTERNAL_USERNAME', 'user')
-    INTERNAL_PASSWORD = os.getenv('INTERNAL_PASSWORD', 'pass')
+    INTERNAL_USERNAME = os.getenv('INTERNAL_USERNAME', 'uaa_user')
+    INTERNAL_PASSWORD = os.getenv('INTERNAL_PASSWORD', 'password')
 
     ACTION_SERVICE_HOST = os.getenv('ACTION_SERVICE_HOST', 'localhost')
     ACTION_SERVICE_PORT = os.getenv('ACTION_SERVICE_PORT', 8151)
