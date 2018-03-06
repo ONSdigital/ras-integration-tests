@@ -51,18 +51,26 @@ def execute_collection_exercises():
     sample_controller.load_sample('bricks', '201801', test_file)
     logger.info('Loading sample', survey='bricks', period='201812')
     sample_controller.load_sample('bricks', '201812', test_file)
+    logger.info('Loading sample', survey='QBS', period='1809')
+    sample_controller.load_sample('QBS', '1809', test_file)
     logger.info('Executing collection exercise', survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201801')
     collection_exercise_controller.execute_collection_exercise(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54',
                                                                period='201801')
     logger.info('Executing collection exercise', survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201812')
     collection_exercise_controller.execute_collection_exercise(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54',
                                                                period='201812')
+    logger.info('Executing collection exercise', survey_id='02b9c366-7397-42f7-942a-76dc5876d86d', period='1809')
+    collection_exercise_controller.execute_collection_exercise(survey_id='02b9c366-7397-42f7-942a-76dc5876d86d',
+                                                               period='1809')
     logger.info('Waiting for collection exercises execution process to finish',
                 survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201801')
     poll_database_for_iac(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201801')
     logger.info('Waiting for collection exercises execution process to finish',
                 survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201812')
     poll_database_for_iac(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201812')
+    logger.info('Waiting for collection exercises execution process to finish',
+                survey_id='02b9c366-7397-42f7-942a-76dc5876d86d', period='1809')
+    poll_database_for_iac(survey_id='02b9c366-7397-42f7-942a-76dc5876d86d', period='1809')
 
 
 def poll_database_for_iac(survey_id, period):
