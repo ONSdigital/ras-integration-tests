@@ -6,6 +6,7 @@ from structlog import wrap_logger
 
 from acceptance_tests import browser
 from acceptance_tests.features.pages import reporting_unit
+from acceptance_tests.features.steps.authentication import signed_in_internal
 
 logger = wrap_logger(getLogger(__name__))
 
@@ -15,8 +16,14 @@ def reporting_unit_49900000001_is_in_the_system(_):
     pass
 
 
+@given('the internal user is on the reporting unit page for 49900000003')
+def internal_user_is_on_reporting_unit_page(_):
+    signed_in_internal(_)
+    reporting_unit.go_to('49900000003')
+
+
 @when('the internal user views the 49900000001 reporting unit page')
-def internal_user_views_the_survey_page(_):
+def internal_user_views_the_reporting_unit_page(_):
     reporting_unit.go_to('49900000001')
 
 
@@ -68,3 +75,9 @@ def internal_internal_user_presented_correct_associated_respondents(_):
     assert associated_respondents[0]['email'] == 'example@example.com'
     assert associated_respondents[0]['phone'] == '0987654321'
     assert associated_respondents[0]['accountStatus'] == 'Created'
+
+
+@then('the status \'Completed by phone\' is displayed back to the internal user')
+def status_is_displayed_back_the_internal_user(_):
+    associated_ces = reporting_unit.get_associated_collection_exercises()
+    assert 'Completed by phone' in associated_ces[0]['status']

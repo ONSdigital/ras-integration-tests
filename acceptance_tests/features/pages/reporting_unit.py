@@ -54,6 +54,10 @@ def get_associated_respondents():
     return respondents
 
 
+def click_change_response_status_link(ru_ref, survey, period):
+    browser.click_link_by_href(f'/case/{ru_ref}/change-response-status?survey={survey}&period={period}')
+
+
 def get_unused_iac(ru_ref, survey_short_name):
     go_to(ru_ref)
 
