@@ -21,6 +21,7 @@ def try_sign_out():
 
 @when('they enter the correct username and password')
 def sign_in_correct_username_and_password(_):
+    sign_in_internal.go_to()
     sign_in_internal.enter_correct_username()
     sign_in_internal.enter_correct_password()
     sign_in_internal.click_internal_sign_in_button()
