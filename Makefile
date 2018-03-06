@@ -9,15 +9,20 @@ install:
 start_services:
 	if [ -d tmp_ras_rm_docker_dev ]; then \
 		echo "tmp_ras_rm_docker_dev exists - pulling"; \
-	    cd tmp_ras_rm_docker_dev; git pull; cd -; \
+		cd tmp_rm_tools; git pull; cd -; \
 	else \
-	    git clone --depth 1 ${RAS_RM_REPO_URL} tmp_ras_rm_docker_dev; \
+		git clone --depth 1 ${RAS_RM_REPO_URL} tmp_ras_rm_docker_dev; \
 	fi; \
-	cd tmp_ras_rm_docker_dev \
+	cd tmp_ras_rm_docker_dev\
 	&& make pull && make up
 	pipenv run python wait_until_services_up.py
 
 stop_services:
+	if [ -d tmp_ras_rm_docker_dev ]; then \
+		echo "tmp_ras_rm_docker_dev exists"; \
+	else \
+		git clone --depth 1 ${RAS_RM_REPO_URL} tmp_ras_rm_docker_dev; \
+	fi; \
 	cd tmp_ras_rm_docker_dev\
 	&& make down
 	rm -rf tmp_ras_rm_docker_dev
