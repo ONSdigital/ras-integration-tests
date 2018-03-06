@@ -16,7 +16,7 @@ Feature: View live state of a collection exercise
   Scenario: The state can be viewed on the survey details page
     Given the user is on the Survey Page
     When they navigate to the "bricks" page
-    Then they are able to see the Status for "201801"
+    Then they are able to see the Live Status for "201801"
 
   @us047_s003
   Scenario: The state can be viewed on the collection exercise details page

@@ -45,7 +45,7 @@ def ce_details_state_is_live(_):
     assert collection_exercise.is_live(ce_state), ce_state
 
 
-@then('they are able to see the Status for "{period}"')
+@then('they are able to see the Live Status for "{period}"')
 def survey_ce_state_is_live(_, period):
     ce_state = collection_exercise.get_table_row_by_period(period)['state']
     assert collection_exercise.is_live(ce_state), ce_state
