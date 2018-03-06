@@ -6,6 +6,10 @@ def go_to(ru_ref):
     browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/reporting-units/{ru_ref}")
 
 
+def click_data_panel(survey_short_name):
+    browser.find_by_id(f'survey-{survey_short_name}').click()
+
+
 def get_ru_details():
     ru_details = {
         "name": browser.find_by_id('RU_NAME').text,
@@ -56,6 +60,7 @@ def get_associated_respondents():
 
 def get_unused_iac(ru_ref, survey_short_name):
     go_to(ru_ref)
+    click_data_panel('QBS')
 
     surveys = browser.find_by_name('associated-surveys')
 
