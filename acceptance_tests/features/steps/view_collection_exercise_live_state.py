@@ -3,7 +3,7 @@ import time
 from behave import given, when, then
 
 from acceptance_tests import browser
-from acceptance_tests.features.pages import collection_exercise, collection_exercise_details, survey
+from acceptance_tests.features.pages import collection_exercise, collection_exercise_details
 from controllers import collection_exercise_controller
 
 
