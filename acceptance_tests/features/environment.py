@@ -8,8 +8,8 @@ from acceptance_tests import browser
 from acceptance_tests.features.pages import sign_out_internal
 from acceptance_tests.features.steps import authentication
 from config import Config
-from controllers import collection_exercise_controller, database_controller, sample_controller
-from controllers import party_controller, django_oauth_controller, case_controller
+from controllers import (collection_exercise_controller, database_controller, sample_controller,
+                         party_controller, django_oauth_controller, case_controller)
 
 logger = wrap_logger(getLogger(__name__))
 
@@ -28,6 +28,7 @@ def before_all(context):
         database_controller.reset_secure_message_database()
         authentication.signed_in_internal(context)
         execute_collection_exercises()
+        database_controller.execute_rm_sql('resources/database/rsi_populate_action_rules.sql')
         register_respondent(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201801')
         sign_out_internal.sign_out()
     except WebDriverException:
