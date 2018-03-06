@@ -28,7 +28,7 @@ def before_all(context):
         database_controller.reset_secure_message_database()
         authentication.signed_in_internal(context)
         execute_collection_exercises()
-        database_controller.execute_rm_sql('resources/database/populate_action_rules.sql')
+        database_controller.execute_rm_sql('resources/database/rsi_populate_action_rules.sql')
         register_respondent(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201801')
         sign_out_internal.sign_out()
     except WebDriverException:
