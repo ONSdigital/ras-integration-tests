@@ -50,14 +50,3 @@ def add_survey(party_id, enrolment_code):
         raise Exception('Failed to add survey')
 
     logger.debug('Successfully added a survey')
-
-
-def get_party_by_email(email):
-    logger.debug('Retrieving party')
-
-    url = f'{Config.PARTY_SERVICE}/party-api/v1/respondents/email/{email}'
-    response = requests.get(url, auth=Config.BASIC_AUTH)
-    response.raise_for_status()
-
-    logger.debug('Successfully retrieved party')
-    return json.loads(response.text)
