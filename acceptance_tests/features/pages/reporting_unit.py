@@ -60,12 +60,9 @@ def get_associated_respondents():
 
 def get_unused_iac(ru_ref, survey_short_name):
     go_to(ru_ref)
-    click_data_panel('QBS')
+    click_data_panel(survey_short_name)
+    return browser.find_by_id(f'unused-enrolment-code-{survey_short_name}').value
 
-    surveys = browser.find_by_name('associated-surveys')
 
-    for survey in surveys:
-        survey_name = survey.find_by_name('survey-titles').first.value
-        iac_details = survey.find_by_name('enrolment-code').first.value
-        if survey_short_name in survey_name and 'Unused enrolment code:' in iac_details:
-            return iac_details.split(" ")[3]
+def click_generate_new_code():
+    browser.find_by_id('generate-new-code').click()
