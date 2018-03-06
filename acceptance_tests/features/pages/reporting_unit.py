@@ -52,3 +52,15 @@ def get_associated_respondents():
                 "accountStatus": details.find_by_name('tbl-respondent-status').value
             })
     return respondents
+
+
+def get_unused_iac(ru_ref, survey_short_name):
+    go_to(ru_ref)
+
+    surveys = browser.find_by_name('associated-surveys')
+
+    for survey in surveys:
+        survey_name = survey.find_by_name('survey-titles').first.value
+        iac_details = survey.find_by_name('enrolment-code').first.value
+        if survey_short_name in survey_name and 'Unused enrolment code:' in iac_details:
+            return iac_details.split(" ")[3]

@@ -25,6 +25,7 @@ Feature: Internal user to send message
     Then they are able to enter free text up to and including 10,000 characters
 
   @sm101_s04
+  @skip
   Scenario: User is only able to send a message if there is text in the body of all fields ('Subject' and 'Message')
     Given the user is on the send message page
     When they enter text in the subject and body of the message
@@ -37,6 +38,7 @@ Feature: Internal user to send message
     Then they are navigated back to the page in which they navigated from
 
   @sm101_s06
+  @skip
   Scenario: On sending the message the user is to be navigated to the inbox
     Given the user is on the send message page
     And the user has entered text in the subject and body of the message
@@ -44,6 +46,7 @@ Feature: Internal user to send message
     Then they are navigated to the inbox of messages
 
   @sm101_s07
+  @skip
   Scenario: On sending the message the user is to receive confirmation that the message has been sent
     Given the user is on the send message page
     And the user has sent a secure message
