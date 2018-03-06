@@ -24,4 +24,3 @@ Feature: Load SEFT collection instruments
     When the internal user navigates to the collection exercise details page for QIFDI 201803
     And the internal user loads a non xlsx file
     Then an error message is displayed to the user at the top of the screen
-
