@@ -4,6 +4,7 @@ from behave import given, when, then
 
 @given('the user has an active account and is assigned a username and password')
 def go_to_sign_in(_):
+    home.go_to()
     try_sign_out()
     sign_in_internal.go_to()
 
