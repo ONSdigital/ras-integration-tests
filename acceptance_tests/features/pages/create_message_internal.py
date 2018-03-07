@@ -1,12 +1,14 @@
 from acceptance_tests import browser
 from common.respondent_details import RESPONDENT_DETAILS
 from config import Config
+from acceptance_tests.features.pages.reporting_unit import click_data_panel
 
 
 def go_to():
     browser.visit(f'{Config.RESPONSE_OPERATIONS_UI}'
                   "/reporting-units/"
                   f"{RESPONDENT_DETAILS.get_ru_ref()}")
+    click_data_panel('Bricks')
     browser.find_by_id("create-message-button-1").click()
     assert "messages/create-message" in browser.url
 
