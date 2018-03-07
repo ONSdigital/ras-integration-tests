@@ -34,7 +34,20 @@ def able_to_enter_254_characters(_):
     edit_respondent_details_form.edit_first_name()
     edit_respondent_details_form.edit_last_name()
 
-# TODO: Add in Scenario 3 steps when scenario has been clarified
+
+@given('the internal user chooses to change he contact number of a respondent')
+def change_respondent_number(_):
+    pass
+
+
+@when('they remove the old contact number and click save')
+def clear_old_contact_number(_):
+    browser.driver.find_element_by_id('telephone').clear()
+
+
+@then('the changes will not be saved and they are informed that all fields are required')
+def fields_required(_):
+    pass
 
 
 @when('they change the contact number and and save')
@@ -47,9 +60,19 @@ def navigate_to_ru_details(_):
     pass
 
 
+@when('they click save')
+def click_save(_):
+    edit_respondent_details_form.click_save()
+
+
+@then('they are informed that an error occurred')
+def save_changes_error(_):
+    browser.driver.find_element_by_id('error-saving-message')
+
+
 @then('provided with confirmation the changes have been saved')
 def confirm_changes(_):
-    pass
+    browser.driver.find_element_by_id('contact-changed')
 
 
 @when('they decide to cancel')

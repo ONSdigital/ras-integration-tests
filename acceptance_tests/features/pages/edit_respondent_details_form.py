@@ -23,3 +23,7 @@ def last_name_254_characters():
 
 def edit_contact_number():
     browser.driver.find_element_by_id('telephone').send_keys('01633 878787')
+
+
+def click_save():
+    browser.driver.find_element_by_id('save-btn').click()
