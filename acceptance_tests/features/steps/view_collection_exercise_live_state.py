@@ -34,14 +34,18 @@ def go_live_date_hits(_, survey, period):
     }[survey.lower()]
     datetime = '2018-01-21T00:00:00.000Z'  # some time in the past
     collection_exercise_controller.update_event_for_collection_exercise(s_id, period, 'go_live', datetime)
-    time.sleep(1)
-    browser.reload()
 
 
 @then('the state of a collection exercise is to be changed to Live')
 @then('they are able to see the Live Status for that Collection Exercise')
 def ce_details_state_is_live(_):
     ce_state = collection_exercise_details.get_status()
+    for i in range(5):
+        if collection_exercise.is_live(ce_state):
+            break
+        time.sleep(1)
+        browser.reload()
+        ce_state = collection_exercise_details.get_status()
     assert collection_exercise.is_live(ce_state), ce_state
 
 
