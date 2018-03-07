@@ -21,6 +21,7 @@ def respondent_goes_to_history_page_for_49900000002(_):
 
 @when('the internal user changes the response status from \'Not started\' to \'Completed by phone\' for {ru_ref}')
 def internal_user_changes_response_status(_, ru_ref):
+    reporting_unit.click_data_panel('Bricks')
     reporting_unit.click_change_response_status_link(ru_ref=ru_ref, survey='Bricks', period='201801')
     change_response_status.update_response_status('COMPLETED_BY_PHONE')
 
