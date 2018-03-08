@@ -78,6 +78,20 @@ def post_event_to_collection_exercise(survey_id, period, event_tag, date_str):
     logger.info('Event added')
 
 
+def update_event_for_collection_exercise(survey_id, period, event_tag, date_str):
+    collection_exercise_id = get_collection_exercise(survey_id, period)['id']
+    logger.info('Updating an event', collection_exercise_id=collection_exercise_id, event_tag=event_tag)
+
+    url = f'{Config.COLLECTION_EXERCISE}/collectionexercises/{collection_exercise_id}/events/{event_tag}'
+    response = requests.put(url, auth=Config.BASIC_AUTH, data=date_str, headers={'content-type': 'text/plain'})
+    # 409: event already exists, which we count as permissable for testing
+    if response.status_code not in (201, 204, 409):
+        logger.error('Failed to post event', status=response.status_code)
+        raise Exception(f'Failed to update event {collection_exercise_id}')
+
+    logger.info('Event updated')
+
+
 def delete_collection_exercise_event(survey_id, period, event_tag):
     collection_exercise_id = get_collection_exercise(survey_id, period)['id']
     logger.info('Deleting an event', collection_exercise_id=collection_exercise_id, event_tag=event_tag)
