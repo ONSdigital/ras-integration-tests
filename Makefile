@@ -9,7 +9,7 @@ install:
 start_services:
 	if [ -d tmp_ras_rm_docker_dev ]; then \
 		echo "tmp_ras_rm_docker_dev exists - pulling"; \
-		cd tmp_rm_tools; git pull; cd -; \
+		cd tmp_ras_rm_docker_dev; git pull; cd -; \
 	else \
 		git clone --depth 1 ${RAS_RM_REPO_URL} tmp_ras_rm_docker_dev; \
 	fi; \
