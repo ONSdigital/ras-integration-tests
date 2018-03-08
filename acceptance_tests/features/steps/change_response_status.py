@@ -35,7 +35,7 @@ def survey_for_49900000002_shows_status_completed_by_phone(_):
 def _enrol_respondent_with_ru_ref(_, ru_ref):
     signed_in_internal(_)
     enrolment_code = get_unused_iac(ru_ref, 'Bricks')
-
+    assert enrolment_code
     signed_in_respondent(_)
     add_survey.go_to()
     enter_enrolment_code(enrolment_code)

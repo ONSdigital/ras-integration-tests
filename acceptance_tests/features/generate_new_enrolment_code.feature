@@ -1,4 +1,4 @@
-Feature: Find Reporting Unit
+Feature: Generate new enrolment code
    As an internal user
    I need to obtain a new enrolment code for a RU for a specific survey
    So that the code can be provided to a respondent/RU over the phone
