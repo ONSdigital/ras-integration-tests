@@ -65,7 +65,9 @@ def click_change_response_status_link(ru_ref, survey, period):
 def get_unused_iac(ru_ref, survey_short_name):
     go_to(ru_ref)
     click_data_panel(survey_short_name)
-    return browser.find_by_id(f'unused-enrolment-code-{survey_short_name}').value
+    unused_iac_element = browser.find_by_id(f'unused-enrolment-code-{survey_short_name}')
+    unused_iac = unused_iac_element.value if unused_iac_element else None
+    return unused_iac
 
 
 def click_generate_new_code():
