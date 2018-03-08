@@ -64,13 +64,14 @@ def get_collection_exercise_events():
         "mps": browser.find_by_name('mps-date').value,
         "go_live": browser.find_by_name('go-live-date').value,
         "return_by": browser.find_by_name('return-by-date').value,
-        "first_reminder": browser.find_by_name('first-reminder-date').value,
+        "reminder": browser.find_by_name('first-reminder-date').value,
         "exercise_end": browser.find_by_name('exercise-end-date').value,
         "ref_period_start": browser.find_by_name('period-start-date').value,
         "ref_period_end": browser.find_by_name('period-end-date').value,
         "employment": browser.find_by_name('employment-date').value,
+        "first_reminder": browser.find_by_name('first-reminder-date').value,
         "second_reminder": browser.find_by_name('second-reminder-date').value,
-        "third_reminder": browser.find_by_name('third-reminder-date').value
+        "third_reminder": browser.find_by_name('third-reminder-date').value,
     }
     return ce_events
 
@@ -84,12 +85,21 @@ def select_wrong_file_type(test_file):
     browser.driver.find_element_by_id('ciFile').send_keys(abspath(test_file))
 
 
+def add_eq_ci():
+    browser.find_by_name('checkbox-answer').check()
+    browser.find_by_id('btn-add-ci').click()
+
+
 def get_collection_instrument_error_text():
     return browser.driver.find_element_by_id('ciFileErrorText').text
 
 
 def get_collection_instrument_success_text():
     return browser.find_by_id('collection-instrument-success').text
+
+
+def get_collection_instrument_added_success_text():
+    return browser.find_by_id('collection-instrument-added-success').text
 
 
 def get_collection_instruments():
@@ -103,3 +113,44 @@ def get_error_header():
 
 def get_status():
     return browser.find_by_id('ce_status').text
+
+
+def ready_for_live_button_exists():
+    return browser.find_by_id('btn-ready-for-live')
+
+
+def click_ready_for_live():
+    browser.find_by_id('btn-ready-for-live').click()
+
+
+def click_ready_for_live_and_confirm():
+    browser.find_by_id('btn-ready-for-live').click()
+    browser.get_alert().accept()
+
+
+def get_execution_success():
+    return browser.find_by_id('execution-success').text
+
+
+def get_confirmation_alert():
+    return browser.get_alert()
+
+
+def get_processing_info():
+    return browser.find_by_id('processing-info').text
+
+
+def click_refresh_link():
+    browser.click_link_by_id('a-processing-refresh')
+
+
+def form_select_ci_exists():
+    return browser.find_by_id('form-select-ci')
+
+
+def form_load_ci_exists():
+    return browser.find_by_id('form-load-ci')
+
+
+def form_load_sample_exists():
+    return browser.find_by_id('form-load-sample')

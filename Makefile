@@ -7,12 +7,22 @@ install:
 	pipenv install --dev
 
 start_services:
-	git clone --depth 1 ${RAS_RM_REPO_URL} tmp_ras_rm_docker_dev
+	if [ -d tmp_ras_rm_docker_dev ]; then \
+		echo "tmp_ras_rm_docker_dev exists - pulling"; \
+		cd tmp_rm_tools; git pull; cd -; \
+	else \
+		git clone --depth 1 ${RAS_RM_REPO_URL} tmp_ras_rm_docker_dev; \
+	fi; \
 	cd tmp_ras_rm_docker_dev\
 	&& make pull && make up
 	pipenv run python wait_until_services_up.py
 
 stop_services:
+	if [ -d tmp_ras_rm_docker_dev ]; then \
+		echo "tmp_ras_rm_docker_dev exists"; \
+	else \
+		git clone --depth 1 ${RAS_RM_REPO_URL} tmp_ras_rm_docker_dev; \
+	fi; \
 	cd tmp_ras_rm_docker_dev\
 	&& make down
 	rm -rf tmp_ras_rm_docker_dev
@@ -33,10 +43,13 @@ setup:
 	pipenv run python set_up_ce_execution.py
 	# Acceptance tests can now be run
 
+style_tests:
+	pipenv check --style . --max-line-length 120
+
 system_tests:
 	pipenv run behave system_tests/features # This will only run the system tests
 
-acceptance_tests: system_tests
+acceptance_tests:
 	pipenv run behave acceptance_tests/features # This will only run the acceptance tests
 
-test: start_services setup acceptance_tests stop_services
+test: style_tests start_services system_tests setup acceptance_tests stop_services
