@@ -45,12 +45,12 @@ def test_presence_of_messages(_):
 
 @then('they are able to view the RU Ref, Subject, From, To, Date/Time for each message')
 def test_inbox_headings(_):
-    assert inbox_internal.get_table_heading() == "RU_Ref Business name Subject From To Received"
+    assert inbox_internal.get_table_heading() == "RU Ref Business name Subject From To Received"
 
 
 @then('they are able to view all received messages in reverse chronological order/latest first')
 def test_message_order(_):
     messages = inbox_internal.get_messages()
-    first_message_date = datetime.strptime(messages[0].get('received'), '%Y-%m-%d %H:%M:%S')
-    second_message_date = datetime.strptime(messages[1].get('received'), '%Y-%m-%d %H:%M:%S')
-    assert first_message_date > second_message_date
+    first_message_date = datetime.strptime(messages[0].get('received').split(' ')[2], '%H:%M')
+    second_message_date = datetime.strptime(messages[1].get('received').split(' ')[2], '%H:%M')
+    assert first_message_date >= second_message_date
