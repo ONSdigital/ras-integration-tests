@@ -1,3 +1,5 @@
+import time
+
 from acceptance_tests import browser
 from config import Config
 
@@ -24,3 +26,11 @@ def access_survey(survey_name):
 
 def select_to_create_message():
     browser.find_by_id('create-message-link-1').click()
+
+
+def get_status_text(expected):
+    for c in range(5):
+        if browser.find_by_id('status-1').text == expected:
+            break
+        time.sleep(1)
+    return browser.find_by_id('status-1').text

@@ -1,4 +1,4 @@
-Feature: Change response status
+Feature: Change response status to completed by phone
   As an internal user
   I need to change the case response status to completed by phone for an RU for a specific CE for a specific survey
   So that the respondent can complete the survey over the phone and they do not receive reminders
