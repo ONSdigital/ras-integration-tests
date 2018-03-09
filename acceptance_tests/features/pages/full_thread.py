@@ -35,21 +35,3 @@ def get_table_heading():
 
 def get_no_messages_text():
     return browser.find_by_text('No new messages')
-
-
-def go_to_thread():
-    thread_subject = browser.find_by_id('message-link-1')
-    browser.click_link_by_id(thread_subject)
-
-
-def count_thread_message():
-    internals = browser.find_by_tag('smC1M1')
-    external = browser.find_by_tag('smC1M2')
-    return len(internals + external)
-
-
-def is_conversation_whit_sent_and_received_messages():
-    internals = browser.find_by_tag('smC1M1')
-    external = browser.find_by_tag('smC1M2')
-
-    return len(internals) == 2 and len(external) == 1

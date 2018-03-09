@@ -7,6 +7,7 @@ import requests
 from structlog import wrap_logger
 
 from config import Config
+from controllers import database_controller
 
 logger = wrap_logger(logging.getLogger(__name__))
 
@@ -34,6 +35,11 @@ def create_message(msg_to, subject, body, ru_id):
         raise Exception('Failed create message')
 
     return json.loads(response.text)
+
+
+def create_thread():
+    logger.info("Create a message conversation thread")
+    database_controller.setup_secure_message_conversation()
 
 
 def _get_jwt():
