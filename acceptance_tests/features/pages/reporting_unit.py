@@ -1,9 +1,16 @@
+import time
+
 from acceptance_tests import browser
 from config import Config
 
 
 def go_to(ru_ref):
     browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/reporting-units/{ru_ref}")
+    time.sleep(0.1)
+
+
+def click_data_panel(survey_short_name):
+    browser.find_by_id(f'survey-{survey_short_name}').click()
 
 
 def get_ru_details():
@@ -60,11 +67,11 @@ def click_change_response_status_link(ru_ref, survey, period):
 
 def get_unused_iac(ru_ref, survey_short_name):
     go_to(ru_ref)
+    click_data_panel(survey_short_name)
+    unused_iac_element = browser.find_by_id(f'unused-enrolment-code-{survey_short_name}')
+    unused_iac = unused_iac_element.value if unused_iac_element else None
+    return unused_iac
 
-    surveys = browser.find_by_name('associated-surveys')
 
-    for survey in surveys:
-        survey_name = survey.find_by_name('survey-titles').first.value
-        iac_details = survey.find_by_name('enrolment-code').first.value
-        if survey_short_name in survey_name and 'Unused enrolment code:' in iac_details:
-            return iac_details.split(" ")[3]
+def click_generate_new_code():
+    browser.find_by_id('generate-new-code').click()

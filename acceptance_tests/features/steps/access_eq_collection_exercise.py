@@ -13,6 +13,7 @@ def respondent_has_eq_ce_available(context):
     # go_live event datetime is currently being hacked to an earlier date in qbs_1809_setup.sql script
     signed_in_internal(context)
     enrolment_code = get_unused_iac(49900000005, 'QBS')
+    assert enrolment_code
     add_survey.go_to()
     enter_enrolment_code(enrolment_code)
     click_continue_button()
