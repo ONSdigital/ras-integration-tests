@@ -43,7 +43,7 @@ def ce_details_state_is_live(_):
     for i in range(5):
         if collection_exercise.is_live(ce_state):
             break
-        time.sleep(1)
+        time.sleep(3)git 
         browser.reload()
         ce_state = collection_exercise_details.get_status()
     assert collection_exercise.is_live(ce_state), ce_state
