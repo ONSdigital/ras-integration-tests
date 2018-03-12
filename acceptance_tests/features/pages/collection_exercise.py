@@ -65,6 +65,6 @@ def get_table_row_by_period(period):
             return row
 
 
-def click_qbs_1803_ce_link():
-    link = browser.find_by_name('ce-link-1803')
+def click_ce_link(period):
+    link = browser.find_by_name(f'ce-link-{period}')
     link.click()

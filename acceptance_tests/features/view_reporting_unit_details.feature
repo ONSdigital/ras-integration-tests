@@ -23,10 +23,12 @@ Feature: View reporting unit details
   Scenario: Able to view all collection exercises associated to the displayed RU Ref
     Given the reporting unit 49900000001 is in the system
     When the internal user views the 49900000001 reporting unit page
+    And the internal user opens the Bricks data panel
     Then the internal user is presented with the associated collection exercises
 
   @us046_s01
   Scenario: Able to view respondent details for the RU Ref for the survey
     Given the reporting unit 49900000001 is in the system
     When the internal user views the 49900000001 reporting unit page
+    And the internal user opens the Bricks data panel
     Then the internal user is presented with the associated respondents

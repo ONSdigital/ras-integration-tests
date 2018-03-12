@@ -27,6 +27,11 @@ def internal_user_views_the_reporting_unit_page(_):
     reporting_unit.go_to('49900000001')
 
 
+@when('the internal user opens the Bricks data panel')
+def internal_user_views_the_survey_page(_):
+    reporting_unit.click_data_panel('Bricks')
+
+
 @then('the internal user is displayed the correct reporting unit details')
 def internal_user_views_correct_reporting_unit_details(_):
     ru_details = reporting_unit.get_ru_details()
