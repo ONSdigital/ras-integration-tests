@@ -27,3 +27,7 @@ def edit_contact_number():
 
 def click_save():
     browser.driver.find_element_by_id('save-btn').click()
+
+
+def click_edit_details():
+    browser.driver.find_element_by_id('edit-contact-details-btn').click()
