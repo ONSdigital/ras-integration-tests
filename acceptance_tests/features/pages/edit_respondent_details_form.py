@@ -1,4 +1,5 @@
 from acceptance_tests import browser
+from config import Config
 
 
 def go_to(ru_ref):
@@ -6,11 +7,7 @@ def go_to(ru_ref):
 
 
 def edit_first_name():
-    browser.driver.find_element_by_id('firstName').send_keys('Jacky')
-
-
-def edit_last_name():
-    browser.driver.find_element_by_id('lastName').send_keys('Turner')
+    browser.find_by_id('firstName').fill('Jacky')
 
 
 def first_name_254_characters():
@@ -30,4 +27,4 @@ def click_save():
 
 
 def click_edit_details():
-    browser.driver.find_element_by_id('edit-contact-details-btn').click()
+    browser.find_by_id('edit-contact-details-btn').click()

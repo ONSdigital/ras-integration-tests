@@ -1,12 +1,14 @@
 from behave import given, when, then
 from acceptance_tests import browser
 
-from acceptance_tests.features.pages import edit_respondent_details_form
+from acceptance_tests.features.pages import edit_respondent_details_form, reporting_unit
 
 
-@given('the internal user has found the respondents details')
+@given('the internal user has found the respondents details for 49900000001')
+@given('the internal user chooses to change the account details')
 def internal_user_find_respondent_details(_):
-    edit_respondent_details_form.go_to()
+    edit_respondent_details_form.go_to('49900000001')
+    reporting_unit.click_data_panel('Bricks')
 
 
 @when('they choose to change the name of a respondent')
@@ -17,11 +19,6 @@ def change_respondent_name(_):
 @then('the respondent account details become editable')
 def account_details_editable(_):
     edit_respondent_details_form.edit_first_name()
-
-
-@given('the internal user chooses to change the account details')
-def change_respondent_name(_):
-    edit_respondent_details_form.go_to()
 
 
 @when('they change the first and last name')

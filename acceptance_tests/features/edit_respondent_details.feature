@@ -7,7 +7,7 @@ Feature: As an internal user
 
   @us057-s01
   Scenario: The internal user is able to change a respondents first name, last name and contact number
-    Given the internal user has found the respondents details
+    Given the internal user has found the respondents details for 49900000001
     When they choose to change the name of a respondent
     Then the respondent account details become editable
 
