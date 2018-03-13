@@ -31,11 +31,3 @@ Feature: View conversation thread
     Given An internal user has conversations in their inbox
     When  The internal user selects a conversation
     Then  They are taken to the latest message in that conversation
-
-  @sm124_s05
-  Scenario: The 'To' field in the view conversation page and the 'From' field in the sent view,
-            displays the username of the latest internal user to send a message in the conversation
-    Given An internal user sends a message to an external user
-    When  The external user replies to that message
-    Then  The internal users username is displayed in the 'To' field in the inbox
-
