@@ -11,6 +11,7 @@ def go_to(ru_ref):
 
 def click_data_panel(survey_short_name):
     browser.find_by_id(f'survey-{survey_short_name}').click()
+    time.sleep(0.1)
 
 
 def get_ru_details():
