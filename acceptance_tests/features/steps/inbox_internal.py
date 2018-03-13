@@ -43,9 +43,9 @@ def test_presence_of_messages(_):
     assert len(inbox_internal.get_messages()) > 0
 
 
-@then('they are able to view the RU Ref, Subject, From, To, Date/Time for each message')
+@then('they are able to view the RU Ref, Subject, From, To, Date and time for each message')
 def test_inbox_headings(_):
-    assert inbox_internal.get_table_heading() == "RU Ref Business name Subject From To Received"
+    assert inbox_internal.get_table_heading() == "RU Ref Business name Subject From To Date and time"
 
 
 @then('they are able to view all received messages in reverse chronological order/latest first')
