@@ -56,7 +56,7 @@ def get_associated_respondents():
                 "name": details.find_by_name('tbl-respondent-name').value,
                 "email": details.find_by_name('tbl-respondent-email').value,
                 "phone": details.find_by_name('tbl-respondent-phone').value,
-                "accountStatus": details.find_by_name('tbl-respondent-status').value
+                "accountStatus": row.find_by_name('tbl-respondent-status').value
             })
     return respondents
 
