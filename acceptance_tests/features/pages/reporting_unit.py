@@ -11,7 +11,6 @@ def go_to(ru_ref):
 
 def click_data_panel(survey_short_name):
     browser.find_by_id(f'survey-{survey_short_name}').click()
-    time.sleep(0.2)
 
 
 def get_ru_details():
@@ -57,7 +56,7 @@ def get_associated_respondents():
                 "name": details.find_by_name('tbl-respondent-name').value,
                 "email": details.find_by_name('tbl-respondent-email').value,
                 "phone": details.find_by_name('tbl-respondent-phone').value,
-                "accountStatus": details.find_by_name('tbl-respondent-status').value
+                "accountStatus": row.find_by_name('tbl-respondent-status').value
             })
     return respondents
 
