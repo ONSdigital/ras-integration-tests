@@ -1,6 +1,6 @@
 from behave import given, when, then
 
-from acceptance_tests.features.pages import home, inbox
+from acceptance_tests.features.pages import inbox_internal
 from acceptance_tests.features.pages.internal_conversation_view import go_to_thread, count_thread_message, \
     is_conversation_whit_sent_and_received_messages, view_full_conversation_date_time_msg_details, \
     view_last_anchored_message
@@ -11,8 +11,8 @@ from controllers import messages_controller
 @given('An internal user has conversations in their inbox')
 def populate_database_with_messages(_):
     messages_controller.create_thread()
-    inbox.go_to()
-    assert len(inbox.get_messages()) > 0
+    inbox_internal.go_to()
+    assert len(inbox_internal.get_messages()) > 0
 
 
 @when('The internal user selects a conversation')
