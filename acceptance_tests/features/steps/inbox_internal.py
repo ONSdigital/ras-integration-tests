@@ -3,7 +3,7 @@ from datetime import datetime
 
 from behave import given, when, then
 
-from acceptance_tests.features.pages import home, inbox
+from acceptance_tests.features.pages import home, inbox_internal
 from common.respondent_details import RESPONDENT_DETAILS
 from controllers import messages_controller, database_controller
 
@@ -30,27 +30,27 @@ def user_has_no_messages_in_inbox(_):
 
 @when('they navigate to the inbox messages')
 def internal_user_views_messages(_):
-    inbox.go_to()
+    inbox_internal.go_to()
 
 
 @then('they are informed that there are no messages')
 def informed_of_no_messages(_):
-    assert inbox.get_no_messages_text().text == 'No new messages'
+    assert inbox_internal.get_no_messages_text().text == 'No new messages'
 
 
 @then('they are able to view all received messages')
 def test_presence_of_messages(_):
-    assert len(inbox.get_messages()) > 0
+    assert len(inbox_internal.get_messages()) > 0
 
 
-@then('they are able to view the RU Ref, Subject, From, To, Date/Time for each message')
+@then('they are able to view the RU Ref, Subject, From, To, Date and time for each message')
 def test_inbox_headings(_):
-    assert inbox.get_table_heading() == "RU_Ref Business name Subject From To Received"
+    assert inbox_internal.get_table_heading() == "RU Ref Business name Subject From To Date and time"
 
 
 @then('they are able to view all received messages in reverse chronological order/latest first')
 def test_message_order(_):
-    messages = inbox.get_messages()
-    first_message_date = datetime.strptime(messages[0].get('received'), '%Y-%m-%d %H:%M:%S')
-    second_message_date = datetime.strptime(messages[1].get('received'), '%Y-%m-%d %H:%M:%S')
-    assert first_message_date > second_message_date
+    messages = inbox_internal.get_messages()
+    first_message_date = datetime.strptime(messages[0].get('received').split(' ')[2], '%H:%M')
+    second_message_date = datetime.strptime(messages[1].get('received').split(' ')[2], '%H:%M')
+    assert first_message_date >= second_message_date

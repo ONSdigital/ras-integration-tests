@@ -53,3 +53,6 @@ acceptance_tests:
 	pipenv run behave acceptance_tests/features # This will only run the acceptance tests
 
 test: style_tests start_services system_tests setup acceptance_tests stop_services
+
+reset_database:
+	docker cp data/clean-database-2018-03-08.sql postgres:/ && docker exec -it postgres sh -c 'psql -U postgres < /clean-database-2018-03-08.sql'
