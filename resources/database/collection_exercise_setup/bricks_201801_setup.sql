@@ -1,6 +1,3 @@
-insert into survey.classifierType( classifiertypepk,classifiertypeselectorfk,classifiertype)
-values(4,17,'COLLECTION_EXERCISE');
-
 insert into action.actionplan(id, actionplanpk, name, description, createdby, lastrundatetime)
 values('878c3462-766a-4cf6-8fb3-867d5124cc0f',3,'Bricks and Blocks Enrolment','Bricks and Blocks Enrolment','SYSTEM',now());
 
