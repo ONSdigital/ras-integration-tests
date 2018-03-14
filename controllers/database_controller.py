@@ -6,7 +6,6 @@ from structlog import wrap_logger
 
 from config import Config
 
-
 logger = wrap_logger(logging.getLogger(__name__))
 
 
@@ -77,7 +76,7 @@ def select_iac():
     }
     sql_statement = "SELECT c.iac FROM casesvc.case c " \
                     "INNER JOIN iac.iac i ON c.iac = i.code " \
-                    "WHERE i.active = true AND i.lastuseddatetime IS NULL AND c.SampleUnitType = 'B' " \
+                    "WHERE i.active = TRUE AND i.lastuseddatetime IS NULL AND c.SampleUnitType = 'B' " \
                     "ORDER BY i.createddatetime DESC LIMIT 1;"
     response = requests.post(url, auth=Config.BASIC_AUTH, headers=headers, data=sql_statement)
     return response.text[4:-1]
