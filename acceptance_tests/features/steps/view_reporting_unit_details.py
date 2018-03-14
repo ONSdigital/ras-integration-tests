@@ -27,6 +27,11 @@ def internal_user_views_the_reporting_unit_page(_):
     reporting_unit.go_to('49900000001')
 
 
+@when('the internal user opens the Bricks data panel')
+def internal_user_views_the_survey_page(_):
+    reporting_unit.click_data_panel('Bricks')
+
+
 @then('the internal user is displayed the correct reporting unit details')
 def internal_user_views_correct_reporting_unit_details(_):
     ru_details = reporting_unit.get_ru_details()
@@ -69,7 +74,7 @@ def internal_internal_user_presented_correct_associated_respondents(_):
         browser.reload()
         associated_respondents = reporting_unit.get_associated_respondents()
         time.sleep(1)
-    assert len(associated_respondents) == 2
+    assert len(associated_respondents) == 1
     assert associated_respondents[0]['enrolementStatus'] == 'Enabled'
     assert associated_respondents[0]['name'] == 'first_name last_name'
     assert associated_respondents[0]['email'] == 'example@example.com'

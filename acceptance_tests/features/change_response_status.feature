@@ -7,6 +7,7 @@ Feature: Change response status
   Scenario: Internal user change response status
     Given the internal user is on the reporting unit page for 49900000003
     When the internal user changes the response status from 'Not started' to 'Completed by phone' for 49900000003
+    And the internal user opens the Bricks data panel
     Then the status 'Completed by phone' is displayed back to the internal user
 
  @us050_s02

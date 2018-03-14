@@ -21,6 +21,7 @@ def respondent_goes_to_history_page_for_49900000002(_):
 
 @when('the internal user changes the response status from \'Not started\' to \'Completed by phone\' for {ru_ref}')
 def internal_user_changes_response_status(_, ru_ref):
+    reporting_unit.click_data_panel('Bricks')
     reporting_unit.click_change_response_status_link(ru_ref=ru_ref, survey='Bricks', period='201801')
     change_response_status.update_response_status('COMPLETED_BY_PHONE')
 
@@ -34,7 +35,7 @@ def survey_for_49900000002_shows_status_completed_by_phone(_):
 def _enrol_respondent_with_ru_ref(_, ru_ref):
     signed_in_internal(_)
     enrolment_code = get_unused_iac(ru_ref, 'Bricks')
-
+    assert enrolment_code
     signed_in_respondent(_)
     add_survey.go_to()
     enter_enrolment_code(enrolment_code)
