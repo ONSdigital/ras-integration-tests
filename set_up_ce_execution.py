@@ -16,8 +16,9 @@ if __name__ == '__main__':
                                                                          '1809')
 
     ci_path = 'resources/collection_instrument_files/064_201803_0001.xlsx'
-    collection_instrument_controller.upload_seft_collection_instrument(bricks_201801_ce['id'], ci_path, '0001') # form type hard coded to 0001 for all ces to match sample file
-    collection_instrument_controller.upload_seft_collection_instrument(bricks_201812_ce['id'], ci_path, '0001') # and CI File
+    # form type hard coded to 0001 for all ces to match sample file and CI File
+    collection_instrument_controller.upload_seft_collection_instrument(bricks_201801_ce['id'], ci_path, '0001')
+    collection_instrument_controller.upload_seft_collection_instrument(bricks_201812_ce['id'], ci_path, '0001')
 
     # upload eQ collection instrument for QBS
     collection_instrument_controller.upload_eq_collection_instrument('02b9c366-7397-42f7-942a-76dc5876d86d',
