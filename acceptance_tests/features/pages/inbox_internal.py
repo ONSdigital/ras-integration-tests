@@ -36,5 +36,3 @@ def get_table_heading():
 
 def get_no_messages_text():
     return browser.find_by_text('No new messages')
-
-

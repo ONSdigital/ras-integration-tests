@@ -125,4 +125,3 @@ def setup_secure_message_conversation():
     """
     print("Populating secure message with a full conversation data ... ")
     execute_rm_sql('resources/database/secure_message_thread.sql')
-
