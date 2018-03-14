@@ -74,7 +74,7 @@ def internal_internal_user_presented_correct_associated_respondents(_):
         browser.reload()
         associated_respondents = reporting_unit.get_associated_respondents()
         time.sleep(1)
-    assert len(associated_respondents) == 2
+    assert len(associated_respondents) == 1
     assert associated_respondents[0]['enrolementStatus'] == 'Enabled'
     assert associated_respondents[0]['name'] == 'first_name last_name'
     assert associated_respondents[0]['email'] == 'example@example.com'
