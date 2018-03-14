@@ -9,7 +9,7 @@ Feature: View conversation thread
 
   @sm124_s01
   Scenario: The user select one conversation from the inbox.
-    Given the user has got messages in his inbox
+    Given An internal user has conversations in their inbox
     When  The internal user selects a conversation
     Then  the internal user can see all messages in the conversation
 

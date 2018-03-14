@@ -1,32 +1,23 @@
 from behave import given, when, then
 
 from acceptance_tests.features.pages import home, inbox
-from acceptance_tests.features.pages.inbox import go_to_thread, count_thread_message, \
+from acceptance_tests.features.pages.internal_conversation_view import go_to_thread, count_thread_message, \
     is_conversation_whit_sent_and_received_messages, view_full_conversation_date_time_msg_details, \
     view_last_anchored_message
 
 from controllers import messages_controller
 
 
-@given('the user has access to secure messaging')
-def verify_messages_link_present(_):
-    assert home.verify_messages_link_present()
-
-
-@given('the user has got messages in his inbox')
+@given('An internal user has conversations in their inbox')
 def populate_database_with_messages(_):
     messages_controller.create_thread()
     inbox.go_to()
+    assert len(inbox.get_messages()) > 0
 
 
 @when('The internal user selects a conversation')
 def select_thread():
     go_to_thread()
-
-
-@given('An internal user has conversations in their inbox')
-def test_presence_of_messages(_):
-    assert len(inbox.get_messages()) > 0
 
 
 @then('the internal user can see all messages in the conversation')
