@@ -9,10 +9,6 @@ def edit_last_name():
     browser.find_by_id('firstName').fill('Turner')
 
 
-def fill_first_name(characters):
-    browser.find_by_id('firstName').fill("x" * characters)
-
-
 def clear_telephone_number():
     browser.find_by_id('telephone').fill("")
 
