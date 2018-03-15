@@ -1,20 +1,20 @@
 from acceptance_tests import browser
 
 
-def edit_first_name():
-    browser.find_by_id('firstName').fill('Jacky')
+def edit_first_name(name):
+    browser.find_by_id('firstName').fill(name)
 
 
-def edit_last_name():
-    browser.find_by_id('lastName').fill('Turner')
+def edit_last_name(name):
+    browser.find_by_id('lastName').fill(name)
 
 
 def clear_telephone_number():
     browser.find_by_id('telephone').fill("")
 
 
-def edit_contact_number():
-    browser.find_by_id('telephone').fill("01633 878787")
+def edit_contact_number(number):
+    browser.find_by_id('telephone').fill(number)
 
 
 def click_save():

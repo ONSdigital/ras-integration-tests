@@ -24,8 +24,8 @@ def open_edit_details(_):
 
 @when('they change the first and last name')
 def edit_first_last_name(_):
-    edit_respondent_details_form.edit_first_name()
-    edit_respondent_details_form.edit_last_name()
+    edit_respondent_details_form.edit_first_name('Jacky')
+    edit_respondent_details_form.edit_last_name('Turner')
 
 
 @when('they remove the old contact number')
@@ -35,7 +35,7 @@ def clear_old_contact_number(_):
 
 @when('they change the contact number')
 def change_contact_number(_):
-    edit_respondent_details_form.edit_contact_number()
+    edit_respondent_details_form.edit_contact_number("01633 878787")
 
 
 @then('the respondent account details become editable')

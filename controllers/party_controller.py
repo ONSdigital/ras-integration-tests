@@ -39,6 +39,19 @@ def get_respondent_details(respondent_id):
     return response.json()
 
 
+def get_party_by_ru_ref(ru_ref):
+    logger.debug('Retrieving reporting unit', ru_ref=ru_ref)
+    url = f'{Config.PARTY_SERVICE}/party-api/v1/parties/type/B/ref/{ru_ref}'
+    response = requests.get(url, auth=Config.BASIC_AUTH)
+
+    if response.status_code != 200:
+        logger.error('Error retrieving reporting unit', ru_ref=ru_ref)
+        raise Exception('Failed to retrieve reporting unit')
+
+    logger.debug('Successfully retrieved reporting unit', ru_ref=ru_ref)
+    return response.json()
+
+
 def add_survey(party_id, enrolment_code):
     logger.debug('Adding a survey')
     url = f'{Config.PARTY_SERVICE}/party-api/v1/respondents/add_survey'
