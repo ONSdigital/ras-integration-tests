@@ -10,7 +10,7 @@ logger = wrap_logger(logging.getLogger(__name__))
 
 
 def execute_rm_sql(sql_script_file_path):
-    logger.debug('Executing SQL script', sql_script=sql_script_file_path)
+    logger.info('Executing SQL script', sql_script=sql_script_file_path)
 
     url = Config.CF_DATABASE_TOOL + '/sql'
     headers = {
@@ -27,7 +27,7 @@ def execute_rm_sql(sql_script_file_path):
     if response.status_code != 201:
         logger.error('SQL execution failed', status=response.status_code, sql_script=sql_script_file_path)
 
-    logger.debug('Executed SQL script', sql_script=sql_script_file_path)
+    logger.info('Executed SQL script', sql_script=sql_script_file_path)
     return response.text
 
 
@@ -122,5 +122,16 @@ def setup_secure_message_conversation():
     """
     This function will populate the seuremessage database with a full conversation.
     """
-    print("Populating secure message with a full conversation data ... ")
-    execute_rm_sql('resources/database/secure_message_thread.sql')
+    logger.info("Clean up the Database before populate it")
+    reset_secure_message_database()
+    logger.info("Populate secure message table")
+    engine = create_engine(Config.SECURE_MESSAGE_DATABASE_URI)
+    connection = engine.connect()
+    trans = connection.begin()
+
+    with open('resources/database/secure_message_thread.sql', 'r') as sqlScriptFile:
+        sql = sqlScriptFile.read().replace('\n', '')
+
+    connection.execute(sql)
+    trans.commit()
+    connection.close()

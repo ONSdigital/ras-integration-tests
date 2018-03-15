@@ -16,25 +16,25 @@ def populate_database_with_messages(_):
 
 
 @when('The internal user selects a conversation')
-def select_thread():
+def select_thread(_):
     go_to_thread()
 
 
 @then('the internal user can see all messages in the conversation')
-def view_all_thread_message():
+def view_all_thread_message(_):
     assert len(count_thread_message()) == 3
 
 
 @then('The internal user can see which messages have been sent by ONS users and which are an external users messages')
-def identify_message_sender():
+def identify_message_sender(_):
     assert(is_conversation_whit_sent_and_received_messages())
 
 
 @then('The internal user can see the date and time for each message in the conversation')
-def check_date_time():
+def check_date_time(_):
     assert (view_full_conversation_date_time_msg_details() == 3)
 
 
 @then('They are taken to the latest message in that conversation')
-def check_page_takes_to_anchor_on_load():
+def check_page_takes_to_anchor_on_load(_):
     assert (view_last_anchored_message())
