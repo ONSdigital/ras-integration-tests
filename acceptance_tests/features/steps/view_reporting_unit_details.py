@@ -22,7 +22,9 @@ def respondent_first_name_is_enrolled(_):
     business = get_party_by_ru_ref('49900000001')
     respondent_id = business['associations'][0]['partyId']
     respondent = get_respondent_details(respondent_id)
-    if respondent['firstName'] != 'first_name' or respondent['lastName'] != 'last_name' or respondent['phone'] != "0987654321":
+    if respondent['firstName'] != 'first_name' \
+            or respondent['lastName'] != 'last_name' \
+            or respondent['phone'] != "0987654321":
         reporting_unit.go_to('49900000001')
         reporting_unit.click_data_panel('Bricks')
         reporting_unit.click_edit_details()
