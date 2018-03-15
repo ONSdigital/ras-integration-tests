@@ -75,3 +75,11 @@ def get_unused_iac(ru_ref, survey_short_name):
 
 def click_generate_new_code():
     browser.find_by_id('generate-new-code').click()
+
+
+def click_edit_details():
+    browser.find_by_id('edit-contact-details-btn').click()
+
+
+def confirm_contact_details_changes():
+    return browser.find_by_id('contact-changed')

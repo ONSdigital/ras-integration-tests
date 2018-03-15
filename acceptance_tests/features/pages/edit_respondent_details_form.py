@@ -10,6 +10,10 @@ def edit_first_name():
     browser.find_by_id('firstName').fill('Jacky')
 
 
+def edit_last_name():
+    browser.find_by_id('firstName').fill('Turner')
+
+
 def first_name_254_characters():
     browser.execute_script(f'document.getElementById("firstName").value="{"x" * 254}";')
 
@@ -18,12 +22,20 @@ def last_name_254_characters():
     browser.execute_script(f'document.getElementById("firstName").value="{"x" * 254}";')
 
 
+def clear_telephone_number():
+    browser.find_by_id('telephone').clear()
+
+
 def edit_contact_number():
-    browser.driver.find_element_by_id('telephone').send_keys('01633 878787')
+    browser.execute_script(f'document.getElementById("telephone").value="01633 878787";')
 
 
 def click_save():
-    browser.driver.find_element_by_id('save-btn').click()
+    browser.find_by_id('save-btn').click()
+
+
+def click_cancel():
+    browser.find_by_id('cancel-btn').click()
 
 
 def click_edit_details():

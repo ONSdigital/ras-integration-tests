@@ -15,18 +15,21 @@ Feature: As an internal user
   Scenario: The internal user is able to enter up to 254 characters for the first and last name
     Given the internal user chooses to change the account details
     When they change the first and last name
+    And they click save
     Then they are able to enter up to 254 characters
 
   @us057-s03
   Scenario: All fields are required to be populated
     Given the internal user chooses to change the contact number of a respondent
-    When they remove the old contact number and click save
+    When they remove the old contact number
+    And they click save
     Then the changes will not be saved and they are informed that all fields are required
 
   @us057-s04
   Scenario: The internal user is able to save any changes made to the account details
     Given the internal user chooses to change the account details
-    When they change the contact number and save the changes
+    When they change the contact number
+    And they click save
     Then they are navigated back to the RU Details page
     And they are provided with confirmation the changes have been saved
 
@@ -39,5 +42,7 @@ Feature: As an internal user
   @us057-s06
   Scenario: The internal user is able to cancel out of changing the respondent details at any point
     Given the internal user chooses to change the account details
-    When they decide to cancel
-    Then they are navigated back to the RU Details page and no changes are saved
+    When they change the contact number
+    And they decide to cancel
+    Then they are navigated back to the RU Details page
+    And the contact number is not changed
