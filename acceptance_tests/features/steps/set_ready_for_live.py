@@ -22,7 +22,7 @@ def _get_survey_id(survey):
 def prepare_collection_exercises(_, survey, period):
     s_id = _get_survey_id(survey)
     sample_file = 'resources/sample_files/business-survey-sample-date.csv'
-    ci_path = 'resources/collection_instrument_files/064_0001_201803.xlsx'
+    ci_path = 'resources/collection_instrument_files/064_201803_0001.xlsx'
 
     state = collection_exercise_controller.get_collection_exercise(s_id, period)['state']
 
@@ -32,7 +32,8 @@ def prepare_collection_exercises(_, survey, period):
 
         logger.info('Loading collection instrument', survey=survey, period=period)
         ce = collection_exercise_controller.get_collection_exercise(s_id, period)
-        collection_instrument_controller.upload_seft_collection_instrument(ce['id'], ci_path)
+        # form type hard coded to 0001 for all ces to simplify testing
+        collection_instrument_controller.upload_seft_collection_instrument(ce['id'], ci_path, '0001')
 
     for i in range(5):
         state = collection_exercise_controller.get_collection_exercise(s_id, period)['state']
