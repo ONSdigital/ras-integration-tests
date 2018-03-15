@@ -40,4 +40,4 @@ def incorrect_file_type_message_shown(_):
 @then('an error message is displayed to the user at the top of the screen')
 def incorrect_file_type_message_shown_at_top(_):
     error_text = collection_exercise_details.get_error_header()
-    assert error_text == "Error: wrong file type for Collection instrument"
+    assert error_text == "Error: wrong file type for collection instrument"
