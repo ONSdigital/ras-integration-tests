@@ -20,7 +20,7 @@ Feature: As an internal user
 
   @us057-s03
   Scenario: All fields are required to be populated
-    Given the internal user chooses to change the contact number of a respondent
+    Given the internal user chooses to change the account details
     When they remove the old contact number
     And they click save
     Then the changes will not be saved and they are informed that all fields are required
@@ -34,12 +34,6 @@ Feature: As an internal user
     And they are provided with confirmation the changes have been saved
 
   @us057-s05
-  Scenario: If an error occurs when saving, the user is to be informed and asked to try again
-    Given the internal user changes the account details
-    When they click save and the details are unable to be saved
-    Then they are informed that an error occurred and to try again
-
-  @us057-s06
   Scenario: The internal user is able to cancel out of changing the respondent details at any point
     Given the internal user chooses to change the account details
     When they change the contact number
