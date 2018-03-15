@@ -10,13 +10,22 @@ from config import Config
 logger = wrap_logger(logging.getLogger(__name__))
 
 
-def upload_seft_collection_instrument(collection_exercise_id, file_path):
+def upload_seft_collection_instrument(collection_exercise_id, file_path, form_type=None):
     logger.info('Uploading SEFT collection instrument', collection_exercise_id=collection_exercise_id)
     url = f'{Config.COLLECTION_INSTRUMENT_SERVICE}/' \
           f'collection-instrument-api/1.0.2/upload/{collection_exercise_id}'
     mimetype = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     files = {"file": ('test_collection_instrument.xlxs', open(file_path, 'rb'), mimetype)}
-    response = requests.post(url=url, auth=Config.BASIC_AUTH, files=files)
+
+    params = dict()
+
+    if form_type:
+        classifiers = {
+            "form_type": form_type,
+        }
+        params['classifiers'] = json.dumps(classifiers)
+
+    response = requests.post(url=url, auth=Config.BASIC_AUTH, files=files, params=params)
     response.raise_for_status()
     logger.info('Successfully uploaded collection instrument', collection_exercise_id=collection_exercise_id)
 

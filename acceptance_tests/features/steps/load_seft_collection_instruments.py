@@ -26,7 +26,7 @@ def internal_user_uploads_non_xlsx_file(_):
 @then('the user is able to load the collection instruments')
 def load_collection_instruments(_):
     collection_exercise_details.load_collection_instrument(
-        test_file='resources/collection_instrument_files/064_0001_201803.xlsx')
+        test_file='resources/collection_instrument_files/064_201803_0001.xlsx')
     success_text = collection_exercise_details.get_collection_instrument_success_text()
     assert success_text == 'Collection instrument loaded'
 
