@@ -68,7 +68,7 @@ def confirm_changes_saved(_):
 
 
 @then('the contact number is not changed')
-def confirm_changes_saved(_):
+def confirm_contact_number_unchanged(_):
     reporting_unit.click_data_panel('Bricks')
     respondent = reporting_unit.get_associated_respondents()[0]
     assert respondent.get('phone') == '01633 878787'

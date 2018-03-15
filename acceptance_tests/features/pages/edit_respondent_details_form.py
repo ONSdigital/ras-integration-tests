@@ -1,5 +1,4 @@
 from acceptance_tests import browser
-from config import Config
 
 
 def edit_first_name():
