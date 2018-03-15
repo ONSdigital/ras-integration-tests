@@ -6,7 +6,7 @@ def edit_first_name():
 
 
 def edit_last_name():
-    browser.find_by_id('firstName').fill('Turner')
+    browser.find_by_id('lastName').fill('Turner')
 
 
 def clear_telephone_number():
