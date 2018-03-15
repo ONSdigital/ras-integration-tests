@@ -29,7 +29,7 @@ def rsi_201811_exists_and_loaded_sample_cis(_):
     success_text = collection_exercise_details.get_sample_success_text()
     assert success_text == 'Sample successfully loaded'
     collection_exercise_details.load_collection_instrument(
-        test_file='resources/collection_instrument_files/064_0001_201803.xlsx')
+        test_file='resources/collection_instrument_files/064_201803_0001.xlsx')
     success_text = collection_exercise_details.get_collection_instrument_success_text()
     assert success_text == 'Collection instrument loaded'
 
@@ -67,7 +67,7 @@ def load_sample(_):
 @when('the user loads the collection instruments')
 def load_collection_instruments(_):
     collection_exercise_details.load_collection_instrument(
-        test_file='resources/collection_instrument_files/064_0001_201803.xlsx')
+        test_file='resources/collection_instrument_files/064_201803_0001.xlsx')
     success_text = collection_exercise_details.get_collection_instrument_success_text()
     assert success_text == 'Collection instrument loaded'
 
