@@ -78,7 +78,6 @@ def click_generate_new_code():
 
 
 def click_edit_details(survey_short_name):
-    browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
     browser.find_by_id(f'edit-contact-details-btn-{survey_short_name}').click()
 
 
