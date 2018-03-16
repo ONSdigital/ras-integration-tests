@@ -30,3 +30,9 @@ Feature: Internal inbox
     Given the user has access to secure messaging
     When they navigate to the inbox messages
     Then they are able to view all received messages in reverse chronological order/latest first
+
+  @sm139_s01
+  Scenario: User is able to view a list of filter options
+    Given the user has access to secure messaging
+    When they navigate to the select survey page
+    Then they are able to view a list of filter options

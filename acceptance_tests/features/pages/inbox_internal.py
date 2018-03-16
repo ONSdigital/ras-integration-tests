@@ -4,6 +4,10 @@ from acceptance_tests import browser
 
 
 def go_to():
+    browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/messages/BRES")
+
+
+def go_to_select_survey():
     browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/messages")
 
 
@@ -35,3 +39,11 @@ def get_table_heading():
 
 def get_no_messages_text():
     return browser.find_by_text('No new messages')
+
+
+def get_ashe_radio_button_value():
+    return browser.find_by_id('ASHE')
+
+
+def get_bricks_radio_button_value():
+    return browser.find_by_id('Bricks')
