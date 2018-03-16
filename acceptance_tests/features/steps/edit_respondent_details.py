@@ -53,12 +53,9 @@ def edit_email_address(_):
 
 @when('they save an email address that is already in use')
 def save_email_already_in_use(_):
-    existing_email = 'existing_respondent@email.com'
-    email_found = get_party_by_email(existing_email)
-    if not email_found:
-        register_respondent(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201801',
-                            username=existing_email)
-    edit_respondent_details_form.edit_email_address(existing_email)
+    email = 'existing_respondent@email.com'
+    create_respondent(email)
+    edit_respondent_details_form.edit_email_address(email)
     edit_respondent_details_form.click_save()
 
 
@@ -116,3 +113,10 @@ def confirm_email_unchanged(_):
 @then('they are informed that the email address they have entered is already in use')
 def error_email_already_in_use(_):
     assert reporting_unit.save_email_error()
+
+
+def create_respondent(email):
+    email_in_use = get_party_by_email(email)
+    if not email_in_use:
+        register_respondent(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201801',
+                            username=email)
