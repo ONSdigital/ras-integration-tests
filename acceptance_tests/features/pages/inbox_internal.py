@@ -1,4 +1,3 @@
-
 from config import Config
 
 from acceptance_tests import browser
