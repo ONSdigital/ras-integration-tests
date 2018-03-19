@@ -26,6 +26,7 @@ Feature: View reporting unit details
     And the internal user opens the Bricks data panel
     Then the internal user is presented with the associated collection exercises
 
+  @skip
   @us046_s01
   Scenario: Able to view respondent details for the RU Ref for the survey
     Given the reporting unit 49900000001 is in the system
