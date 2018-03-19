@@ -2,7 +2,7 @@ from behave import given, when, then
 
 from acceptance_tests.features.pages import inbox_internal
 from acceptance_tests.features.pages.internal_conversation_view import go_to_thread, count_thread_message, \
-    is_conversation_whit_sent_and_received_messages, view_full_conversation_date_time_msg_details, \
+    is_conversation_with_sent_and_received_messages, view_full_conversation_date_time_msg_details, \
     view_last_anchored_message
 
 from controllers import messages_controller
@@ -27,7 +27,7 @@ def view_all_thread_message(_):
 
 @then('The internal user can see which messages have been sent by ONS users and which are an external users messages')
 def identify_message_sender(_):
-    assert(is_conversation_whit_sent_and_received_messages())
+    assert(is_conversation_with_sent_and_received_messages())
 
 
 @then('The internal user can see the date and time for each message in the conversation')
