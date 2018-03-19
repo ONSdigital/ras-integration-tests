@@ -41,9 +41,5 @@ def get_no_messages_text():
     return browser.find_by_text('No new messages')
 
 
-def get_ashe_radio_button_value():
-    return browser.find_by_id('ASHE')
-
-
-def get_bricks_radio_button_value():
-    return browser.find_by_id('Bricks')
+def get_radio_button_for_survey(survey):
+    return browser.find_by_id(survey)

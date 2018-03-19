@@ -63,5 +63,5 @@ def test_view_select_survey_page(_):
 
 @then('they are able to view a list of filter options')
 def test_select_survey_page_view(_):
-    assert inbox_internal.get_ashe_radio_button_value()
-    assert inbox_internal.get_bricks_radio_button_value()
+    assert inbox_internal.get_radio_button_for_survey('ASHE')
+    assert inbox_internal.get_radio_button_for_survey('Bricks')
