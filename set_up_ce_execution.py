@@ -6,6 +6,7 @@ if __name__ == '__main__':
     database_controller.execute_rm_sql('resources/database/collection_exercise_setup/bricks_201801_setup.sql')
     database_controller.execute_rm_sql('resources/database/collection_exercise_setup/bricks_201812_setup.sql')
     database_controller.execute_rm_sql('resources/database/collection_exercise_setup/qbs_1809_setup.sql')
+    database_controller.execute_rm_sql('resources/database/collection_exercise_setup/ashe_201803_setup.sql')
 
     # Retrieve collection exercises upload collection instruments for them
     bricks_201801_ce = collection_exercise_controller.get_collection_exercise('cb8accda-6118-4d3b-85a3-149e28960c54',

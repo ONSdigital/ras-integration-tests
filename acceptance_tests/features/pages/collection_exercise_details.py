@@ -32,6 +32,11 @@ def load_sample():
     browser.find_by_id('btn-load-sample').click()
 
 
+def load_ashe_sample():
+    test_file = 'resources/sample_files/us081-load_ashe_sample_file/ashe_sample.csv'
+    browser.driver.find_element_by_id('sampleFile').send_keys(abspath(test_file))
+
+
 def get_sample_success_text():
     return browser.find_by_id('sample-success').first.text
 
@@ -154,3 +159,7 @@ def form_load_ci_exists():
 
 def form_load_sample_exists():
     return browser.find_by_id('form-load-sample')
+
+
+def click_load_sample():
+    browser.find_by_id('btn-load-sample').click()
