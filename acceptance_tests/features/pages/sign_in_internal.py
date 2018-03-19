@@ -27,11 +27,11 @@ def click_internal_sign_in_button():
 
 
 def check_username_required():
-    browser.find_link_by_text('Username is required')
+    browser.find_link_by_text('Please enter a username')
 
 
 def check_password_required():
-    browser.find_link_by_text('Password is required')
+    browser.find_link_by_text('Please enter a password')
 
 
 def check_authentication_error_message():
