@@ -27,7 +27,7 @@ def respondent_first_name_is_enrolled(_):
             or respondent['telephone'] != "0987654321":
         reporting_unit.go_to('49900000001')
         reporting_unit.click_data_panel('Bricks')
-        reporting_unit.click_edit_details()
+        reporting_unit.click_edit_details('Bricks')
         edit_respondent_details_form.edit_first_name('first_name')
         edit_respondent_details_form.edit_last_name('last_name')
         edit_respondent_details_form.edit_contact_number('0987654321')
