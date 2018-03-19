@@ -54,3 +54,14 @@ def test_message_order(_):
     first_message_date = datetime.strptime(messages[0].get('received').split(' ')[2], '%H:%M')
     second_message_date = datetime.strptime(messages[1].get('received').split(' ')[2], '%H:%M')
     assert first_message_date >= second_message_date
+
+
+@when('they navigate to the select survey page')
+def test_view_select_survey_page(_):
+    inbox_internal.go_to_select_survey()
+
+
+@then('they are able to view a list of filter options')
+def test_select_survey_page_view(_):
+    assert inbox_internal.get_radio_button_for_survey('ASHE')
+    assert inbox_internal.get_radio_button_for_survey('Bricks')
