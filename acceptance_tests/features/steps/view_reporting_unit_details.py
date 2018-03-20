@@ -24,10 +24,10 @@ def respondent_first_name_is_enrolled(_):
     respondent = get_respondent_details(respondent_id)
     if respondent['firstName'] != 'first_name' \
             or respondent['lastName'] != 'last_name' \
-            or respondent['phone'] != "0987654321":
+            or respondent['telephone'] != "0987654321":
         reporting_unit.go_to('49900000001')
         reporting_unit.click_data_panel('Bricks')
-        reporting_unit.click_edit_details()
+        reporting_unit.click_edit_details('Bricks')
         edit_respondent_details_form.edit_first_name('first_name')
         edit_respondent_details_form.edit_last_name('last_name')
         edit_respondent_details_form.edit_contact_number('0987654321')
