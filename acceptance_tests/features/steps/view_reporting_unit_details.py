@@ -5,8 +5,9 @@ from behave import given, when, then
 from structlog import wrap_logger
 
 from acceptance_tests import browser
-from acceptance_tests.features.pages import reporting_unit
+from acceptance_tests.features.pages import edit_respondent_details_form, reporting_unit
 from acceptance_tests.features.steps.authentication import signed_in_internal
+from controllers.party_controller import get_party_by_ru_ref, get_respondent_details
 
 logger = wrap_logger(getLogger(__name__))
 
@@ -14,6 +15,23 @@ logger = wrap_logger(getLogger(__name__))
 @given('the reporting unit 49900000001 is in the system')
 def reporting_unit_49900000001_is_in_the_system(_):
     pass
+
+
+@given('the respondent "first_name" is enrolled')
+def respondent_first_name_is_enrolled(_):
+    business = get_party_by_ru_ref('49900000001')
+    respondent_id = business['associations'][0]['partyId']
+    respondent = get_respondent_details(respondent_id)
+    if respondent['firstName'] != 'first_name' \
+            or respondent['lastName'] != 'last_name' \
+            or respondent['telephone'] != "0987654321":
+        reporting_unit.go_to('49900000001')
+        reporting_unit.click_data_panel('Bricks')
+        reporting_unit.click_edit_details('Bricks')
+        edit_respondent_details_form.edit_first_name('first_name')
+        edit_respondent_details_form.edit_last_name('last_name')
+        edit_respondent_details_form.edit_contact_number('0987654321')
+        edit_respondent_details_form.click_save()
 
 
 @given('the internal user is on the reporting unit page for 49900000003')

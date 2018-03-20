@@ -1,10 +1,13 @@
-
 from config import Config
 
 from acceptance_tests import browser
 
 
 def go_to():
+    browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/messages/BRES")
+
+
+def go_to_select_survey():
     browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/messages")
 
 
@@ -36,3 +39,7 @@ def get_table_heading():
 
 def get_no_messages_text():
     return browser.find_by_text('No new messages')
+
+
+def get_radio_button_for_survey(survey):
+    return browser.find_by_id(survey)

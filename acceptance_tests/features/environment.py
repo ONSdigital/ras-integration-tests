@@ -29,7 +29,8 @@ def before_all(context):
         authentication.signed_in_internal(context)
         execute_collection_exercises()
         database_controller.execute_rm_sql('resources/database/rsi_populate_action_rules.sql')
-        register_respondent(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201801')
+        register_respondent(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201801',
+                            username=Config.RESPONDENT_USERNAME)
         sign_out_internal.sign_out()
     except WebDriverException:
         logger.exception('Failed to setup before running tests', html=browser.html)
@@ -82,10 +83,10 @@ def poll_database_for_iac(survey_id, period):
         time.sleep(5)
 
 
-def register_respondent(survey_id, period):
+def register_respondent(survey_id, period, username):
     collection_exercise_id = collection_exercise_controller.get_collection_exercise(survey_id, period)['id']
     enrolment_code = database_controller.get_iac_for_collection_exercise(collection_exercise_id)
-    respondent_party = party_controller.register_respondent(email_address=Config.RESPONDENT_USERNAME,
+    respondent_party = party_controller.register_respondent(email_address=username,
                                                             first_name='first_name',
                                                             last_name='last_name',
                                                             password=Config.RESPONDENT_PASSWORD,
