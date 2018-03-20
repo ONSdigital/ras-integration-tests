@@ -8,6 +8,6 @@ Feature: Load ASHE sample
 
   @us081_s001
   Scenario: Load ASHE sample
-    Given the 201803 collection exercise for the QIFDI survey has been created
+    Given the 201803 collection exercise for the ASHE survey has been created
     When the internal user navigates to the collection exercise details page for ASHE 201803
     Then the user is able to load the ASHE sample file
