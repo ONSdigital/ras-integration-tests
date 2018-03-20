@@ -77,9 +77,13 @@ def click_generate_new_code():
     browser.find_by_id('generate-new-code').click()
 
 
-def click_edit_details():
-    browser.find_by_id('edit-contact-details-btn').click()
+def click_edit_details(survey_short_name):
+    browser.find_by_id(f'edit-contact-details-btn-{survey_short_name}').click()
 
 
-def confirm_contact_details_changes():
-    return browser.find_by_id('contact-changed')
+def get_confirm_contact_details_success_text():
+    return browser.find_by_id('success').text
+
+
+def save_email_error():
+    return browser.find_by_id('save-email-error')

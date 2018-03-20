@@ -23,3 +23,7 @@ def click_save():
 
 def click_cancel():
     browser.find_by_id('cancel-btn').click()
+
+
+def edit_email_address(email):
+    browser.find_by_id('email').fill(email)
