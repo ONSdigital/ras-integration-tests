@@ -6,8 +6,9 @@ import logging
 import requests
 from structlog import wrap_logger
 
+from common.respondent_details import RESPONDENT_DETAILS
+
 from config import Config
-from controllers import database_controller
 
 logger = wrap_logger(logging.getLogger(__name__))
 
@@ -29,7 +30,6 @@ def create_message(msg_to, subject, body, ru_id):
 
     response = requests.post(url, headers={'Authorization': _get_jwt(), 'Content-Type': 'application/json',
                                            'Accept': 'application/json'}, json=message)
-
     if response.status_code != 201:
         logger.error('Failed create message', status=response.status_code)
         raise Exception('Failed create message')
@@ -38,8 +38,10 @@ def create_message(msg_to, subject, body, ru_id):
 
 
 def create_thread():
+    msg_to = [RESPONDENT_DETAILS.get_respondent_id()]
+    ru_id = RESPONDENT_DETAILS.get_ru_id()
+    create_message(msg_to, "test subject", "test body", ru_id)
     logger.info("Create a message conversation thread")
-    database_controller.setup_secure_message_conversation()
 
 
 def _get_jwt():

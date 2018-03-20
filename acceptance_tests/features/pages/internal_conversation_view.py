@@ -9,7 +9,7 @@ def go_to():
 
 def go_to_thread():
     thread_subject = browser.find_by_id('message-link-1')
-    browser.click_link_by_id(thread_subject)
+    thread_subject.click()
 
 
 def count_thread_message():
@@ -20,18 +20,22 @@ def count_thread_message():
 
 def is_conversation_whit_sent_and_received_messages():
     internals = browser.find_by_name('sm-from-ons')
-    external = browser.find_by_name('sm-from-respondent')
 
-    return len(internals) == 2 and len(external) == 1
+    # TODO Enable this when we are able to send message from Front-stage
+    # external = browser.find_by_name('sm-from-respondent')
+
+    return len(internals) == 1
 
 
 def view_full_conversation_date_time_msg_details():
     internals = browser.find_by_name('sm-from-ons')
-    externals = browser.find_by_name('sm-from-respondent')
 
-    return len(internals.find_by_name('sm-sent-date') + externals.find_by_name('sm-sent-date'))
+    # TODO Enable this when we are able to send message from Front-stage
+    # externals = browser.find_by_name('sm-from-respondent')
+
+    return len(internals.find_by_name('sm-sent-date'))
 
 
 def view_last_anchored_message():
-    last_message = browser.find_by_id('sm-from-ons-3')
+    last_message = browser.find_by_id('sm-from-ons-1')
     return len(last_message.find_by_name("latest-message")) == 1

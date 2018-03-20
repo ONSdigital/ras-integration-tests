@@ -11,6 +11,7 @@ from controllers import messages_controller
 @given('An internal user has conversations in their inbox')
 def populate_database_with_messages(_):
     messages_controller.create_thread()
+
     inbox_internal.go_to()
     assert len(inbox_internal.get_messages()) > 0
 
@@ -22,7 +23,7 @@ def select_thread(_):
 
 @then('the internal user can see all messages in the conversation')
 def view_all_thread_message(_):
-    assert len(count_thread_message()) == 3
+    assert count_thread_message() == 1
 
 
 @then('The internal user can see which messages have been sent by ONS users and which are an external users messages')
@@ -32,7 +33,7 @@ def identify_message_sender(_):
 
 @then('The internal user can see the date and time for each message in the conversation')
 def check_date_time(_):
-    assert (view_full_conversation_date_time_msg_details() == 3)
+    assert (view_full_conversation_date_time_msg_details() == 1)
 
 
 @then('They are taken to the latest message in that conversation')

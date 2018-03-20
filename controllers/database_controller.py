@@ -116,22 +116,3 @@ def enrol_party(respondent_uuid):
     trans.commit()
 
     return case_id
-
-
-def setup_secure_message_conversation():
-    """
-    This function will populate the seuremessage database with a full conversation.
-    """
-    logger.info("Clean up the Database before populate it")
-    reset_secure_message_database()
-    logger.info("Populate secure message table")
-    engine = create_engine(Config.SECURE_MESSAGE_DATABASE_URI)
-    connection = engine.connect()
-    trans = connection.begin()
-
-    with open('resources/database/secure_message_thread.sql', 'r') as sqlScriptFile:
-        sql = sqlScriptFile.read().replace('\n', '')
-
-    connection.execute(sql)
-    trans.commit()
-    connection.close()
