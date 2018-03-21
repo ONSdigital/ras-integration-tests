@@ -1,8 +1,6 @@
-[![Build Status](https://travis-ci.org/ONSdigital/rasrm-acceptance-tests.svg?branch=master)](https://travis-ci.org/ONSdigital/ras-integration-tests)
+[![Build Status](https://travis-ci.org/ONSdigital/rasrm-acceptance-tests.svg?branch=master)](https://travis-ci.org/ONSdigital/rasrm-acceptance-tests)
 
-** **NOTE** ** This repo was renamed from ONSdigital/ras-integration-tests
-
-# ras-integration-tests
+# rasrm-acceptance-tests
 System / API tests for RAS & RM services
 
 ## Prerequisites
