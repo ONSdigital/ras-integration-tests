@@ -4,7 +4,7 @@ from acceptance_tests import browser
 
 
 def go_to():
-    browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/messages/BRES")
+    browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/messages/Bricks")
 
 
 def go_to_select_survey():

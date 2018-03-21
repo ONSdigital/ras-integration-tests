@@ -15,12 +15,12 @@ def verify_messages_link_present(_):
 
 @given('the user has got messages in their inbox')
 def populate_database_with_messages(_):
-    respondent_id = [RESPONDENT_DETAILS.get_respondent_id()]
-    ru_id = RESPONDENT_DETAILS.get_ru_id()
-    messages_controller.create_message(respondent_id, "test subject", "test body", ru_id)
+
+    messages_controller.create_message()
     # 1 sec sleep so that there is a different timestamp on the message
-    time.sleep(1)
-    messages_controller.create_message(respondent_id, "test subject2", "test body2", ru_id)
+    time.sleep(2)
+    messages_controller.create_message()
+    inbox_internal.go_to()
 
 
 @given('the user has no messages in their inbox')
