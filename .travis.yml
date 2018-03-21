@@ -21,6 +21,9 @@ script:
   - pipenv check --style . --max-line-length 120
   - make test
 
+after_failure:
+  - cd tmp_ras_rm_docker_dev && docker-compose -f dev.yml -f ras-services.yml -f rm-services.yml logs
+
 branches:
   only:
     - master
