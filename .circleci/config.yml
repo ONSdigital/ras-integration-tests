@@ -26,12 +26,12 @@ jobs:
           name: install dependencies
           command: |
             apk add --no-cache python3
+            apk add --repository http://dl-cdn.alpinelinux.org/alpine/edge/main --no-cache py3-psycopg2
             apk add --no-cache \
               py-pip=9.0.0-r1
             python3 -m venv venv
             . venv/bin/activate
             pip install pipenv==8.3.2
-            pip install psycopg2-binary
             pipenv install --dev --deploy
             docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD";
             docker network create rasrmdockerdev_default
