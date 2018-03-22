@@ -14,6 +14,7 @@ jobs:
             eval "$(pyenv init -)"
             eval "$(pyenv virtualenv-init -)"
             pyenv install 3.6.0
+            pipenv shell 3.6.3
             pip install --user pipenv==8.3.2
             export PATH=$HOME/.local/bin:$PATH
             pipenv install --dev --deploy
@@ -29,4 +30,5 @@ jobs:
       - run:
           name: Run system tests
           command: |
-            make system_tests
+            export PATH=$HOME/.local/bin:$PATH
+            make style_tests system_tests setup acceptance_tests stop_services
