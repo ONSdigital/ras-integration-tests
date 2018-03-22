@@ -47,10 +47,10 @@ style_tests:
 	pipenv check --style . --max-line-length 120
 
 system_tests:
-	pipenv run behave system_tests/features # This will only run the system tests
+	pipenv run behave --format progress2 system_tests/features # This will only run the system tests
 
 acceptance_tests:
-	pipenv run behave acceptance_tests/features # This will only run the acceptance tests
+	pipenv run behave --format progress2 acceptance_tests/features # This will only run the acceptance tests
 
 test: style_tests start_services system_tests setup acceptance_tests stop_services
 
