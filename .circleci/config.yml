@@ -9,6 +9,10 @@ jobs:
       - run:
           name: Install dependencies
           command: |
+            curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+            export PATH="~/.pyenv/bin:$PATH"
+            eval "$(pyenv init -)"
+            eval "$(pyenv virtualenv-init -)"
             pip install --user pipenv==8.3.2
             export PATH=$HOME/.local/bin:$PATH
             pipenv install --dev --deploy
