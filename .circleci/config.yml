@@ -1,14 +1,15 @@
 version: 2
+machine:
+  services:
+    - docker
+
 jobs:
   build:
-    docker:
-      - image: circleci/python:3.6.1
+    machine: true
+      docker_layer_caching: true    # default - false
       
     steps:
       - checkout
-
-      - setup_remote_docker:
-          docker_layer_caching: true
 
       - run:
           name: Install dependencies
