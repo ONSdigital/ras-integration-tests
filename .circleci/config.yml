@@ -1,52 +1,45 @@
-# Python CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-python/ for more details#
 version: 2
-machine:
-  services:
-    - docker
-
 jobs:
   build:
     docker:
-      # specify the version you desire here
-      # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
-      - image: docker:17.05.0-ce-git 
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
-
-    working_directory: ~/repo
-
+      - image: circleci/python:3.6.1
+      
     steps:
       - checkout
 
+      - setup_remote_docker
+
+      # This should go into custom primary image, here's only for the sake of explanation
       - run:
-          name: install dependencies
+          name: Install Docker client
           command: |
-            apk add --no-cache python3
-            apk add --virtual build-deps gcc python-dev musl-dev
-            apk add --no-cache --update postgresql-dev
-            apk add --no-cache \
-              py-pip=9.0.0-r1
+            set -x
+            VER="17.03.0-ce"
+            curl -L -o /tmp/docker-$VER.tgz https://get.docker.com/builds/Linux/x86_64/docker-$VER.tgz
+            tar -xz -C /tmp -f /tmp/docker-$VER.tgz
+            mv /tmp/docker/* /usr/bin
+
+      # This should go into custom primary image, here's only for the sake of explanation
+      - run:
+          name: Install Docker Compose
+          command: |
+            set -x
+            curl -L https://github.com/docker/compose/releases/download/1.11.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+            chmod +x /usr/local/bin/docker-compose
+
+      - run:
+          name: Start container and verify it's working
+          command: |        
+            docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD";
+            docker network create rasrmdockerdev_default
+            make start_services
+
+
+      - run:
+          name: Run system tests
+          command: |
             python3 -m venv venv
             . venv/bin/activate
             pip install pipenv==8.3.2
             pipenv install --dev --deploy
-            docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD";
-            docker network create rasrmdockerdev_default
-
-      # run tests!
-      # this example uses Django's built-in test-runner
-      # other common Python testing frameworks include pytest and nose
-      # https://pytest.org
-      # https://nose.readthedocs.io
-      - run:
-          name: run tests
-          command: |
-            make test
-
-      - store_artifacts:
-          path: test-reports
-          destination: test-reports
+            make system_tests
