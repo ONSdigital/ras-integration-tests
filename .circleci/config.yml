@@ -13,9 +13,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            python3 -m venv venv
-            . venv/bin/activate
-            pip install pipenv==8.3.2
+            pip install --user pipenv==8.3.2
             pipenv install --dev --deploy
 
       - run:
