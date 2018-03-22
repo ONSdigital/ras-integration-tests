@@ -23,7 +23,7 @@ jobs:
             export PATH=$HOME/.local/bin:$PATH
             docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD";
             docker network create rasrmdockerdev_default
-            make start_services
+            make start_services || cd tmp_ras_rm_docker_dev && docker-compose -f dev.yml -f ras-services.yml -f rm-services.yml logs
 
       - run:
           name: Run system tests
