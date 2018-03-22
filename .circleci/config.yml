@@ -14,6 +14,7 @@ jobs:
           name: Install dependencies
           command: |
             pip install --user pipenv==8.3.2
+            export PATH=$HOME/.local/bin:$PATH
             pipenv install --dev --deploy
 
       - run:
