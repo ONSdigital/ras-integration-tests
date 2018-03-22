@@ -5,8 +5,6 @@ machine:
 
 jobs:
   build:
-    machine: true
-      docker_layer_caching: true    # default - false
       
     steps:
       - checkout
