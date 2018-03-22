@@ -5,10 +5,10 @@ from selenium.common.exceptions import WebDriverException
 from structlog import wrap_logger
 
 from acceptance_tests import browser
-from acceptance_tests.features.pages import sign_out_internal
+from acceptance_tests.features.pages import collection_exercise_details, sign_out_internal
 from acceptance_tests.features.steps import authentication
 from config import Config
-from controllers import (collection_exercise_controller, database_controller, sample_controller,
+from controllers import (collection_exercise_controller, database_controller,
                          party_controller, django_oauth_controller, case_controller)
 
 logger = wrap_logger(getLogger(__name__))
@@ -22,13 +22,14 @@ def after_all(context):
 
 
 def before_all(context):
+    database_controller.execute_rm_sql('resources/database/database_reset_rm.sql')
+    database_controller.reset_ras_database()
+    database_controller.reset_secure_message_database()
+    database_controller.execute_rm_sql('resources/database/rsi_populate_action_rules.sql')
+
     try:
-        database_controller.execute_rm_sql('resources/database/database_reset_rm.sql')
-        database_controller.reset_ras_database()
-        database_controller.reset_secure_message_database()
         authentication.signed_in_internal(context)
         execute_collection_exercises()
-        database_controller.execute_rm_sql('resources/database/rsi_populate_action_rules.sql')
         register_respondent(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201801',
                             username=Config.RESPONDENT_USERNAME)
         sign_out_internal.sign_out()
@@ -48,37 +49,42 @@ def after_step(context, step):
 
 
 def execute_collection_exercises():
-    test_file = 'resources/sample_files/business-survey-sample-date.csv'
-    logger.info('Loading sample', survey='bricks', period='201801')
-    sample_controller.load_sample('bricks', '201801', test_file)
-    logger.info('Loading sample', survey='bricks', period='201812')
-    sample_controller.load_sample('bricks', '201812', test_file)
-    logger.info('Loading sample', survey='QBS', period='1809')
-    sample_controller.load_sample('QBS', '1809', test_file)
-    logger.info('Executing collection exercise', survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201801')
-    collection_exercise_controller.execute_collection_exercise(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54',
-                                                               period='201801')
-    logger.info('Executing collection exercise', survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201812')
-    collection_exercise_controller.execute_collection_exercise(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54',
-                                                               period='201812')
-    logger.info('Executing collection exercise', survey_id='02b9c366-7397-42f7-942a-76dc5876d86d', period='1809')
-    collection_exercise_controller.execute_collection_exercise(survey_id='02b9c366-7397-42f7-942a-76dc5876d86d',
-                                                               period='1809')
-    logger.info('Waiting for collection exercises execution process to finish',
-                survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201801')
+    logger.info('Executing collection exercises')
+    execute_seft_collection_exercise('bricks', '201801')
+    execute_seft_collection_exercise('bricks', '201812')
+    execute_eq_collection_exercise('QBS', '1809')
+
+    logger.info('Waiting for collection exercises to finish executing')
     poll_database_for_iac(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201801')
-    logger.info('Waiting for collection exercises execution process to finish',
-                survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201812')
     poll_database_for_iac(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201812')
-    logger.info('Waiting for collection exercises execution process to finish',
-                survey_id='02b9c366-7397-42f7-942a-76dc5876d86d', period='1809')
     poll_database_for_iac(survey_id='02b9c366-7397-42f7-942a-76dc5876d86d', period='1809')
 
 
+def execute_seft_collection_exercise(survey_name, period):
+    logger.info('Executing SEFT collection exercise', survey=survey_name, period=period)
+    collection_exercise_details.go_to(survey_name, period)
+    collection_exercise_details.load_collection_instrument('resources/collection_instrument_files/064_201803_0001.xlsx')
+    collection_exercise_details.load_sample()
+    collection_exercise_details.click_ready_for_live_and_confirm()
+    logger.info('Successfully executed SEFT collection exercise', survey=survey_name, period=period)
+
+
+def execute_eq_collection_exercise(survey_name, period):
+    logger.info('Executing eQ collection exercise', survey=survey_name, period=period)
+    collection_exercise_details.go_to(survey_name, period)
+    collection_exercise_details.add_eq_ci()
+    collection_exercise_details.load_sample()
+    collection_exercise_details.click_ready_for_live_and_confirm()
+    logger.info('Successfully executed eQ collection exercise', survey=survey_name, period=period)
+
+
 def poll_database_for_iac(survey_id, period):
+    logger.info('Waiting for collection exercise execution process to finish',
+                survey_id=survey_id, period=period)
     collection_exercise_id = collection_exercise_controller.get_collection_exercise(survey_id, period)['id']
     while True:
         if database_controller.get_iac_for_collection_exercise(collection_exercise_id):
+            logger.info('Collection exercise finished executing', survey_id=survey_id, period=period)
             break
         time.sleep(5)
 
