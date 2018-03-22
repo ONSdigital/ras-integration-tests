@@ -7,7 +7,6 @@ machine:
     - docker
 
 jobs:
- start:
   build:
     docker:
       # specify the version you desire here
