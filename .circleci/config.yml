@@ -19,7 +19,8 @@ jobs:
 
       - run:
           name: Start container and verify it's working
-          command: |        
+          command: |
+            export PATH=$HOME/.local/bin:$PATH
             docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD";
             docker network create rasrmdockerdev_default
             make start_services
