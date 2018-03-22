@@ -1,7 +1,7 @@
 from behave import given, when, then
 
 
-from acceptance_tests.features.pages import inbox_internal, create_message_internal
+from acceptance_tests.features.pages import inbox_internal
 from acceptance_tests.features.pages.internal_conversation_view import go_to_thread, count_thread_message, \
     is_conversation_with_sent_and_received_messages, view_full_conversation_date_time_msg_details, \
     view_last_anchored_message

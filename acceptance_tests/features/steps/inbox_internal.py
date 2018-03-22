@@ -4,7 +4,6 @@ from datetime import datetime
 from behave import given, when, then
 
 from acceptance_tests.features.pages import home, inbox_internal
-from common.respondent_details import RESPONDENT_DETAILS
 from controllers import messages_controller, database_controller
 
 
