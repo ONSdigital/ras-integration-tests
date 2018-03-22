@@ -30,4 +30,4 @@ jobs:
           name: Run system tests
           command: |
             export PATH=$HOME/.local/bin:$PATH
-            make style_tests system_tests setup acceptance_tests stop_services
+            make system_tests setup acceptance_tests stop_services
