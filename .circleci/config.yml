@@ -8,20 +8,11 @@ machine:
 
 jobs:
  start:
-   machine: true
-   steps:
-     - checkout
-     # start proprietary DB using private Docker image
-     # with credentials stored in the UI
-     - run: |
-         make start_services
-
   build:
     docker:
       # specify the version you desire here
       # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
-      - image: circleci/python:3.6.1
-      
+      - image: docker:17.05.0-ce-git 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
@@ -50,7 +41,7 @@ jobs:
       - run:
           name: run tests
           command: |
-            make system_tests
+            make test
 
       - store_artifacts:
           path: test-reports
