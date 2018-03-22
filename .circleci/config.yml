@@ -2,8 +2,6 @@ version: 2
 jobs:
   build:
     machine: true
-      services:
-        - docker
       docker_layer_caching: true    # default - false
       
     steps:
