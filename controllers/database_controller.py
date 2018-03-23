@@ -2,6 +2,7 @@ import logging
 
 import requests
 from sqlalchemy import create_engine
+from sqlalchemy.exc import IntegrityError
 from structlog import wrap_logger
 
 from config import Config
@@ -18,7 +19,11 @@ def execute_sql(sql_script_file_path):
     with open(sql_script_file_path, 'r') as sqlScriptFile:
         reset_party_sql = sqlScriptFile.read().replace('\n', '')
 
-    connection.execute(reset_party_sql)
+    try:
+        connection.execute(reset_party_sql)
+    except IntegrityError:
+        logger.info('Script has already been run', sql_script_file_path=sql_script_file_path)
+
     trans.commit()
     logger.debug('Successfully executed SQL script', sql_script_file_path=sql_script_file_path)
 
@@ -35,66 +40,6 @@ def execute_sql_secure_message(sql_script_file_path):
     connection.execute(reset_party_sql)
     trans.commit()
     logger.debug('Successfully executed SQL script', sql_script_file_path=sql_script_file_path)
-
-
-def execute_rm_sql(sql_script_file_path):
-    logger.debug('Executing SQL script', sql_script=sql_script_file_path)
-
-    url = Config.CF_DATABASE_TOOL + '/sql'
-    headers = {
-        'Content-Type': 'text/plain'
-    }
-    with open(sql_script_file_path, 'r') as sqlScriptFile:
-        sql_script = sqlScriptFile.read().replace('\n', '')
-
-    response = requests.post(url, auth=Config.BASIC_AUTH, headers=headers, data=sql_script)
-
-    # The response from the database tool as of 16/02/18 always comes back with 201 regardless
-    # of whether the sql execution succeded or failed.  If tests are failing, check the database tool's
-    # logs for any sqlExceptions.
-    if response.status_code != 201:
-        logger.error('SQL execution failed', status=response.status_code, sql_script=sql_script_file_path)
-
-    logger.debug('Executed SQL script', sql_script=sql_script_file_path)
-    return response.text
-
-
-def reset_ras_database():
-    logger.debug("Putting party database into known state")
-    engine = create_engine(Config.PARTY_DATABASE_URI)
-    connection = engine.connect()
-    trans = connection.begin()
-
-    with open('resources/database/database_reset_party.sql', 'r') as sqlScriptFile:
-        reset_party_sql = sqlScriptFile.read().replace('\n', '')
-
-    connection.execute(reset_party_sql)
-    trans.commit()
-
-    logger.debug("Putting django database into known state")
-    engine = create_engine(Config.DJANGO_OAUTH_DATABASE_URI)
-    connection = engine.connect()
-    trans = connection.begin()
-
-    with open('resources/database/database_reset_oauth.sql', 'r') as sqlScriptFile:
-        reset_oauth_sql = sqlScriptFile.read().replace('\n', '')
-
-    connection.execute(reset_oauth_sql)
-    trans.commit()
-
-
-def reset_secure_message_database():
-    logger.debug("Clearing down secure message database")
-    engine = create_engine(Config.SECURE_MESSAGE_DATABASE_URI)
-    connection = engine.connect()
-    trans = connection.begin()
-
-    with open('resources/database/database_reset_secure_message.sql', 'r') as sqlScriptFile:
-        sql = sqlScriptFile.read().replace('\n', '')
-
-    connection.execute(sql)
-    trans.commit()
-    connection.close()
 
 
 def select_iac():

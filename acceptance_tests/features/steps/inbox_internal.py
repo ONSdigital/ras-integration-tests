@@ -24,7 +24,7 @@ def populate_database_with_messages(_):
 
 @given('the user has no messages in their inbox')
 def user_has_no_messages_in_inbox(_):
-    database_controller.reset_secure_message_database()
+    database_controller.execute_sql_secure_message('resources/database/database_reset_secure_message.sql')
 
 
 @when('they navigate to the inbox messages')
