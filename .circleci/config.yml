@@ -24,7 +24,6 @@ jobs:
           command: |
             export PATH=$HOME/.local/bin:$PATH
             docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD";
-            docker network create rasrmdockerdev_default
             make start_services wait_for_services || docker-compose -f dev.yml -f ras-services.yml -f rm-services.yml logs
       - run:
           name: Install Chrome
