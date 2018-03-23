@@ -10,7 +10,7 @@ logger = wrap_logger(logging.getLogger(__name__))
 
 
 def execute_collection_exercise(survey_id, period):
-    logger.info('Executing collection exercise')
+    logger.info('Executing collection exercise', survey_id=survey_id, period=period)
     collection_exercise_id = get_collection_exercise(survey_id, period)['id']
 
     url = f'{Config.COLLECTION_EXERCISE}/collectionexerciseexecution/{collection_exercise_id}'
@@ -19,7 +19,7 @@ def execute_collection_exercise(survey_id, period):
         logger.error('Failed to post collection exercise execution', status=response.status_code)
         raise Exception(f'Failed to post collection exercise {collection_exercise_id}')
 
-    logger.info('Collection exercise executed')
+    logger.info('Collection exercise executed', survey_id=survey_id, period=period)
 
 
 def get_collection_exercise(survey_id, period):

@@ -8,8 +8,8 @@ from acceptance_tests import browser
 from acceptance_tests.features.pages import collection_exercise_details, sign_out_internal
 from acceptance_tests.features.steps import authentication
 from config import Config
-from controllers import (collection_exercise_controller, database_controller,
-                         party_controller, django_oauth_controller, case_controller)
+from controllers import (case_controller, collection_exercise_controller, collection_instrument_controller,
+                         database_controller, django_oauth_controller, party_controller, sample_controller)
 
 logger = wrap_logger(getLogger(__name__))
 
@@ -52,8 +52,10 @@ def after_step(context, step):
 
 def execute_collection_exercises():
     logger.info('Executing collection exercises')
-    execute_seft_collection_exercise('bricks', '201801')
-    execute_seft_collection_exercise('bricks', '201812')
+    # Bricks
+    execute_seft_collection_exercise('cb8accda-6118-4d3b-85a3-149e28960c54', '201801')
+    execute_seft_collection_exercise('cb8accda-6118-4d3b-85a3-149e28960c54', '201812')
+    # QBS
     execute_eq_collection_exercise('QBS', '1809')
 
     logger.info('Waiting for collection exercises to finish executing')
@@ -63,13 +65,19 @@ def execute_collection_exercises():
     logger.info('Collection exercises have finished executing')
 
 
-def execute_seft_collection_exercise(survey_name, period):
-    logger.debug('Executing SEFT collection exercise', survey=survey_name, period=period)
-    collection_exercise_details.go_to(survey_name, period)
-    collection_exercise_details.load_collection_instrument('resources/collection_instrument_files/064_201803_0001.xlsx')
-    collection_exercise_details.load_sample('resources/sample_files/business-survey-sample-date.csv')
-    collection_exercise_details.click_ready_for_live_and_confirm()
-    logger.debug('Successfully executed SEFT collection exercise', survey=survey_name, period=period)
+def execute_seft_collection_exercise(survey_id, period):
+    logger.debug('Executing SEFT collection exercise', survey_id=survey_id, period=period)
+    collection_exercise = collection_exercise_controller.get_collection_exercise(survey_id, period)
+    collection_instrument_controller.upload_seft_collection_instrument(collection_exercise['id'],
+                                                                       'resources/collection_instrument_files/064_201803_0001.xlsx')
+    sample_controller.upload_sample(collection_exercise['id'], 'resources/sample_files/business-survey-sample-date.csv')
+    time.sleep(5)
+    collection_exercise_controller.execute_collection_exercise(survey_id, period)
+    # collection_exercise_details.go_to(survey_name, period)
+    # collection_exercise_details.load_collection_instrument('resources/collection_instrument_files/064_201803_0001.xlsx')
+    # collection_exercise_details.load_sample('resources/sample_files/business-survey-sample-date.csv')
+    # collection_exercise_details.click_ready_for_live_and_confirm()
+    logger.debug('Successfully executed SEFT collection exercise', survey_id=survey_id, period=period)
 
 
 def execute_eq_collection_exercise(survey_name, period):
