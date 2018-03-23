@@ -18,6 +18,7 @@ jobs:
             export PATH="~/.pyenv/bin:$PATH"
             eval "$(pyenv init -)"
             eval "$(pyenv virtualenv-init -)"
+            pyenv install 3.6.0
             pip install --user pipenv==8.3.2
             export PATH=$HOME/.local/bin:$PATH
             pipenv install --dev --deploy
@@ -28,6 +29,7 @@ jobs:
             - ~/.local
             - ~/.cache
             - ~/.pyenv
+            - ~/.pyenv_cache
 
       - run:
           name: Start container and verify it's working
