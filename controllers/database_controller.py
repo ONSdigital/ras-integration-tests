@@ -146,7 +146,7 @@ def enrol_party(respondent_uuid):
     sql_get_case_id = f"SELECT case_id FROM partysvc.pending_enrolment WHERE respondent_id = (SELECT id FROM partysvc.respondent WHERE party_uuid = '{respondent_uuid}');"  # NOQA
     sql_delete_pending_enrolment = f"DELETE FROM partysvc.pending_enrolment WHERE respondent_id = (SELECT id FROM partysvc.respondent WHERE party_uuid = '{respondent_uuid}');"  # NOQA
 
-    engine = create_engine(Config.PARTY_DATABASE_URI)
+    engine = create_engine(Config.DATABASE_URI)
     connection = engine.connect()
 
     result = connection.execute(sql_get_case_id)

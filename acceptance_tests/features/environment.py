@@ -27,7 +27,6 @@ def before_all(context):
     database_controller.execute_sql('resources/database/database_reset_party.sql')
     database_controller.execute_sql('resources/database/database_reset_oauth.sql')
     database_controller.execute_sql_secure_message('resources/database/database_reset_secure_message.sql')
-    # database_controller.execute_sql('resources/database/rsi_populate_action_rules.sql')
     logger.info('Successfully reset databases')
 
     try:
@@ -68,7 +67,7 @@ def execute_seft_collection_exercise(survey_name, period):
     logger.debug('Executing SEFT collection exercise', survey=survey_name, period=period)
     collection_exercise_details.go_to(survey_name, period)
     collection_exercise_details.load_collection_instrument('resources/collection_instrument_files/064_201803_0001.xlsx')
-    collection_exercise_details.load_sample()
+    collection_exercise_details.load_sample('resources/sample_files/business-survey-sample-date.csv')
     collection_exercise_details.click_ready_for_live_and_confirm()
     logger.debug('Successfully executed SEFT collection exercise', survey=survey_name, period=period)
 
@@ -77,14 +76,14 @@ def execute_eq_collection_exercise(survey_name, period):
     logger.debug('Executing eQ collection exercise', survey=survey_name, period=period)
     collection_exercise_details.go_to(survey_name, period)
     collection_exercise_details.add_eq_ci()
-    collection_exercise_details.load_sample()
+    collection_exercise_details.load_sample('resources/sample_files/business-survey-sample-date.csv')
     collection_exercise_details.click_ready_for_live_and_confirm()
     logger.debug('Successfully executed eQ collection exercise', survey=survey_name, period=period)
 
 
 def poll_database_for_iac(survey_id, period):
     logger.debug('Waiting for collection exercise execution process to finish',
-                survey_id=survey_id, period=period)
+                 survey_id=survey_id, period=period)
     collection_exercise_id = collection_exercise_controller.get_collection_exercise(survey_id, period)['id']
     while True:
         if database_controller.get_iac_for_collection_exercise(collection_exercise_id):
