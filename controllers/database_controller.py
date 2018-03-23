@@ -9,8 +9,36 @@ from config import Config
 logger = wrap_logger(logging.getLogger(__name__))
 
 
+def execute_sql(sql_script_file_path):
+    logger.debug('Executing SQL script', sql_script_file_path=sql_script_file_path)
+    engine = create_engine(Config.DATABASE_URI)
+    connection = engine.connect()
+    trans = connection.begin()
+
+    with open(sql_script_file_path, 'r') as sqlScriptFile:
+        reset_party_sql = sqlScriptFile.read().replace('\n', '')
+
+    connection.execute(reset_party_sql)
+    trans.commit()
+    logger.debug('Successfully executed SQL script', sql_script_file_path=sql_script_file_path)
+
+
+def execute_sql_secure_message(sql_script_file_path):
+    logger.debug('Executing SQL script', sql_script_file_path=sql_script_file_path)
+    engine = create_engine(Config.SECURE_MESSAGE_DATABASE_URI)
+    connection = engine.connect()
+    trans = connection.begin()
+
+    with open(sql_script_file_path, 'r') as sqlScriptFile:
+        reset_party_sql = sqlScriptFile.read().replace('\n', '')
+
+    connection.execute(reset_party_sql)
+    trans.commit()
+    logger.debug('Successfully executed SQL script', sql_script_file_path=sql_script_file_path)
+
+
 def execute_rm_sql(sql_script_file_path):
-    logger.info('Executing SQL script', sql_script=sql_script_file_path)
+    logger.debug('Executing SQL script', sql_script=sql_script_file_path)
 
     url = Config.CF_DATABASE_TOOL + '/sql'
     headers = {
@@ -27,12 +55,12 @@ def execute_rm_sql(sql_script_file_path):
     if response.status_code != 201:
         logger.error('SQL execution failed', status=response.status_code, sql_script=sql_script_file_path)
 
-    logger.info('Executed SQL script', sql_script=sql_script_file_path)
+    logger.debug('Executed SQL script', sql_script=sql_script_file_path)
     return response.text
 
 
 def reset_ras_database():
-    logger.info("Putting party database into known state")
+    logger.debug("Putting party database into known state")
     engine = create_engine(Config.PARTY_DATABASE_URI)
     connection = engine.connect()
     trans = connection.begin()
@@ -43,7 +71,7 @@ def reset_ras_database():
     connection.execute(reset_party_sql)
     trans.commit()
 
-    logger.info("Putting django database into known state")
+    logger.debug("Putting django database into known state")
     engine = create_engine(Config.DJANGO_OAUTH_DATABASE_URI)
     connection = engine.connect()
     trans = connection.begin()
@@ -56,7 +84,7 @@ def reset_ras_database():
 
 
 def reset_secure_message_database():
-    logger.info("Clearing down secure message database")
+    logger.debug("Clearing down secure message database")
     engine = create_engine(Config.SECURE_MESSAGE_DATABASE_URI)
     connection = engine.connect()
     trans = connection.begin()
