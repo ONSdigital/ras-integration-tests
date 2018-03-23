@@ -6,7 +6,6 @@ from config import Config
 
 def go_to(ru_ref):
     browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/reporting-units/{ru_ref}")
-    time.sleep(1)
 
 
 def click_data_panel(survey_short_name):
@@ -78,7 +77,8 @@ def click_generate_new_code():
 
 
 def click_edit_details(survey_short_name):
-    browser.find_by_id(f'edit-contact-details-btn-{survey_short_name}').click()
+    if browser.is_element_present_by_id(f'edit-contact-details-btn-{survey_short_name}', wait_time=2):
+        browser.find_by_id(f'edit-contact-details-btn-{survey_short_name}').click()
 
 
 def get_confirm_contact_details_success_text():
