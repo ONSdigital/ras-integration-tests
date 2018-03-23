@@ -6,6 +6,7 @@ if __name__ == '__main__':
     database_controller.execute_rm_sql('resources/database/collection_exercise_setup/bricks_201801_setup.sql')
     database_controller.execute_rm_sql('resources/database/collection_exercise_setup/bricks_201812_setup.sql')
     database_controller.execute_rm_sql('resources/database/collection_exercise_setup/qbs_1809_setup.sql')
+    database_controller.execute_rm_sql('resources/database/collection_exercise_setup/ashe_201803_setup.sql')
 
     # Upload eQ collection instrument for QBS
     # We can't upload eQ collection instruments through the UI

@@ -25,7 +25,7 @@ def rsi_201811_exists_and_loaded_sample_cis(_):
     collection_exercise_details.go_to('RSI', '201811')
     ce_state = collection_exercise_details.get_status()
     assert collection_exercise.is_scheduled(ce_state), ce_state
-    collection_exercise_details.load_sample()
+    collection_exercise_details.load_sample('resources/sample_files/business-survey-sample-date.csv')
     success_text = collection_exercise_details.get_sample_success_text()
     assert success_text == 'Sample successfully loaded'
     collection_exercise_details.load_collection_instrument(
@@ -58,7 +58,7 @@ def rsi_201811_is_ready_for_review(_):
 @given('the user has loaded the sample')
 @when('the user loads the sample')
 def load_sample(_):
-    collection_exercise_details.load_sample()
+    collection_exercise_details.load_sample('resources/sample_files/business-survey-sample-date.csv')
     success_text = collection_exercise_details.get_sample_success_text()
     assert success_text == 'Sample successfully loaded'
 

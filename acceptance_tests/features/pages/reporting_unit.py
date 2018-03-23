@@ -6,7 +6,7 @@ from config import Config
 
 def go_to(ru_ref):
     browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/reporting-units/{ru_ref}")
-    time.sleep(0.1)
+    time.sleep(1)
 
 
 def click_data_panel(survey_short_name):
