@@ -1,48 +1,18 @@
-import json
-import jwt
+
 import logging
 
-
-import requests
 from structlog import wrap_logger
 
-from common.respondent_details import RESPONDENT_DETAILS
-
-from config import Config
+from acceptance_tests.features.pages import create_message_internal
 
 logger = wrap_logger(logging.getLogger(__name__))
 
 
-def create_message(msg_to, subject, body, ru_id):
-    logger.debug('Creating secure message')
-
-    message = {
-        'msg_from': "BRES",
-        'msg_to': msg_to,
-        'subject': subject,
-        'body': body,
-        'thread_id': "",
-        'collection_case': "",
-        'survey': "cb0711c3-0ac8-41d3-ae0e-567e5ea1ef87",
-        'ru_id': ru_id}
-
-    url = Config.SECURE_MESSAGE_SERVICE + '/message/send'
-
-    response = requests.post(url, headers={'Authorization': _get_jwt(), 'Content-Type': 'application/json',
-                                           'Accept': 'application/json'}, json=message)
-    if response.status_code != 201:
-        logger.error('Failed create message', status=response.status_code)
-        raise Exception('Failed create message')
-
-    return json.loads(response.text)
-
-
-def create_thread():
-    msg_to = [RESPONDENT_DETAILS.get_respondent_id()]
-    ru_id = RESPONDENT_DETAILS.get_ru_id()
-    create_message(msg_to, "test subject", "test body", ru_id)
-    logger.info("Create a message conversation thread")
-
-
-def _get_jwt():
-    return jwt.encode({'user': 'BRES', 'party_id': 'BRES', 'role': 'internal'}, 'testsecret', algorithm='HS256')
+def create_message(subject, body):
+    create_message_internal.go_to()
+    # create message
+    create_message_internal.enter_text_in_message_subject(subject)
+    create_message_internal.enter_text_in_message_body(body)
+    # Send message
+    create_message_internal.click_message_send_button()
+    logger.info("Message created")
