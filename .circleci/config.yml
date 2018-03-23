@@ -30,6 +30,7 @@ jobs:
             - ~/.cache
             - ~/.pyenv
             - ~/.pyenv_cache
+            - /opt/circleci/.pyenv
 
       - run:
           name: Start container and verify it's working
