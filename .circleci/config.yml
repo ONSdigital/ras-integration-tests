@@ -20,7 +20,7 @@ jobs:
             eval "$(pyenv virtualenv-init -)"
             pip install --user pipenv==8.3.2
             export PATH=$HOME/.local/bin:$PATH
-            pipenv install --system --deploy --dev
+            pipenv install --dev --deploy
 
       - save_cache:
           key: python-{{ checksum "Pipfile.lock" }}
