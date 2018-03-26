@@ -22,13 +22,12 @@ def get_collection_exercise_details():
     return ce_details
 
 
-def select_sample():
-    test_file = 'resources/sample_files/business-survey-sample-date.csv'
-    browser.driver.find_element_by_id('sampleFile').send_keys(abspath(test_file))
+def select_sample(sample_file_path):
+    browser.driver.find_element_by_id('sampleFile').send_keys(abspath(sample_file_path))
 
 
-def load_sample():
-    select_sample()
+def load_sample(sample_file_path):
+    select_sample(sample_file_path)
     browser.find_by_id('btn-load-sample').click()
 
 
