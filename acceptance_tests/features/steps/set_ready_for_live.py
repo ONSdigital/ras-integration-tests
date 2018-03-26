@@ -4,6 +4,7 @@ import time
 from behave import given, when, then
 from structlog import wrap_logger
 
+from acceptance_tests import browser
 from acceptance_tests.features.pages import collection_exercise, collection_exercise_details  # NOQA
 from controllers import (collection_exercise_controller, sample_controller,
                          collection_instrument_controller)
@@ -35,11 +36,7 @@ def prepare_collection_exercises(_, survey, period):
         # form type hard coded to 0001 for all ces to simplify testing
         collection_instrument_controller.upload_seft_collection_instrument(ce['id'], ci_path, '0001')
 
-    for i in range(5):
-        state = collection_exercise_controller.get_collection_exercise(s_id, period)['state']
-        if state == 'READY_FOR_REVIEW':
-            break
-        time.sleep(1)
+    browser.is_text_present('READY_FOR_REVIEW', wait_time=2)
 
 
 @given('the user has confirmed that "{survey}" "{period}" is ready for go live')

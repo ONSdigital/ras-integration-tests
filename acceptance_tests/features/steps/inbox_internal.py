@@ -1,8 +1,8 @@
-import time
 from datetime import datetime
 
 from behave import given, when, then
 
+from acceptance_tests import browser
 from acceptance_tests.features.pages import home, inbox_internal
 from controllers import messages_controller, database_controller
 
@@ -16,9 +16,10 @@ def verify_messages_link_present(_):
 def populate_database_with_messages(_):
 
     messages_controller.create_message("This is the subject of the message", "This is the body of the message")
-    # 1 sec sleep so that there is a different timestamp on the message
-    time.sleep(2)
-    messages_controller.create_message("This is the subject of the message", "This is the body of the message")
+
+    if browser.is_text_present('Message sent.', wait_time=2):
+        messages_controller.create_message("This is the subject of the message", "This is the body of the message")
+
     inbox_internal.go_to()
 
 
