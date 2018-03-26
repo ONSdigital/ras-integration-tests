@@ -3,7 +3,6 @@ from behave import given, when, then
 
 from acceptance_tests import browser
 from acceptance_tests.features.pages import collection_exercise, collection_exercise_details
-from common.commons import is_text_present_with_retry
 from controllers import collection_exercise_controller
 
 
@@ -39,7 +38,10 @@ def go_live_date_hits(_, survey, period):
 @then('the state of a collection exercise is to be changed to Live')
 @then('they are able to see the Live Status for that Collection Exercise')
 def ce_details_state_is_live(_):
-    assert is_text_present_with_retry(browser, 2, 'Live', 1)
+    if not browser.is_text_present('Live', wait_time=2):
+        browser.reload()
+
+    assert browser.is_text_present('Live', wait_time=2)
 
 
 @then('they are able to see the Live Status for "{period}"')

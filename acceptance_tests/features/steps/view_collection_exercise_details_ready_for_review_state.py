@@ -1,9 +1,7 @@
-
 from behave import given, when, then
 
 from acceptance_tests import browser
 from acceptance_tests.features.pages import collection_exercise, collection_exercise_details
-from common.commons import is_text_present_with_retry
 
 
 @given('the 201809 collection exercise for the RSI survey is Scheduled')
@@ -43,7 +41,9 @@ def navigate_to_rsi_details(_):
 def rsi_201811_is_ready_for_review(_):
     collection_exercises = collection_exercise.get_collection_exercises()
     # Status updated async so wait until updated
-    assert is_text_present_with_retry(browser, 2, 'Ready for review', 1)
+    if not browser.is_text_present('Ready for review', wait_time=2):
+        browser.reload()
+    assert browser.is_text_present('Ready for review', wait_time=2)
     assert '201811' in (ce['exercise_ref'] for ce in collection_exercises)
 
 
@@ -66,6 +66,6 @@ def load_collection_instruments(_):
 
 @then('the status of the collection exercise is Ready for Review')
 def ce_details_state_is_ready_for_review(_):
-    assert is_text_present_with_retry(browser, 2, 'Ready for review', 1)
-
-
+    if not browser.is_text_present('Ready for review', wait_time=2):
+        browser.reload()
+    assert browser.is_text_present('Ready for review', wait_time=2)
