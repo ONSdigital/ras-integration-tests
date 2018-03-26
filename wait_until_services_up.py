@@ -21,6 +21,7 @@ def retry_if_http_error(exception):
 @retry(retry_on_exception=retry_if_http_error, wait_fixed=10000, stop_max_delay=600000, wrap_exception=True)
 def check_status(url):
     try:
+        print(f'checking following url: {url}/info')
         resp = requests.get(f'{url}/info')
         resp.raise_for_status()
     except Exception:
@@ -28,5 +29,6 @@ def check_status(url):
 
 
 if __name__ == '__main__':
+    print('beginning service health check')
     [check_status(v) for k, v in dict(vars(Config)).items() if k.endswith('_SERVICE')]
     print('all services are up')
