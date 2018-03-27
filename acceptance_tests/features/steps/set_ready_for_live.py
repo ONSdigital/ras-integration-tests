@@ -4,7 +4,6 @@ import time
 from behave import given, when, then
 from structlog import wrap_logger
 
-from acceptance_tests import browser
 from acceptance_tests.features.pages import collection_exercise, collection_exercise_details  # NOQA
 from common.browser_utilities import is_text_present_with_retry
 from controllers import (collection_exercise_controller, sample_controller,
