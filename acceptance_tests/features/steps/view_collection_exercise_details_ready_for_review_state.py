@@ -43,7 +43,7 @@ def navigate_to_rsi_details(_):
 def rsi_201811_is_ready_for_review(_):
     collection_exercises = collection_exercise.get_collection_exercises()
     # Status updated async so wait until updated
-    assert is_text_present_with_retry(browser, 2, 'Ready for review', 1)
+    assert is_text_present_with_retry('Ready for review', 2, 1)
     assert '201811' in (ce['exercise_ref'] for ce in collection_exercises)
 
 
@@ -66,4 +66,4 @@ def load_collection_instruments(_):
 
 @then('the status of the collection exercise is Ready for Review')
 def ce_details_state_is_ready_for_review(_):
-    assert is_text_present_with_retry(browser, 2, 'Ready for review', 1)
+    assert is_text_present_with_retry('Ready for review', 2, 1)

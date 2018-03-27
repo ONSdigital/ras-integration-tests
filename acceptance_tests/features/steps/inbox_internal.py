@@ -18,7 +18,7 @@ def populate_database_with_messages(_):
 
     messages_controller.create_message("This is the subject of the message", "This is the body of the message")
 
-    if is_text_present_with_retry(browser, 1, 'Message sent.', 1):
+    if is_text_present_with_retry('Message sent.', 1 , 1):
         messages_controller.create_message("This is the subject of the message", "This is the body of the message")
 
     inbox_internal.go_to()

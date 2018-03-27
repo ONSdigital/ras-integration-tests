@@ -39,7 +39,7 @@ def go_live_date_hits(_, survey, period):
 @then('the state of a collection exercise is to be changed to Live')
 @then('they are able to see the Live Status for that Collection Exercise')
 def ce_details_state_is_live(_):
-    assert is_text_present_with_retry(browser, 2, 'Live', 1)
+    assert is_text_present_with_retry('Live', 2, 1)
 
 
 @then('they are able to see the Live Status for "{period}"')
