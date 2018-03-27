@@ -6,5 +6,4 @@ def is_text_present_with_retry(browser, retries: int, text: str, delay: int) -> 
             is_text_present_with_retry(browser, retry, text, delay)
         else:
             return True
-
     return False

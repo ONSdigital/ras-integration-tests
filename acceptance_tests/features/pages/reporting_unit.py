@@ -1,5 +1,3 @@
-import time
-
 from acceptance_tests import browser
 from config import Config
 
