@@ -15,6 +15,8 @@ start_services:
 	fi; \
 	cd tmp_ras_rm_docker_dev\
 	&& make pull && make up
+
+wait_for_services:
 	pipenv run python wait_until_services_up.py
 
 stop_services:
@@ -52,7 +54,7 @@ system_tests:
 acceptance_tests:
 	pipenv run behave --format progress2 acceptance_tests/features # This will only run the acceptance tests
 
-test: style_tests start_services system_tests setup acceptance_tests stop_services
+test: style_tests start_services wait_for_services system_tests setup acceptance_tests stop_services
 
 reset_database:
 	docker cp data/clean-database-2018-03-08.sql postgres:/ && docker exec -it postgres sh -c 'psql -U postgres < /clean-database-2018-03-08.sql'
