@@ -3,7 +3,7 @@ from behave import given, when, then
 
 from acceptance_tests import browser
 from acceptance_tests.features.pages import collection_exercise, collection_exercise_details
-from common.commons import is_text_present_with_retry
+from common.browser_utilities import is_text_present_with_retry
 
 
 @given('the 201809 collection exercise for the RSI survey is Scheduled')
@@ -67,5 +67,3 @@ def load_collection_instruments(_):
 @then('the status of the collection exercise is Ready for Review')
 def ce_details_state_is_ready_for_review(_):
     assert is_text_present_with_retry(browser, 2, 'Ready for review', 1)
-
-

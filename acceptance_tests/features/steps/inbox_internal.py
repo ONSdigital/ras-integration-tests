@@ -4,7 +4,7 @@ from behave import given, when, then
 
 from acceptance_tests import browser
 from acceptance_tests.features.pages import home, inbox_internal
-from common.commons import is_text_present_with_retry
+from common.browser_utilities import is_text_present_with_retry
 from controllers import messages_controller, database_controller
 
 
