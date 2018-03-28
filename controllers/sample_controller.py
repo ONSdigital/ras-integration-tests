@@ -19,7 +19,7 @@ def load_sample(survey_name, period, test_file):
 
 def upload_sample(collection_exercise_id, file_path):
     logger.info('Uploading sample file',
-                 collection_exercise_id=collection_exercise_id, sample_file=file_path)
+                collection_exercise_id=collection_exercise_id, sample_file=file_path)
     url = f'{Config.SAMPLE_SERVICE}/samples/B/fileupload'
     files = {"file": ('test_sample_file.xlxs', open(file_path, 'rb'), 'text/csv')}
 

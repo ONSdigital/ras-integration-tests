@@ -5,8 +5,10 @@ from structlog import wrap_logger
 
 from acceptance_tests import browser
 from config import Config
-from controllers import (case_controller, collection_exercise_controller, collection_instrument_controller,
-                         database_controller, django_oauth_controller, party_controller, sample_controller)
+from controllers import case_controller, collection_exercise_controller, database_controller, \
+    django_oauth_controller, party_controller, sample_controller
+from controllers.collection_instrument_controller import get_collection_instruments_by_classifier, \
+    link_collection_instrument_to_exercise, upload_seft_collection_instrument
 
 logger = wrap_logger(getLogger(__name__))
 
@@ -59,14 +61,13 @@ def execute_collection_exercise(survey_id, period, ci_type='SEFT'):
     collection_exercise = collection_exercise_controller.get_collection_exercise(survey_id, period)
 
     if ci_type == 'eQ':
-        collection_instruments = collection_instrument_controller.get_collection_instruments_by_classifier(survey_id, form_type='0001')
+        collection_instruments = get_collection_instruments_by_classifier(survey_id, form_type='0001')
         for collection_instrument in collection_instruments:
-            collection_instrument_controller.link_collection_instrument_to_exercise(collection_instrument['id'],
-                                                                                    collection_exercise['id'])
+            link_collection_instrument_to_exercise(collection_instrument['id'], collection_exercise['id'])
     else:
-        collection_instrument_controller.upload_seft_collection_instrument(collection_exercise['id'],
-                                                                           'resources/collection_instrument_files/064_201803_0001.xlsx',
-                                                                           form_type='0001')
+        upload_seft_collection_instrument(collection_exercise['id'],
+                                          'resources/collection_instrument_files/064_201803_0001.xlsx',
+                                          form_type='0001')
 
     sample_summary = sample_controller.upload_sample(collection_exercise['id'],
                                                      'resources/sample_files/business-survey-sample-date.csv')
