@@ -17,10 +17,10 @@ def execute_sql(sql_script_file_path):
     trans = connection.begin()
 
     with open(sql_script_file_path, 'r') as sqlScriptFile:
-        reset_party_sql = sqlScriptFile.read().replace('\n', '')
+        sql = sqlScriptFile.read().replace('\n', '')
 
     try:
-        connection.execute(reset_party_sql)
+        connection.execute(sql)
     except IntegrityError:
         logger.info('Script has already been run', sql_script_file_path=sql_script_file_path)
 
@@ -35,9 +35,13 @@ def execute_sql_secure_message(sql_script_file_path):
     trans = connection.begin()
 
     with open(sql_script_file_path, 'r') as sqlScriptFile:
-        reset_party_sql = sqlScriptFile.read().replace('\n', '')
+        sql = sqlScriptFile.read().replace('\n', '')
 
-    connection.execute(reset_party_sql)
+    try:
+        connection.execute(sql)
+    except IntegrityError:
+        logger.info('Script has already been run', sql_script_file_path=sql_script_file_path)
+
     trans.commit()
     logger.debug('Successfully executed SQL script', sql_script_file_path=sql_script_file_path)
 
