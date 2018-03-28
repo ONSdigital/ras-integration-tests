@@ -14,13 +14,6 @@ from controllers import (case_controller, collection_exercise_controller, collec
 logger = wrap_logger(getLogger(__name__))
 
 
-def after_all(context):
-    """
-    Close the browser after testing. See https://pythonhosted.org/behave/tutorial.html#environmental-controls
-    """
-    browser.quit()
-
-
 def before_all(context):
     logger.info('Resetting databases')
     database_controller.execute_sql('resources/database/database_reset_rm.sql')
@@ -50,6 +43,10 @@ def after_step(context, step):
         logger.exception('Failed step', scenario=context.scenario.name, step=step.name, html=browser.html)
 
 
+def after_all(context):
+    browser.quit()
+
+
 def execute_collection_exercises():
     logger.info('Executing collection exercises')
     # Bricks
@@ -69,14 +66,14 @@ def execute_seft_collection_exercise(survey_id, period):
     logger.debug('Executing SEFT collection exercise', survey_id=survey_id, period=period)
     collection_exercise = collection_exercise_controller.get_collection_exercise(survey_id, period)
     collection_instrument_controller.upload_seft_collection_instrument(collection_exercise['id'],
-                                                                       'resources/collection_instrument_files/064_201803_0001.xlsx')
-    sample_controller.upload_sample(collection_exercise['id'], 'resources/sample_files/business-survey-sample-date.csv')
+                                                                       'resources/collection_instrument_files/064_201803_0001.xlsx',
+                                                                       form_type='0001')
+    sample_summary = sample_controller.upload_sample(collection_exercise['id'],
+                                                     'resources/sample_files/business-survey-sample-date.csv')
+    collection_exercise_controller.link_sample_summary_to_collection_exercise(collection_exercise['id'],
+                                                                              sample_summary['id'])
     time.sleep(5)
     collection_exercise_controller.execute_collection_exercise(survey_id, period)
-    # collection_exercise_details.go_to(survey_name, period)
-    # collection_exercise_details.load_collection_instrument('resources/collection_instrument_files/064_201803_0001.xlsx')
-    # collection_exercise_details.load_sample('resources/sample_files/business-survey-sample-date.csv')
-    # collection_exercise_details.click_ready_for_live_and_confirm()
     logger.debug('Successfully executed SEFT collection exercise', survey_id=survey_id, period=period)
 
 

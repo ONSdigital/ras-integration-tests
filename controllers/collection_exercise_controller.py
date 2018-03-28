@@ -47,6 +47,21 @@ def get_survey_collection_exercises(survey_id):
     return collection_exercises
 
 
+def link_sample_summary_to_collection_exercise(collection_exercise_id, sample_summary_id):
+    logger.debug('Linking sample summary to collection exercise',
+                 collection_exercise_id=collection_exercise_id,
+                 sample_summary_id=sample_summary_id)
+    url = f'{Config.COLLECTION_EXERCISE}/collectionexercises/link/{collection_exercise_id}'
+    payload = {'sampleSummaryIds': [str(sample_summary_id)]}
+    response = requests.put(url, auth=Config.BASIC_AUTH, json=payload)
+
+    response.raise_for_status()
+    logger.debug('Successfully linked sample summary with collection exercise',
+                 collection_exercise_id=collection_exercise_id,
+                 sample_summary_id=sample_summary_id)
+    return response.json()
+
+
 def get_events_for_collection_exercise(survey_id, period, event_tag=None):
     collection_exercise_id = get_collection_exercise(survey_id, period)['id']
     logger.info('Getting events', collection_exercise_id=collection_exercise_id, event_tag=event_tag)

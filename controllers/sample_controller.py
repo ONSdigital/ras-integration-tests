@@ -18,7 +18,7 @@ def load_sample(survey_name, period, test_file):
 
 
 def upload_sample(collection_exercise_id, file_path):
-    logger.debug('Uploading sample file',
+    logger.info('Uploading sample file',
                  collection_exercise_id=collection_exercise_id, sample_file=file_path)
     url = f'{Config.SAMPLE_SERVICE}/samples/B/fileupload'
     files = {"file": ('test_sample_file.xlxs', open(file_path, 'rb'), 'text/csv')}
@@ -32,6 +32,6 @@ def upload_sample(collection_exercise_id, file_path):
         raise Exception('Failed to upload sample')
 
     response_json = response.json()
-    logger.debug('Successfully uploaded sample file',
-                 collection_exercise_id=collection_exercise_id, sample_file=file_path)
+    logger.info('Successfully uploaded sample file',
+                collection_exercise_id=collection_exercise_id, sample_file=file_path)
     return response_json
