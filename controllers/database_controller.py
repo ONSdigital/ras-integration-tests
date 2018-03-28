@@ -10,9 +10,9 @@ from config import Config
 logger = wrap_logger(logging.getLogger(__name__))
 
 
-def execute_sql(sql_script_file_path):
+def execute_ras_sql(sql_script_file_path, database_uri=Config.DATABASE_URI):
     logger.debug('Executing SQL script', sql_script_file_path=sql_script_file_path)
-    engine = create_engine(Config.DATABASE_URI)
+    engine = create_engine(database_uri)
     connection = engine.connect()
     trans = connection.begin()
 
@@ -28,22 +28,19 @@ def execute_sql(sql_script_file_path):
     logger.debug('Successfully executed SQL script', sql_script_file_path=sql_script_file_path)
 
 
-def execute_sql_secure_message(sql_script_file_path):
-    logger.debug('Executing SQL script', sql_script_file_path=sql_script_file_path)
-    engine = create_engine(Config.SECURE_MESSAGE_DATABASE_URI)
-    connection = engine.connect()
-    trans = connection.begin()
-
+def execute_rm_sql(sql_script_file_path):
+    logger.debug('Executing sql with cf database tool', sql_script_file_path=sql_script_file_path)
+    url = Config.CF_DATABASE_TOOL + '/sql'
+    headers = {
+        'Content-Type': 'text/plain'
+    }
     with open(sql_script_file_path, 'r') as sqlScriptFile:
         sql = sqlScriptFile.read().replace('\n', '')
 
-    try:
-        connection.execute(sql)
-    except IntegrityError:
-        logger.info('Script has already been run', sql_script_file_path=sql_script_file_path)
-
-    trans.commit()
-    logger.debug('Successfully executed SQL script', sql_script_file_path=sql_script_file_path)
+    response = requests.post(url, auth=Config.BASIC_AUTH, headers=headers, data=sql)
+    response.raise_for_status()
+    logger.debug('Successfully executed sql with cf database tool', sql_script_file_path=sql_script_file_path)
+    return response.text
 
 
 def select_iac():
@@ -95,7 +92,7 @@ def enrol_party(respondent_uuid):
     sql_get_case_id = f"SELECT case_id FROM partysvc.pending_enrolment WHERE respondent_id = (SELECT id FROM partysvc.respondent WHERE party_uuid = '{respondent_uuid}');"  # NOQA
     sql_delete_pending_enrolment = f"DELETE FROM partysvc.pending_enrolment WHERE respondent_id = (SELECT id FROM partysvc.respondent WHERE party_uuid = '{respondent_uuid}');"  # NOQA
 
-    engine = create_engine(Config.DATABASE_URI)
+    engine = create_engine(Config.PARTY_DATABASE_URI)
     connection = engine.connect()
 
     result = connection.execute(sql_get_case_id)
