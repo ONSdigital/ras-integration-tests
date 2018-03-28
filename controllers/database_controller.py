@@ -117,6 +117,7 @@ def enrol_party(respondent_uuid):
     sql_statement_update_enrolment = f"UPDATE partysvc.enrolment SET status = 'ENABLED' WHERE respondent_id = (SELECT id FROM partysvc.respondent WHERE party_uuid = '{respondent_uuid}');"  # NOQA
     sql_get_case_id = f"SELECT case_id FROM partysvc.pending_enrolment WHERE respondent_id = (SELECT id FROM partysvc.respondent WHERE party_uuid = '{respondent_uuid}');"  # NOQA
     sql_delete_pending_enrolment = f"DELETE FROM partysvc.pending_enrolment WHERE respondent_id = (SELECT id FROM partysvc.respondent WHERE party_uuid = '{respondent_uuid}');"  # NOQA
+    sql_set_account_active = f"UPDATE partysvc.respondent SET status = 'ACTIVE' WHERE party_uuid = '{respondent_uuid}';"  # NOQA
 
     engine = create_engine(Config.PARTY_DATABASE_URI)
     connection = engine.connect()
@@ -128,6 +129,7 @@ def enrol_party(respondent_uuid):
     trans = connection.begin()
     connection.execute(sql_statement_update_enrolment)
     connection.execute(sql_delete_pending_enrolment)
+    connection.execute(sql_set_account_active)
     trans.commit()
 
     return case_id
