@@ -84,6 +84,7 @@ def poll_database_for_iac(survey_id, period):
 
 
 def register_respondent(survey_id, period, username, ru_ref=None):
+    logger.info('Registering respondent', survey_id=survey_id, period=period, email=username)
     collection_exercise_id = collection_exercise_controller.get_collection_exercise(survey_id, period)['id']
     if ru_ref:
         business_party = party_controller.get_party_by_ru_ref(ru_ref)
@@ -100,6 +101,7 @@ def register_respondent(survey_id, period, username, ru_ref=None):
     django_oauth_controller.verify_user(respondent_party['emailAddress'])
     case_id = database_controller.enrol_party(respondent_party['id'])
     case_controller.post_case_event(case_id, respondent_party['id'], "RESPONDENT_ENROLED", "Respondent enrolled")
+    logger.info('Successfully registered respondent', survey_id=survey_id, period=period, email=username)
     return respondent_party['id']
 
 
