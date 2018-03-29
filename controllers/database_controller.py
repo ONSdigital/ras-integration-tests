@@ -12,7 +12,7 @@ logger = wrap_logger(logging.getLogger(__name__))
 def execute_rm_sql(sql_script_file_path):
     logger.info('Executing SQL script', sql_script=sql_script_file_path)
 
-    url = Config.CF_DATABASE_TOOL_SERVICE + '/sql'
+    url = Config.CF_DATABASE_TOOL + '/sql'
     headers = {
         'Content-Type': 'text/plain'
     }
@@ -70,7 +70,7 @@ def reset_secure_message_database():
 
 
 def select_iac():
-    url = Config.CF_DATABASE_TOOL_SERVICE + '/sql'
+    url = Config.CF_DATABASE_TOOL + '/sql'
     headers = {
         'Content-Type': 'text/plain'
     }
@@ -83,7 +83,7 @@ def select_iac():
 
 
 def get_iac_for_collection_exercise(collection_exercise_id):
-    url = Config.CF_DATABASE_TOOL_SERVICE + '/sql'
+    url = Config.CF_DATABASE_TOOL + '/sql'
     headers = {
         'Content-Type': 'text/plain'
     }
