@@ -87,7 +87,7 @@ def internal_internal_user_presented_correct_associated_respondents(_):
     associated_respondents = reporting_unit.get_associated_respondents()
     # Status updated async so wait until updated
     for i in range(5):
-        if associated_respondents[0]['accountStatus'] == 'Created':
+        if associated_respondents[0]['accountStatus'] == 'Active':
             break
         browser.reload()
         associated_respondents = reporting_unit.get_associated_respondents()
@@ -97,7 +97,7 @@ def internal_internal_user_presented_correct_associated_respondents(_):
     assert associated_respondents[0]['name'] == 'first_name last_name'
     assert associated_respondents[0]['email'] == 'example@example.com'
     assert associated_respondents[0]['phone'] == '0987654321'
-    assert associated_respondents[0]['accountStatus'] == 'Created'
+    assert associated_respondents[0]['accountStatus'] == 'Active'
 
 
 @then('the status \'Completed by phone\' is displayed back to the internal user')
