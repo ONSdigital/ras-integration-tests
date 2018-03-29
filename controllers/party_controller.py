@@ -102,4 +102,3 @@ def change_respondent_status(respondent_id, status="ACTIVE"):
         raise Exception('Failed to find respondent')
 
     logger.debug('Successfully updated respondent account status', party_id=respondent_id)
-
