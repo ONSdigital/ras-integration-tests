@@ -80,3 +80,11 @@ def get_party_by_email(email):
 
     logger.debug('Successfully retrieved email address', email=email)
     return response.json()
+
+
+def verify_respondent(respondent_id):
+    logger.debug("Verifying respondent", respondent_id=respondent_id)
+    url = f'{Config.PARTY_SERVICE}/party-api/v1/respondents/edit-account-status/{respondent_id}'
+    response = requests.put(url, auth=Config.BASIC_AUTH, json={"status_change": 'ACTIVE'})
+    response.raise_for_status()
+    logger.debug('Successfully verified respondent', respondent_id=respondent_id)
