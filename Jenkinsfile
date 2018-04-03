@@ -47,8 +47,6 @@ pipeline {
                 ACTION_SERVICE_PORT = "80"
                 ACTION_EXPORTER_HOST = "actionexportersvc-int${RESPONSE_OPERATIONS_UI_SUFFIX}"
                 ACTION_EXPORTER_PORT = "80"
-                BACKSTAGE_UI_HOST = "ras-backstage-int${RESPONSE_OPERATIONS_UI_SUFFIX}"
-                BACKSTAGE_UI_PORT = "80"
                 CASE_SERVICE_HOST = "casesvc-int${RESPONSE_OPERATIONS_UI_SUFFIX}"
                 CASE_SERVICE_PORT = "80"
                 COLLECTION_EXERCISE_SERVICE_HOST = "collectionexercisesvc-int${RESPONSE_OPERATIONS_UI_SUFFIX}"

@@ -19,7 +19,12 @@ install:
 
 script:
   - pipenv check --style . --max-line-length 120
-  - make test
+  - make style_tests start_services
+  - travis_wait 15 make wait_for_services
+  - make system_tests setup acceptance_tests stop_services
+
+after_failure:
+  - cd tmp_ras_rm_docker_dev && docker-compose -f dev.yml -f ras-services.yml -f rm-services.yml logs
 
 branches:
   only:

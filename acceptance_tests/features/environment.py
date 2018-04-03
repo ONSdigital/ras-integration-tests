@@ -23,9 +23,6 @@ def after_all(context):
 
 def before_all(context):
     try:
-        database_controller.execute_rm_sql('resources/database/database_reset_rm.sql')
-        database_controller.reset_ras_database()
-        database_controller.reset_secure_message_database()
         authentication.signed_in_internal(context)
         execute_collection_exercises()
         database_controller.execute_rm_sql('resources/database/rsi_populate_action_rules.sql')
