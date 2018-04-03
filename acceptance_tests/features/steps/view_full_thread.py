@@ -5,12 +5,12 @@ from acceptance_tests.features.pages import inbox_internal
 from acceptance_tests.features.pages.internal_conversation_view import go_to_thread, count_thread_message, \
     is_conversation_with_sent_and_received_messages, view_full_conversation_date_time_msg_details, \
     view_last_anchored_message
-from controllers.messages_controller import create_message
+from controllers.messages_controller import create_message_internal_to_external
 
 
 @given('An internal user has conversations in their inbox')
 def populate_database_with_messages(_):
-    create_message("This is the subject of the message", "This is the body of the message")
+    create_message_internal_to_external("This is the subject of the message", "This is the body of the message")
     assert len(inbox_internal.get_messages()) > 0
 
 
