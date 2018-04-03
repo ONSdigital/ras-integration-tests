@@ -7,6 +7,7 @@ from structlog import wrap_logger
 from acceptance_tests import browser
 from acceptance_tests.features.pages import edit_respondent_details_form, reporting_unit
 from acceptance_tests.features.steps.authentication import signed_in_internal
+from config import Config
 from controllers.party_controller import get_party_by_ru_ref, get_respondent_details
 
 logger = wrap_logger(getLogger(__name__))
@@ -27,7 +28,7 @@ def respondent_first_name_is_enrolled(_):
             or respondent['telephone'] != "0987654321":
         reporting_unit.go_to('49900000001')
         reporting_unit.click_data_panel('Bricks')
-        reporting_unit.click_edit_details('Bricks')
+        reporting_unit.click_edit_details('Bricks', Config.RESPONDENT_USERNAME)
         edit_respondent_details_form.edit_first_name('first_name')
         edit_respondent_details_form.edit_last_name('last_name')
         edit_respondent_details_form.edit_contact_number('0987654321')
@@ -92,7 +93,6 @@ def internal_internal_user_presented_correct_associated_respondents(_):
         browser.reload()
         associated_respondents = reporting_unit.get_associated_respondents()
         time.sleep(1)
-    assert len(associated_respondents) == 1
     assert associated_respondents[0]['enrolementStatus'] == 'Enabled'
     assert associated_respondents[0]['name'] == 'first_name last_name'
     assert associated_respondents[0]['email'] == 'example@example.com'

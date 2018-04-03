@@ -3,21 +3,17 @@ from behave import given, when, then
 from acceptance_tests import browser
 from acceptance_tests.features.environment import register_respondent
 from acceptance_tests.features.pages import edit_respondent_details_form, reporting_unit
-from config import Config
-from controllers.party_controller import get_party_by_ru_ref, get_respondent_details, get_party_by_email
+from controllers.party_controller import get_party_by_email
 
 
 @given('the respondent with email "test_respondent@test.com" is enrolled')
 def respondent_email_is_enrolled(_):
-    business = get_party_by_ru_ref('49900000001')
-    respondent_id = business['associations'][0]['partyId']
-    respondent = get_respondent_details(respondent_id)
-    if respondent['emailAddress'] != 'test_respondent@test.com':
-        reporting_unit.go_to('49900000001')
-        reporting_unit.click_data_panel('Bricks')
-        reporting_unit.click_edit_details('Bricks')
-        edit_respondent_details_form.edit_email_address('test_respondent@test.com')
-        edit_respondent_details_form.click_save()
+    create_respondent("test_respondent@test.com")
+
+
+@given('the respondent with email "test_respondent2@test.com" is enrolled')
+def respondent_email_is_enrolled(_):
+    create_respondent("test_respondent2@test.com")
 
 
 @given('the internal user has found the respondents details')
@@ -26,7 +22,14 @@ def respondent_email_is_enrolled(_):
 def open_edit_details(_):
     reporting_unit.go_to('49900000001')
     reporting_unit.click_data_panel('Bricks')
-    reporting_unit.click_edit_details('Bricks')
+    reporting_unit.click_edit_details('Bricks', 'test_respondent@test.com')
+
+
+@given('the internal user has found the second respondents details')
+def open_edit_details_change_email(_):
+    reporting_unit.go_to('49900000001')
+    reporting_unit.click_data_panel('Bricks')
+    reporting_unit.click_edit_details('Bricks', 'test_respondent2@test.com')
 
 
 @when('they choose to change the name of a respondent')
@@ -48,7 +51,7 @@ def change_contact_number(_):
 
 @when('they change the email address')
 def edit_email_address(_):
-    edit_respondent_details_form.edit_email_address(Config.RESPONDENT_USERNAME)
+    edit_respondent_details_form.edit_email_address('test_respondent3@test.com')
 
 
 @when('they save an email address that is already in use')
@@ -99,15 +102,15 @@ def confirm_email_changes_saved(_):
 @then('the contact number is not changed')
 def confirm_contact_number_unchanged(_):
     reporting_unit.click_data_panel('Bricks')
-    respondent = reporting_unit.get_associated_respondents()[0]
+    respondent = reporting_unit.get_associated_respondents()[1]
     assert respondent.get('phone') == '01633 878787'
 
 
 @then('the email is not changed')
 def confirm_email_unchanged(_):
     reporting_unit.click_data_panel('Bricks')
-    respondent = reporting_unit.get_associated_respondents()[0]
-    assert respondent.get('email') == Config.RESPONDENT_USERNAME
+    respondent = reporting_unit.get_associated_respondents()[1]
+    assert respondent.get('email') == 'test_respondent@test.com'
 
 
 @then('they are informed that the email address they have entered is already in use')
@@ -119,4 +122,4 @@ def create_respondent(email):
     email_in_use = get_party_by_email(email)
     if not email_in_use:
         register_respondent(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201801',
-                            username=email)
+                            username=email, ru_ref=49900000001)

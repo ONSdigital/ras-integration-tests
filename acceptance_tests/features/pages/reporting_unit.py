@@ -77,8 +77,8 @@ def click_generate_new_code():
     browser.find_by_id('generate-new-code').click()
 
 
-def click_edit_details(survey_short_name):
-    browser.find_by_id(f'edit-contact-details-btn-{survey_short_name}').click()
+def click_edit_details(survey_short_name, email):
+    browser.find_by_id(f'edit-contact-details-btn-{survey_short_name}-{email}').click()
 
 
 def get_confirm_contact_details_success_text():

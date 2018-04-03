@@ -13,7 +13,7 @@ from controllers.collection_instrument_controller import get_collection_instrume
 logger = wrap_logger(getLogger(__name__))
 
 
-def before_all(context):
+def before_all(_):
     logger.info('Resetting databases')
     database_controller.execute_rm_sql('resources/database/database_reset_rm.sql')
     database_controller.execute_ras_sql('resources/database/database_reset_party.sql',
@@ -40,7 +40,7 @@ def after_step(context, step):
         logger.exception('Failed step', scenario=context.scenario.name, step=step.name, html=browser.html)
 
 
-def after_all(context):
+def after_all(_):
     browser.quit()
 
 
@@ -99,6 +99,8 @@ def register_respondent(survey_id, period, username, ru_ref=None):
         business_party = party_controller.get_party_by_ru_ref(ru_ref)
         enrolment_code = database_controller.get_iac_for_collection_exercise_and_business(collection_exercise_id,
                                                                                           business_party['id'])
+        if not enrolment_code:
+            enrolment_code = case_controller.generate_new_enrolment_code(collection_exercise_id, ru_ref).get('iac')
     else:
         enrolment_code = database_controller.get_iac_for_collection_exercise(collection_exercise_id)
     respondent_party = party_controller.register_respondent(email_address=username,
