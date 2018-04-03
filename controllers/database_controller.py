@@ -93,4 +93,7 @@ def enrol_party(respondent_uuid):
 
     sql_get_case_id = f"SELECT case_id FROM partysvc.pending_enrolment WHERE respondent_id = (SELECT id FROM partysvc.respondent WHERE party_uuid = '{respondent_uuid}');"  # NOQA
     result = execute_ras_sql(sql_string=sql_get_case_id, database_uri=Config.PARTY_DATABASE_URI)
-    return result[-1]['case_id']
+    case_id = None
+    for row in result:
+        case_id = row['case_id']
+    return case_id
