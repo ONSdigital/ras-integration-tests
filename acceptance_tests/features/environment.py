@@ -97,6 +97,7 @@ def register_respondent(survey_id, period, username, ru_ref=None):
                                                             password=Config.RESPONDENT_PASSWORD,
                                                             phone_number='0987654321',
                                                             enrolment_code=enrolment_code)
+    party_controller.verify_respondent(respondent_party['id'])
     django_oauth_controller.verify_user(respondent_party['emailAddress'])
     case_id = database_controller.enrol_party(respondent_party['id'])
     case_controller.post_case_event(case_id, respondent_party['id'], "RESPONDENT_ENROLED", "Respondent enrolled")
