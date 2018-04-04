@@ -25,4 +25,4 @@ def get_respondent_details():
 
 def find_no_respondent_msg():
     page_src = browser.driver.page_source
-    assert 'No Respondent found.' in page_src
+    return page_src
