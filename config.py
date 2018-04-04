@@ -95,4 +95,4 @@ class Config(object):
     DJANGO_OAUTH_DATABASE_URI = os.getenv('DJANGO_OAUTH_DATABASE_URI',
                                           "postgres://postgres:postgres@localhost:6432/postgres")
     SECURE_MESSAGE_DATABASE_URI = os.getenv('SECURE_MESSAGE_DATABASE_URI',
-                                            "postgres://postgres:postgres@localhost:6433/postgres")
+                                            "postgres://postgres:postgres@localhost:6432/postgres")

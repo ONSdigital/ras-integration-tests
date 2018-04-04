@@ -66,25 +66,26 @@ def add_survey(party_id, enrolment_code):
 
 
 def get_party_by_email(email):
-    logger.debug('Retrieving party by email address', email=email)
-    url = f'{Config.PARTY_SERVICE}/party-api/v1/respondents/email/{email}'
-    response = requests.get(url, auth=Config.BASIC_AUTH)
-
+    logger.debug('Retrieving party by email address')
+    url = f'{Config.PARTY_SERVICE}/party-api/v1/respondents/email'
+    request_json = {
+        "email": email
+    }
+    response = requests.get(url, json=request_json, auth=Config.BASIC_AUTH)
     if response.status_code == 404:
-        logger.info('Email not found', email=email)
+        logger.info('Respondent not found')
         return
-
-    elif response.status_code != 200:
-        logger.error('Error retrieving email address', email=email)
-        raise Exception('Failed to retrieve email address')
-
-    logger.debug('Successfully retrieved email address', email=email)
+    response.raise_for_status()
+    logger.debug('Successfully retrieved email address')
     return response.json()
 
 
-def verify_respondent(respondent_id):
-    logger.debug("Verifying respondent", respondent_id=respondent_id)
+def change_respondent_status(respondent_id, status="ACTIVE"):
+    logger.debug('Change respondent account status', respondent_id=respondent_id)
+    request_json = {
+        "status_change": status
+    }
     url = f'{Config.PARTY_SERVICE}/party-api/v1/respondents/edit-account-status/{respondent_id}'
-    response = requests.put(url, auth=Config.BASIC_AUTH, json={"status_change": 'ACTIVE'})
+    response = requests.put(url, json=request_json, auth=Config.BASIC_AUTH)
     response.raise_for_status()
-    logger.debug('Successfully verified respondent', respondent_id=respondent_id)
+    logger.debug('Successfully updated respondent account status', party_id=respondent_id)
