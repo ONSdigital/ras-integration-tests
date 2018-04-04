@@ -59,6 +59,12 @@ def get_associated_respondents():
     return respondents
 
 
+def get_respondent(email):
+    for respondent in get_associated_respondents():
+        if respondent['email'] == email:
+            return respondent
+
+
 def click_change_response_status_link(ru_ref, survey, period):
     browser.click_link_by_href(f'/case/{ru_ref}/change-response-status?survey={survey}&period={period}')
 
