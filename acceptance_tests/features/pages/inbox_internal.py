@@ -43,3 +43,7 @@ def get_no_messages_text():
 
 def get_radio_button_for_survey(survey):
     return browser.find_by_id(survey)
+
+
+def get_unread_messages():
+    return browser.find_by_name("message-unread")

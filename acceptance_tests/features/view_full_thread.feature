@@ -25,7 +25,6 @@ Feature: View conversation thread
     When  The internal user selects a conversation
     Then  The internal user can see which messages have been sent by ONS users and which are an external users messages
 
-
   @sm124_s04
   Scenario: Opening a conversation, the user is taken to the latest message in that conversation
     Given An internal user has conversations in their inbox
