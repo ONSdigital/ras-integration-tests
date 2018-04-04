@@ -25,11 +25,11 @@ def search_respondent_by_email(_, email_address):
     respondent.search_respondent_by_email(email_address)
 
 
-@then('the respondent details should be displayed')
-def assert_respondent_details_displayed(_):
+@then('the respondent details should be displayed, email "{email_address}"')
+def assert_respondent_details_displayed(_, email_address):
     respondent_details = respondent.get_respondent_details()
 
-    assert 'example@example.com' in respondent_details['email']
+    assert email_address in respondent_details['email']
 
 
 @then('the internal user is given a message of no respondent for email')

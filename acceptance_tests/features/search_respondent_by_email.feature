@@ -11,7 +11,7 @@ Feature: Internal user can search for a respondent via email
     Given the respondent account with email "example@example.com" has been created
     And the respondent email "example@example.com" is verified
     When an internal user searches for respondent using their email address "example@example.com"
-    Then the respondent details should be displayed
+    Then the respondent details should be displayed, email "example@example.com"
 
   @us091_s02
   Scenario: Search non-existent respondent by email address
