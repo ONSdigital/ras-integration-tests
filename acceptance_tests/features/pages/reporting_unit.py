@@ -44,20 +44,18 @@ def get_associated_collection_exercises():
 
 
 def get_associated_respondents():
-    respondents = []
-    respondents_tables = browser.find_by_name('tbl-respondents-for-survey')
-
-    for table in respondents_tables:
-        rows = table.find_by_tag('tbody').find_by_tag('tr')
-        for row in rows:
-            details = row.find_by_name('tbl-respondent-details').first
-            respondents.append({
-                "enrolementStatus": row.find_by_name('tbl-enrolment-status').value,
-                "name": details.find_by_name('tbl-respondent-name').value,
-                "email": details.find_by_name('tbl-respondent-email').value,
-                "phone": details.find_by_name('tbl-respondent-phone').value,
-                "accountStatus": row.find_by_name('tbl-respondent-status').value
-            })
+    respondents_table = browser.find_by_name('tbl-respondents-for-survey')
+    rows = respondents_table.find_by_tag('tbody').find_by_tag('tr')
+    respondents = [
+        {
+            "enrolementStatus": row.find_by_name('tbl-enrolment-status').value,
+            "name": row.find_by_name('tbl-respondent-details').first.find_by_name('tbl-respondent-name').value,
+            "email": row.find_by_name('tbl-respondent-details').first.find_by_name('tbl-respondent-email').value,
+            "phone": row.find_by_name('tbl-respondent-details').first.find_by_name('tbl-respondent-phone').value,
+            "accountStatus": row.find_by_name('tbl-respondent-status').value
+        }
+        for row in rows
+    ]
     return respondents
 
 
