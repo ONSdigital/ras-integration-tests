@@ -6,30 +6,17 @@ from acceptance_tests.features.pages import edit_respondent_details_form, report
 from controllers.party_controller import get_party_by_email
 
 
-@given('the respondent with email "test_respondent@test.com" is enrolled')
-def respondent_email_is_enrolled(_):
-    create_respondent("test_respondent@test.com")
+@given('the respondent with email "{email}" is enrolled')
+def respondent_ail_is_enrolled(_, email):
+    create_respondent(email)
 
 
-@given('the respondent with email "test_respondent2@test.com" is enrolled')
-def respondent_email_is_enrolled(_):
-    create_respondent("test_respondent2@test.com")
-
-
-@given('the internal user has found the respondents details')
-@given('the internal user chooses to change the account details')
-@given('the user chooses to change a respondents email address')
-def open_edit_details(_):
+@given('the internal user chooses to change "{email}" account details')
+@given('the internal user has found the "{email}" respondents details')
+def open_edit_details_change_email(_, email):
     reporting_unit.go_to('49900000001')
     reporting_unit.click_data_panel('Bricks')
-    reporting_unit.click_edit_details('Bricks', 'test_respondent@test.com')
-
-
-@given('the internal user has found the second respondents details')
-def open_edit_details_change_email(_):
-    reporting_unit.go_to('49900000001')
-    reporting_unit.click_data_panel('Bricks')
-    reporting_unit.click_edit_details('Bricks', 'test_respondent2@test.com')
+    reporting_unit.click_edit_details('Bricks', email)
 
 
 @when('they choose to change the name of a respondent')
