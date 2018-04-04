@@ -68,7 +68,6 @@ def cancel_changes(_):
 
 
 @then('they are navigated back to the RU Details page')
-@then('they are able to enter up to 254 characters')
 def navigate_to_ru_details(_):
     assert " | Reporting units | Survey Data Collection" in browser.title
 

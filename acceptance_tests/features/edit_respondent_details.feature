@@ -13,20 +13,13 @@ Feature: As an internal user
     Then the respondent account details become editable
 
   @us057-s02
-  Scenario: The internal user is able to enter up to 254 characters for the first and last name
-    Given the internal user chooses to change "test_respondent@test.com" account details
-    When they change the first and last name
-    And they click save
-    Then they are able to enter up to 254 characters
-
-  @us057-s03
   Scenario: All fields are required to be populated
     Given the internal user chooses to change "test_respondent@test.com" account details
     When they remove the old contact number
     And they click save
     Then the changes will not be saved and they are informed that all fields are required
 
-  @us057-s04
+  @us057-s03
   Scenario: The internal user is able to save any changes made to the account details
     Given the internal user chooses to change "test_respondent@test.com" account details
     When they change the contact number
@@ -34,7 +27,7 @@ Feature: As an internal user
     Then they are navigated back to the RU Details page
     And they are provided with confirmation the changes have been saved
 
-  @us057-s05
+  @us057-s04
   Scenario: The internal user is able to cancel out of changing the respondent details at any point
     Given the internal user chooses to change "test_respondent@test.com" account details
     When they change the contact number
@@ -48,8 +41,7 @@ Feature: As an internal user
     And the internal user has found the "test_respondent2@test.com" respondents details
     When they change the email address
     And they click save
-    Then they are able to save the updated email address
-    And they are presented with confirmation that the changes have been saved
+    Then they are presented with confirmation that the changes have been saved
 
   @us058-s002
   Scenario: The user is able to cancel out of changing the respondent details at any point
