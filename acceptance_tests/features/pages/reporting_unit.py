@@ -78,7 +78,13 @@ def click_generate_new_code():
 
 
 def click_edit_details(survey_short_name, email):
-    browser.find_by_id(f'edit-contact-details-btn-{survey_short_name}-{email}').click()
+    respondents_table = browser.find_by_name('tbl-respondents-for-survey')
+    rows = respondents_table.find_by_tag('tbody').find_by_tag('tr')
+    for row in rows:
+        details = row.find_by_name('tbl-respondent-details').first
+        if details.find_by_name('tbl-respondent-email').value == email:
+            details.find_by_id(f'edit-contact-details-btn-{survey_short_name}').click()
+            break
 
 
 def get_confirm_contact_details_success_text():
