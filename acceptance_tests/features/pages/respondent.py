@@ -23,6 +23,5 @@ def get_respondent_details():
     return respondent_details
 
 
-def find_no_respondent_msg():
-    page_src = browser.driver.page_source
-    return page_src
+def not_found():
+    return 'No Respondent found.' in browser.html

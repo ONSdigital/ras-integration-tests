@@ -34,8 +34,7 @@ def assert_respondent_details_displayed(_):
 
 @then('the internal user is given a message of no respondent for email')
 def assert_no_respondent_displayed(_):
-    page_src = respondent.find_no_respondent_msg()
-    assert 'No Respondent found.' in page_src
+    assert respondent.not_found()
 
 
 @given('the respondent account with email "{email_address}" has not been created')
