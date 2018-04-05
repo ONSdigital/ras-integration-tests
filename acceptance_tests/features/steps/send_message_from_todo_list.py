@@ -30,8 +30,8 @@ def assert_create_message_page(_):
 
 @when('the respondent enters a valid message')
 def enter_valid_message(_):
-    create_message_external.enter_valid_subject()
-    create_message_external.enter_valid_body()
+    create_message_external.enter_valid_subject('123')
+    create_message_external.enter_valid_body('345')
 
 
 @then('the message will be sent to the internal Bricks mailbox')
@@ -43,7 +43,7 @@ def message_sent_to_bricks_workgroup(_):
 @when('the respondent enters more than 96 characters in the subject field')
 def subject_field_too_long(_):
     create_message_external.enter_invalid_length_subject()
-    create_message_external.enter_valid_body()
+    create_message_external.enter_valid_body('345')
 
 
 @when('chooses to send the message')
@@ -60,7 +60,7 @@ def check_for_error_subject_too_long(_):
 
 @when('the respondent enters more than 10000 characters in the body field')
 def body_too_long(_):
-    create_message_external.enter_valid_subject()
+    create_message_external.enter_valid_subject('123')
     create_message_external.enter_invalid_length_body()
 
 
@@ -96,7 +96,7 @@ def navigated_to_inbox_show_message_sent_notif(_):
 @when('the respondent populates the body field but not the subject')
 def populate_body_not_subject(_):
     create_message_external.empty_subject()
-    create_message_external.enter_valid_body()
+    create_message_external.enter_valid_body('345')
 
 
 @then('an error message appears specifying subject must be populated')
@@ -106,7 +106,7 @@ def assert_error_no_subject(_):
 
 @when('the respondent populates the subject field but not the body field')
 def populate_subject_no_body(_):
-    create_message_external.enter_valid_subject()
+    create_message_external.enter_valid_subject('123')
     create_message_external.empty_body()
 
 

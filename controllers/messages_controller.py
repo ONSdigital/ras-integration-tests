@@ -9,6 +9,8 @@ logger = wrap_logger(logging.getLogger(__name__))
 
 
 def create_message_internal_to_external(subject, body):
+    # Send a message from a respondent in the context of a Bricks survey
+    # Note that external users may have to be signed in again after calling this function
 
     # Navigate to sent a message
     create_message_internal.go_to()
@@ -22,7 +24,7 @@ def create_message_internal_to_external(subject, body):
     logger.info("Message from internal to external created")
 
 
-def create_message_external_to_internal():
+def create_message_external_to_internal(subject, body):
     # Send a message from a respondent in the context of a Bricks survey
     # Note that internal users may have to be signed in again after calling this function
 
@@ -32,8 +34,8 @@ def create_message_external_to_internal():
     surveys_todo.select_to_create_message()
 
     # Create message
-    create_message_external.enter_valid_subject()
-    create_message_external.enter_valid_body()
+    create_message_external.enter_valid_subject(subject)
+    create_message_external.enter_valid_body(body)
 
     # Send message
     create_message_external.send_message()

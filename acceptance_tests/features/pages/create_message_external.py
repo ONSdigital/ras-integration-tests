@@ -1,12 +1,12 @@
 from acceptance_tests import browser
 
 
-def enter_valid_subject():
-    browser.driver.find_element_by_id('secure-message-subject').send_keys('123')
+def enter_valid_subject(subject):
+    browser.driver.find_element_by_id('secure-message-subject').send_keys(subject)
 
 
-def enter_valid_body():
-    browser.driver.find_element_by_id('secure-message-body').send_keys('345')
+def enter_valid_body(body):
+    browser.driver.find_element_by_id('secure-message-body').send_keys(body)
 
 
 def enter_invalid_length_subject():
