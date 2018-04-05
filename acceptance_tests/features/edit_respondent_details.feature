@@ -39,14 +39,14 @@ Feature: As an internal user
   Scenario: The user is able to edit the email address of a respondent
     Given the respondent with email "test_respondent2@test.com" is enrolled
     And the internal user has found the "test_respondent2@test.com" respondents details
-    When they change the email address
+    When they change the email address to "new_respondent@test.com"
     And they click save
     Then they are presented with confirmation that the changes have been saved
 
   @us058-s002
   Scenario: The user is able to cancel out of changing the respondent details at any point
     Given the internal user chooses to change "test_respondent@test.com" account details
-    When they change the email address
+    When they change the email address to "new_respondent@test.com"
     And they decide to cancel
     Then they are navigated back to the RU Details page
     And the email is not changed
