@@ -36,7 +36,7 @@ def change_contact_number(_):
     edit_respondent_details_form.edit_contact_number("01633 878787")
 
 
-@when('they change the email address to "{email}')
+@when('they change the email address to "{email}"')
 def edit_email_address(_, email):
     edit_respondent_details_form.edit_email_address(email)
 
