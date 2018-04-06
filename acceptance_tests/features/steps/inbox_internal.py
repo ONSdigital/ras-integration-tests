@@ -6,6 +6,7 @@ from acceptance_tests.features.pages import home, inbox_internal
 from acceptance_tests.features.pages.internal_conversation_view import go_to_thread
 from acceptance_tests.features.steps.authentication import signed_in_internal
 from common.browser_utilities import is_text_present_with_retry
+from config import Config
 from controllers import messages_controller, database_controller
 
 
@@ -27,7 +28,8 @@ def populate_database_with_messages(_):
 
 @given('the user has no messages in their inbox')
 def user_has_no_messages_in_inbox(_):
-    database_controller.reset_secure_message_database()
+    database_controller.execute_ras_sql('resources/database/database_reset_secure_message.sql',
+                                        database_uri=Config.SECURE_MESSAGE_DATABASE_URI)
 
 
 @when('they navigate to the inbox messages')

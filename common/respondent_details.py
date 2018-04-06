@@ -2,7 +2,7 @@ from controllers.case_controller import post_case_event
 from controllers.collection_exercise_controller import get_collection_exercise
 from controllers.database_controller import get_iac_for_collection_exercise, enrol_party
 from controllers.django_oauth_controller import verify_user
-from controllers.party_controller import register_respondent, get_respondent_details
+from controllers.party_controller import change_respondent_status, get_respondent_details, register_respondent
 
 
 class RespondentDetails:
@@ -25,6 +25,7 @@ class RespondentDetails:
                                                phone_number='0187654321',
                                                enrolment_code=enrolment_code)
         verify_user(respondent_party['emailAddress'])
+        change_respondent_status(respondent_party['id'])
         case_id = enrol_party(respondent_party['id'])
         post_case_event(case_id, respondent_party['id'], "RESPONDENT_ENROLED", "Respondent enrolled")
         return respondent_party['id']

@@ -66,17 +66,13 @@ def add_survey(party_id, enrolment_code):
 
 
 def get_party_by_email(email):
-    logger.debug('Retrieving party by email address')
+    logger.debug('Retrieving party by email address', email=email)
     url = f'{Config.PARTY_SERVICE}/party-api/v1/respondents/email'
-    request_json = {
-        "email": email
-    }
-    response = requests.get(url, json=request_json, auth=Config.BASIC_AUTH)
+    response = requests.get(url, auth=Config.BASIC_AUTH, json={"email": email})
     if response.status_code == 404:
-        logger.info('Respondent not found')
+        logger.info('Respondent not found', email=email)
         return
-    response.raise_for_status()
-    logger.debug('Successfully retrieved email address')
+    logger.debug('Successfully retrieved party', email=email)
     return response.json()
 
 
