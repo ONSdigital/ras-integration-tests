@@ -18,10 +18,10 @@ def verify_messages_link_present(_):
 @given('the user has got messages in their inbox')
 def populate_database_with_messages(_):
 
-    messages_controller.create_message("This is the subject of the message", "This is the body of the message")
+    messages_controller.create_message_internal_to_external("This is the subject of the message", "This is the body of the message")
 
     if is_text_present_with_retry('Message sent.', 1):
-        messages_controller.create_message("This is the subject of the message", "This is the body of the message")
+        messages_controller.create_message_internal_to_external("This is the subject of the message", "This is the body of the message")
 
     inbox_internal.go_to()
 
