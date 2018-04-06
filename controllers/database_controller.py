@@ -39,7 +39,10 @@ def select_iac():
                     "WHERE i.active = TRUE AND i.lastuseddatetime IS NULL AND c.SampleUnitType = 'B' " \
                     "ORDER BY i.createddatetime DESC LIMIT 1;"
     result = execute_sql(sql_string=sql_statement)
-    return result.text[4:-1]
+    iac = None
+    for row in result:
+        iac = row['iac']
+    return iac
 
 
 def get_iac_for_collection_exercise(collection_exercise_id):
@@ -51,9 +54,10 @@ def get_iac_for_collection_exercise(collection_exercise_id):
                     "AND i.active = TRUE " \
                     "ORDER BY c.createddatetime DESC LIMIT 1;"
     result = execute_sql(sql_string=sql_statement)
+    iac = None
     for row in result:
-        collex = row['iac']
-    return collex
+        iac = row['iac']
+    return iac
 
 
 def get_iac_for_collection_exercise_and_business(collection_exercise_id, business_id):
@@ -66,7 +70,10 @@ def get_iac_for_collection_exercise_and_business(collection_exercise_id, busines
                     f"AND c.partyid = '{business_id}' " \
                     "ORDER BY c.createddatetime DESC LIMIT 1;"
     result = execute_sql(sql_string=sql_statement)
-    return result.text[4:-1]
+    iac = None
+    for row in result:
+        iac = row['iac']
+    return iac
 
 
 def enrol_party(respondent_uuid):
