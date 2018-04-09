@@ -106,9 +106,6 @@ def external_user_reply_sent_to_correct_team(_):
     go_to_internal_bricks_messages()
     go_to_thread_internal()
     latest_message_body = page_helpers.get_body_from_last_message()
-
-    print('###############################\n############################')
-    print(latest_message_body)
     assert latest_message_body == 'Reply body from respondent'
 
 
