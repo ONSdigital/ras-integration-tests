@@ -47,4 +47,43 @@ def external_user_can_distinguish_sent_and_received_messages(_):
     pass
 
 
+@given('the external user has a conversation')
+def external_user_has_a_conversation(_):
+    pass
 
+
+@when('they view that conversation')
+def external_user_views_conversation(_):
+    pass
+
+
+@then('they are able to reply')
+@then('they are able to reply to the conversation')
+@when('they reply in that conversation')
+def external_user_able_to_reply_to_conversation(_):
+    pass
+
+
+@then('the reply will be sent to the correct team')
+def external_user_reply_sent_to_correct_team(_):
+    pass
+
+
+@then('they are able able to enter up to and including 10,000 characters in the body of their reply')
+def external_user_able_to_enter_body_up_to_correct_limit(_):
+    pass
+
+
+@when('they enter text into the body of their reply')
+def external_user_enters_text_in_reply_body(_):
+    pass
+
+
+@then('they are to be navigated back to the list of conversations')
+def external_user_is_navigated_to_list_of_conversations(_):
+    pass
+
+
+@then('they receive confirmation that the message has been sent')
+def external_user_receives_confirmation_that_message_has_been_sent(_):
+    pass

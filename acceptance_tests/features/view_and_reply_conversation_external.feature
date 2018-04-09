@@ -39,7 +39,7 @@ Feature: External User Views a Conversation
   @sm128_s07
   Scenario: User is able to enter text up to and including 10,000 characters in the body of the message
     Given the external user has a conversation
-    When they reply to the conversation
+    When they reply in that conversation
     Then they are able able to enter up to and including 10,000 characters in the body of their reply
 
   @sm128_s08
@@ -50,12 +50,12 @@ Feature: External User Views a Conversation
 
   @sm128_s09
   Scenario: The user is to be navigated to the list on replying to a conversation
-    Given the external user has a conversation in their list
-    When they reply to that conversation
+    Given the external user has a conversation
+    When they reply in that conversation
     Then they are to be navigated back to the list of conversations
 
   @sm128_s10
   Scenario: When the user has sent their reply, they receive system feedback confirming the message has been sent
-    Given the external user has a conversation in their list
-    When they reply to the conversation
+    Given the external user has a conversation
+    When they reply in that conversation
     Then they receive confirmation that the message has been sent
