@@ -153,3 +153,15 @@ def form_load_ci_exists():
 
 def form_load_sample_exists():
     return browser.find_by_id('form-load-sample')
+
+
+def check_edit_period_is_enabled():
+    return browser.find_by_id('edit-collection-exercise-period')
+
+
+def click_edit_collection_exercise_period_button():
+    browser.click_link_by_id('edit-collection-exercise-period')
+
+
+def click_edit_collection_exercise_user_description_button():
+    browser.click_link_by_id('edit-collection-exercise-user-description')

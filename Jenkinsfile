@@ -71,6 +71,10 @@ pipeline {
         stage('acceptance tests') {
             environment {
                 DOMAIN_SUFFIX = credentials('CF_DOMAIN_SUFFIX')
+                DATABASE_URI = credentials('RM_CF_DATABASE')
+                DJANGO_OAUTH_DATABASE_URI = credentials('DJANGO_CF_DATABASE')
+                PARTY_DATABASE_URI = credentials('PARTY_CF_DATABASE')
+                SECURE_MESSAGE_DATABASE_URI = credentials('SECURE_MESSAGE_CF_DATABASE')
                 RESPONSE_OPERATIONS_UI_HOST = "response-operations-ui-python-ci${DOMAIN_SUFFIX}"
                 RESPONSE_OPERATIONS_UI_PORT = "80"
                 CASE_SERVICE_HOST = "casesvc-ci${DOMAIN_SUFFIX}"
@@ -90,6 +94,7 @@ pipeline {
             }
             steps {
                 sh 'env'
+                sh 'make setup'
                 sh 'pipenv run behave --no-skipped acceptance_tests/features'
             }
         }

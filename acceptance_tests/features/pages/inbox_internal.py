@@ -8,7 +8,7 @@ def go_to():
 
 
 def go_to_select_survey():
-    browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/messages")
+    browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/messages/select-survey")
 
 
 def get_page_title():
