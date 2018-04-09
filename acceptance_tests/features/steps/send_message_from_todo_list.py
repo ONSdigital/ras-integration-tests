@@ -82,15 +82,10 @@ def error_require_body_and_subject(_):
     browser.driver.find_element_by_link_text('Please enter a message')
 
 
-@then('the respondent is navigated to their inbox')
-def navigated_to_inbox(_):
-    browser.driver.find_element_by_css_selector("a#inbox-list.navigation-tabs__tab.navigation-tabs__tab--active")  # NOQA
-
-
 @then('the respondent is navigated to their inbox and notified message sent successfully')
 def navigated_to_inbox_show_message_sent_notif(_):
-    browser.driver.find_element_by_css_selector("a#inbox-list.navigation-tabs__tab.navigation-tabs__tab--active")  # NOQA
-    browser.driver.find_element_by_id("message-success-notif")
+    browser.driver.find_element_by_id("flashed-message-1")
+    browser.driver.find_element_by_link_text("123")
 
 
 @when('the respondent populates the body field but not the subject')
