@@ -38,7 +38,7 @@ make test
 
 ### Chrome
 ```bash
-export HEADLESS=False  # or =True for Chrome in headless mode 
+export HEADLESS=False  # or =True for Chrome in headless mode
 pipenv install --dev
 make test
 ```

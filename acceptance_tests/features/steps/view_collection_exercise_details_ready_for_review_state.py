@@ -1,9 +1,8 @@
-import time
 
 from behave import given, when, then
 
-from acceptance_tests import browser
 from acceptance_tests.features.pages import collection_exercise, collection_exercise_details
+from common.browser_utilities import is_text_present_with_retry
 
 
 @given('the 201809 collection exercise for the RSI survey is Scheduled')
@@ -42,17 +41,9 @@ def navigate_to_rsi_details(_):
 @then('the status of the 201811 collection exercise is Ready for Review')
 def rsi_201811_is_ready_for_review(_):
     collection_exercises = collection_exercise.get_collection_exercises()
-    ce_state = next((ce['exercise_ref'] for ce in collection_exercises if ce['exercise_ref'] == '201811'))
     # Status updated async so wait until updated
-    for i in range(5):
-        if collection_exercise.is_ready_for_review(ce_state):
-            break
-        time.sleep(1)
-        browser.reload()
-        collection_exercises = collection_exercise.get_collection_exercises()
-        ce_state = next((ce['state'] for ce in collection_exercises if ce['exercise_ref'] == '201811'))
+    assert is_text_present_with_retry('Ready for review', 10)
     assert '201811' in (ce['exercise_ref'] for ce in collection_exercises)
-    assert collection_exercise.is_ready_for_review(ce_state), ce_state
 
 
 @given('the user has loaded the sample')
@@ -74,12 +65,4 @@ def load_collection_instruments(_):
 
 @then('the status of the collection exercise is Ready for Review')
 def ce_details_state_is_ready_for_review(_):
-    ce_state = collection_exercise_details.get_status()
-    # Status updated async so wait until updated
-    for i in range(5):
-        if collection_exercise.is_ready_for_review(ce_state):
-            break
-        time.sleep(1)
-        browser.reload()
-        ce_state = collection_exercise_details.get_status()
-    assert collection_exercise.is_ready_for_review(ce_state), ce_state
+    assert is_text_present_with_retry('Ready for review', 10)
