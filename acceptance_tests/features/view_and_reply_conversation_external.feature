@@ -18,6 +18,12 @@ Feature: External User Views a Conversation
     When an internal user responds
     Then the external user can see the date and time for each message in the conversation
 
+  @sm128_s03
+  Scenario: When opening a conversation, the user is taken to the latest message in that conversation
+    Given the external user has a conversation
+    When they view that conversation
+    Then they are taken to the latest message in that conversation (external)
+
   @sm128_s04
   Scenario: User is able to differentiate between ONS messages and external messages in a conversation
     Given an external user has sent ONS a message

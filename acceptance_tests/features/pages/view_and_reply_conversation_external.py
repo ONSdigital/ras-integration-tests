@@ -26,3 +26,19 @@ def go_to_first_conversation_in_message_box():
 def get_first_conversation_in_message_box():
     go_to_first_conversation_in_message_box()
     return get_conversation_messages()
+
+
+def enter_text_in_conversation_reply(text):
+    browser.driver.find_element_by_id("secure-message-body").send_keys(text)
+
+
+def click_reply_send_button():
+    browser.driver.find_element_by_id("send-message-btn").click()
+
+
+def get_latest_message_tag():
+    return browser.find_by_id("latest-message")
+
+
+def get_latest_message_tag_from_latest_message():
+    return get_conversation_messages()[-1].find_by_id("latest-message")

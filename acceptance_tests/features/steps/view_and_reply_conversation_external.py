@@ -1,10 +1,12 @@
 from behave import given, then, when
 
+from acceptance_tests.features.pages.create_message_internal import get_first_flashed_message
+from acceptance_tests.features.pages.reply_to_message_internal import get_current_url
 from acceptance_tests.features.pages.reply_to_message_internal import \
     reply_to_first_message_in_message_box as reply_to_last_message_internal
 import acceptance_tests.features.pages.view_and_reply_conversation_external as page_helpers
 from acceptance_tests.features.steps.authentication import signed_in_internal, signed_in_respondent
-from controllers.messages_controller import create_message_external_to_internal
+from controllers.messages_controller import create_message_external_to_internal, create_message_internal_to_external
 
 
 @given('an external user has sent ONS a message')
@@ -56,6 +58,19 @@ def external_user_can_distinguish_sent_and_received_messages(_):
     assert internal_reply_sender == 'ONS Business Surveys Team'
 
 
+@then('they are taken to the latest message in that conversation (external)')
+def external_user_is_anchored_to_latest_message_in_conversation(_):
+
+    # Check url anchors to latest-message tag
+    assert '#latest-message' in get_current_url()
+
+    # Check there is only one latest message tag
+    assert len(page_helpers.get_latest_message_tag()) == 1
+
+    # Check the latest message tag is on the last message in the conversation
+    assert len(page_helpers.get_latest_message_tag_from_latest_message()) == 1
+
+
 @given('the external user has a conversation')
 def external_user_has_a_conversation(_):
     create_message_external_to_internal('Message to ONS', 'Message body to ONS')
@@ -73,7 +88,14 @@ def external_user_views_conversation(_):
 @then('they are able to reply to the conversation')
 @when('they reply in that conversation')
 def external_user_able_to_reply_to_conversation(_):
-    pass
+    signed_in_internal(None)
+    create_message_internal_to_external('Message from ONS', 'Message body from ONS')
+    signed_in_respondent(None)
+    page_helpers.go_to_first_conversation_in_message_box()
+    page_helpers.enter_text_in_conversation_reply('Reply body from respondent')
+    page_helpers.click_reply_send_button()
+
+    assert "Message sent." in get_first_flashed_message()
 
 
 @then('the reply will be sent to the correct team')
