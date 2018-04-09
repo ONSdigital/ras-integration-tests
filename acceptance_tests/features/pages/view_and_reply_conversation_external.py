@@ -32,13 +32,29 @@ def enter_text_in_conversation_reply(text):
     browser.driver.find_element_by_id("secure-message-body").send_keys(text)
 
 
+def enter_text_in_conversation_reply_with_javascript(text):
+    browser.execute_script(f'document.getElementById("secure-message-body").value="{text}";')
+
+
+def get_text_from_reply_text_area():
+    return browser.find_by_id("secure-message-body").value
+
+
 def click_reply_send_button():
     browser.driver.find_element_by_id("send-message-btn").click()
 
 
-def get_latest_message_tag():
+def get_latest_message_by_tag():
     return browser.find_by_id("latest-message")
 
 
+def get_last_message_in_conversation():
+    return get_conversation_messages()[-1]
+
+
 def get_latest_message_tag_from_latest_message():
-    return get_conversation_messages()[-1].find_by_id("latest-message")
+    return get_last_message_in_conversation().find_by_id("latest-message")
+
+
+def get_body_from_last_message():
+    return browser.find_by_name("conversation-message-body")[-1].value

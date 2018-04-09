@@ -1,6 +1,8 @@
 from behave import given, then, when
 
+from acceptance_tests.features.pages.inbox_internal import go_to as go_to_internal_bricks_messages
 from acceptance_tests.features.pages.create_message_internal import get_first_flashed_message
+from acceptance_tests.features.pages.internal_conversation_view import go_to_thread as go_to_thread_internal
 from acceptance_tests.features.pages.reply_to_message_internal import get_current_url
 from acceptance_tests.features.pages.reply_to_message_internal import \
     reply_to_first_message_in_message_box as reply_to_last_message_internal
@@ -65,7 +67,7 @@ def external_user_is_anchored_to_latest_message_in_conversation(_):
     assert '#latest-message' in get_current_url()
 
     # Check there is only one latest message tag
-    assert len(page_helpers.get_latest_message_tag()) == 1
+    assert len(page_helpers.get_latest_message_by_tag()) == 1
 
     # Check the latest message tag is on the last message in the conversation
     assert len(page_helpers.get_latest_message_tag_from_latest_message()) == 1
@@ -87,8 +89,8 @@ def external_user_views_conversation(_):
 @then('they are able to reply (external)')
 @then('they are able to reply to the conversation')
 @when('they reply in that conversation')
+@when('they enter text into the body of their reply (external)')
 def external_user_able_to_reply_to_conversation(_):
-    signed_in_internal(None)
     create_message_internal_to_external('Message from ONS', 'Message body from ONS')
     signed_in_respondent(None)
     page_helpers.go_to_first_conversation_in_message_box()
@@ -100,24 +102,35 @@ def external_user_able_to_reply_to_conversation(_):
 
 @then('the reply will be sent to the correct team')
 def external_user_reply_sent_to_correct_team(_):
-    pass
+    signed_in_internal(None)
+    go_to_internal_bricks_messages()
+    go_to_thread_internal()
+    latest_message_body = page_helpers.get_body_from_last_message()
+
+    print('###############################\n############################')
+    print(latest_message_body)
+    assert latest_message_body == 'Reply body from respondent'
 
 
 @then('they are able able to enter up to and including 10,000 characters in the body of their reply')
 def external_user_able_to_enter_body_up_to_correct_limit(_):
-    pass
+    page_helpers.go_to_first_conversation_in_message_box()
 
+    # Check user can enter 10000 characters
+    page_helpers.enter_text_in_conversation_reply_with_javascript('a'*9900)
+    page_helpers.enter_text_in_conversation_reply('a' * 100)
+    assert page_helpers.get_text_from_reply_text_area() == 'a' * 10000
 
-@when('they enter text into the body of their reply (external)')
-def external_user_enters_text_in_reply_body(_):
-    pass
+    # Check user cannot enter more than 10000 characters
+    page_helpers.enter_text_in_conversation_reply('a'*100)
+    assert page_helpers.get_text_from_reply_text_area() == 'a' * 10000
 
 
 @then('they are to be navigated back to the list of conversations')
 def external_user_is_navigated_to_list_of_conversations(_):
-    pass
+    assert 'secure-message/threads' in get_current_url()
 
 
 @then('they receive confirmation that the message has been sent (external)')
 def external_user_receives_confirmation_that_message_has_been_sent(_):
-    pass
+    assert "Message sent." in get_first_flashed_message()
