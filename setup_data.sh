@@ -7,7 +7,7 @@ if [ -d tmp_rm_tools ]; then
     echo "tmp_rm_tools exists - pulling";
     cd tmp_rm_tools; git pull; cd -;
 else
-    git clone --depth 1 ${rm_tools_repo_url} tmp_rm_tools;
+    git clone -b  overridable-config --depth 1 ${rm_tools_repo_url} tmp_rm_tools;
 fi;
 pushd tmp_rm_tools/collex-loader
 pipenv run python load.py config/collex-config.json
