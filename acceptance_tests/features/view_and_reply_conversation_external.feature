@@ -28,7 +28,7 @@ Feature: External User Views a Conversation
   Scenario: User is able to reply to the latest item in a conversation
     Given the external user has a conversation
     When they view that conversation
-    Then they are able to reply
+    Then they are able to reply (external)
 
   @sm128_s06
   Scenario: The reply will be sent to the relevant team for that survey
@@ -45,7 +45,7 @@ Feature: External User Views a Conversation
   @sm128_s08
   Scenario: User is only able to reply to a conversation if there is text in the body of their reply.
     Given the external user has a conversation
-    When they enter text into the body of their reply
+    When they enter text into the body of their reply (external)
     Then they are able to reply to the conversation
 
   @sm128_s09
@@ -58,4 +58,4 @@ Feature: External User Views a Conversation
   Scenario: When the user has sent their reply, they receive system feedback confirming the message has been sent
     Given the external user has a conversation
     When they reply in that conversation
-    Then they receive confirmation that the message has been sent
+    Then they receive confirmation that the message has been sent (external)
