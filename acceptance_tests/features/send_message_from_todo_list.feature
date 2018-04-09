@@ -43,13 +43,6 @@ Feature: Send message from todo list
     When the respondent tries to send the message without populating the body and subject fields
     Then an error message appears specifying body and subject fields are required
 
-  @sm137-07
-  Scenario: After message is sent respondent navigated to inbox
-    Given the respondent chooses to send a message to ONS
-    When the respondent enters a valid message
-    And the message is sent
-    Then the respondent is navigated to their inbox
-
   @sm137-08
   Scenario: Respondent receives confirmation message is sent
     Given the respondent chooses to send a message to ONS

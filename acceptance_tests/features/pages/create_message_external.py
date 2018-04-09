@@ -9,6 +9,10 @@ def enter_valid_body(body):
     browser.driver.find_element_by_id('secure-message-body').send_keys(body)
 
 
+def enter_valid_body_over_100_character_summary():
+    browser.driver.find_element_by_id('secure-message-body').send_keys('I would like to query data. ' * 5)
+
+
 def enter_invalid_length_subject():
     browser.driver.find_element_by_id('secure-message-subject').send_keys('x' * 98)
 
