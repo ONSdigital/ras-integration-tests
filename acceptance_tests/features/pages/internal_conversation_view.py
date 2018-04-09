@@ -37,5 +37,5 @@ def view_full_conversation_date_time_msg_details():
 
 
 def view_last_anchored_message():
-    last_message = browser.find_by_id('sm-from-ons')
+    last_message = browser.find_by_id('sm-from-ons-1')
     return len(last_message.find_by_name("latest-message")) == 1
