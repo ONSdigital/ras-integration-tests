@@ -18,7 +18,6 @@ def upload_seft_collection_instrument(collection_exercise_id, file_path, form_ty
     files = {"file": ('test_collection_instrument.xlxs', open(file_path, 'rb'), mimetype)}
 
     params = dict()
-
     if form_type:
         classifiers = {
             "form_type": form_type,
