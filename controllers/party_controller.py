@@ -78,9 +78,7 @@ def get_party_by_email(email):
 
 def change_respondent_status(respondent_id, status="ACTIVE"):
     logger.debug('Change respondent account status', respondent_id=respondent_id)
-    request_json = {
-        "status_change": status
-    }
+    request_json = {"status_change": status}
     url = f'{Config.PARTY_SERVICE}/party-api/v1/respondents/edit-account-status/{respondent_id}'
     response = requests.put(url, json=request_json, auth=Config.BASIC_AUTH)
     response.raise_for_status()
