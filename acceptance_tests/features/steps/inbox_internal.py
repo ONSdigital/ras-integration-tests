@@ -1,4 +1,3 @@
-import time
 from datetime import datetime
 
 from behave import given, when, then
@@ -6,6 +5,7 @@ from behave import given, when, then
 from acceptance_tests.features.pages import home, inbox_internal
 from acceptance_tests.features.pages.internal_conversation_view import go_to_thread
 from acceptance_tests.features.steps.authentication import signed_in_internal
+from common.browser_utilities import is_text_present_with_retry
 from config import Config
 from controllers import messages_controller, database_controller
 
@@ -18,12 +18,13 @@ def verify_messages_link_present(_):
 @given('the user has got messages in their inbox')
 def populate_database_with_messages(_):
 
-    messages_controller.create_message_internal_to_external("This is the subject of the message",
-                                                            "This is the body of the message")
-    # 1 sec sleep so that there is a different timestamp on the message
-    time.sleep(2)
-    messages_controller.create_message_internal_to_external("This is the subject of the message",
-                                                            "This is the body of the message")
+    subject = "This is the subject of the message"
+    body = "This is the body of the message"
+    messages_controller.create_message_internal_to_external(subject, body)
+
+    if is_text_present_with_retry('Message sent.', 1):
+        messages_controller.create_message_internal_to_external(subject, body)
+
     inbox_internal.go_to()
 
 
