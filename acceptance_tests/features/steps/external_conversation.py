@@ -1,20 +1,13 @@
 from behave import given, when, then
 
 from acceptance_tests import browser
-from acceptance_tests.features.pages import create_message_external, external_conversation
+from acceptance_tests.features.pages import external_conversation
 
 
 @given('the external user has conversations in their list')
 def external_user_has_two_conversations(_):
-    external_conversation.go_to_todo_and_click_send_message()
-    create_message_external.enter_valid_subject()
-    create_message_external.enter_invalid_length_body()
-    create_message_external.send_message()
-
-    external_conversation.go_to_todo_and_click_send_message()
-    create_message_external.enter_valid_subject()
-    create_message_external.enter_invalid_length_body()
-    create_message_external.send_message()
+    external_conversation.send_message_from_external()
+    external_conversation.send_message_from_external()
 
 
 @given('the external user has no conversations to view')
@@ -41,14 +34,16 @@ def informed_of_no_messages(_):
 
 @then('they are able to preview the first 100 characters (respecting word boundaries) of the latest message in the conversation')  # NOQA
 def preview_summary_of_conversation(_):
-    pass
+    summary_length = external_conversation.get_summary_length()
+    assert summary_length < 100
 
 
 @then('the user will be able to view the conversation subject and the date and time the latest message was received')
 def view_date_and_time_of_conversation(_):
-    pass
+    assert external_conversation.get_datetime() == 'Today'
 
 
 @then('they are able to distinguish that the external message is unread')
 def external_message_is_unread(_):
     pass
+    # assert external_conversation.get_unread_message_label() == '(New)'

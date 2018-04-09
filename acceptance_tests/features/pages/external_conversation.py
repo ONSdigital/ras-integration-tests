@@ -1,19 +1,59 @@
+from acceptance_tests.features.steps.authentication import signed_in_respondent
 from config import Config
 
 from acceptance_tests import browser
+from acceptance_tests.features.pages import create_message_external
+from controllers import messages_controller
 
 
 def go_to():
     browser.visit(f"{Config.FRONTSTAGE_SERVICE}/secure-message/threads")
 
 
+def go_to_surveys_todo():
+    browser.visit(f"{Config.FRONTSTAGE_SERVICE}/surveys/todo")
+
+
+def select_to_create_message():
+    browser.find_by_id('create-message-link-1').click()
+
+
 def get_page_title():
     return browser.title
 
 
-def go_to_todo_and_click_send_message():
-    browser.visit(f"{Config.FRONTSTAGE_SERVICE}/surveys/todo")
-    browser.find_by_id('create-message-link-1').click()
+def get_datetime():
+    return 'Today'
+
+
+def get_summary_length():
+    return len(browser.find_by_id('message-summary'))
+
+
+def send_message_from_internal():
+    messages_controller.create_message_internal_to_external('Subject', 'Body')
+
+
+def send_message_from_external():
+    messages_controller.create_message_external_to_internal()
+
+
+def send_message_from_external_with_body_over_100_characters():
+    # Get authentication and navigate to correct page
+    signed_in_respondent(())
+    go_to_surveys_todo()
+    select_to_create_message()
+
+    # Create message
+    create_message_external.enter_valid_subject()
+    create_message_external.enter_valid_body_over_100_character_summary()
+
+    # Send message
+    create_message_external.send_message()
+
+
+def get_unread_message_label():
+    return browser.find_by_text('(New)')
 
 
 def get_no_messages_text():
