@@ -22,38 +22,34 @@ def get_page_title():
     return browser.title
 
 
-def get_datetime():
-    return 'Today'
-
-
 def get_summary_length():
-    return len(browser.find_by_id('message-summary'))
+    return len(browser.find_by_id('message-summary-1'))
+
+
+def get_message_body_summary_endswith_ellipsis():
+    return browser.find_by_id('message-summary-1').text
 
 
 def send_message_from_internal():
-    messages_controller.create_message_internal_to_external('Subject', 'Body')
+    messages_controller.create_message_internal_to_external('Message received from ONS', 'Message body')
 
 
 def send_message_from_external():
     messages_controller.create_message_external_to_internal()
 
 
-def send_message_from_external_with_body_over_100_characters():
+def send_message_from_external_with_body_over_80_characters():
     # Get authentication and navigate to correct page
     signed_in_respondent(())
     go_to_surveys_todo()
     select_to_create_message()
 
     # Create message
-    create_message_external.enter_valid_subject()
-    create_message_external.enter_valid_body_over_100_character_summary()
+    create_message_external.enter_valid_subject('Long message')
+    create_message_external.enter_valid_body_over_80_character_summary()
 
     # Send message
     create_message_external.send_message()
-
-
-def get_unread_message_label():
-    return browser.find_by_text('(New)')
 
 
 def get_no_messages_text():
