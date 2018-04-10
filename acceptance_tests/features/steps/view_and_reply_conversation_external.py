@@ -79,6 +79,7 @@ def external_user_has_a_conversation(_):
     signed_in_internal(None)
     reply_to_last_message_internal()
     signed_in_respondent(None)
+    page_helpers.go_to_first_conversation_in_message_box()
 
 
 @when('they view that conversation')
@@ -87,16 +88,23 @@ def external_user_views_conversation(_):
 
 
 @then('they are able to reply (external)')
-@then('they are able to reply to the conversation')
 @when('they reply in that conversation')
-@when('they enter text into the body of their reply (external)')
 def external_user_able_to_reply_to_conversation(_):
-    create_message_internal_to_external('Message from ONS', 'Message body from ONS')
-    signed_in_respondent(None)
     page_helpers.go_to_first_conversation_in_message_box()
     page_helpers.enter_text_in_conversation_reply('Reply body from respondent')
     page_helpers.click_reply_send_button()
 
+    assert "Message sent." in get_first_flashed_message()
+
+
+@when('they enter text into the body of their reply (external)')
+def external_user_enters_text_in_reply(_):
+    page_helpers.enter_text_in_conversation_reply('Reply body from respondent')
+
+
+@then('they are able to reply to the conversation')
+def external_user_able_to_reply_to_conversation_no_setup(_):
+    page_helpers.click_reply_send_button()
     assert "Message sent." in get_first_flashed_message()
 
 
