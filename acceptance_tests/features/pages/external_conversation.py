@@ -58,5 +58,3 @@ def send_message_from_external_with_body_over_80_characters():
 
 def get_no_messages_text():
     return browser.find_by_text('No new messages')
-
-
