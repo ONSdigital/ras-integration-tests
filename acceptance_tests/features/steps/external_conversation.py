@@ -45,7 +45,8 @@ def preview_summary_of_conversation(_):
 
 @then('the user will be able to view the conversation subject and the date and time the latest message was received')
 def view_date_and_time_of_conversation(_):
-    assert external_conversation.get_datetime() == 'Today'
+    assert browser.find_link_by_text('Message received from ONS')
+    assert browser.is_text_present('Today at')
 
 
 @then('they are able to distinguish that the external message is unread')

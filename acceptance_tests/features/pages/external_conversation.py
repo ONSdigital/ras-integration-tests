@@ -22,10 +22,6 @@ def get_page_title():
     return browser.title
 
 
-def get_datetime():
-    return 'Today'
-
-
 def get_summary_length():
     return len(browser.find_by_id('message-summary-1'))
 
