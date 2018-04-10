@@ -58,5 +58,3 @@ def get_unread_message_label():
 
 def get_no_messages_text():
     return browser.find_by_text('No new messages')
-
-
