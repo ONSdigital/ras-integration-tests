@@ -7,7 +7,7 @@ if [ -d tmp_rm_tools ]; then
     echo "tmp_rm_tools exists - pulling";
     cd tmp_rm_tools; git pull; cd -;
 else
-    git clone -b  overridable-config --depth 1 ${rm_tools_repo_url} tmp_rm_tools;
+    git clone --depth 1 ${rm_tools_repo_url} tmp_rm_tools;
 fi;
 collection_exercise_host=${COLLECTION_EXERCISE_SERVICE_HOST:-localhost}
 collection_exercise_port=${COLLECTION_EXERCISE_SERVICE_PORT:-8145}
