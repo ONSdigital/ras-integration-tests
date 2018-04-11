@@ -4,7 +4,7 @@ pipeline {
 
     agent {
         docker {
-            image 'python:latest'
+            image 'sdcplatform/python-pipenv-chrome'
             args '-u root'
         }
     }
