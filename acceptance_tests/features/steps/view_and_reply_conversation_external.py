@@ -8,7 +8,7 @@ from acceptance_tests.features.pages.reply_to_message_internal import \
     reply_to_first_message_in_message_box as reply_to_last_message_internal
 import acceptance_tests.features.pages.view_and_reply_conversation_external as page_helpers
 from acceptance_tests.features.steps.authentication import signed_in_internal, signed_in_respondent
-from controllers.messages_controller import create_message_external_to_internal, create_message_internal_to_external
+from controllers.messages_controller import create_message_external_to_internal
 
 
 @given('an external user has sent ONS a message')
