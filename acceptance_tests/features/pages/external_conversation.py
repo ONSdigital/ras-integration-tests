@@ -26,7 +26,7 @@ def get_summary_length():
     return len(browser.find_by_id('message-summary-1'))
 
 
-def get_message_body_summary_endswith_ellipsis():
+def get_message_body_summary():
     return browser.find_by_id('message-summary-1').text
 
 

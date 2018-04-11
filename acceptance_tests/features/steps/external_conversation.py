@@ -40,7 +40,7 @@ def informed_of_no_messages(_):
 @then('they are able to preview the first 80 characters (respecting word boundaries) of the latest message in the conversation')  # NOQA
 def preview_summary_of_conversation(_):
     assert external_conversation.get_summary_length() < 80
-    assert external_conversation.get_message_body_summary_endswith_ellipsis()[-3:] == '...'
+    assert external_conversation.get_message_body_summary()[-3:] == '...'
 
 
 @then('the user will be able to view the conversation subject and the date and time the latest message was received')
