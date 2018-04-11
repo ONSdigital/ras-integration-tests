@@ -5,7 +5,7 @@ pipeline {
     agent {
         docker {
             image 'sdcplatform/python-pipenv-chrome'
-            args '-u root'
+            args '-u root --privileged=true'
         }
     }
 
