@@ -40,7 +40,7 @@ def before_scenario(_, scenario):
 
 def after_step(context, step):
     if step.status == "failed":
-        logger.exception('Failed step', scenario=context.scenario.name, step=step.name, html=browser.html)
+        logger.exception('Failed step', scenario=context.scenario.name, step=step.name)
 
 
 def after_all(_):
