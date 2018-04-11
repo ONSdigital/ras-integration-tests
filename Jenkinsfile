@@ -91,6 +91,10 @@ pipeline {
                 SAMPLE_SERVICE_PORT = "80"
                 FRONTSTAGE_SERVICE_HOST = "ras-frontstage-ci${DOMAIN_SUFFIX}"
                 FRONTSTAGE_SERVICE_PORT = "80"
+                COLLECTION_INSTRUMENT_SERVICE_HOST = "ras-collection-instrument-ci${DOMAIN_SUFFIX}"
+                COLLECTION_INSTRUMENT_SERVICE_PORT = "80"
+                SECURITY_USER_NAME = credentials('SECURITY_USER_NAME')
+                SECURITY_USER_PASSWORD = credentials('SECURITY_USER_PASSWORD')
             }
             steps {
                 sh 'env'
