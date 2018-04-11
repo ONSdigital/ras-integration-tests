@@ -1,6 +1,7 @@
 import logging
 import os
 
+from selenium import webdriver
 from splinter import Browser
 from structlog import configure
 from structlog.stdlib import LoggerFactory
@@ -9,7 +10,9 @@ logging.basicConfig()
 configure(logger_factory=LoggerFactory())
 
 if os.getenv('HEADLESS', 'True') == 'True':
-    browser = Browser('chrome', headless=True)
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument("--window-size=1920,1080")
+    browser = Browser('chrome', headless=True, options=chrome_options)
 elif os.getenv('HEADLESS', 'phantomjs') == 'phantomjs':
     browser = Browser('phantomjs')
 else:
