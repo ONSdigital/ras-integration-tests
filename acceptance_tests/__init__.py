@@ -11,9 +11,7 @@ configure(logger_factory=LoggerFactory())
 
 if os.getenv('HEADLESS', 'True') == 'True':
     chrome_options = webdriver.ChromeOptions()
-    chrome_options.add_argument("--window-size=1920,1080")
+    chrome_options.add_argument("--window-size=800,600")
     browser = Browser('chrome', headless=True, options=chrome_options)
-elif os.getenv('HEADLESS', 'phantomjs') == 'phantomjs':
-    browser = Browser('phantomjs')
 else:
     browser = Browser('chrome')
