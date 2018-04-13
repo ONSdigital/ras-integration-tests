@@ -11,7 +11,7 @@ configure(logger_factory=LoggerFactory())
 
 if os.getenv('HEADLESS', 'True') == 'True':
     chrome_options = webdriver.ChromeOptions()
-    chrome_options.add_argument("--window-size=1024,800")
+    chrome_options.add_argument("--window-size=1920,1080")
     browser = Browser('chrome', headless=True, options=chrome_options)
 else:
     browser = Browser('chrome')
