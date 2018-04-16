@@ -20,11 +20,14 @@ stop_services:
 wait_for_services:
 	pipenv run python wait_until_services_up.py
 
-setup:
+clean:
+	pipenv run python reset_database.py
+
+setup: clean
 	./setup_data.sh ${RM_TOOLS_REPO_URL}
 
 system_tests:
 	pipenv run behave --format progress2 system_tests/features # This will only run the system tests
 
-acceptance_tests:
+acceptance_tests: setup
 	pipenv run behave --format progress2 acceptance_tests/features # This will only run the acceptance tests
