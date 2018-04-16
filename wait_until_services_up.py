@@ -28,5 +28,5 @@ def check_status(url):
 
 
 if __name__ == '__main__':
-    [check_status(v) for k, v in dict(vars(Config)).items() if k.endswith('_SERVICE')]
+    [check_status(v) for k, v in dict(vars(Config)).items() if k.endswith('_SERVICE') or k.endswith('_UI')]
     print('all services are up')
