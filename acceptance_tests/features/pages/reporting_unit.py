@@ -76,4 +76,6 @@ def get_unused_iac(ru_ref, survey_short_name):
 def click_generate_new_code():
     browser.find_by_id('generate-new-code').click()
 
-def select_to_disable_enrolment():
+
+def click_disable_enrolment():
+    browser.find_by_id('change-enrolment-status').click()

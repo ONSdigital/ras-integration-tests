@@ -6,8 +6,9 @@ Feature: Disable respondent enrolment status
   @us022_s01
   Scenario: Internal user must be able to disable a respondents enrolment
     Given the internal user is on the ru details page
-    When the internal user requests the respondent enrolment to be disabled
-    Then the respondent's enrolment appears disabled on the ru details page for enrolment
+    When the internal clicks on the disable button
+    And the internal user confirms they want to disable the account
+    Then the respondent's enrolment appears disabled on the ru details page
 
   @us022_s02
   Scenario: Internal user has to confirm when choosing to disable respondent enrolment
