@@ -10,6 +10,7 @@ else
     git clone --depth 1 ${ras_rm_repo_url} tmp_ras_rm_docker_dev;
 fi;
 pushd tmp_ras_rm_docker_dev
+git checkout use-oauth-branch-image
 make pull
 make up
 popd
