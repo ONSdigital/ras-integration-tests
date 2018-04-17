@@ -32,7 +32,7 @@ def internal_user_can_view_relevant_attributes_for_qbs(context):
 def the_internal_user_can_view_all_collection_exercises_for_qbs(context):
     # Validate collection exercise table headers
     table_headers = collection_exercise.get_table_headers()
-    required_headers = ['Period', 'Shown to respondent as', 'Status']
+    required_headers = ['Period', 'Respondent sees', 'Status', 'Sample', 'Report (CSV)', 'MPS', 'Go live', 'Return by']
     assert table_headers == ' '.join(required_headers)
 
     # Validate rows to ensure values are in the correct columns

@@ -39,6 +39,19 @@ def get_respondent_details(respondent_id):
     return response.json()
 
 
+def get_party_by_ru_ref(ru_ref):
+    logger.debug('Retrieving reporting unit', ru_ref=ru_ref)
+    url = f'{Config.PARTY_SERVICE}/party-api/v1/parties/type/B/ref/{ru_ref}'
+    response = requests.get(url, auth=Config.BASIC_AUTH)
+
+    if response.status_code != 200:
+        logger.error('Error retrieving reporting unit', ru_ref=ru_ref)
+        raise Exception('Failed to retrieve reporting unit')
+
+    logger.debug('Successfully retrieved reporting unit', ru_ref=ru_ref)
+    return response.json()
+
+
 def add_survey(party_id, enrolment_code):
     logger.debug('Adding a survey')
     url = f'{Config.PARTY_SERVICE}/party-api/v1/respondents/add_survey'
@@ -50,3 +63,23 @@ def add_survey(party_id, enrolment_code):
         raise Exception('Failed to add survey')
 
     logger.debug('Successfully added a survey')
+
+
+def get_party_by_email(email):
+    logger.debug('Retrieving party by email address', email=email)
+    url = f'{Config.PARTY_SERVICE}/party-api/v1/respondents/email'
+    response = requests.get(url, auth=Config.BASIC_AUTH, json={"email": email})
+    if response.status_code == 404:
+        logger.info('Respondent not found', email=email)
+        return
+    logger.debug('Successfully retrieved party', email=email)
+    return response.json()
+
+
+def change_respondent_status(respondent_id, status="ACTIVE"):
+    logger.debug('Change respondent account status', respondent_id=respondent_id)
+    request_json = {"status_change": status}
+    url = f'{Config.PARTY_SERVICE}/party-api/v1/respondents/edit-account-status/{respondent_id}'
+    response = requests.put(url, json=request_json, auth=Config.BASIC_AUTH)
+    response.raise_for_status()
+    logger.debug('Successfully updated respondent account status', party_id=respondent_id)

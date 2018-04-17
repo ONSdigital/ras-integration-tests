@@ -1,40 +1,54 @@
-import json
-import jwt
 import logging
 
-
-import requests
 from structlog import wrap_logger
 
+from acceptance_tests import browser
+from acceptance_tests.features.pages import create_message_internal, create_message_external, surveys_todo
+from acceptance_tests.features.pages.reporting_unit import click_data_panel
+from acceptance_tests.features.steps.authentication import signed_in_respondent, signed_in_internal
 from config import Config
 
 logger = wrap_logger(logging.getLogger(__name__))
 
 
-def create_message(msg_to, subject, body, ru_id):
-    logger.debug('Creating secure message')
-
-    message = {
-        'msg_from': "BRES",
-        'msg_to': msg_to,
-        'subject': subject,
-        'body': body,
-        'thread_id': "",
-        'collection_case': "",
-        'survey': "cb0711c3-0ac8-41d3-ae0e-567e5ea1ef87",
-        'ru_id': ru_id}
-
-    url = Config.SECURE_MESSAGE_SERVICE + '/message/send'
-
-    response = requests.post(url, headers={'Authorization': _get_jwt(), 'Content-Type': 'application/json',
-                                           'Accept': 'application/json'}, json=message)
-
-    if response.status_code != 201:
-        logger.error('Failed create message', status=response.status_code)
-        raise Exception('Failed create message')
-
-    return json.loads(response.text)
+def go_to_create_message():
+    browser.visit(f'{Config.RESPONSE_OPERATIONS_UI}'
+                  "/reporting-units/49900000001")
+    click_data_panel('Bricks')
+    browser.find_by_id("create-message-button-1").click()
+    assert "messages/create-message" in browser.url
 
 
-def _get_jwt():
-    return jwt.encode({'user': 'BRES', 'party_id': 'BRES', 'role': 'internal'}, 'testsecret', algorithm='HS256')
+def create_message_internal_to_external(subject='Subject', body='Body'):
+    # Send a message from a respondent in the context of a Bricks survey
+    # Note that external users may have to be signed in again after calling this function
+
+    # Navigate to sent a message
+    signed_in_internal(())
+    go_to_create_message()
+
+    # Create message
+    create_message_internal.enter_text_in_message_subject(subject)
+    create_message_internal.enter_text_in_message_body(body)
+
+    # Send message
+    create_message_internal.click_message_send_button()
+    logger.info("Message from internal to external created")
+
+
+def create_message_external_to_internal(subject='Subject', body='Body'):
+    # Send a message from a respondent in the context of a Bricks survey
+    # Note that internal users may have to be signed in again after calling this function
+
+    # Navigate to send a message
+    signed_in_respondent(())
+    surveys_todo.go_to()
+    surveys_todo.select_to_create_message()
+
+    # Create message
+    create_message_external.enter_valid_subject(subject)
+    create_message_external.enter_valid_body(body)
+
+    # Send message
+    create_message_external.send_message()
+    logger.info("Message from external to internal created")

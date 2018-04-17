@@ -23,10 +23,32 @@ Feature: Internal inbox
   Scenario: User is able to view all the following details
     Given the user has access to secure messaging
     When they navigate to the inbox messages
-    Then they are able to view the RU Ref, Subject, From, To, Date/Time for each message
+    Then they are able to view the RU Ref, Subject, From, To, Date and time for each message
 
   @sm111_s04
   Scenario: User is able to view all the following details
     Given the user has access to secure messaging
     When they navigate to the inbox messages
     Then they are able to view all received messages in reverse chronological order/latest first
+
+  @sm139_s01
+  Scenario: User is able to view a list of filter options
+    Given the user has access to secure messaging
+    When they navigate to the select survey page
+    Then they are able to view a list of filter options
+
+  @sm114_s01
+  Scenario: User is able to distinguish unread messages in their inbox
+    Given the user has no messages in their inbox
+    When the user has an unread message in their inbox
+    And they navigate to the inbox messages
+    Then they are able to distinguish that the message is unread
+
+  @sm114_s02
+  Scenario: Messages are no longer distinguished as unread once they have been viewed
+    Given the user has no messages in their inbox
+    When the user has an unread message in their inbox
+    And they navigate to the inbox messages
+    And they view the unread message
+    And they navigate to the inbox messages
+    Then the message is no longer marked as unread

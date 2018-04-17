@@ -3,7 +3,7 @@ from config import Config
 
 
 def go_to():
-    browser.visit(Config.FRONTSTAGE_SERVICE + '/surveys/')
+    browser.visit(Config.FRONTSTAGE_SERVICE + '/surveys/todo')
 
 
 def get_collection_exercise_periods():

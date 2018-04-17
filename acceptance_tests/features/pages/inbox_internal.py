@@ -4,7 +4,11 @@ from acceptance_tests import browser
 
 
 def go_to():
-    browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/messages")
+    browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/messages/Bricks")
+
+
+def go_to_select_survey():
+    browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/messages/select-survey")
 
 
 def get_page_title():
@@ -35,3 +39,11 @@ def get_table_heading():
 
 def get_no_messages_text():
     return browser.find_by_text('No new messages')
+
+
+def get_radio_button_for_survey(survey):
+    return browser.find_by_id(survey)
+
+
+def get_unread_messages():
+    return browser.find_by_name("message-unread")
