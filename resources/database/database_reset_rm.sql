@@ -74,3 +74,14 @@ SET SCHEMA 'action';
 
 INSERT INTO action.actionrule (actionrulepk, actionplanfk, actiontypefk, name, description, daysoffset, priority)
 VALUES (1, 1, 1, 'BSNOT+0', 'Enrolment Invitation Letter(+0 days)', 0, 3);
+
+
+/* Clean CI DB */
+TRUNCATE ras_ci.alembic_version;
+TRUNCATE ras_ci.business;
+TRUNCATE ras_ci.exercise;
+TRUNCATE ras_ci.instrument;
+TRUNCATE ras_ci.instrument_business;
+TRUNCATE ras_ci.instrument_exercise;
+TRUNCATE ras_ci.seft_instrument;
+TRUNCATE ras_ci.survey;
