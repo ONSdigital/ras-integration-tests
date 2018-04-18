@@ -45,7 +45,7 @@ def get_associated_respondents():
     rows = respondents_table.find_by_tag('tbody').find_by_tag('tr')
     respondents = [
         {
-            "enrolementStatus": row.find_by_name('tbl-enrolment-status').value,
+            "enrolementStatus": row.find_by_id('enrolment-status').value,
             "name": row.find_by_name('tbl-respondent-details').first.find_by_name('tbl-respondent-name').value,
             "email": row.find_by_name('tbl-respondent-details').first.find_by_name('tbl-respondent-email').value,
             "phone": row.find_by_name('tbl-respondent-details').first.find_by_name('tbl-respondent-phone').value,
