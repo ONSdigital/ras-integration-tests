@@ -13,6 +13,6 @@ if __name__ == '__main__':
         print('Suppressing error truncating oauth database')
     database_controller.execute_sql('resources/database/database_reset_secure_message.sql',
                                     database_uri=Config.SECURE_MESSAGE_DATABASE_URI)
-    database_controller.execute_sql('resources/database/database_reset_ci.sql',
-                                    database_uri=Config.DATABASE_URI)
+    database_controller.execute_sql('resources/database/database_reset_ras_ci.sql',
+                                    database_uri=Config.COLLECTION_INSTRUMENT_DATABASE_URI)
     print('Successfully reset databases')
