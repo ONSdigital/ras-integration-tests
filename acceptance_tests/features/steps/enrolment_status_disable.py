@@ -16,7 +16,7 @@ def internal_user_disables_enrolment(_, email):
     change_enrolment_status.confirm_change_enrolment_status()
     reporting_unit.click_data_panel('Bricks')
     respondent = reporting_unit.get_respondent(email)
-    assert respondent['enrolementStatus'] == 'Disabled'
+    assert respondent['enrolmentStatus'] == 'Disabled'
 
 
 @when('the internal clicks on the disable button for "{email}"')
@@ -40,7 +40,7 @@ def view_surveys_todo(_, email):
 def enrolment_is_disabled(_, email):
     reporting_unit.click_data_panel('Bricks')
     respondent = reporting_unit.get_respondent(email)
-    assert respondent['enrolementStatus'] == 'Disabled'
+    assert respondent['enrolmentStatus'] == 'Disabled'
 
 
 @then('the respondent should not be able to view the disabled enrolment')
