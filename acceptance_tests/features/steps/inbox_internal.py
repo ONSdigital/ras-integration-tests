@@ -28,6 +28,19 @@ def populate_database_with_messages(_):
     inbox_internal.go_to()
 
 
+@given('the user has got {message_total} messages in their inbox')
+def populate_database_with_messages(message_total):
+    subject = "This is the subject of the message"
+    body = "This is the body of the message"
+    for i in range(0, int(message_total)):
+        messages_controller.create_message_internal_to_external(subject, body)
+
+        if is_text_present_with_retry('Message sent.', 1):
+            messages_controller.create_message_internal_to_external(subject, body)
+
+    inbox_internal.go_to()
+
+
 @given('the user has no messages in their inbox')
 def user_has_no_messages_in_inbox(_):
     database_controller.execute_sql('resources/database/database_reset_secure_message.sql',
@@ -47,6 +60,11 @@ def informed_of_no_messages(_):
 @then('they are able to view all received messages')
 def test_presence_of_messages(_):
     assert len(inbox_internal.get_messages()) > 0
+
+
+@then('they are able to view {message_total} messages')
+def test_presence_of_messages(message_total):
+    assert len(inbox_internal.get_messages()) == int(message_total)
 
 
 @then('they are able to view the RU Ref, Subject, From, To, Date and time for each message')
@@ -94,3 +112,8 @@ def internal_user_views_unread_message(_):
 @then('the message is no longer marked as unread')
 def message_is_no_longer_marked_unread_in_internal_inbox(_):
     assert len(inbox_internal.get_unread_messages()) == 0
+
+
+@then('the pagination links {status} available')
+def pagination_links_available(status):
+    assert inbox_internal.get_pagination_links == (status == 'are')

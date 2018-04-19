@@ -52,3 +52,24 @@ Feature: Internal inbox
     And they view the unread message
     And they navigate to the inbox messages
     Then the message is no longer marked as unread
+
+  @sm127_s01
+  Scenario: User views 5 messages when 5 are there
+    Given the user has got '5' messages in their inbox
+    When they navigate to the inbox messages
+    Then they are able to view '5' messages
+    And the pagination links 'are not' available
+
+  @sm127_s01
+  Scenario: User views 15 messages when 20 are there
+    Given the user has got '20' messages in their inbox
+    When they navigate to the inbox messages
+    Then they are able to view '15' messages
+    And the pagination links 'are' available
+
+  @sm127_s01
+  Scenario: User can not see pagination links if there are no messages
+    Given the user has no messages in their inbox
+    When they navigate to the inbox messages
+    Then they are informed that there are no messages
+    And the pagination links 'are not' available
