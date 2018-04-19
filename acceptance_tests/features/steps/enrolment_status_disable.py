@@ -50,6 +50,6 @@ def respondent_enrolment_is_disabled(_):
 
 
 @then('the respondent should see the survey in their todo list')
-def respondent_enrolment_is_disabled(_):
+def respondent_enrolment_is_not_disabled(_):
     surveys_list = surveys_todo.get_surveys_list()
     assert 'You have no surveys to complete' not in surveys_list.value
