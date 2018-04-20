@@ -6,7 +6,7 @@ from common.browser_utilities import is_text_present_with_retry
 
 @given('I am on the collection exercise details screen with a loaded CI')
 def ce_details_page_with_loaded_ci(_):
-    collection_exercise_details.go_to('RSI', '201804')
+    collection_exercise_details.go_to('Bricks', '201811')
     collection_exercise_details.load_collection_instrument(
         test_file='resources/collection_instrument_files/064_201803_0001.xlsx')
 

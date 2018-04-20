@@ -191,9 +191,6 @@ def get_collection_instrument_removed_success_text():
 
 
 def is_able_to_remove_ci():
-    try:
-        browser.find_by_id('unlink-ci-1')
-    except NoSuchElementException:
-        return False
-    else:
-        return True
+    remove_options = len(browser.find_by_id('unlink-ci-1'))
+
+    return True if remove_options > 0 else None
