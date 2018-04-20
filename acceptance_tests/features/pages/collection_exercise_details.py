@@ -1,8 +1,6 @@
 from os.path import abspath
 import time
 
-from selenium.common.exceptions import NoSuchElementException
-
 from acceptance_tests.features.pages import collection_exercise
 from acceptance_tests import browser
 from config import Config
