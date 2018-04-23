@@ -5,5 +5,4 @@ TRUNCATE ras_ci.instrument_exercise CASCADE;
 TRUNCATE ras_ci.seft_instrument CASCADE;
 TRUNCATE ras_ci.instrument CASCADE;
 TRUNCATE ras_ci.business CASCADE;
-TRUNCATE ras_ci.classification CASCADE;
 TRUNCATE ras_ci.instrument_business CASCADE;
