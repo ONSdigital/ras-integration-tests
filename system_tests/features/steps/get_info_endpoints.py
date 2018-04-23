@@ -16,7 +16,7 @@ def requests_action_endpoint_info(context):
 
 @when('the system requests action exporter endpoint info')
 def requests_action_exporter_endpoint_info(context):
-    context.response = requests.get(Config.ACTION_EXPORTER + Config.INFO)
+    context.response = requests.get(Config.ACTION_EXPORTER_SERVICE + Config.INFO)
 
 
 @when('the system requests backstage endpoint info')
@@ -31,7 +31,7 @@ def requests_case_endpoint_info(context):
 
 @when('the system requests collection exercise endpoint info')
 def requests_collection_exercise_endpoint_info(context):
-    context.response = requests.get(Config.COLLECTION_EXERCISE + Config.INFO)
+    context.response = requests.get(Config.COLLECTION_EXERCISE_SERVICE + Config.INFO)
 
 
 @when('the system requests collection instrument endpoint info')

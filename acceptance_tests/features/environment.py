@@ -118,6 +118,7 @@ def register_respondent(survey_id, period, username, ru_ref=None):
     django_oauth_controller.verify_user(respondent_party['emailAddress'])
     case_id = database_controller.enrol_party(respondent_id)
     case_controller.post_case_event(case_id, respondent_id, "RESPONDENT_ENROLED", "Respondent enrolled")
+    wait_for_case_to_update(respondent_id)
     logger.info('Successfully registered respondent', survey_id=survey_id, period=period, username=username,
                 ru_ref=ru_ref, respondent_id=respondent_id)
     return respondent_id
@@ -127,3 +128,13 @@ def enrol_respondent(party_id, survey_id, period):
     collection_exercise_id = collection_exercise_controller.get_collection_exercise(survey_id, period)['id']
     enrolment_code = database_controller.get_iac_for_collection_exercise(collection_exercise_id)
     party_controller.add_survey(party_id, enrolment_code)
+
+
+def wait_for_case_to_update(respondent_id):
+    logger.debug('Waiting for case to update', respondent_id=respondent_id)
+    while True:
+        case = case_controller.get_case_by_party_id(respondent_id)[0]
+        if case['state'] == 'ACTIONABLE':
+            logger.debug('Case updated', respondent_id=respondent_id)
+            break
+        time.sleep(2)
