@@ -74,6 +74,7 @@ pipeline {
                 DJANGO_OAUTH_DATABASE_URI = credentials('DJANGO_CF_DATABASE')
                 PARTY_DATABASE_URI = credentials('PARTY_CF_DATABASE')
                 SECURE_MESSAGE_DATABASE_URI = credentials('SECURE_MESSAGE_CF_DATABASE')
+                COLLECTION_INSTRUMENT_DATABASE_URI = credentials('COLLECTION_INSTRUMENT_CF_DATABASE')
                 RESPONSE_OPERATIONS_UI_HOST = "response-operations-ui-python-ci${DOMAIN_SUFFIX}"
                 RESPONSE_OPERATIONS_UI_PORT = "80"
                 CASE_SERVICE_HOST = "casesvc-ci${DOMAIN_SUFFIX}"
