@@ -46,8 +46,20 @@ def get_radio_button_for_survey(survey):
 
 
 def get_unread_messages():
-    return browser.find_by_name("message-unread")
+    return browser.find_by_name('message-unread')
 
 
 def get_pagination_links():
     return browser.driver.find_element_by_class_name('pagination')
+
+
+def get_pagination_previous_link_unavailable():
+    return browser.driver.find_element_by_class_name('previous disabled unavailable')
+
+
+def get_pagination_next_link():
+    return browser.driver.find_element_by_class_name('next')
+
+
+def get_message_index():
+    return browser.find_by_id('message-5')

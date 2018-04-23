@@ -28,11 +28,24 @@ def populate_database_with_messages(_):
     inbox_internal.go_to()
 
 
-@given('the user has got {message_total} messages in their inbox')
-def populate_database_with_messages(message_total):
+@given('the user has got 5 messages in their inbox')
+def populate_database_with_messages(_):
     subject = "This is the subject of the message"
     body = "This is the body of the message"
-    for i in range(0, int(message_total)):
+    for i in range(0, 5):
+        messages_controller.create_message_internal_to_external(subject, body)
+
+        if is_text_present_with_retry('Message sent.', 1):
+            messages_controller.create_message_internal_to_external(subject, body)
+
+    inbox_internal.go_to()
+
+
+@given('the user has got 20 messages in their inbox')
+def populate_database_with_messages(_):
+    subject = "This is the subject of the message"
+    body = "This is the body of the message"
+    for i in range(0, 20):
         messages_controller.create_message_internal_to_external(subject, body)
 
         if is_text_present_with_retry('Message sent.', 1):
@@ -62,9 +75,15 @@ def test_presence_of_messages(_):
     assert len(inbox_internal.get_messages()) > 0
 
 
-@then('they are able to view {message_total} messages')
-def test_presence_of_messages(message_total):
-    assert len(inbox_internal.get_messages()) == int(message_total)
+@then('they are able to view 5 messages')
+def test_presence_of_messages(_):
+    assert inbox_internal.get_message_index
+    # assert len(inbox_internal.get_messages()) == 5
+
+
+@then('they are able to view 15 messages')
+def test_presence_of_messages(_):
+    assert len(inbox_internal.get_messages()) == 15
 
 
 @then('they are able to view the RU Ref, Subject, From, To, Date and time for each message')
@@ -114,6 +133,11 @@ def message_is_no_longer_marked_unread_in_internal_inbox(_):
     assert len(inbox_internal.get_unread_messages()) == 0
 
 
-@then('the pagination links {status} available')
-def pagination_links_available(status):
-    assert inbox_internal.get_pagination_links == (status == 'are')
+@then('the pagination links are available')
+def pagination_links_available(_):
+    assert inbox_internal.get_pagination_links
+
+
+@then('the pagination links are not available')
+def pagination_links_previous_unavailable(_):
+    assert inbox_internal.get_pagination_previous_link_unavailable()
