@@ -6,6 +6,10 @@ def go_to():
     browser.visit(Config.RESPONSE_OPERATIONS_UI + '/sign-in')
 
 
+def get_page_title():
+    return browser.title
+
+
 def enter_correct_username():
     browser.driver.find_element_by_id('username').send_keys(str(Config.INTERNAL_USERNAME))
 

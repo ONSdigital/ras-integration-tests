@@ -68,7 +68,8 @@ def sign_in_no_username_and_no_password(_):
 @then('the user is directed to their home page')
 def sign_in_directed_to_home_page(_):
     # TODO: Update to check for a more distinct hope page feature when implemented
-    home.click_surveys_link()
+    assert sign_in_internal.get_page_title() == "Home | Survey Data Collection"
+    #home.click_surveys_link()
 
 
 @then('the user is notified that a username is required')
