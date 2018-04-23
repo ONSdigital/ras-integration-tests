@@ -85,7 +85,7 @@ def select_wrong_file_type(test_file):
 
 
 def add_eq_ci():
-    browser.find_by_name('checkbox-answer').check()
+    browser.find_by_name('checkbox-answer').first.check()
     browser.find_by_id('btn-add-ci').click()
 
 

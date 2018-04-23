@@ -1,3 +1,4 @@
+import datetime
 from logging import getLogger
 import time
 
@@ -13,20 +14,10 @@ from controllers.collection_instrument_controller import get_collection_instrume
 logger = wrap_logger(getLogger(__name__))
 
 
-def before_all(_):
-    logger.info('Resetting databases')
-    database_controller.execute_sql('resources/database/database_reset_rm.sql')
-    database_controller.execute_sql('resources/database/database_reset_party.sql',
-                                    database_uri=Config.PARTY_DATABASE_URI)
-    try:
-        database_controller.execute_sql('resources/database/database_reset_oauth.sql',
-                                        database_uri=Config.DJANGO_OAUTH_DATABASE_URI)
-    except Exception:
-        logger.exception('Suppressing error truncating oauth database')
-    database_controller.execute_sql('resources/database/database_reset_secure_message.sql',
-                                    database_uri=Config.SECURE_MESSAGE_DATABASE_URI)
-    logger.info('Successfully reset databases')
+timings = {}
 
+
+def before_all(_):
     execute_collection_exercises()
     register_respondent(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201801',
                         username=Config.RESPONDENT_USERNAME, ru_ref=49900000001)
@@ -36,6 +27,12 @@ def before_scenario(_, scenario):
     if "skip" in scenario.effective_tags:
         scenario.skip("Marked with @skip")
         return
+    timings[scenario.name] = {'start_time': datetime.datetime.now()}
+
+
+def after_scenario(_, scenario):
+    if "skip" not in scenario.effective_tags:
+        timings[scenario.name]['end_time'] = datetime.datetime.now()
 
 
 def after_step(context, step):
@@ -45,6 +42,14 @@ def after_step(context, step):
 
 def after_all(_):
     browser.quit()
+    logger.info('Outputting execution time per test')
+
+    def sort_by_execution_time(t):
+        return (t[1]['end_time'] - t[1]['start_time']).microseconds
+
+    for name, timing in sorted(timings.items(), key=sort_by_execution_time, reverse=True):
+        diff = timing['end_time'] - timing['start_time']
+        logger.info(f'{name} took {diff.microseconds / 1000}ms')
 
 
 def execute_collection_exercises():

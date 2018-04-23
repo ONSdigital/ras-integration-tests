@@ -1,15 +1,18 @@
 insert into action.actionplan(id, actionplanpk, name, description, createdby, lastrundatetime)
-values('67ef4dc2-8995-4969-a02d-37f6be746a4c',5,'QBS Enrolment','QBS Enrolment','SYSTEM',now());
+values('67ef4dc2-8995-4969-a02d-37f6be746a4c',5,'QBS Enrolment','QBS Enrolment','SYSTEM',now())
+ON CONFLICT (actionplanpk) DO NOTHING;
 
 insert into action.actionplan(id, actionplanpk, name, description, createdby, lastrundatetime)
-values('67ef4dc2-8995-4969-a02d-37f6be746777',6,'QBS','QBS','SYSTEM',now());
+values('67ef4dc2-8995-4969-a02d-37f6be746777',6,'QBS','QBS','SYSTEM',now())
+ON CONFLICT (actionplanpk) DO NOTHING;
 
 insert into collectionexercise.casetypedefault(casetypedefaultpk, sampleunittypefk, actionplanid, survey_uuid)
-values(5,'B','67ef4dc2-8995-4969-a02d-37f6be746a4c','02b9c366-7397-42f7-942a-76dc5876d86d');
+values(5,'B','67ef4dc2-8995-4969-a02d-37f6be746a4c','02b9c366-7397-42f7-942a-76dc5876d86d')
+ON CONFLICT (casetypedefaultpk) DO NOTHING;
 
 insert into collectionexercise.casetypedefault(casetypedefaultpk, sampleunittypefk, actionplanid, survey_uuid)
-values(6,'BI','67ef4dc2-8995-4969-a02d-37f6be746777','02b9c366-7397-42f7-942a-76dc5876d86d');
-
+values(6,'BI','67ef4dc2-8995-4969-a02d-37f6be746777','02b9c366-7397-42f7-942a-76dc5876d86d')
+ON CONFLICT (casetypedefaultpk) DO NOTHING;
 
 update collectionexercise.collectionexercise
  set scheduledstartdatetime = '2017-09-11 23:00:00+00',

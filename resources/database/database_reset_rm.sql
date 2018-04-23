@@ -21,17 +21,11 @@ ALTER SEQUENCE notifygatewaysvc.messageseq RESTART WITH 1;
 TRUNCATE collectionexercise.sampleunit CASCADE;
 TRUNCATE collectionexercise.sampleunitgroup CASCADE;
 TRUNCATE collectionexercise.samplelink CASCADE;
+TRUNCATE collectionexercise.collectionexercise CASCADE;
 
 ALTER SEQUENCE collectionexercise.sampleunitgrouppkseq RESTART WITH 1;
 ALTER SEQUENCE collectionexercise.sampleunitpkseq RESTART WITH 1;
 ALTER SEQUENCE collectionexercise.samplelinkpkseq RESTART WITH 1;
-
-UPDATE collectionexercise.collectionexercise SET statefk = 'SCHEDULED' where statefk = 'READY_FOR_REVIEW';
-UPDATE collectionexercise.collectionexercise SET statefk = 'SCHEDULED' where statefk = 'READY_FOR_LIVE';
-UPDATE collectionexercise.collectionexercise SET statefk = 'SCHEDULED' where statefk = 'LIVE';
-UPDATE collectionexercise.collectionexercise SET statefk = 'CREATED' where not statefk = 'SCHEDULED';
-
-UPDATE collectionexercise.collectionexercise SET exerciseref = '201808' WHERE survey_uuid = '75b19ea0-69a4-4c58-8d7f-4458c8f43f5c' and exerciseref = '201906';
 
 /* Clean Case DB */
 

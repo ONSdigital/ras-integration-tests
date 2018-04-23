@@ -28,6 +28,6 @@ def respondent_accesses_eq_ce(_):
 @then('the respondent lands on the correct eQ Homepage for the survey and CE and CI')
 def respondent_redirected_to_eq(_):
     url = browser.url
-    assert 'https://eq-test/session?token=' in url
+    assert 'https://eq-test/session?token=' in url, url
     token = url[30:]
     assert len(token.split('.')) == 5   # check correct jwt format
