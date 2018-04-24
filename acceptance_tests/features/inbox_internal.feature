@@ -55,14 +55,16 @@ Feature: Internal inbox
 
   @sm127_s01
   Scenario: User views 5 messages when 5 are there
-    Given the user has got 5 messages in their inbox
+    Given the user has no messages in their inbox
+    And the user has got 5 messages in their inbox
     When they navigate to the inbox messages
     Then they are able to view 5 messages
     And the pagination links are not available
 
   @sm127_s02
   Scenario: User views 10 messages when 15 are there
-    Given the user has got 15 messages in their inbox
+    Given the user has no messages in their inbox
+    And the user has got 15 messages in their inbox
     When they navigate to the inbox messages
     Then they are able to view 10 messages
     And the pagination links are available

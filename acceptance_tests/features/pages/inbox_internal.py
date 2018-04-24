@@ -50,11 +50,14 @@ def get_unread_messages():
 
 
 def get_pagination_links():
-    return browser.driver.find_element_by_class_name('pagination')
+    return browser.find_by_name('tbl-messages-subject')
 
 
 def get_pagination_previous_link():
     return browser.driver.find_element_by_class_name('previous')
+
+def get_pagination():
+    return browser.driver.find_element_by_class_name('pagination')
 
 
 def get_pagination_next_link():

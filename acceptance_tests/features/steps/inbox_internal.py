@@ -22,9 +22,6 @@ def populate_database_with_messages(_):
     body = "This is the body of the message"
     messages_controller.create_message_internal_to_external(subject, body)
 
-    if is_text_present_with_retry('Message sent.', 1):
-        messages_controller.create_message_internal_to_external(subject, body)
-
     inbox_internal.go_to()
 
 
@@ -35,21 +32,15 @@ def populate_database_with_messages(_):
     for i in range(0, 5):
         messages_controller.create_message_internal_to_external(subject, body)
 
-        if is_text_present_with_retry('Message sent.', 1):
-            messages_controller.create_message_internal_to_external(subject, body)
-
     inbox_internal.go_to()
 
 
-@given('the user has got 20 messages in their inbox')
+@given('the user has got 15 messages in their inbox')
 def populate_database_with_messages(_):
     subject = "This is the subject of the message"
     body = "This is the body of the message"
-    for i in range(0, 20):
+    for i in range(0, 15):
         messages_controller.create_message_internal_to_external(subject, body)
-
-        if is_text_present_with_retry('Message sent.', 1):
-            messages_controller.create_message_internal_to_external(subject, body)
 
     inbox_internal.go_to()
 
@@ -134,9 +125,13 @@ def message_is_no_longer_marked_unread_in_internal_inbox(_):
 
 @then('the pagination links are available')
 def pagination_links_available(_):
-    assert inbox_internal.get_pagination_links
+    signed_in_internal(None)
+    inbox_internal.go_to()
+    assert inbox_internal.get_pagination()
 
 
 @then('the pagination links are not available')
 def pagination_links_previous_unavailable(_):
-    assert not inbox_internal.get_pagination_links()
+    signed_in_internal(None)
+    inbox_internal.go_to()
+    assert len(inbox_internal.get_pagination_links()) == 5
