@@ -27,3 +27,7 @@ def get_surveys():
 def click_qbs_survey_link():
     link = browser.find_by_name('survey-link-QBS')
     link.click()
+
+
+def click_edit_survey_details_button():
+    browser.click_link_by_id('edit-survey-details-199')

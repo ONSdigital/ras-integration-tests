@@ -1,5 +1,4 @@
 from logging import getLogger
-import time
 
 from behave import given, when, then
 from structlog import wrap_logger
@@ -89,13 +88,8 @@ def view_ready_for_live(_):
 
 @then('when refreshing the page once processing has completed, the status is changed to Ready for Live')
 def refresh_ready_for_live(_):
-    collection_exercise_details.click_refresh_link()
-    for i in range(5):
-        ce_state = collection_exercise_details.get_status()
-        if collection_exercise.is_ready_for_live(ce_state):
-            break
-        time.sleep(1)
-        collection_exercise_details.click_refresh_link()
+    collection_exercise_details.click_refresh_link_until_ready_for_live()
+    ce_state = collection_exercise_details.get_status()
     assert collection_exercise.is_ready_for_live(ce_state), ce_state
 
 

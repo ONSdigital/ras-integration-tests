@@ -1,5 +1,7 @@
 from os.path import abspath
+import time
 
+from acceptance_tests.features.pages import collection_exercise
 from acceptance_tests import browser
 from config import Config
 
@@ -143,6 +145,17 @@ def click_refresh_link():
     browser.click_link_by_id('a-processing-refresh')
 
 
+def click_refresh_link_until_ready_for_live():
+    click_refresh_link()
+
+    for i in range(5):
+        ce_state = get_status()
+        if collection_exercise.is_ready_for_live(ce_state):
+            break
+        time.sleep(1)
+        click_refresh_link()
+
+
 def form_select_ci_exists():
     return browser.find_by_id('form-select-ci')
 
@@ -165,3 +178,17 @@ def click_edit_collection_exercise_period_button():
 
 def click_edit_collection_exercise_user_description_button():
     browser.click_link_by_id('edit-collection-exercise-user-description')
+
+
+def remove_ci():
+    browser.click_link_by_id('unlink-ci-1')
+
+
+def get_collection_instrument_removed_success_text():
+    return browser.find_by_id('collection-instrument-removed-success').text
+
+
+def is_able_to_remove_ci():
+    remove_options = len(browser.find_by_id('unlink-ci-1'))
+
+    return True if remove_options > 0 else None
