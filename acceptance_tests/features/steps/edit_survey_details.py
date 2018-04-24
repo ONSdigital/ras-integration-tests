@@ -33,7 +33,8 @@ def view_updated_survey_details(context):
         assert survey_by_id['short_name'] == "NBS_2.0"
         assert survey_by_id['legal_basis'] == "Voluntary Not Stated"
 
-# This is only a temporary measure to reset the data back to the way it initalially was to allow other features to pass correctly
+# This is only a temporary measure to reset the data back to the way it initially was to allow other features to
+# pass correctly
 
 
 @then('they request to reset survey details')
