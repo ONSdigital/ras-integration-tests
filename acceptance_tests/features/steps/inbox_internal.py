@@ -77,13 +77,12 @@ def test_presence_of_messages(_):
 
 @then('they are able to view 5 messages')
 def test_presence_of_messages(_):
-    assert inbox_internal.get_message_index
-    # assert len(inbox_internal.get_messages()) == 5
+    assert inbox_internal.get_message_link_index
 
 
-@then('they are able to view 15 messages')
+@then('they are able to view 10 messages')
 def test_presence_of_messages(_):
-    assert len(inbox_internal.get_messages()) == 15
+    assert len(inbox_internal.get_messages()) == 10
 
 
 @then('they are able to view the RU Ref, Subject, From, To, Date and time for each message')
@@ -140,4 +139,4 @@ def pagination_links_available(_):
 
 @then('the pagination links are not available')
 def pagination_links_previous_unavailable(_):
-    assert inbox_internal.get_pagination_previous_link_unavailable()
+    assert not inbox_internal.get_pagination_links()

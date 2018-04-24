@@ -5,7 +5,6 @@ Feature: Internal inbox
 
   Background: Internal user is already signed in
     Given the internal user is already signed in
-    And the user has no messages in their inbox
 
   @sm111_s01
   Scenario: If there are no messages the user will be informed of this.
@@ -62,8 +61,8 @@ Feature: Internal inbox
     And the pagination links are not available
 
   @sm127_s02
-  Scenario: User views 15 messages when 20 are there
-    Given the user has got 20 messages in their inbox
+  Scenario: User views 10 messages when 15 are there
+    Given the user has got 15 messages in their inbox
     When they navigate to the inbox messages
-    Then they are able to view 15 messages
+    Then they are able to view 10 messages
     And the pagination links are available
