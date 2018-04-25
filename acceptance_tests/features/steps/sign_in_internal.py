@@ -1,5 +1,10 @@
+import logging
 from acceptance_tests.features.pages import sign_in_internal, home, sign_out_internal
 from behave import given, when, then
+
+from structlog import wrap_logger
+
+logger = wrap_logger(logging.getLogger(__name__))
 
 
 @given('the user has an active account and is assigned a username and password')
@@ -67,8 +72,7 @@ def sign_in_no_username_and_no_password(_):
 
 @then('the user is directed to their home page')
 def sign_in_directed_to_home_page(_):
-    # TODO: Update to check for a more distinct hope page feature when implemented
-    home.click_surveys_link()
+    assert sign_in_internal.get_page_title() == "Home | Survey Data Collection"
 
 
 @then('the user is notified that a username is required')

@@ -5575,7 +5575,7 @@ COPY casetypeoverride (casetypeoverridepk, exercisefk, sampleunittypefk, actionp
 --
 
 COPY collectionexercise (id, exercisepk, name, scheduledstartdatetime, scheduledexecutiondatetime, scheduledreturndatetime, scheduledenddatetime, periodstartdatetime, periodenddatetime, actualexecutiondatetime, actualpublishdatetime, executedby, statefk, samplesize, exerciseref, user_description, created, updated, deleted, survey_uuid) FROM stdin;
-14fb3e68-4dca-46db-bf49-04b84e07e77c	1	BRES_2017	2017-09-11 23:00:00+00	2017-09-10 23:00:00+00	2017-10-06 00:00:00+00	2018-06-29 23:00:00+00	2017-09-14 23:00:00+00	2017-09-15 22:59:59+00	\N	\N	\N	CREATED	\N	221_201712	\N	\N	\N	f	cb0711c3-0ac8-41d3-ae0e-567e5ea1ef87
+§fb3e68-4dca-46db-bf49-04b84e07e77c	1	BRES_2017	2017-09-11 23:00:00+00	2017-09-10 23:00:00+00	2017-10-06 00:00:00+00	2018-06-29 23:00:00+00	2017-09-14 23:00:00+00	2017-09-15 22:59:59+00	\N	\N	\N	CREATED	\N	221_201712	\N	\N	\N	f	cb0711c3-0ac8-41d3-ae0e-567e5ea1ef87
 \.
 
 

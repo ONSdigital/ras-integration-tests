@@ -87,7 +87,7 @@ def internal_internal_user_presented_correct_associated_collection_exercises(_):
 def internal_internal_user_presented_correct_associated_respondents(_):
     # Status updated async so wait until updated
     respondent = reporting_unit.get_respondent('example@example.com')
-    assert respondent['enrolementStatus'] == 'Enabled'
+    assert respondent['enrolmentStatus'] == 'Enabled'
     assert respondent['name'] == 'first_name last_name'
     assert respondent['email'] == 'example@example.com'
     assert respondent['phone'] == '0987654321'

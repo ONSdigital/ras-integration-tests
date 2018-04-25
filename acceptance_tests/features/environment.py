@@ -1,3 +1,4 @@
+import datetime
 from logging import getLogger
 import time
 
@@ -13,20 +14,10 @@ from controllers.collection_instrument_controller import get_collection_instrume
 logger = wrap_logger(getLogger(__name__))
 
 
-def before_all(_):
-    logger.info('Resetting databases')
-    database_controller.execute_sql('resources/database/database_reset_rm.sql')
-    database_controller.execute_sql('resources/database/database_reset_party.sql',
-                                    database_uri=Config.PARTY_DATABASE_URI)
-    try:
-        database_controller.execute_sql('resources/database/database_reset_oauth.sql',
-                                        database_uri=Config.DJANGO_OAUTH_DATABASE_URI)
-    except Exception:
-        logger.exception('Suppressing error truncating oauth database')
-    database_controller.execute_sql('resources/database/database_reset_secure_message.sql',
-                                    database_uri=Config.SECURE_MESSAGE_DATABASE_URI)
-    logger.info('Successfully reset databases')
+timings = {}
 
+
+def before_all(_):
     execute_collection_exercises()
     register_respondent(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201801',
                         username=Config.RESPONDENT_USERNAME, ru_ref=49900000001)
@@ -36,15 +27,29 @@ def before_scenario(_, scenario):
     if "skip" in scenario.effective_tags:
         scenario.skip("Marked with @skip")
         return
+    timings[scenario.name] = {'start_time': datetime.datetime.now()}
+
+
+def after_scenario(_, scenario):
+    if "skip" not in scenario.effective_tags:
+        timings[scenario.name]['end_time'] = datetime.datetime.now()
 
 
 def after_step(context, step):
     if step.status == "failed":
-        logger.exception('Failed step', scenario=context.scenario.name, step=step.name, html=browser.html)
+        logger.exception('Failed step', scenario=context.scenario.name, step=step.name)
 
 
 def after_all(_):
     browser.quit()
+    logger.info('Outputting execution time per test')
+
+    def sort_by_execution_time(t):
+        return (t[1]['end_time'] - t[1]['start_time']).microseconds
+
+    for name, timing in sorted(timings.items(), key=sort_by_execution_time, reverse=True):
+        diff = timing['end_time'] - timing['start_time']
+        logger.info(f'{name} took {diff.microseconds / 1000}ms')
 
 
 def execute_collection_exercises():
@@ -96,7 +101,7 @@ def poll_database_for_iac(survey_id, period):
 
 
 def register_respondent(survey_id, period, username, ru_ref=None):
-    logger.info('Registering respondent', survey_id=survey_id, period=period, username=username, ru_ref=ru_ref)
+    logger.info('Registering respondent', survey_id=survey_id, period=period, ru_ref=ru_ref)
     collection_exercise_id = collection_exercise_controller.get_collection_exercise(survey_id, period)['id']
     if ru_ref:
         business_party = party_controller.get_party_by_ru_ref(ru_ref)
@@ -118,7 +123,8 @@ def register_respondent(survey_id, period, username, ru_ref=None):
     django_oauth_controller.verify_user(respondent_party['emailAddress'])
     case_id = database_controller.enrol_party(respondent_id)
     case_controller.post_case_event(case_id, respondent_id, "RESPONDENT_ENROLED", "Respondent enrolled")
-    logger.info('Successfully registered respondent', survey_id=survey_id, period=period, username=username,
+    wait_for_case_to_update(respondent_id)
+    logger.info('Successfully registered respondent', survey_id=survey_id, period=period,
                 ru_ref=ru_ref, respondent_id=respondent_id)
     return respondent_id
 
@@ -127,3 +133,13 @@ def enrol_respondent(party_id, survey_id, period):
     collection_exercise_id = collection_exercise_controller.get_collection_exercise(survey_id, period)['id']
     enrolment_code = database_controller.get_iac_for_collection_exercise(collection_exercise_id)
     party_controller.add_survey(party_id, enrolment_code)
+
+
+def wait_for_case_to_update(respondent_id):
+    logger.debug('Waiting for case to update', respondent_id=respondent_id)
+    while True:
+        case = case_controller.get_case_by_party_id(respondent_id)[0]
+        if case['state'] == 'ACTIONABLE':
+            logger.debug('Case updated', respondent_id=respondent_id)
+            break
+        time.sleep(2)

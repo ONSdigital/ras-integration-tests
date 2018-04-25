@@ -1,4 +1,3 @@
-import json
 import logging
 
 import requests
@@ -23,7 +22,7 @@ def post_case_event(case_id, party_uuid, category, description):
     if response.status_code != 201:
         logger.error('Failed to post case event', status=response.status_code)
 
-    return json.loads(response.text)
+    return response.json()
 
 
 def generate_new_enrolment_code(collection_exercise_id, ru_ref):
@@ -33,4 +32,13 @@ def generate_new_enrolment_code(collection_exercise_id, ru_ref):
     response.raise_for_status()
     logger.debug('Successfully generated new enrolment code',
                  collection_exercise_id=collection_exercise_id, ru_ref=ru_ref)
+    return response.json()
+
+
+def get_case_by_party_id(party_id):
+    logger.debug('Retrieving cases for party', party_id=party_id)
+    url = f'{Config.CASE_SERVICE}/cases/partyid/{party_id}'
+    response = requests.get(url, auth=Config.BASIC_AUTH)
+    response.raise_for_status()
+    logger.debug('Successfully retrieved cases for party', party_id=party_id)
     return response.json()
