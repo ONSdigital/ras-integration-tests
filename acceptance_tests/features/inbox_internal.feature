@@ -44,14 +44,14 @@ Feature: Internal inbox
     And they navigate to the inbox messages
     Then they are able to distinguish that the message is unread
 
-  @sm114_s02
-  Scenario: Messages are no longer distinguished as unread once they have been viewed
-    Given the user has no messages in their inbox
-    When the user has an unread message in their inbox
-    And they navigate to the inbox messages
-    And they view the unread message
-    And they navigate to the inbox messages
-    Then the message is no longer marked as unread
+#  @sm114_s02
+#  Scenario: Messages are no longer distinguished as unread once they have been viewed
+#    Given the user has no messages in their inbox
+#    When the user has an unread message in their inbox
+#    And they navigate to the inbox messages
+#    And they view the unread message
+#    And they navigate to the inbox messages
+#    Then the message is no longer marked as unread
 
   @sm127_s01
   Scenario: User views 5 messages when 5 are there
@@ -59,7 +59,6 @@ Feature: Internal inbox
     And the user has got 5 messages in their inbox
     When they navigate to the inbox messages
     Then they are able to view 5 messages
-    And the pagination links are not available
 
   @sm127_s02
   Scenario: User views 10 messages when 15 are there

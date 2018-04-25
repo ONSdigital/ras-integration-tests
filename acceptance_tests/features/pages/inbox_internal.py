@@ -56,6 +56,7 @@ def get_pagination_links():
 def get_pagination_previous_link():
     return browser.driver.find_element_by_class_name('previous')
 
+
 def get_pagination():
     return browser.driver.find_element_by_class_name('pagination')
 
