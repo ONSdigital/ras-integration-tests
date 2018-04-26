@@ -27,7 +27,7 @@ Feature: Internal inbox
 
   @sm111_s04
   Scenario: User is able to view all the following details
-    Given the user has access to secure messaging
+    Given the user has got messages in their inbox
     When they navigate to the inbox messages
     Then they are able to view all received messages in reverse chronological order/latest first
 

@@ -61,5 +61,9 @@ def get_pagination_next_link():
     return browser.driver.find_element_by_class_name('next')
 
 
-def get_message_link_index():
-    return browser.find_by_id('message-link-1')
+def get_message_link_5_index():
+    return browser.find_by_id('message-link-5')
+
+
+def get_message_link_10_index():
+    return browser.find_by_id('message-link-10')
