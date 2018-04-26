@@ -5,7 +5,6 @@ from behave import given, when, then
 from acceptance_tests.features.pages import home, inbox_internal
 from acceptance_tests.features.pages.internal_conversation_view import go_to_thread
 from acceptance_tests.features.steps.authentication import signed_in_internal
-from common.browser_utilities import is_text_present_with_retry
 from config import Config
 from controllers import messages_controller, database_controller
 
@@ -26,7 +25,7 @@ def populate_database_with_messages(_):
 
 
 @given('the user has got 5 messages in their inbox')
-def populate_database_with_messages(_):
+def populate_database_with_5_messages(_):
     subject = "This is the subject of the message"
     body = "This is the body of the message"
     for i in range(0, 5):
@@ -36,7 +35,7 @@ def populate_database_with_messages(_):
 
 
 @given('the user has got 15 messages in their inbox')
-def populate_database_with_messages(_):
+def populate_database_with_15_messages(_):
     subject = "This is the subject of the message"
     body = "This is the body of the message"
     for i in range(0, 15):
@@ -67,12 +66,12 @@ def test_presence_of_messages(_):
 
 
 @then('they are able to view 5 messages')
-def test_presence_of_messages(_):
+def test_presence_of_5_messages(_):
     assert inbox_internal.get_message_link_index
 
 
 @then('they are able to view 10 messages')
-def test_presence_of_messages(_):
+def test_presence_of_10_messages(_):
     assert len(inbox_internal.get_messages()) == 10
 
 
