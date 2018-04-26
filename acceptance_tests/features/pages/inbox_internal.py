@@ -49,10 +49,6 @@ def get_unread_messages():
     return browser.find_by_name('message-unread')
 
 
-def get_pagination_links():
-    return browser.find_by_name('tbl-messages-subject')
-
-
 def get_pagination_previous_link():
     return browser.driver.find_element_by_class_name('previous')
 
