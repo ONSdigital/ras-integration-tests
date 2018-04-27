@@ -3,6 +3,9 @@ Feature: Disable respondent enrolment status
   I need to be able to disable the enrolment for a respondent
   So that the respondent can no longer access the survey
 
+  Background: User already logged in
+    Given the internal user is already signed in
+
   @us022_s01
   Scenario: Internal user must be able to disable a respondents enrolment
     Given the respondent with email "disable_respondent_1@email.com" is enrolled and active
