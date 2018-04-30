@@ -49,7 +49,7 @@ def after_all(_):
 
     for name, timing in sorted(timings.items(), key=sort_by_execution_time, reverse=True):
         diff = timing['end_time'] - timing['start_time']
-        logger.info(f'{name} took {diff.microseconds / 1000}ms')
+        logger.info(f'{name} took {diff.total_seconds()}s')
 
 
 def execute_collection_exercises():
