@@ -126,8 +126,3 @@ def message_is_no_longer_marked_unread_in_internal_inbox(_):
 def pagination_links_available(_):
     assert inbox_internal.get_pagination_previous_link()
     assert inbox_internal.get_pagination_next_link()
-
-
-@then('the pagination links are not available')
-def pagination_links_previous_unavailable(_):
-    assert inbox_internal.get_pagination() is not True
