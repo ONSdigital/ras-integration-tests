@@ -27,7 +27,7 @@ Feature: Internal inbox
 
   @sm111_s04
   Scenario: User is able to view all the following details
-    Given the user has access to secure messaging
+    Given the user has got messages in their inbox
     When they navigate to the inbox messages
     Then they are able to view all received messages in reverse chronological order/latest first
 
@@ -52,3 +52,18 @@ Feature: Internal inbox
     And they view the unread message
     And they navigate to the inbox messages
     Then the message is no longer marked as unread
+
+  @sm127_s01
+  Scenario: User views 5 messages when 5 are there
+    Given the user has no messages in their inbox
+    And the user has got '5' messages in their inbox
+    When they navigate to the inbox messages
+    Then they are able to view '5' messages
+
+  @sm127_s02
+  Scenario: User views 10 messages when 15 are there
+    Given the user has no messages in their inbox
+    And the user has got '15' messages in their inbox
+    When they navigate to the inbox messages
+    Then they are able to view '10' messages
+    And the pagination links are available

@@ -5,7 +5,6 @@ from behave import given, when, then
 from acceptance_tests.features.pages import home, inbox_internal
 from acceptance_tests.features.pages.internal_conversation_view import go_to_thread
 from acceptance_tests.features.steps.authentication import signed_in_internal
-from common.browser_utilities import is_text_present_with_retry
 from config import Config
 from controllers import messages_controller, database_controller
 
@@ -22,7 +21,14 @@ def populate_database_with_messages(_):
     body = "This is the body of the message"
     messages_controller.create_message_internal_to_external(subject, body)
 
-    if is_text_present_with_retry('Message sent.', 1):
+    inbox_internal.go_to()
+
+
+@given("the user has got '{number_of_messages}' messages in their inbox")
+def populate_database_with_number_of_messages(_, number_of_messages):
+    for i in range(0, int(number_of_messages)):
+        subject = str(i) + ": This is the subject of the message"
+        body = str(i) + ": This is the body of the message"
         messages_controller.create_message_internal_to_external(subject, body)
 
     inbox_internal.go_to()
@@ -47,6 +53,11 @@ def informed_of_no_messages(_):
 @then('they are able to view all received messages')
 def test_presence_of_messages(_):
     assert len(inbox_internal.get_messages()) > 0
+
+
+@then("they are able to view '{number_of_messages}' messages")
+def test_presence_of_number_of_messages(_, number_of_messages):
+    assert inbox_internal.get_message_link_index(number_of_messages)
 
 
 @then('they are able to view the RU Ref, Subject, From, To, Date and time for each message')
@@ -93,3 +104,9 @@ def internal_user_views_unread_message(_):
 @then('the message is no longer marked as unread')
 def message_is_no_longer_marked_unread_in_internal_inbox(_):
     assert len(inbox_internal.get_unread_messages()) == 0
+
+
+@then('the pagination links are available')
+def pagination_links_available(_):
+    assert inbox_internal.get_pagination_previous_link()
+    assert inbox_internal.get_pagination_next_link()
