@@ -24,21 +24,11 @@ def populate_database_with_messages(_):
     inbox_internal.go_to()
 
 
-@given('the user has got 5 messages in their inbox')
-def populate_database_with_5_messages(_):
-    subject = "This is the subject of the message"
-    body = "This is the body of the message"
-    for i in range(0, 5):
-        messages_controller.create_message_internal_to_external(subject, body)
-
-    inbox_internal.go_to()
-
-
-@given('the user has got 15 messages in their inbox')
-def populate_database_with_15_messages(_):
-    subject = "This is the subject of the message"
-    body = "This is the body of the message"
-    for i in range(0, 15):
+@given("the user has got '{number_of_messages}' messages in their inbox")
+def populate_database_with_number_of_messages(_, number_of_messages):
+    for i in range(0, int(number_of_messages)):
+        subject = str(i) + ": This is the subject of the message"
+        body = str(i) + ": This is the body of the message"
         messages_controller.create_message_internal_to_external(subject, body)
 
     inbox_internal.go_to()
@@ -65,14 +55,9 @@ def test_presence_of_messages(_):
     assert len(inbox_internal.get_messages()) > 0
 
 
-@then('they are able to view 5 messages')
-def test_presence_of_5_messages(_):
-    assert inbox_internal.get_message_link_5_index()
-
-
-@then('they are able to view 10 messages')
-def test_presence_of_10_messages(_):
-    assert inbox_internal.get_message_link_10_index()
+@then("they are able to view '{number_of_messages}' messages")
+def test_presence_of_number_of_messages(_, number_of_messages):
+    assert inbox_internal.get_message_link_index(number_of_messages)
 
 
 @then('they are able to view the RU Ref, Subject, From, To, Date and time for each message')
