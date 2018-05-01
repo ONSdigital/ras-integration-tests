@@ -80,6 +80,7 @@ def test_view_select_survey_page(_):
 
 @then('they are able to view a dropdown list of surveys')
 def test_select_survey_page_view(_):
+    assert inbox_internal.get_filter_page_title()
     assert inbox_internal.get_dropdown_list()
 
 

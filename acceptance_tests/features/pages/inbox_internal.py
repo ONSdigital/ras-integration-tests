@@ -42,7 +42,11 @@ def get_no_messages_text():
 
 
 def get_dropdown_list():
-    return browser.find_by_id('survey-list')
+    return browser.find_by_name('select-survey')
+
+
+def get_filter_page_title():
+    return browser.find_by_text('Filter messages by survey')
 
 
 def get_unread_messages():
