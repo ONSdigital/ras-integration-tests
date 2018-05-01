@@ -42,7 +42,7 @@ def get_no_messages_text():
 
 
 def get_dropdown_list():
-    return browser.find_by_name('select-survey')
+    return browser.driver.find_element_by_id('survey-list')
 
 
 def get_filter_page_title():
