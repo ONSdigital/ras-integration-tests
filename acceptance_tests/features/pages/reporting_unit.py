@@ -65,7 +65,7 @@ def get_associated_respondents_with_pending_email():
             "name": row.find_by_name('tbl-respondent-details').first.find_by_name('tbl-respondent-name').value,
             "email": row.find_by_name('tbl-respondent-details').first.find_by_name('tbl-respondent-email').value,
             "pending_email": row.find_by_name('tbl-respondent-details')
-                .first.find_by_name('tbl-respondent-pending-email').value,
+            .first.find_by_name('tbl-respondent-pending-email').value,
             "phone": row.find_by_name('tbl-respondent-details').first.find_by_name('tbl-respondent-phone').value,
             "accountStatus": row.find_by_name('tbl-respondent-status').value
         }
@@ -77,6 +77,12 @@ def get_associated_respondents_with_pending_email():
 def get_respondent(email):
     for respondent in get_associated_respondents():
         if respondent['email'] == email:
+            return respondent
+
+
+def get_respondent_by_pending_email(pending_email):
+    for respondent in get_associated_respondents_with_pending_email():
+        if respondent['pending_email'] == pending_email:
             return respondent
 
 

@@ -88,7 +88,7 @@ def confirm_email_changes_saved(_):
 @then('they can see the old email address and the unverified new email')
 def view_pending_email(_):
     reporting_unit.click_data_panel('Bricks')
-    respondent = reporting_unit.get_associated_respondents_with_pending_email()[1]
+    respondent = reporting_unit.get_respondent_by_pending_email('new_respondent@test.com')
     assert respondent.get('email') == 'test_respondent2@test.com'
     assert respondent.get('pending_email') == 'new_respondent@test.com'
 
