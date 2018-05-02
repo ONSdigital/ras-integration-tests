@@ -5,6 +5,8 @@ from config import Config
 def go_to():
     browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/surveys")
 
+def go_to_create():
+    browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/surveys/create")
 
 def get_page_title():
     return browser.title
