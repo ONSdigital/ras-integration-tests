@@ -69,8 +69,29 @@ If any config is updated it also has to be updated in the Jenkinsfile
 1. Stick a breakpoint at the point you want to debug
 1. Debug the `run.py` and wait to hit the breakpoint
 
+### Debugging tests against services deployed in Cloudfoundry
+1. Set Cloudfoundry database environmental variables
+```bash
+export CLOUDFOUNDRY_API=
+export CLOUDFOUNDRY_EMAIL=
+export CLOUDFOUNDRY_PASSWORD=
+export CLOUDFOUNDRY_ORG=
+export CLOUDFOUNDRY_SPACE=
+```
+2. Get database environmental variables `curl -fsSL  https://raw.githubusercontent.com/ONSdigital/ras-deploy/master/scripts/get_database_uris.sh |bash > setenvs.sh`
+3. Set database environmental variables `source setenvs.sh`
+4. Reset data in cloudfoundry `make setup`
+5. Set acceptance tests environmental variables in [config.py](config.py)
+```bash
+export ACTION_SERVICE_HOST=
+export ACTION_SERVICE_PORT=
+...
+export SURVEY_SERVICE_HOST=
+export SURVEY_SERVICE_PORT=
+```
+6. Run tests `pipenv run python run.py`
 
 ### Troubleshooting
 #### Failing tests
 The tests may be failing because you have teared down postgres recently
-1. Run `make acceptance_tests` which will reload any data required for the tests
+1. Run `make setup` which will reload any data required for the tests
