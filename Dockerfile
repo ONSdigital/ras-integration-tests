@@ -1,9 +1,6 @@
 FROM python:3.6
 
 
-COPY Pipfile /opt/build/
-COPY Pipfile.lock /opt/build/
-
 WORKDIR /opt/build/
 
 # Install Google Chrome
