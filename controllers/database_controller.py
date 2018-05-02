@@ -1,7 +1,6 @@
 import logging
 
 from sqlalchemy import create_engine
-from sqlalchemy.exc import IntegrityError
 from structlog import wrap_logger
 
 from config import Config
