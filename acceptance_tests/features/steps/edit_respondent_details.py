@@ -1,14 +1,8 @@
 from behave import given, when, then
 
 from acceptance_tests import browser
-from acceptance_tests.features.environment import register_respondent
 from acceptance_tests.features.pages import edit_respondent_details_form, reporting_unit
-from controllers.party_controller import get_party_by_email
-
-
-@given('the respondent with email "{email}" is enrolled')
-def respondent_ail_is_enrolled(_, email):
-    create_respondent(email)
+from acceptance_tests.features.steps.common import create_respondent
 
 
 @given('the internal user chooses to change "{email}" account details')
@@ -75,13 +69,13 @@ def navigate_to_ru_details(_):
 @then('they are provided with confirmation the changes have been saved')
 @then('they are able to save the updated email address')
 def confirm_changes_saved(_):
-    assert reporting_unit.get_confirm_contact_details_success_text()
+    assert reporting_unit.get_confirm_success_text()
 
 
 @then('they are provided with confirmation that the email address has been changed')
 @then('they are presented with confirmation that the changes have been saved')
 def confirm_email_changes_saved(_):
-    contact_details_changes = reporting_unit.get_confirm_contact_details_success_text()
+    contact_details_changes = reporting_unit.get_confirm_success_text()
     assert 'Verification email sent to' in contact_details_changes
 
 
@@ -102,10 +96,3 @@ def confirm_email_unchanged(_):
 @then('they are informed that the email address they have entered is already in use')
 def error_email_already_in_use(_):
     assert reporting_unit.save_email_error()
-
-
-def create_respondent(email):
-    email_in_use = get_party_by_email(email)
-    if not email_in_use:
-        register_respondent(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201801',
-                            username=email, ru_ref=49900000001)

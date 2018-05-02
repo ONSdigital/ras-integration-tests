@@ -20,3 +20,7 @@ def signed_in_respondent_with_email(email):
         browser.driver.find_element_by_id('username').send_keys(email)
         browser.driver.find_element_by_id('password').send_keys(Config.RESPONDENT_PASSWORD)
         browser.find_by_id('SIGN_IN_BUTTON').click()
+
+
+def error_incorrect_login_details():
+    browser.find_by_id("try-again-link")
