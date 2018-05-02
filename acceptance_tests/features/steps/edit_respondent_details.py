@@ -7,8 +7,13 @@ from controllers.party_controller import get_party_by_email
 
 
 @given('the respondent with email "{email}" is enrolled')
-def respondent_ail_is_enrolled(_, email):
+def respondent_is_enrolled(_, email):
     create_respondent(email)
+
+
+@given('the respondent with email "{email}" is enrolled and active')
+def respondent_is_enrolled(_, email):
+    create_respondent(email, wait=True)
 
 
 @given('the internal user chooses to change "{email}" account details')
@@ -104,8 +109,8 @@ def error_email_already_in_use(_):
     assert reporting_unit.save_email_error()
 
 
-def create_respondent(email):
+def create_respondent(email, wait=False):
     email_in_use = get_party_by_email(email)
     if not email_in_use:
         register_respondent(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201801',
-                            username=email, ru_ref=49900000001)
+                            username=email, ru_ref=49900000001, wait_for_case=wait)
