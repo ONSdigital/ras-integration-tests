@@ -45,7 +45,9 @@ def get_associated_respondents():
     rows = respondents_table.find_by_tag('tbody').find_by_tag('tr')
     respondents = []
     for row in rows:
-        if row.find_by_name('tbl-respondent-details').first.find_by_name('tbl-respondent-pending-email').value:
+        has_pending_email = len(row.find_by_name('tbl-respondent-details').first
+                                .find_by_name('tbl-respondent-pending-email')) > 0
+        if has_pending_email:
             respondent = {
                 "enrolmentStatus": row.find_by_id('enrolment-status').value,
                 "name": row.find_by_name('tbl-respondent-details').first.find_by_name('tbl-respondent-name').value,
