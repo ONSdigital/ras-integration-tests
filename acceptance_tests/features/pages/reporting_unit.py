@@ -43,46 +43,33 @@ def get_associated_collection_exercises():
 def get_associated_respondents():
     respondents_table = browser.find_by_name('tbl-respondents-for-survey')
     rows = respondents_table.find_by_tag('tbody').find_by_tag('tr')
-    respondents = [
-        {
-            "enrolmentStatus": row.find_by_id('enrolment-status').value,
-            "name": row.find_by_name('tbl-respondent-details').first.find_by_name('tbl-respondent-name').value,
-            "email": row.find_by_name('tbl-respondent-details').first.find_by_name('tbl-respondent-email').value,
-            "phone": row.find_by_name('tbl-respondent-details').first.find_by_name('tbl-respondent-phone').value,
-            "accountStatus": row.find_by_name('tbl-respondent-status').value
-        }
-        for row in rows
-    ]
-    return respondents
-
-
-def get_associated_respondents_with_pending_email():
-    respondents_table = browser.find_by_name('tbl-respondents-for-survey')
-    rows = respondents_table.find_by_tag('tbody').find_by_tag('tr')
-    respondents = [
-        {
-            "enrolmentStatus": row.find_by_id('enrolment-status').value,
-            "name": row.find_by_name('tbl-respondent-details').first.find_by_name('tbl-respondent-name').value,
-            "email": row.find_by_name('tbl-respondent-details').first.find_by_name('tbl-respondent-email').value,
-            "pending_email": row.find_by_name('tbl-respondent-details')
-            .first.find_by_name('tbl-respondent-pending-email').value,
-            "phone": row.find_by_name('tbl-respondent-details').first.find_by_name('tbl-respondent-phone').value,
-            "accountStatus": row.find_by_name('tbl-respondent-status').value
-        }
-        for row in rows
-    ]
+    respondents = []
+    for row in rows:
+        if row.find_by_name('tbl-respondent-details').first.find_by_name('tbl-respondent-pending-email').value:
+            respondent = {
+                "enrolmentStatus": row.find_by_id('enrolment-status').value,
+                "name": row.find_by_name('tbl-respondent-details').first.find_by_name('tbl-respondent-name').value,
+                "email": row.find_by_name('tbl-respondent-details').first.find_by_name('tbl-respondent-email').value,
+                "pending_email": row.find_by_name('tbl-respondent-details')
+                .first.find_by_name('tbl-respondent-pending-email').value,
+                "phone": row.find_by_name('tbl-respondent-details').first.find_by_name('tbl-respondent-phone').value,
+                "accountStatus": row.find_by_name('tbl-respondent-status').value
+            }
+        else:
+            respondent = {
+                "enrolmentStatus": row.find_by_id('enrolment-status').value,
+                "name": row.find_by_name('tbl-respondent-details').first.find_by_name('tbl-respondent-name').value,
+                "email": row.find_by_name('tbl-respondent-details').first.find_by_name('tbl-respondent-email').value,
+                "phone": row.find_by_name('tbl-respondent-details').first.find_by_name('tbl-respondent-phone').value,
+                "accountStatus": row.find_by_name('tbl-respondent-status').value
+            }
+        respondents.append(respondent)
     return respondents
 
 
 def get_respondent(email):
     for respondent in get_associated_respondents():
         if respondent['email'] == email:
-            return respondent
-
-
-def get_respondent_by_pending_email(pending_email):
-    for respondent in get_associated_respondents_with_pending_email():
-        if respondent['pending_email'] == pending_email:
             return respondent
 
 
