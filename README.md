@@ -80,8 +80,10 @@ export CLOUDFOUNDRY_SPACE=
 ```
 2. Get database environmental variables `curl -fsSL  https://raw.githubusercontent.com/ONSdigital/ras-deploy/master/scripts/get_database_uris.sh |bash > setenvs.sh`
 3. Set database environmental variables `source setenvs.sh`
-4. Reset data in cloudfoundry `make setup`
-5. Set acceptance tests environmental variables in [config.py](config.py)
+4. Create an SSH tunnel to the database `cf ssh -L 5432:$database_domain:5432 $service` replacing `$database_domain` with the database domain and `$service` with the 
+cloudfoundry app name of a service that has a dependency on the database.
+5. Reset data in cloudfoundry `make setup`
+6. Set acceptance tests environmental variables in [config.py](config.py)
 ```bash
 export ACTION_SERVICE_HOST=
 export ACTION_SERVICE_PORT=
@@ -89,7 +91,7 @@ export ACTION_SERVICE_PORT=
 export SURVEY_SERVICE_HOST=
 export SURVEY_SERVICE_PORT=
 ```
-6. Run tests `pipenv run python run.py`
+7. Run tests `pipenv run python run.py`
 
 ### Troubleshooting
 #### Failing tests
