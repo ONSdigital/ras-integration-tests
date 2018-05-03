@@ -87,7 +87,7 @@ def confirm_changes_saved(_):
 @then('they are presented with confirmation that the changes have been saved')
 def confirm_email_changes_saved(_):
     contact_details_changes = reporting_unit.get_confirm_contact_details_success_text()
-    assert 'verification email sent to' in contact_details_changes.lower()
+    assert 'Contact details changed and verification email sent to' in contact_details_changes, contact_details_changes
 
 
 @then('they can see the old email address of "test_respondent2@test.com" '
