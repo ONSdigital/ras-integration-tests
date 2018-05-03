@@ -12,7 +12,7 @@ def respondent_is_enrolled(_, email):
 
 
 @given('the respondent with email "{email}" is enrolled and active')
-def respondent_is_enrolled(_, email):
+def respondent_is_enrolled_and_active(_, email):
     create_respondent(email, wait=True)
 
 
