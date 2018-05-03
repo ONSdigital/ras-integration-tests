@@ -91,8 +91,8 @@ export ACTION_SERVICE_PORT=
 export SURVEY_SERVICE_HOST=
 export SURVEY_SERVICE_PORT=
 ```
-1. Reset data in cloudfoundry `make setup`
-8. Run tests `pipenv run python run.py`
+7. Reset data in cloudfoundry `make setup`
+1. Run tests `pipenv run python run.py`
 
 ### Troubleshooting
 #### Failing tests
