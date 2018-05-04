@@ -16,6 +16,8 @@ def check_user_on_survey_create_page(_):
     expected_title = "Create survey"
     assert expected_title in browser.title, "Unexpected page title {} ({} expected)".format(browser.title,
                                                                                             expected_title)
+
+
 @given('the survey with reference {survey_id} already exists')
 def check_survey_exists(_, survey_id):
     survey.go_to()
@@ -24,6 +26,7 @@ def check_survey_exists(_, survey_id):
     matching = [s for s in surveys if s['id'] == survey_id]
 
     assert len(matching) > 0, "Cannot find the survey with reference {}".format(survey_id)
+
 
 @when('they enter the new survey details as reference {survey_id}, title {survey_title}, abbreviation {'
       'survey_abbreviation} and legal basis {survey_legal_basis}')
@@ -59,9 +62,10 @@ def view_survey_details(_, survey_id, survey_title, survey_abbreviation, survey_
     assert survey_by_id['legal_basis'] == survey_legal_basis, "Unexpected survey legal basis {} ({} expected)".format(
         survey_by_id['legal_basis'], survey_legal_basis)
 
+
 @then('they get an error page with the message \'{expected_error_message}\'')
 def check_error_page(_, expected_error_message):
     actual_error_message = create_survey_form.save_error()
 
-    assert expected_error_message == actual_error_message,\
+    assert expected_error_message == actual_error_message, \
         "Expected error message '{}' not found (found '{}'".format(expected_error_message, actual_error_message)
