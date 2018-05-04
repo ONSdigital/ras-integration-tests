@@ -66,6 +66,7 @@ If any config is updated it also has to be updated in the Jenkinsfile
 
 ### Debugging tests in Pycharm
 1. Set the environmental variable in pycharm HEADLESS=FALSE. Some instructions to do that https://www.jetbrains.com/help/pycharm/python-console.html
+1. If running against another environment set any other host environmental variables in pycharm
 1. Stick a breakpoint at the point you want to debug
 1. Debug the `run.py` and wait to hit the breakpoint
 
