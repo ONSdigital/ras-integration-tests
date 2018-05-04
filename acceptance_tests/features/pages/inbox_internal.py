@@ -41,8 +41,12 @@ def get_no_messages_text():
     return browser.find_by_text('No new messages')
 
 
-def get_radio_button_for_survey(survey):
-    return browser.find_by_id(survey)
+def get_dropdown_list():
+    return browser.driver.find_element_by_id('survey-list')
+
+
+def get_filter_page_title():
+    return browser.find_by_text('Filter messages by survey')
 
 
 def get_unread_messages():

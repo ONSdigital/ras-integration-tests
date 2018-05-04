@@ -100,7 +100,7 @@ def poll_database_for_iac(survey_id, period):
         time.sleep(5)
 
 
-def register_respondent(survey_id, period, username, ru_ref=None):
+def register_respondent(survey_id, period, username, ru_ref=None, wait_for_case=False):
     logger.info('Registering respondent', survey_id=survey_id, period=period, ru_ref=ru_ref)
     collection_exercise_id = collection_exercise_controller.get_collection_exercise(survey_id, period)['id']
     if ru_ref:
@@ -123,7 +123,8 @@ def register_respondent(survey_id, period, username, ru_ref=None):
     django_oauth_controller.verify_user(respondent_party['emailAddress'])
     case_id = database_controller.enrol_party(respondent_id)
     case_controller.post_case_event(case_id, respondent_id, "RESPONDENT_ENROLED", "Respondent enrolled")
-    wait_for_case_to_update(respondent_id)
+    if wait_for_case:
+        wait_for_case_to_update(respondent_id)
     logger.info('Successfully registered respondent', survey_id=survey_id, period=period,
                 ru_ref=ru_ref, respondent_id=respondent_id)
     return respondent_id

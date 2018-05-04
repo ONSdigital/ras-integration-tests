@@ -33,7 +33,7 @@ def create_message_internal_to_external(subject='Subject', body='Body'):
 
     # Send message
     create_message_internal.click_message_send_button()
-    logger.info("Message from internal to external created")
+    logger.debug("Message from internal to external created")
 
 
 def create_message_external_to_internal(subject='Subject', body='Body'):
@@ -51,4 +51,4 @@ def create_message_external_to_internal(subject='Subject', body='Body'):
 
     # Send message
     create_message_external.send_message()
-    logger.info("Message from external to internal created")
+    logger.debug("Message from external to internal created")

@@ -78,10 +78,10 @@ def test_view_select_survey_page(_):
     inbox_internal.go_to_select_survey()
 
 
-@then('they are able to view a list of filter options')
+@then('they are able to view a dropdown list of surveys')
 def test_select_survey_page_view(_):
-    assert inbox_internal.get_radio_button_for_survey('ASHE')
-    assert inbox_internal.get_radio_button_for_survey('Bricks')
+    assert inbox_internal.get_filter_page_title()
+    assert inbox_internal.get_dropdown_list()
 
 
 @when('the user has an unread message in their inbox')
