@@ -35,7 +35,7 @@ Feature: Internal inbox
   Scenario: User is able to view a list of filter options
     Given the user has access to secure messaging
     When they navigate to the select survey page
-    Then they are able to view a list of filter options
+    Then they are able to view a dropdown list of surveys
 
   @sm114_s01
   Scenario: User is able to distinguish unread messages in their inbox

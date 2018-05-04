@@ -68,3 +68,17 @@ def get_table_row_by_period(period):
 def click_ce_link(period):
     link = browser.find_by_name(f'ce-link-{period}')
     link.click()
+
+
+def click_create_ce_link():
+    link = browser.find_by_id('create-collection-exercise')
+    link.click()
+
+
+def get_collection_exercise_created_banner():
+    return browser.find_by_id('newly_created_ce_link').text
+
+
+def click_collection_exercise_created_banner():
+    link = browser.find_by_id('newly_created_ce_link')
+    link.click()
