@@ -78,8 +78,7 @@ export CLOUDFOUNDRY_PASSWORD=
 export CLOUDFOUNDRY_ORG=
 export CLOUDFOUNDRY_SPACE=
 ```
-2. Get database environmental variables `curl -fsSL  https://raw.githubusercontent.com/ONSdigital/ras-deploy/master/scripts/get_database_uris.sh |bash > setenvs.sh`
-1. Replace database host to localhost `sed -i -e 's/@$database_domain:5432/@localhost:5432/g' setenvs.sh` replacing `$database_domain` with the database domain
+2. Get database environmental variables `curl -fsSL  https://raw.githubusercontent.com/ONSdigital/ras-deploy/master/scripts/get_database_uris.sh |bash|sed -e 's/@.*:5432/@localhost:5432/g' > setenvs.sh`
 1. Set database environmental variables `source setenvs.sh`
 1. Create an SSH tunnel to the database `cf ssh -L 5432:$database_domain:5432 $service` replacing `$database_domain` with the database domain and `$service` with the 
 cloudfoundry app name of a service that has a dependency on the database.
