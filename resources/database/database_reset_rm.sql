@@ -15,6 +15,9 @@ TRUNCATE notifygatewaysvc.message CASCADE;
 
 ALTER SEQUENCE notifygatewaysvc.messageseq RESTART WITH 1;
 
+/* Remove test surveys (deemed to be any survey with survey ref > 999) */
+
+DELETE FROM survey.survey WHERE surveyref::text::int > 999;
 
 /* Clean And Reset Collection Exercise DB */
 
