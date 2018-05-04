@@ -53,6 +53,8 @@ make system_tests  # Will run the system tests
 make acceptance_tests  # Will run the acceptance tests
 make stop_services  # Bring down all the Docker services
 make test  # Will bring all the services up and run all the tests
+make TEST_TARGET=acceptance_tests/features/your.feature run_tests # Runs a single feature file WITHOUT 'make setup' first
+make TEST_TARGET=acceptance_tests/features/your.feature acceptance_tests # Runs a single feature file WITH 'make setup' first
 ```
 
 

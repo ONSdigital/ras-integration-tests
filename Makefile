@@ -26,8 +26,17 @@ clean:
 setup: clean
 	./setup_data.sh ${RM_TOOLS_REPO_URL}
 
-system_tests:
-	pipenv run behave --format progress2 system_tests/features # This will only run the system tests
+# If you want to run a single feature file WITHOUT setup first use:
+# make TEST_TARGET=acceptance_tests/features/your.feature run_tests
+#
+# If you want to run a single feature file WITH setup first use:
+# make TEST_TARGET=acceptance_tests/features/your.feature acceptance_tests
 
-acceptance_tests: setup
-	pipenv run behave --format progress2 acceptance_tests/features # This will only run the acceptance tests
+system_tests: TEST_TARGET = system_tests/features # This will only run the system tests
+system_tests: run_tests
+
+acceptance_tests: TEST_TARGET = acceptance_tests/features # This will only run the acceptance tests
+acceptance_tests: setup run_tests 
+
+run_tests:
+	pipenv run behave --format progress2 ${TEST_TARGET}
