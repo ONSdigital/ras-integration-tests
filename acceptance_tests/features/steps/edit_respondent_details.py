@@ -6,11 +6,6 @@ from acceptance_tests.features.pages import edit_respondent_details_form, report
 from controllers.party_controller import get_party_by_email
 
 
-@given('the respondent with email "{email}" is enrolled')
-def respondent_is_enrolled(_, email):
-    create_respondent(email)
-
-
 @given('the respondent with email "{email}" is enrolled and active')
 def respondent_is_enrolled(_, email):
     create_respondent(email, wait=True)
@@ -80,13 +75,13 @@ def navigate_to_ru_details(_):
 @then('they are provided with confirmation the changes have been saved')
 @then('they are able to save the updated email address')
 def confirm_changes_saved(_):
-    assert reporting_unit.get_confirm_contact_details_success_text()
+    assert reporting_unit.get_confirm_success_text()
 
 
 @then('they are provided with confirmation that the email address has been changed')
 @then('they are presented with confirmation that the changes have been saved')
 def confirm_email_changes_saved(_):
-    contact_details_changes = reporting_unit.get_confirm_contact_details_success_text()
+    contact_details_changes = reporting_unit.get_confirm_success_text()
     assert 'Verification email sent to' in contact_details_changes
 
 

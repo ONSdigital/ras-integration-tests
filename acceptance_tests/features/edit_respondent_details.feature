@@ -4,7 +4,7 @@ Feature: As an internal user
 
   Background: Internal user is already signed in
     Given the internal user is already signed in
-    And the respondent with email "test_respondent@test.com" is enrolled
+    And the respondent with email "test_respondent@test.com" is enrolled and active
 
   @us057-s01
   Scenario: The internal user is able to change a respondents first name, last name and contact number
@@ -37,7 +37,7 @@ Feature: As an internal user
 
   @us058-s001
   Scenario: The user is able to edit the email address of a respondent
-    Given the respondent with email "test_respondent2@test.com" is enrolled
+    Given the respondent with email "test_respondent2@test.com" is enrolled and active
     And the internal user has found the "test_respondent2@test.com" respondents details
     When they change the email address to "new_respondent@test.com"
     And they click save

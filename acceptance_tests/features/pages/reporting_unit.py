@@ -88,6 +88,27 @@ def click_disable_enrolment(email):
             break
 
 
+def click_deactivate_account(email):
+    respondents_table = browser.find_by_id('tbl-respondents-for-survey')
+    rows = respondents_table.find_by_tag('tbody').find_by_tag('tr')
+    for row in rows:
+        details = row.find_by_name('tbl-respondent-details').first
+        if details.find_by_name('tbl-respondent-email').value == email:
+            row.find_by_id('deactivate-respondent-account').click()
+            break
+
+
+def get_respondent_account_status(email):
+    respondents_table = browser.find_by_id('tbl-respondents-for-survey')
+    rows = respondents_table.find_by_tag('tbody').find_by_tag('tr')
+    for row in rows:
+        details = row.find_by_name('tbl-respondent-details').first
+        if details.find_by_name('tbl-respondent-email').value == email:
+            status = row.find_by_name('tbl-respondent-status').value
+            return status
+    return "No respondent found"
+
+
 def click_edit_details(survey_short_name, email):
     respondents_table = browser.find_by_name('tbl-respondents-for-survey')
     rows = respondents_table.find_by_tag('tbody').find_by_tag('tr')
@@ -98,7 +119,7 @@ def click_edit_details(survey_short_name, email):
             break
 
 
-def get_confirm_contact_details_success_text():
+def get_confirm_success_text():
     return browser.find_by_id('success').text
 
 
