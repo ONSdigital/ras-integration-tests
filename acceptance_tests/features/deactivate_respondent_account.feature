@@ -9,14 +9,14 @@ Feature: Internal user can deactivate a respondent's account
   @us020_s01
   Scenario: All enrolments displayed to internal user before deactivating an account
     Given the internal user is on the reporting unit details page
-    And the respondent with email "deactivate_account@gmail.com" is enrolled
-    When the internal user selects to deactivate respondent "deactivate_account@gmail.com" account
+    And the respondent with email "deactivate_account@gmail.com" is enrolled and active
+    When the internal user selects to deactivate respondent's "deactivate_account@gmail.com" account
     Then all the respondent's enabled enrolments should be displayed
 
   @us020_s02
   Scenario: Ability to suspend account
     Given the internal user is on the reporting unit details page
-    And the respondent with email "deactivate_account@gmail.com" is enrolled
+    And the respondent with email "deactivate_account@gmail.com" is enrolled and active
     And the internal user has selected to deactivate a respondent "deactivate_account@gmail.com" account
     When the internal user confirms suspension of account
     Then the respondent "deactivate_account@gmail.com" account is suspended

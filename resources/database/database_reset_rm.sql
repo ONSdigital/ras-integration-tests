@@ -80,5 +80,5 @@ ALTER SEQUENCE actionexporter.reportpkseq RESTART WITH 1;
 
 SET SCHEMA 'action';
 
-INSERT INTO action.actionrule (actionrulepk, actionplanfk, actiontypefk, name, description, daysoffset, priority)
-VALUES (1, 1, 1, 'BSNOT+0', 'Enrolment Invitation Letter(+0 days)', 0, 3);
+INSERT INTO action.actionrule (actionrulepk, actionplanfk, actiontypefk, name, description, daysoffset, priority, id)
+VALUES (1, 1, 1, 'BSNOT+0', 'Enrolment Invitation Letter(+0 days)', 0, 3, 'd24b3f17-bbf8-4c71-b2f0-a4334125d78a');

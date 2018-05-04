@@ -16,7 +16,7 @@ def select_deactivate_account(_, email):
     reporting_unit.click_deactivate_account(email)
 
 
-@then("all the respondent's enabled enrolments should be dislayed")
+@then("all the respondent's enabled enrolments should be displayed")
 def view_respondent_enabled_enrolments(_):
     enrolment = change_account_status.find_enrolment("49900000001", "Bricks")
 
