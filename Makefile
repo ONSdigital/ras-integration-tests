@@ -39,4 +39,4 @@ acceptance_tests: TEST_TARGET = acceptance_tests/features # This will only run t
 acceptance_tests: setup run_tests 
 
 run_tests:
-	pipenv run behave --format progress2 ${TEST_TARGET}
+	pipenv run behave --format pretty ${TEST_TARGET}
