@@ -148,7 +148,7 @@ def click_refresh_link():
 def click_refresh_link_until_ready_for_live():
     click_refresh_link()
 
-    for i in range(5):
+    for i in range(60):
         ce_state = get_status()
         if collection_exercise.is_ready_for_live(ce_state):
             break

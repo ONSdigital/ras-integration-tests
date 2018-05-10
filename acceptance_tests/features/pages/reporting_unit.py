@@ -1,4 +1,5 @@
 from acceptance_tests import browser
+from acceptance_tests.features.pages import scroll_to
 from config import Config
 
 
@@ -97,7 +98,8 @@ def click_disable_enrolment(email):
     for row in rows:
         details = row.find_by_name('tbl-respondent-details').first
         if details.find_by_name('tbl-respondent-email').value == email:
-            row.find_by_id('change-enrolment-status').click()
+            change_enrolment_link = row.find_by_id('change-enrolment-status')
+            scroll_to(change_enrolment_link).click()
             break
 
 
