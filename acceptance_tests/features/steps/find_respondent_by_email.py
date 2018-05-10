@@ -1,7 +1,7 @@
 from behave import given, when, then
 
 from acceptance_tests.features.pages import respondent
-from controllers.party_controller import get_party_by_email, change_respondent_status
+from controllers.party_controller import get_party_by_email
 
 
 @given('the respondent account with email "{email_address}" has been created')
