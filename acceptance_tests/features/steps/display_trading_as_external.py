@@ -28,7 +28,7 @@ def trading_as_name_is_displayed_below_business_name_in_todo(_):
 
 
 @given('a company has a separate trading name (s02)')
-def company_has_separate_trading_name_s01(_):
+def company_has_separate_trading_name_s02(_):
     _add_survey_for_ru_to_respondent('example@example.com', '49900000007', _get_last_QBS_collection_exercise_id())
 
 
