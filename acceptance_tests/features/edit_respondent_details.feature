@@ -42,6 +42,7 @@ Feature: As an internal user
     When they change the email address to "new_respondent@test.com"
     And they click save
     Then they are presented with confirmation that the changes have been saved
+    And they can see the old email address of "test_respondent2@test.com" and the unverified new email "new_respondent@test.com"
 
   @us058-s002
   Scenario: The user is able to cancel out of changing the respondent details at any point

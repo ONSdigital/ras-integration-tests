@@ -6,11 +6,8 @@ if __name__ == '__main__':
     database_controller.execute_sql('resources/database/database_reset_rm.sql')
     database_controller.execute_sql('resources/database/database_reset_party.sql',
                                     database_uri=Config.PARTY_DATABASE_URI)
-    try:
-        database_controller.execute_sql('resources/database/database_reset_oauth.sql',
-                                        database_uri=Config.DJANGO_OAUTH_DATABASE_URI)
-    except Exception:
-        print('Suppressing error truncating oauth database')
+    database_controller.execute_sql('resources/database/database_reset_oauth.sql',
+                                    database_uri=Config.DJANGO_OAUTH_DATABASE_URI)
     database_controller.execute_sql('resources/database/database_reset_secure_message.sql',
                                     database_uri=Config.SECURE_MESSAGE_DATABASE_URI)
     database_controller.execute_sql('resources/database/database_reset_ras_ci.sql',

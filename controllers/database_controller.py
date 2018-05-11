@@ -1,7 +1,6 @@
 import logging
 
 from sqlalchemy import create_engine
-from sqlalchemy.exc import IntegrityError
 from structlog import wrap_logger
 
 from config import Config
@@ -21,11 +20,7 @@ def execute_sql(sql_script_file_path=None, sql_string=None, database_uri=Config.
     else:
         sql = sql_string
 
-    try:
-        response = connection.execute(sql)
-    except IntegrityError:
-        logger.info('Script has already been run', sql_script_file_path=sql_script_file_path)
-        response = None
+    response = connection.execute(sql)
 
     trans.commit()
     logger.debug('Successfully executed SQL script', sql_script_file_path=sql_script_file_path)

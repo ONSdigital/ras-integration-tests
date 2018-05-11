@@ -35,7 +35,7 @@ def prepare_collection_exercises(_, survey, period):
         # form type hard coded to 0001 for all ces to simplify testing
         collection_instrument_controller.upload_seft_collection_instrument(ce['id'], ci_path, '0001')
 
-    is_text_present_with_retry('READY_FOR_REVIEW', 10)
+    is_text_present_with_retry('Ready for review', 10)
 
 
 @given('the user has confirmed that "{survey}" "{period}" is ready for go live')

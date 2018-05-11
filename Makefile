@@ -32,11 +32,12 @@ setup: clean
 # If you want to run a single feature file WITH setup first use:
 # make TEST_TARGET=acceptance_tests/features/your.feature acceptance_tests
 
-system_tests: TEST_TARGET = system_tests/features # This will only run the system tests
+system_tests: TEST_TARGET = system_tests/features  # This will only run the system tests
 system_tests: run_tests
 
-acceptance_tests: TEST_TARGET = acceptance_tests/features # This will only run the acceptance tests
-acceptance_tests: setup run_tests 
+acceptance_tests: TEST_TARGET = acceptance_tests/features  # This will only run the acceptance tests
+acceptance_tests: setup run_tests
 
+BEHAVE_FORMAT = progress2
 run_tests:
-	pipenv run behave --format progress2 ${TEST_TARGET}
+	pipenv run behave --format ${BEHAVE_FORMAT} ${TEST_TARGET}

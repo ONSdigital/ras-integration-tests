@@ -30,12 +30,6 @@ ALTER SEQUENCE collectionexercise.sampleunitgrouppkseq RESTART WITH 1;
 ALTER SEQUENCE collectionexercise.sampleunitpkseq RESTART WITH 1;
 ALTER SEQUENCE collectionexercise.samplelinkpkseq RESTART WITH 1;
 
-UPDATE collectionexercise.collectionexercise SET statefk = 'SCHEDULED' where statefk = 'READY_FOR_REVIEW';
-UPDATE collectionexercise.collectionexercise SET statefk = 'SCHEDULED' where statefk = 'READY_FOR_LIVE';
-UPDATE collectionexercise.collectionexercise SET statefk = 'SCHEDULED' where statefk = 'LIVE';
-UPDATE collectionexercise.collectionexercise SET statefk = 'CREATED' where not statefk = 'SCHEDULED';
-
-UPDATE collectionexercise.collectionexercise SET exerciseref = '201808' WHERE survey_uuid = '75b19ea0-69a4-4c58-8d7f-4458c8f43f5c' and exerciseref = '201906';
 UPDATE survey.survey SET shortname = 'NBS', longname = 'National Balance Sheet' WHERE id = '7a2c9d6c-9aaf-4cf0-a68c-1d50b3f1b296' and surveyref = '199';
 
 /* Clean Case DB */
@@ -83,5 +77,5 @@ ALTER SEQUENCE actionexporter.reportpkseq RESTART WITH 1;
 
 SET SCHEMA 'action';
 
-INSERT INTO action.actionrule (actionrulepk, actionplanfk, actiontypefk, name, description, daysoffset, priority, id)
-VALUES (1, 1, 1, 'BSNOT+0', 'Enrolment Invitation Letter(+0 days)', 0, 3, 'd24b3f17-bbf8-4c71-b2f0-a4334125d78a');
+INSERT INTO action.actionrule (id, actionrulepk, actionplanfk, actiontypefk, name, description, daysoffset, priority)
+VALUES ('7fa82e86-2b9d-45bc-9852-efa0397a4915', 1, 1, 1, 'BSNOT+0', 'Enrolment Invitation Letter(+0 days)', 0, 3);

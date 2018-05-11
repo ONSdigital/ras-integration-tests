@@ -12,7 +12,7 @@ def respondent_is_enrolled(_, email):
 
 
 @given('the respondent with email "{email}" is enrolled and active')
-def respondent_is_enrolled(_, email):
+def respondent_is_enrolled_and_active(_, email):
     create_respondent(email, wait=True)
 
 
@@ -87,7 +87,16 @@ def confirm_changes_saved(_):
 @then('they are presented with confirmation that the changes have been saved')
 def confirm_email_changes_saved(_):
     contact_details_changes = reporting_unit.get_confirm_contact_details_success_text()
-    assert 'Verification email sent to' in contact_details_changes
+    assert 'Contact details changed and verification email sent to' in contact_details_changes, contact_details_changes
+
+
+@then('they can see the old email address of "test_respondent2@test.com" '
+      'and the unverified new email "new_respondent@test.com"')
+def view_pending_email(_):
+    reporting_unit.click_data_panel('Bricks')
+    respondent = reporting_unit.get_respondent('test_respondent2@test.com')
+    assert respondent.get('email') == 'test_respondent2@test.com'
+    assert respondent.get('pending_email') == 'new_respondent@test.com'
 
 
 @then('the contact number is not changed')
