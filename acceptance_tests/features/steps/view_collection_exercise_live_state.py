@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 
 from behave import given, when, then
 
@@ -31,7 +32,9 @@ def go_live_date_hits(_, survey, period):
         'rsi': '75b19ea0-69a4-4c58-8d7f-4458c8f43f5c',
         'bricks': 'cb8accda-6118-4d3b-85a3-149e28960c54',
     }[survey.lower()]
-    datetime = '2018-01-21T00:00:00.000Z'  # some time in the past
+    datetime_ = '2018-01-21T00:00:00.000Z'  # some time in the past
+    date_time = datetime.now() + timedelta(seconds=5)
+    date_time_string = 
     collection_exercise_controller.update_event_for_collection_exercise(s_id, period, 'go_live', datetime)
 
 
