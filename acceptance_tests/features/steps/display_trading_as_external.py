@@ -1,3 +1,5 @@
+import time
+
 from behave import given, then, when
 
 from acceptance_tests import browser
@@ -6,7 +8,7 @@ from acceptance_tests.features.pages import reporting_unit, change_response_stat
 from acceptance_tests.features.pages.surveys_history import go_to_history_tab
 from acceptance_tests.features.pages.surveys_todo import go_to as go_to_todo
 from acceptance_tests.features.steps.authentication import signed_in_internal, signed_in_respondent
-from controllers.case_controller import generate_new_enrolment_code
+from controllers.case_controller import generate_new_enrolment_code, update_case_group_status
 from controllers.collection_exercise_controller import get_collection_exercise
 from controllers.party_controller import add_survey, get_party_by_email
 
@@ -35,15 +37,11 @@ def company_has_separate_trading_name_s02(_):
 @when('the respondent has completed a survey which is now in their history')
 def respondent_has_completed_survey(_):
 
-    # Complete the survey by phone using internal UI
+    # Complete the survey by phone
     ru_ref = '49900000007'
     party_id = get_party_by_email('example@example.com')['id']
-    signed_in_internal(_)
-    reporting_unit.go_to(ru_ref)
-    reporting_unit.click_data_panel('QBS')
-    reporting_unit.click_change_response_status_link(ru_ref=ru_ref, survey='QBS', period='1809')
     wait_for_case_to_update(party_id)
-    change_response_status.update_response_status('COMPLETED_BY_PHONE')
+    update_case_group_status(_get_last_QBS_collection_exercise_id(), ru_ref, 'COMPLETED_BY_PHONE')
 
     # Ensure respondent is signed in and navigate to history
     signed_in_respondent(_)

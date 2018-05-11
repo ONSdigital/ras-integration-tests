@@ -42,3 +42,14 @@ def get_case_by_party_id(party_id):
     response.raise_for_status()
     logger.debug('Successfully retrieved cases for party', party_id=party_id)
     return response.json()
+
+
+def update_case_group_status(collection_exercise_id, ru_ref, case_group_event):
+    logger.debug('Updating status', collection_exercise_id=collection_exercise_id, ru_ref=ru_ref,
+                 case_group_event=case_group_event)
+    url = f'{Config.CASE_SERVICE}/casegroups/transitions/{collection_exercise_id}/{ru_ref}'
+    response = requests.put(url, auth=Config.BASIC_AUTH, json={'event': case_group_event})
+
+    response.raise_for_status()
+    logger.debug('Successfully updated status', collection_exercise_id=collection_exercise_id, ru_ref=ru_ref,
+                 case_group_event=case_group_event)
