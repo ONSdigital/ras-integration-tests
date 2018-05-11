@@ -1,9 +1,14 @@
+from datetime import datetime
 import logging
+import time
 
 import requests
 from structlog import wrap_logger
 
+from acceptance_tests.features.environment import poll_database_for_iac
 from config import Config
+from controllers import collection_instrument_controller as ci_controller,\
+    sample_controller
 
 
 logger = wrap_logger(logging.getLogger(__name__))
@@ -33,7 +38,7 @@ def get_collection_exercise(survey_id, period):
             collection_exercise = ce
             break
     else:
-        raise Exception(f'No collection exercise found with exerciseRef {period}')
+        return None
     logger.debug('Successfully retrieved collection exercise', survey_id=survey_id, exercise_ref=period)
     return collection_exercise
 
@@ -98,13 +103,13 @@ def post_event_to_collection_exercise(survey_id, period, event_tag, date_str):
 
 def update_event_for_collection_exercise(survey_id, period, event_tag, date_str):
     collection_exercise_id = get_collection_exercise(survey_id, period)['id']
-    logger.debug('Updating an event', collection_exercise_id=collection_exercise_id, event_tag=event_tag)
+    logger.debug('Updating an event', collection_exercise_id=collection_exercise_id, event_tag=event_tag, date=date_str)
 
     url = f'{Config.COLLECTION_EXERCISE_SERVICE}/collectionexercises/{collection_exercise_id}/events/{event_tag}'
     response = requests.put(url, auth=Config.BASIC_AUTH, data=date_str, headers={'content-type': 'text/plain'})
     # 409: event already exists, which we count as permissable for testing
     if response.status_code not in (201, 204, 409):
-        logger.error('Failed to post event', status=response.status_code)
+        logger.error('Failed to post event', status=response.status_code, date_str=date_str)
         raise Exception(f'Failed to update event {collection_exercise_id}')
 
     logger.debug('Event updated')
@@ -122,3 +127,46 @@ def delete_collection_exercise_event(survey_id, period, event_tag):
         raise Exception(f'Failed to delete event {collection_exercise_id}')
 
     logger.debug('Event deleted')
+
+
+def create_collection_exercise(survey_id, period, user_description):
+    logger.debug('Creating collection exercise', survey_id=survey_id, period=period)
+    url = f'{Config.COLLECTION_EXERCISE_SERVICE}/collectionexercises'
+    json = {
+        "surveyId": survey_id,
+        "exerciseRef": period,
+        "userDescription": user_description
+    }
+    response = requests.post(url, auth=Config.BASIC_AUTH, json=json)
+
+    try:
+        response.raise_for_status()
+    except requests.exceptions.HTTPError:
+        logger.exception('Failed to create collection exercise', survey_id=survey_id, period=period)
+        raise Exception(f'Failed to create collection exercise {period}')
+
+    logger.debug('Successfully created collection exercise', survey_id=survey_id, period=period)
+
+
+def create_and_execute_collection_exercise(survey_id, period, user_description, dates):
+    create_collection_exercise(survey_id, period, user_description)
+    collection_exercise = get_collection_exercise(survey_id, period)
+    post_event_to_collection_exercise(survey_id, period, 'mps', convert_datetime_for_event(dates['mps']))
+    post_event_to_collection_exercise(survey_id, period, 'go_live',
+                                      convert_datetime_for_event(dates['go_live']))
+    post_event_to_collection_exercise(survey_id, period, 'return_by',
+                                      convert_datetime_for_event(dates['return_by']))
+    post_event_to_collection_exercise(survey_id, period, 'exercise_end',
+                                      convert_datetime_for_event(dates['exercise_end']))
+    sample_summary = sample_controller.upload_sample(collection_exercise['id'],
+                                                     'resources/sample_files/business-survey-sample-date.csv')
+    link_sample_summary_to_collection_exercise(collection_exercise['id'], sample_summary['id'])
+    ci_controller.upload_seft_collection_instrument(collection_exercise['id'],
+                                                    'resources/collection_instrument_files/064_201803_0001.xlsx')
+    time.sleep(5)
+    execute_collection_exercise(survey_id, period)
+    poll_database_for_iac(survey_id, period)
+
+
+def convert_datetime_for_event(date_time):
+    return datetime.strftime(date_time, '%Y-%m-%dT%H:%M:%S.000Z')

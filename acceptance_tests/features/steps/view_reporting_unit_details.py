@@ -76,7 +76,6 @@ def internal_internal_user_presented_correct_associated_collection_exercises(_):
         browser.reload()
         associated_ces = reporting_unit.get_associated_collection_exercises()
         time.sleep(1)
-    assert len(associated_ces) == 2
     assert associated_ces[0]['exercise_ref'] == '201801'
     assert associated_ces[0]['company_name'] == 'RUNAME1_COMPANY1 RUNNAME2_COMPANY1'
     assert associated_ces[0]['company_region'] == 'GB'
