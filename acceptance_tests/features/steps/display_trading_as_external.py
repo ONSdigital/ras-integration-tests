@@ -1,3 +1,5 @@
+from contextlib import suppress
+
 from behave import given, then, when
 
 from acceptance_tests import browser
@@ -12,7 +14,8 @@ from controllers.party_controller import add_survey, get_party_by_email
 
 @given('a company has a separate trading name (s01)')
 def company_has_separate_trading_name_s01(_):
-    _add_survey_for_ru_to_respondent('example@example.com', '49900000006', _get_last_QBS_collection_exercise_id())
+    _add_survey_for_ru_to_respondent_suppress_exception('example@example.com', '49900000006',
+                                                        _get_last_QBS_collection_exercise_id())
 
 
 @when('the respondent views a survey in To do')
@@ -28,7 +31,8 @@ def trading_as_name_is_displayed_below_business_name_in_todo(_):
 
 @given('a company has a separate trading name (s02)')
 def company_has_separate_trading_name_s02(_):
-    _add_survey_for_ru_to_respondent('example@example.com', '49900000007', _get_last_QBS_collection_exercise_id())
+    _add_survey_for_ru_to_respondent_suppress_exception('example@example.com', '49900000007',
+                                                        _get_last_QBS_collection_exercise_id())
 
 
 @when('the respondent has completed a survey which is now in their history')
@@ -53,7 +57,8 @@ def trading_as_name_is_displayed_below_business_name_in_history(_):
 
 @given('a company does not have a separate "trading as" name')
 def company_does_not_have_trading_as_name(_):
-    _add_survey_for_ru_to_respondent('example@example.com', '49900000008', _get_last_QBS_collection_exercise_id())
+    _add_survey_for_ru_to_respondent_suppress_exception('example@example.com', '49900000008',
+                                                        _get_last_QBS_collection_exercise_id())
 
 
 @then('the "trading as" field should not appear on the RU details page')
@@ -66,6 +71,9 @@ def _get_last_QBS_collection_exercise_id():
     return get_collection_exercise('02b9c366-7397-42f7-942a-76dc5876d86d', '1809')['id']
 
 
-def _add_survey_for_ru_to_respondent(respondent_email, ru_ref, collection_exercise_id):
+def _add_survey_for_ru_to_respondent_suppress_exception(respondent_email, ru_ref, collection_exercise_id):
     enrolment_code = generate_new_enrolment_code(collection_exercise_id, ru_ref)['iac']
-    add_survey(get_party_by_email(respondent_email)['id'], enrolment_code)
+
+    # Suppress exception in case the survey has already been added
+    with suppress(Exception):
+        add_survey(get_party_by_email(respondent_email)['id'], enrolment_code)
