@@ -12,12 +12,12 @@ def default_pass(context):
 @then('the respondent is displayed that collection exercise')
 def respondent_views_bricks_201801(context):
     ce_periods = get_collection_exercise_periods()
-    for period in ce_periods:
-        assert period.value == 'January 2018'
+    ce_period_values = [ce.value for ce in ce_periods]
+    assert 'January 2018' in ce_period_values
 
 
 @then('the respondent is not displayed that collection exercise')
 def respondent_cant_view_bricks_201812(context):
     ce_periods = get_collection_exercise_periods()
-    for period in ce_periods:
-        assert period.value != 'December 2018'
+    ce_period_values = [ce.value for ce in ce_periods]
+    assert 'December 2018' not in ce_period_values

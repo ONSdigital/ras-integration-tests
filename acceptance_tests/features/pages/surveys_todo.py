@@ -7,7 +7,7 @@ def go_to():
 
 
 def get_collection_exercise_periods():
-    return browser.find_by_id('SURVEY_PERIOD')
+    return browser.find_by_name('period')
 
 
 def get_surveys_list():

@@ -76,11 +76,11 @@ def internal_internal_user_presented_correct_associated_collection_exercises(_):
         browser.reload()
         associated_ces = reporting_unit.get_associated_collection_exercises()
         time.sleep(1)
-    assert len(associated_ces) == 2
-    assert associated_ces[0]['exercise_ref'] == '201801'
-    assert associated_ces[0]['company_name'] == 'RUNAME1_COMPANY1 RUNNAME2_COMPANY1'
-    assert associated_ces[0]['company_region'] == 'GB'
-    assert 'Not started' in associated_ces[0]['status'], associated_ces[0]['status']
+    exercise_201801 = reporting_unit.get_collection_exercise('201801', associated_ces)
+    assert exercise_201801['exercise_ref'] == '201801'
+    assert exercise_201801['company_name'] == 'RUNAME1_COMPANY1 RUNNAME2_COMPANY1'
+    assert exercise_201801['company_region'] == 'GB'
+    assert 'Not started' in exercise_201801['status'], exercise_201801['status']
 
 
 @then('the internal user is presented with the associated respondents')
