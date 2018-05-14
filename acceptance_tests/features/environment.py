@@ -144,3 +144,15 @@ def wait_for_case_to_update(respondent_id):
             logger.debug('Case updated', respondent_id=respondent_id)
             break
         time.sleep(2)
+
+
+def wait_for_ru_specific_cases_to_update(respondent_id, ru_ref):
+    logger.debug('Waiting for ru specific case to update', respondent_id=respondent_id, ru_ref=ru_ref)
+    while True:
+        ru_specific_cases = [case for case in case_controller.get_case_by_party_id(respondent_id)
+                             if case['caseGroup']['sampleUnitRef'] == ru_ref]
+        cases_updated = all([ru_specific_case['state'] == 'ACTIONABLE' for ru_specific_case in ru_specific_cases])
+        if cases_updated:
+            logger.debug('Case updated', respondent_id=respondent_id, ru_ref=ru_ref)
+            break
+        time.sleep(2)
