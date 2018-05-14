@@ -1,5 +1,4 @@
 from datetime import datetime, timedelta
-import time
 
 from behave import given, when, then
 
