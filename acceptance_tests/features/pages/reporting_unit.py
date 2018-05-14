@@ -41,6 +41,11 @@ def get_associated_collection_exercises():
     return exercises
 
 
+def get_collection_exercise(exercise_ref, collection_exercises):
+    return next((exercise for exercise in collection_exercises
+                 if exercise['exercise_ref'] == exercise_ref), None)
+
+
 def get_associated_respondents():
     respondents_table = browser.find_by_name('tbl-respondents-for-survey')
     rows = respondents_table.find_by_tag('tbody').find_by_tag('tr')
