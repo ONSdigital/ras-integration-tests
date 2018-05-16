@@ -1,3 +1,4 @@
+@secure_messaging
 Feature: External conversations
   As an external user
   I need to view all external conversations

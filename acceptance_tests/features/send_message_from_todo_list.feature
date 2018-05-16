@@ -1,3 +1,4 @@
+@secure_messaging
 Feature: Send message from todo list
   As a Respondent
   I need to be able to send a secure message in relation to an RU and a survey in my todo list
