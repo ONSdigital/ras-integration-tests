@@ -61,20 +61,19 @@ def internal_user_views_correct_reporting_unit_details(_):
 @then('the internal user is presented with the associated surveys')
 def internal_internal_user_presented_correct_associated_surveys(_):
     associated_surveys = reporting_unit.get_associated_surveys()
-    assert len(associated_surveys) == 2
     assert '074 Bricks' in associated_surveys
     assert '139 QBS' in associated_surveys
 
 
 @then('the internal user is presented with the associated collection exercises')
 def internal_internal_user_presented_correct_associated_collection_exercises(_):
-    associated_ces = reporting_unit.get_associated_collection_exercises()
+    associated_ces = reporting_unit.get_associated_collection_exercises('Bricks')
     # Status updated async so wait until updated
     for i in range(5):
         if 'Not started' in associated_ces[0]['status']:
             break
         browser.reload()
-        associated_ces = reporting_unit.get_associated_collection_exercises()
+        associated_ces = reporting_unit.get_associated_collection_exercises('Bricks')
         time.sleep(1)
     exercise_201801 = reporting_unit.get_collection_exercise('201801', associated_ces)
     assert exercise_201801['exercise_ref'] == '201801'
@@ -86,7 +85,7 @@ def internal_internal_user_presented_correct_associated_collection_exercises(_):
 @then('the internal user is presented with the associated respondents')
 def internal_internal_user_presented_correct_associated_respondents(_):
     # Status updated async so wait until updated
-    respondent = reporting_unit.get_respondent('example@example.com')
+    respondent = reporting_unit.get_respondent('Bricks', 'example@example.com')
     assert respondent['enrolmentStatus'] == 'Enabled'
     assert respondent['name'] == 'first_name last_name'
     assert respondent['email'] == 'example@example.com'
@@ -96,5 +95,5 @@ def internal_internal_user_presented_correct_associated_respondents(_):
 
 @then('the status \'Completed by phone\' is displayed back to the internal user')
 def status_is_displayed_back_the_internal_user(_):
-    associated_ces = reporting_unit.get_associated_collection_exercises()
+    associated_ces = reporting_unit.get_associated_collection_exercises('Bricks')
     assert 'Completed by phone' in associated_ces[0]['status']
