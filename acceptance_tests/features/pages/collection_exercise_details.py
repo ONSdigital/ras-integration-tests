@@ -34,7 +34,7 @@ def load_sample(sample_file_path):
 
 
 def get_sample_success_text():
-    return browser.find_by_id('sample-success').first.text
+    return browser.find_by_id('success-panel').first.text
 
 
 def has_sample_preview():
@@ -101,6 +101,10 @@ def get_collection_instrument_success_text():
 
 def get_collection_instrument_added_success_text():
     return browser.find_by_id('collection-instrument-added-success').text
+
+
+def get_sample_removed_success_text():
+    return browser.find_by_id('success-panel').text
 
 
 def get_collection_instruments():
@@ -192,3 +196,19 @@ def is_able_to_remove_ci():
     remove_options = len(browser.find_by_id('unlink-ci-1'))
 
     return True if remove_options > 0 else None
+
+
+def remove_sample():
+    browser.click_link_by_id('remove_sample_btn')
+
+
+def check_remove_sample():
+    browser.find_by_id('remove_sample_btn')
+
+
+def get_remove_sample():
+    return browser.find_by_id('remove_sample_btn').text
+
+
+def get_check_sample_contents():
+    return browser.find_by_id('btn-check-sample-contents').text
