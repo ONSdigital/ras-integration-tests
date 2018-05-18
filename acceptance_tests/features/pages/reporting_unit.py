@@ -64,9 +64,8 @@ def get_associated_respondents(survey_short_name):
 
 
 def get_respondent(survey_short_name, email):
-    for respondent in get_associated_respondents(survey_short_name):
-        if respondent['email'] == email:
-            return respondent
+    return next((respondent for respondent in get_associated_respondents(survey_short_name)
+                 if respondent['email'] == email), None)
 
 
 def click_change_response_status_link(ru_ref, survey, period):
