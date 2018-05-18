@@ -1,9 +1,27 @@
+from datetime import datetime, timedelta
+
 from behave import when, given, then
 
 from acceptance_tests.features.pages.add_survey import enter_enrolment_code, click_continue_button
 from acceptance_tests.features.pages.reporting_unit import get_unused_iac
 from acceptance_tests.features.pages import add_survey, change_response_status, surveys_history, reporting_unit
 from acceptance_tests.features.steps.authentication import signed_in_internal, signed_in_respondent
+from controllers.collection_exercise_controller import create_and_execute_collection_exercise
+
+
+@given('the "{survey}" "{period}" collection exercise is in Not started status')
+def create_collection_exercise(_, survey, period):
+    now = datetime.utcnow()
+    dates = {
+        "mps": now + timedelta(seconds=5),
+        "go_live": now + timedelta(minutes=1),
+        "return_by": now + timedelta(days=10),
+        "exercise_end": now + timedelta(days=11)
+    }
+    create_and_execute_collection_exercise('cb8accda-6118-4d3b-85a3-149e28960c54',
+                                           period, 'test_exercise', dates)
+    reporting_unit.go_to('49900000001')
+    reporting_unit.get_co
 
 
 @given('the survey for 49900000002 has been completed by phone')

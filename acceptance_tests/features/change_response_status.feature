@@ -15,3 +15,11 @@ Feature: Change response status
     Given the survey for 49900000002 has been completed by phone
     When the respondent goes to the history page
     Then the survey for 49900000002 has the status completed by phone
+
+  @us050_s03
+  Scenario: Internal user can change the response status to No Longer Required
+    Given the "204901" "Bricks" collection exercise is in Not started status
+    When the respondent goes to the history page
+    Then the survey for 49900000002 has the status completed by phone
+
+
