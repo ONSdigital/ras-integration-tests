@@ -36,7 +36,8 @@ system_tests: TEST_TARGET = system_tests/features  # This will only run the syst
 system_tests: run_tests
 
 acceptance_tests: TEST_TARGET = acceptance_tests/features  # This will only run the acceptance tests
-acceptance_tests: setup run_tests
+acceptance_tests: setup
+	pipenv run behave --format ${BEHAVE_FORMAT} ${TEST_TARGET}
 
 BEHAVE_FORMAT = progress2
 run_tests:

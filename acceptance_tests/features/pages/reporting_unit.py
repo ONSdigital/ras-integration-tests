@@ -25,19 +25,15 @@ def get_associated_surveys():
     return surveys
 
 
-def get_associated_collection_exercises():
-    exercises = []
-    ce_tables = browser.find_by_name('tbl-ce-for-survey')
-
-    for table in ce_tables:
-        rows = table.find_by_tag('tbody').find_by_tag('tr')
-        for row in rows:
-            exercises.append({
-                "exercise_ref": row.find_by_name('tbl-ce-period').value,
-                "company_name": row.find_by_name('tbl-ce-company-name').value,
-                "company_region": row.find_by_name('tbl-ce-company-region').value,
-                "status": row.find_by_name('tbl-ce-status').value
-            })
+def get_associated_collection_exercises(survey_short_name):
+    ce_table = browser.find_by_id(f'survey-{survey_short_name}').find_by_name('tbl-ce-for-survey')
+    ce_rows = ce_table.find_by_tag('tbody').find_by_tag('tr')
+    exercises = [{
+        "exercise_ref": row.find_by_name('tbl-ce-period').value,
+        "company_name": row.find_by_name('tbl-ce-company-name').value,
+        "company_region": row.find_by_name('tbl-ce-company-region').value,
+        "status": row.find_by_name('tbl-ce-status').value
+    } for row in ce_rows]
     return exercises
 
 
@@ -46,39 +42,30 @@ def get_collection_exercise(exercise_ref, collection_exercises):
                  if exercise['exercise_ref'] == exercise_ref), None)
 
 
-def get_associated_respondents():
-    respondents_table = browser.find_by_name('tbl-respondents-for-survey')
-    rows = respondents_table.find_by_tag('tbody').find_by_tag('tr')
-    respondents = []
-    for row in rows:
-        has_pending_email = len(row.find_by_name('tbl-respondent-details').first
-                                .find_by_name('tbl-respondent-pending-email')) > 0
-        if has_pending_email:
-            respondent = {
-                "enrolmentStatus": row.find_by_id('enrolment-status').value,
-                "name": row.find_by_name('tbl-respondent-details').first.find_by_name('tbl-respondent-name').value,
-                "email": row.find_by_name('tbl-respondent-details').first.find_by_name('tbl-respondent-email').value,
-                "pending_email": row.find_by_name('tbl-respondent-details')
-                .first.find_by_name('tbl-respondent-pending-email').value,
-                "phone": row.find_by_name('tbl-respondent-details').first.find_by_name('tbl-respondent-phone').value,
-                "accountStatus": row.find_by_name('tbl-respondent-status').value
-            }
-        else:
-            respondent = {
-                "enrolmentStatus": row.find_by_id('enrolment-status').value,
-                "name": row.find_by_name('tbl-respondent-details').first.find_by_name('tbl-respondent-name').value,
-                "email": row.find_by_name('tbl-respondent-details').first.find_by_name('tbl-respondent-email').value,
-                "phone": row.find_by_name('tbl-respondent-details').first.find_by_name('tbl-respondent-phone').value,
-                "accountStatus": row.find_by_name('tbl-respondent-status').value
-            }
-        respondents.append(respondent)
+def create_respondent_dict(respondent):
+    respondent_details = {
+        "enrolmentStatus": respondent.find_by_id('enrolment-status').value,
+        "name": respondent.find_by_name('tbl-respondent-details').first.find_by_name('tbl-respondent-name').value,
+        "email": respondent.find_by_name('tbl-respondent-details').first.find_by_name('tbl-respondent-email').value,
+        "phone": respondent.find_by_name('tbl-respondent-details').first.find_by_name('tbl-respondent-phone').value,
+        "accountStatus": respondent.find_by_name('tbl-respondent-status').value
+    }
+    pending_email = respondent.find_by_name('tbl-respondent-pending-email')
+    if len(pending_email) > 0:
+        return {**respondent_details, "pending_email": pending_email.value}
+    return respondent_details
+
+
+def get_associated_respondents(survey_short_name):
+    respondents_table = browser.find_by_id(f'survey-{survey_short_name}').find_by_name('tbl-respondents-for-survey')
+    respondent_rows = respondents_table.find_by_tag('tbody').find_by_tag('tr')
+    respondents = [create_respondent_dict(respondent) for respondent in respondent_rows]
     return respondents
 
 
-def get_respondent(email):
-    for respondent in get_associated_respondents():
-        if respondent['email'] == email:
-            return respondent
+def get_respondent(survey_short_name, email):
+    return next((respondent for respondent in get_associated_respondents(survey_short_name)
+                 if respondent['email'] == email), None)
 
 
 def click_change_response_status_link(ru_ref, survey, period):

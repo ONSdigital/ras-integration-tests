@@ -94,7 +94,7 @@ def confirm_email_changes_saved(_):
       'and the unverified new email "new_respondent@test.com"')
 def view_pending_email(_):
     reporting_unit.click_data_panel('Bricks')
-    respondent = reporting_unit.get_respondent('test_respondent2@test.com')
+    respondent = reporting_unit.get_respondent('Bricks', 'test_respondent2@test.com')
     assert respondent.get('email') == 'test_respondent2@test.com'
     assert respondent.get('pending_email') == 'new_respondent@test.com'
 
@@ -102,14 +102,14 @@ def view_pending_email(_):
 @then('the contact number is not changed')
 def confirm_contact_number_unchanged(_):
     reporting_unit.click_data_panel('Bricks')
-    respondent = reporting_unit.get_associated_respondents()[1]
+    respondent = reporting_unit.get_associated_respondents('Bricks')[1]
     assert respondent.get('phone') == '01633 878787'
 
 
 @then('the email is not changed')
 def confirm_email_unchanged(_):
     reporting_unit.click_data_panel('Bricks')
-    respondent = reporting_unit.get_associated_respondents()[1]
+    respondent = reporting_unit.get_associated_respondents('Bricks')[1]
     assert respondent.get('email') == 'test_respondent@test.com'
 
 
