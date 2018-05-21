@@ -80,7 +80,7 @@ If any config is updated it also has to be updated in the Jenkinsfile
     export CLOUDFOUNDRY_SPACE=
     ```
 1. Get database environment variables `curl -fsSL  https://raw.githubusercontent.com/ONSdigital/ras-deploy/master/scripts/get_database_uris.sh |bash|sed -e 's/@.*:5432/@localhost:5432/g' > setenvs.sh`
-1. Get database URI `export DATABASE_NAME=$(cf apps | grep ras-collection-instrument-ci-migration | awk ‘{ print “cf env “$1 }‘| bash | grep “postgres://” | awk -F \” ‘{ print $4 }’ | sed ‘s!postgres://.*@\(.*\):.*!\1!’)`
+1. Get database URI `export DATABASE_NAME=$(cf apps | grep ras-collection-instrument-ci-migration | awk '{ print "cf env "$1 }' | bash | grep "postgres://" | awk -F \" '{ print $4 }' | sed 's!postgres://.*@\(.*\):.*!\1!')`
 1. Create an SSH tunnel to the database `cf ssh -L 5432:$DATABASE_NAME:5432 ras-collection-instrument-ci-migration`
 cloudfoundry app name of a service that has a dependency on the database.
 1. Set environment variables in shell `fly -t ons get-pipeline -p rasrm|sed -n -e '/ras-deploy\/tasks\/rasrm-acceptance-tests\/run_acceptance_tests.yml/,$p'|sed -e '/on_failure/,$d'|tail -n +3|sed -e 's/\"//g'|sed -e 's/\:\ /=/g'|awk '{print "export "$1 }' >> setenvs.sh`
