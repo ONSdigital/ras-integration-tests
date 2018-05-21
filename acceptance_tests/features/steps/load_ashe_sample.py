@@ -16,5 +16,4 @@ def go_to_ashe_201803(_):
 @then('the user is able to load the ASHE sample file')
 def load_ashe_sample_file(_):
     collection_exercise_details.load_sample('resources/sample_files/us081-load_ashe_sample_file/ashe_sample.csv')
-
     assert collection_exercise_details.get_sample_success_text()
