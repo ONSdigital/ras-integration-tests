@@ -9,7 +9,6 @@ from acceptance_tests.features.pages import confirm_remove_sample, collection_ex
 def check_user_is_on_collection_exercise_details_page(_):
     collection_exercise_details.go_to('RSI', '201804')
     assert "023 RSI 201804 | Surveys | Survey Data Collection" in browser.title
-    collection_exercise_details.select_sample('resources/sample_files/business-survey-sample-date.csv')
     collection_exercise_details.load_sample('resources/sample_files/business-survey-sample-date.csv')
 
 

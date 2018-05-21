@@ -1,7 +1,7 @@
 Feature: Remove loaded sample
   As a collection Exercise Coordinator
   I need to be able to remove a loaded sample
-  So that I can replace it with with the correct sample
+  So that I can replace it with the correct sample
 
   Background: Internal user is already signed in
     Given the internal user is already signed in
