@@ -7,7 +7,7 @@ def go_to_history_tab():
 
 
 def get_cases():
-    is_text_present_with_retry('Trading as:', delay=3, retries=10)
+    is_text_present_with_retry('Trading as:', delay=5, retries=10)
     case_list = browser.find_by_id('survey-list').find_by_name('survey-card')
     cases = [{
         "survey": case.find_by_id('SURVEY_NAME').text,
@@ -20,7 +20,7 @@ def get_cases():
 
 def get_case(ru_ref):
     return next((case for case in get_cases()
-                 if ru_ref in case['business_details']))
+                 if ru_ref in case['business_details']), None)
 
 
 def get_status_text():

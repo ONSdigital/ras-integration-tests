@@ -130,7 +130,7 @@ def register_respondent(survey_id, period, username, ru_ref=None, wait_for_case=
     return respondent_id
 
 
-def enrol_respondent(party_id, ru_ref, survey_id, period):
+def enrol_respondent(party_id, survey_id, period):
     collection_exercise_id = collection_exercise_controller.get_collection_exercise(survey_id, period)['id']
     enrolment_code = database_controller.get_iac_for_collection_exercise(collection_exercise_id)
     party_controller.add_survey(party_id, enrolment_code)

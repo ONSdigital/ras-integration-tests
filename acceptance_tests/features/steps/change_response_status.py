@@ -67,4 +67,4 @@ def respondent_goes_to_history_page_for_49900000002(_):
 @then('the respondent is presented the "{survey}" "{period}" "{ru_ref}" status as "{status}"')
 def respondent_view_ce_status(_, survey, period, ru_ref, status):
     case = surveys_history.get_case(ru_ref)
-    assert status == case['status'], case['status']
+    assert status == case.get('status'), case.get('status')
