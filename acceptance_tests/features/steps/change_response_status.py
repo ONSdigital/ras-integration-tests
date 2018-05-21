@@ -55,7 +55,7 @@ def internal_user_changes_response_status(_, survey, period, status):
 @given('the respondent has been enrolled for "{survey}" "{period}" for ru "{ru_ref}"')
 def respondent_enrolled_for_ce(_, survey, period, ru_ref):
     party_id = party_controller.get_party_by_email(Config.RESPONDENT_USERNAME)['id']
-    enrol_respondent(party_id, ru_ref, 'cb8accda-6118-4d3b-85a3-149e28960c54', period)
+    enrol_respondent(party_id, 'cb8accda-6118-4d3b-85a3-149e28960c54', period)
 
 
 @when('the respondent goes to the history page')
