@@ -2,6 +2,7 @@ from behave import given, when, then
 
 from acceptance_tests import browser
 from acceptance_tests.features.pages import external_conversation
+from common.browser_utilities import is_element_present_by_id_with_retry
 
 
 @given('the external user has conversations in their list')
@@ -28,8 +29,8 @@ def go_to_messages_box(_):
 @then('they are able to view a list of external conversations')
 def test_conversation_available(_):
     assert external_conversation.get_page_title() == 'Messages - ONS Business Surveys'
-    assert browser.find_by_id('message-link-1')
-    assert browser.find_by_id('message-link-2')
+    assert is_element_present_by_id_with_retry('message-link-1')
+    assert is_element_present_by_id_with_retry('message-link-2')
 
 
 @then('they are informed that there are no external conversations')
