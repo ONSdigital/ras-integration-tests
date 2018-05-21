@@ -32,13 +32,14 @@ def get_associated_collection_exercises(survey_short_name):
         "exercise_ref": row.find_by_name('tbl-ce-period').value,
         "company_name": row.find_by_name('tbl-ce-company-name').value,
         "company_region": row.find_by_name('tbl-ce-company-region').value,
-        "status": row.find_by_name('tbl-ce-status').value
+        "status": row.find_by_name('tbl-ce-status').value,
+        "status_change_link": row.find_by_name('tbl-ce-status').find_by_tag("a")
     } for row in ce_rows]
     return exercises
 
 
-def get_collection_exercise(exercise_ref, collection_exercises):
-    return next((exercise for exercise in collection_exercises
+def get_collection_exercise(exercise_ref, survey_short_name):
+    return next((exercise for exercise in get_associated_collection_exercises(survey_short_name)
                  if exercise['exercise_ref'] == exercise_ref), None)
 
 
@@ -68,8 +69,9 @@ def get_respondent(survey_short_name, email):
                  if respondent['email'] == email), None)
 
 
-def click_change_response_status_link(ru_ref, survey, period):
-    browser.click_link_by_href(f'/case/{ru_ref}/change-response-status?survey={survey}&period={period}')
+def click_change_response_status_link(survey, period):
+    collection_exercise = get_collection_exercise(period, survey)
+    collection_exercise['status_change_link'].click()
 
 
 def get_unused_iac(ru_ref, survey_short_name):

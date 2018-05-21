@@ -130,7 +130,7 @@ def register_respondent(survey_id, period, username, ru_ref=None, wait_for_case=
     return respondent_id
 
 
-def enrol_respondent(party_id, survey_id, period):
+def enrol_respondent(party_id, ru_ref, survey_id, period):
     collection_exercise_id = collection_exercise_controller.get_collection_exercise(survey_id, period)['id']
     enrolment_code = database_controller.get_iac_for_collection_exercise(collection_exercise_id)
     party_controller.add_survey(party_id, enrolment_code)
@@ -151,7 +151,8 @@ def wait_for_ru_specific_cases_to_update(respondent_id, ru_ref):
     while True:
         ru_specific_cases = [case for case in case_controller.get_case_by_party_id(respondent_id)
                              if case['caseGroup']['sampleUnitRef'] == ru_ref]
-        cases_updated = all([ru_specific_case['state'] == 'ACTIONABLE' for ru_specific_case in ru_specific_cases])
+        cases_updated = all([ru_specific_case['state'] in ['ACTIONABLE', 'INACTIONABLE']
+                             for ru_specific_case in ru_specific_cases])
         if cases_updated:
             logger.debug('Case updated', respondent_id=respondent_id, ru_ref=ru_ref)
             break

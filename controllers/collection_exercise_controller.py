@@ -170,3 +170,10 @@ def create_and_execute_collection_exercise(survey_id, period, user_description, 
 
 def convert_datetime_for_event(date_time):
     return datetime.strftime(date_time, '%Y-%m-%dT%H:%M:%S.000Z')
+
+
+def map_ce_status(status):
+    return {
+        "Completed by phone": "COMPLETED_BY_PHONE",
+        "No longer required": "NO_LONGER_REQUIRED",
+    }.get(status, status)

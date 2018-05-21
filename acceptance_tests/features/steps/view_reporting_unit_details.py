@@ -75,7 +75,7 @@ def internal_internal_user_presented_correct_associated_collection_exercises(_):
         browser.reload()
         associated_ces = reporting_unit.get_associated_collection_exercises('Bricks')
         time.sleep(1)
-    exercise_201801 = reporting_unit.get_collection_exercise('201801', associated_ces)
+    exercise_201801 = reporting_unit.get_collection_exercise('201801', 'Bricks')
     assert exercise_201801['exercise_ref'] == '201801'
     assert exercise_201801['company_name'] == 'RUNAME1_COMPANY1 RUNNAME2_COMPANY1'
     assert exercise_201801['company_region'] == 'GB'
