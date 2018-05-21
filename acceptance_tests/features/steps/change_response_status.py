@@ -11,6 +11,11 @@ from config import Config
 from controllers import party_controller
 
 
+@given('the internal user is on the reporting unit page for ru ref "{ru_ref}"')
+def go_to_reporting_unit_page(_, ru_ref):
+    reporting_unit.go_to(ru_ref)
+
+
 @given('the "{survey}" "{period}" collection exercise has been executed')
 def create_collection_exercise(_, survey, period):
     if get_collection_exercise('cb8accda-6118-4d3b-85a3-149e28960c54', period):
@@ -35,7 +40,7 @@ def assert_collection_exercise_status(_, survey, period, ru_ref, status):
     assert status in collection_exericse['status'], collection_exericse['status']
 
 
-@given('the respondent has been enrolled for "Bricks" "204901" for ru "49900000001" which is in "Completed by phone" start')
+@given('the respondent has been enrolled for "Bricks" "204901" for ru "49900000001" which is in "Completed by phone" status')
 def already_enrolled(_):
     pass
 
