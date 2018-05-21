@@ -3,6 +3,7 @@ import time
 
 from acceptance_tests.features.pages import collection_exercise
 from acceptance_tests import browser
+from common.browser_utilities import is_text_present_with_retry
 from config import Config
 
 
@@ -34,21 +35,15 @@ def load_sample(sample_file_path):
 
 
 def get_sample_success_text():
+    while not is_text_present_with_retry('Sample loaded'):
+        click_refresh_link_for_sample_upload()
     return browser.find_by_id('sample-success').first.text
 
 
 def has_sample_preview():
     element_ids = ['sample-preview-businesses', 'sample-preview-ci', 'sample-preview']
-    elements = []
-
-    for element_id in element_ids:
-        elements.append(browser.find_by_id(element_id))
-
-    for element in elements:
-        if element.is_empty():
-            return False
-
-    return True
+    elements = [browser.find_by_id(element_id) for element_id in element_ids]
+    return all(elements)
 
 
 def cancel_sample_preview():
@@ -56,8 +51,9 @@ def cancel_sample_preview():
 
 
 def get_loaded_sample():
-    tds = browser.find_by_id('sample-table').find_by_tag('tbody').find_by_tag('td')
-    return list(map(lambda td: td.value, tds))
+    if is_text_present_with_retry('Total businesses'):
+        tds = browser.find_by_id('sample-table').find_by_tag('tbody').find_by_tag('td')
+        return list(map(lambda td: td.value, tds))
 
 
 def get_collection_exercise_events():
@@ -154,6 +150,10 @@ def click_refresh_link_until_ready_for_live():
             break
         time.sleep(1)
         click_refresh_link()
+
+
+def click_refresh_link_for_sample_upload():
+    browser.find_link_by_partial_href('?show_msg=true').click()
 
 
 def form_select_ci_exists():

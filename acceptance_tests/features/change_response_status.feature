@@ -3,7 +3,7 @@ Feature: Change response status
   I need to change the case response status to completed by phone for an RU for a specific CE for a specific survey
   So that the respondent can complete the survey over the phone and they do not receive reminders
 
-  Background: Internal user is already signed in
+  Background: Internal user is already signed in and a respondent is enrolled on a new collection exercise
     Given the internal user is already signed in
     And the "Bricks" "204901" collection exercise has been executed
     And the respondent has been enrolled for "Bricks" "204901" for ru "49900000001"
