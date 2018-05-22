@@ -40,7 +40,7 @@ def assert_collection_exercise_status(_, survey, period, ru_ref, status):
     assert status in collection_exericse['status'], collection_exericse['status']
 
 
-@given('the respondent has been enrolled for "Bricks" "204901" for ru "49900000001" which is in "Completed by phone" status')
+@given('the respondent has been enrolled for Bricks 204901 for ru 49900000001 which is in Completed by phone status')
 def already_enrolled(_):
     pass
 

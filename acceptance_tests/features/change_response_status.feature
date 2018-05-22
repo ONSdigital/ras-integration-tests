@@ -24,6 +24,6 @@ Feature: Change response status
 
   @us050_s03
   Scenario: Respondent can view response status change
-    Given the respondent has been enrolled for "Bricks" "204901" for ru "49900000001" which is in "Completed by phone" status
+    Given the respondent has been enrolled for Bricks 204901 for ru 49900000001 which is in Completed by phone status
     When the respondent goes to the history page
     Then the respondent is presented the "bricks" "204901" "49900000001" status as "Completed by phone"
