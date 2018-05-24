@@ -29,7 +29,7 @@ def ce_state_ready_for_live(_):
 
     collection_exercise_details.load_collection_instrument(test_file=ci_path)
     collection_exercise_details.load_sample(sample_file)
-
+    collection_exercise_details.get_sample_success_text()
     assert is_text_present_with_retry('Ready for review', 10)
 
     collection_exercise_details.click_ready_for_live_and_confirm()
