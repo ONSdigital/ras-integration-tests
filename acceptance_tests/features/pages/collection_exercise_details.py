@@ -199,11 +199,11 @@ def is_able_to_remove_ci():
 
 
 def remove_sample():
-    browser.click_link_by_id('remove_sample_btn')
+    browser.click_link_by_id('remove_sample_btn_1')
 
 
 def check_remove_sample():
-    browser.find_by_id('remove_sample_btn')
+    browser.find_by_id('remove_sample_btn_1')
 
 
 def get_remove_sample():
