@@ -1,3 +1,4 @@
+@secure_messaging
 Feature: Internal inbox
   As an internal user
   I need to view all inbox messages

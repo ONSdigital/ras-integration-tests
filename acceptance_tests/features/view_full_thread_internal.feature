@@ -1,3 +1,4 @@
+@secure_messaging
 Feature: View conversation thread
   As an internal user
   I need to see all of the previous messages in a conversation
