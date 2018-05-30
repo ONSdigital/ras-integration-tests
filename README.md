@@ -83,13 +83,13 @@ If any config is updated it also has to be updated in the Jenkinsfile
 1. Get database URI `export DATABASE_NAME=$(cf apps | grep ras-collection-instrument-ci-migration | awk ‘{ print “cf env “$1 }‘| bash | grep “postgres://” | awk -F \” ‘{ print $4 }’ | sed ‘s!postgres://.*@\(.*\):.*!\1!’)`
 1. Create an SSH tunnel to the database `cf ssh -L 5432:$DATABASE_NAME:5432 ras-collection-instrument-ci-migration`
 cloudfoundry app name of a service that has a dependency on the database.
-1. Set environment variables in shell `fly -t ons get-pipeline -p rasrm|sed -n -e '/ras-deploy\/tasks\/rasrm-acceptance-tests\/run_acceptance_tests.yml/,$p'|sed -e '/on_failure/,$d'|tail -n +3|sed -e 's/\"//g'|sed -e 's/\:\ /=/g'|awk '{print "export "$1 }' >> setenvs.sh`
+1. Set environment variables in shell `fly -t ons get-pipeline -p rasrm|sed -n '/- name: ci-rasrm-acceptance-tests/,/on_failure/p;/on_failure/q'|sed -n '/ras-deploy\/tasks\/rasrm-acceptance-tests\/run_acceptance_tests.yml/,$p'|sed -e '/on_failure/,$d'|tail -n +3|sed -e 's/\"//g'|sed -e 's/\:\ /=/g'|awk '{print "export "$1 }' >> setenvs.sh`
 1. Set database environment variables `source setenvs.sh`
 1. Reset data in cloudfoundry `make setup`
 1. Run tests `pipenv run python run.py`
 
 Note. To run in pycharm you'll need to put the same environment variables in
-1. Copy the environment variables from the concourse pipeline `fly -t ons get-pipeline -p rasrm|sed -n -e '/ras-deploy\/tasks\/rasrm-acceptance-tests\/run_acceptance_tests.yml/,$p'|sed -e '/on_failure/,$d'|tail -n +3|sed -e 's/\"//g'|sed -e 's/\:\ /=/g'|sed -e 's/^[ \t]*//g'|pbcopy'`
+1. Copy the environment variables from the concourse pipeline `cat setenvs.sh|pbcopy'`
 1. Open run configuration for `run.py` by clicking Edit Configuration...
 1. Open the environment variables by clicking the ...
 1. Click the paste icon
