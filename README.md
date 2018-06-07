@@ -89,7 +89,7 @@ cloudfoundry app name of a service that has a dependency on the database.
 1. Run tests `pipenv run python run.py`
 
 Note. To run in pycharm you'll need to put the same environment variables in
-1. Copy the environment variables from the concourse pipeline `cat setenvs.sh|pbcopy'`
+1. Copy the environment variables from the concourse pipeline `cat setenvs.sh|awk '{ print $2 }'|pbcopy`
 1. Open run configuration for `run.py` by clicking Edit Configuration...
 1. Open the environment variables by clicking the ...
 1. Click the paste icon
