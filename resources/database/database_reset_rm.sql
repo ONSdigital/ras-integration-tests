@@ -18,6 +18,7 @@ ALTER SEQUENCE notifygatewaysvc.messageseq RESTART WITH 1;
 /* Remove test surveys (deemed to be any survey with survey ref > 999) */
 
 DELETE FROM survey.survey WHERE surveyref::text::int > 999;
+UPDATE survey.survey SET shortname = 'NBS', longname = 'National Balance Sheet' WHERE id = '7a2c9d6c-9aaf-4cf0-a68c-1d50b3f1b296' and surveyref = '199';
 
 /* Clean And Reset Collection Exercise DB */
 
@@ -25,12 +26,16 @@ TRUNCATE collectionexercise.sampleunit CASCADE;
 TRUNCATE collectionexercise.sampleunitgroup CASCADE;
 TRUNCATE collectionexercise.samplelink CASCADE;
 TRUNCATE collectionexercise.collectionexercise CASCADE;
+TRUNCATE collectionexercise.casetypedefault CASCADE;
+TRUNCATE collectionexercise.casetypeoverride CASCADE;
+TRUNCATE collectionexercise.collectionexercise CASCADE;
 
+
+ALTER SEQUENCE collectionexercise.casetypedefaultseq RESTART WITH 1;
+ALTER SEQUENCE collectionexercise.casetypeoverrideseq RESTART WITH 1;
 ALTER SEQUENCE collectionexercise.sampleunitgrouppkseq RESTART WITH 1;
 ALTER SEQUENCE collectionexercise.sampleunitpkseq RESTART WITH 1;
 ALTER SEQUENCE collectionexercise.samplelinkpkseq RESTART WITH 1;
-
-UPDATE survey.survey SET shortname = 'NBS', longname = 'National Balance Sheet' WHERE id = '7a2c9d6c-9aaf-4cf0-a68c-1d50b3f1b296' and surveyref = '199';
 
 /* Clean Case DB */
 
@@ -52,6 +57,7 @@ TRUNCATE action.action CASCADE;
 TRUNCATE action.actionplanjob CASCADE;
 TRUNCATE action.case CASCADE;
 TRUNCATE action.messagelog CASCADE;
+TRUNCATE action.actionplan CASCADE;
 TRUNCATE action.actionrule CASCADE;
 
 ALTER SEQUENCE action.actionpkseq RESTART WITH 1;
@@ -71,11 +77,3 @@ TRUNCATE actionexporter.report CASCADE;
 ALTER SEQUENCE actionexporter.actionrequestpkseq RESTART WITH 1;
 ALTER SEQUENCE actionexporter.contactpkseq RESTART WITH 1;
 ALTER SEQUENCE actionexporter.reportpkseq RESTART WITH 1;
-
-
-/* Notification Action Seed */
-
-SET SCHEMA 'action';
-
-INSERT INTO action.actionrule (id, actionrulepk, actionplanfk, actiontypefk, name, description, daysoffset, priority)
-VALUES ('7fa82e86-2b9d-45bc-9852-efa0397a4915', 1, 1, 1, 'BSNOT+0', 'Enrolment Invitation Letter(+0 days)', 0, 3);
