@@ -15,28 +15,10 @@ To override any environment variables you should export any variables before run
 ### Headless
 ```bash
 pipenv install --dev
-```
-
-First prepare the system for acceptance tests (this only needs to be run once)
-```bash
-make setup
-```
-Then run the acceptance tests
-```bash
-make acceptance_tests  # Will run the acceptance tests
-```
-
-
-### Phantom JS
-```bash
-npm install -g phantomjs-prebuilt
-export HEADLESS=phantomjs
-pipenv install --dev
 make test
 ```
 
-
-### Chrome
+### Not headless
 ```bash
 export HEADLESS=False  # or =True for Chrome in headless mode
 pipenv install --dev
@@ -55,6 +37,7 @@ make stop_services  # Bring down all the Docker services
 make test  # Will bring all the services up and run all the tests
 make TEST_TARGET=acceptance_tests/features/your.feature run_tests # Runs a single feature file WITHOUT 'make setup' first
 make TEST_TARGET=acceptance_tests/features/your.feature acceptance_tests # Runs a single feature file WITH 'make setup' first
+MAKE_TARGET: secure_messaging_acceptance_tests # Runs secure messaging tests
 ```
 
 
@@ -96,5 +79,10 @@ Note. To run in pycharm you'll need to put the same environment variables in
 
 ### Troubleshooting
 #### Failing tests
+##### Setup data
 The tests may be failing because you have teared down postgres recently
 1. Run `make setup` which will reload any data required for the tests
+##### Stale images
+If you've got an old image hanging around it could cause failures. There are two things to try
+1. Firstly run `make pull` within tmp_ras_rm_docker_dev and then re-run `make test`
+2. Secondly if that doesn't work run `docker kill $(docker ps -qa) ; docker rm $(docker ps -qa) ; docker rmi $(docker images -qa)` to delete all images and then re-run `make test`
