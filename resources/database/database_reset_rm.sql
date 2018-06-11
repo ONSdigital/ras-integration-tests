@@ -53,6 +53,7 @@ TRUNCATE action.actionplanjob CASCADE;
 TRUNCATE action.case CASCADE;
 TRUNCATE action.messagelog CASCADE;
 TRUNCATE action.actionrule CASCADE;
+TRUNCATE action.actionplan CASCADE;
 
 ALTER SEQUENCE action.actionpkseq RESTART WITH 1;
 ALTER SEQUENCE action.actionplanjobseq RESTART WITH 1;
@@ -71,11 +72,3 @@ TRUNCATE actionexporter.report CASCADE;
 ALTER SEQUENCE actionexporter.actionrequestpkseq RESTART WITH 1;
 ALTER SEQUENCE actionexporter.contactpkseq RESTART WITH 1;
 ALTER SEQUENCE actionexporter.reportpkseq RESTART WITH 1;
-
-
-/* Notification Action Seed */
-
-SET SCHEMA 'action';
-
-INSERT INTO action.actionrule (id, actionrulepk, actionplanfk, actiontypefk, name, description, daysoffset, priority)
-VALUES ('7fa82e86-2b9d-45bc-9852-efa0397a4915', 1, 1, 1, 'BSNOT+0', 'Enrolment Invitation Letter(+0 days)', 0, 3);
