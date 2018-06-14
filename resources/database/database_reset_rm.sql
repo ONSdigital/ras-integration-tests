@@ -28,7 +28,6 @@ TRUNCATE collectionexercise.samplelink CASCADE;
 TRUNCATE collectionexercise.collectionexercise CASCADE;
 TRUNCATE collectionexercise.casetypedefault CASCADE;
 TRUNCATE collectionexercise.casetypeoverride CASCADE;
-TRUNCATE collectionexercise.collectionexercise CASCADE;
 
 
 ALTER SEQUENCE collectionexercise.casetypedefaultseq RESTART WITH 1;
