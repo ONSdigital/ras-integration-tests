@@ -14,8 +14,8 @@ from controllers.party_controller import add_survey, get_party_by_email
 
 @given('a company with "{ru_ref}" has a separate trading name')
 def company_has_separate_trading_name_s01(_, ru_ref):
-    _add_survey_for_ru_to_respondent_suppress_exception('example@example.com', ru_ref,
-                                                        _get_last_QBS_collection_exercise_id())
+    ce_id = get_collection_exercise('cb8accda-6118-4d3b-85a3-149e28960c54', '201801')['id']
+    _add_survey_for_ru_to_respondent_suppress_exception('example@example.com', ru_ref, ce_id)
 
 
 @when('the respondent views a survey in To do')
@@ -36,7 +36,8 @@ def respondent_has_completed_survey(_):
     ru_ref = '49900000007'
     party_id = get_party_by_email('example@example.com')['id']
     wait_for_ru_specific_cases_to_update(party_id, ru_ref)
-    update_case_group_status(_get_last_QBS_collection_exercise_id(), ru_ref, 'COMPLETED_BY_PHONE')
+    ce_id = get_collection_exercise('cb8accda-6118-4d3b-85a3-149e28960c54', '201801')['id']
+    update_case_group_status(ce_id, ru_ref, 'COMPLETED_BY_PHONE')
 
     # Ensure respondent is signed in and navigate to history
     signed_in_respondent(_)
@@ -51,8 +52,8 @@ def trading_as_name_is_displayed_below_business_name_in_history(_):
 
 @given('a company does not have a separate "trading as" name')
 def company_does_not_have_trading_as_name(_):
-    _add_survey_for_ru_to_respondent_suppress_exception('example@example.com', '49900000008',
-                                                        _get_last_QBS_collection_exercise_id())
+    ce_id = get_collection_exercise('cb8accda-6118-4d3b-85a3-149e28960c54', '201801')['id']
+    _add_survey_for_ru_to_respondent_suppress_exception('example@example.com', '49900000008', ce_id)
 
 
 @then('the "trading as" field should not appear on the RU details page')

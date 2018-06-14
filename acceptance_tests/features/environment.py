@@ -58,6 +58,7 @@ def execute_collection_exercises():
     execute_collection_exercise('cb8accda-6118-4d3b-85a3-149e28960c54', '201801')
     execute_collection_exercise('cb8accda-6118-4d3b-85a3-149e28960c54', '201812')
     # QBS
+
     execute_collection_exercise('02b9c366-7397-42f7-942a-76dc5876d86d', '1809', ci_type='eQ')
 
     logger.info('Waiting for collection exercises to finish executing')
