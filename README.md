@@ -15,28 +15,10 @@ To override any environment variables you should export any variables before run
 ### Headless
 ```bash
 pipenv install --dev
-```
-
-First prepare the system for acceptance tests (this only needs to be run once)
-```bash
-make setup
-```
-Then run the acceptance tests
-```bash
-make acceptance_tests  # Will run the acceptance tests
-```
-
-
-### Phantom JS
-```bash
-npm install -g phantomjs-prebuilt
-export HEADLESS=phantomjs
-pipenv install --dev
 make test
 ```
 
-
-### Chrome
+### Not headless
 ```bash
 export HEADLESS=False  # or =True for Chrome in headless mode
 pipenv install --dev
@@ -55,6 +37,7 @@ make stop_services  # Bring down all the Docker services
 make test  # Will bring all the services up and run all the tests
 make TEST_TARGET=acceptance_tests/features/your.feature run_tests # Runs a single feature file WITHOUT 'make setup' first
 make TEST_TARGET=acceptance_tests/features/your.feature acceptance_tests # Runs a single feature file WITH 'make setup' first
+MAKE_TARGET: secure_messaging_acceptance_tests # Runs secure messaging tests
 ```
 
 
@@ -80,8 +63,8 @@ If any config is updated it also has to be updated in the Jenkinsfile
     export CLOUDFOUNDRY_SPACE=
     ```
 1. Get database environment variables `curl -fsSL  https://raw.githubusercontent.com/ONSdigital/ras-deploy/master/scripts/get_database_uris.sh |bash|sed -e 's/@.*:5432/@localhost:5432/g' > setenvs.sh`
-1. Get database URI `export DATABASE_NAME=$(cf apps | grep ras-collection-instrument-ci-migration | awk '{ print "cf env "$1 }' | bash | grep "postgres://" | awk -F \" '{ print $4 }' | sed 's!postgres://.*@\(.*\):.*!\1!')`
-1. Create an SSH tunnel to the database `cf ssh -L 5432:$DATABASE_NAME:5432 ras-collection-instrument-ci-migration`
+1. Get database URI `export DATABASE_NAME=$(cf apps | grep ras-collection-instrument-ci | awk '{ print "cf env "$1 }' | bash | grep "postgres://" | awk -F \" '{ print $4 }' | sed 's!postgres://.*@\(.*\):.*!\1!')`
+1. Create an SSH tunnel to the database `cf ssh -L 5432:$DATABASE_NAME:5432 ras-collection-instrument-ci`
 cloudfoundry app name of a service that has a dependency on the database.
 1. Set environment variables in shell `fly -t ons get-pipeline -p rasrm|sed -n '/- name: ci-rasrm-acceptance-tests/,/on_failure/p;/on_failure/q'|sed -n '/ras-deploy\/tasks\/rasrm-acceptance-tests\/run_acceptance_tests.yml/,$p'|sed -e '/on_failure/,$d'|tail -n +3|sed -e 's/\"//g'|sed -e 's/\:\ /=/g'|awk '{print "export "$1 }' >> setenvs.sh`
 1. Set database environment variables `source setenvs.sh`
@@ -89,12 +72,17 @@ cloudfoundry app name of a service that has a dependency on the database.
 1. Run tests `pipenv run python run.py`
 
 Note. To run in pycharm you'll need to put the same environment variables in
-1. Copy the environment variables from the concourse pipeline `cat setenvs.sh|pbcopy'`
+1. Copy the environment variables from the concourse pipeline `cat setenvs.sh|awk '{ print $2 }'|pbcopy`
 1. Open run configuration for `run.py` by clicking Edit Configuration...
 1. Open the environment variables by clicking the ...
 1. Click the paste icon
 
 ### Troubleshooting
 #### Failing tests
+##### Setup data
 The tests may be failing because you have teared down postgres recently
 1. Run `make setup` which will reload any data required for the tests
+##### Stale images
+If you've got an old image hanging around it could cause failures. There are two things to try
+1. Firstly run `make pull` within tmp_ras_rm_docker_dev and then re-run `make test`
+2. Secondly if that doesn't work run `docker kill $(docker ps -qa) ; docker rm $(docker ps -qa) ; docker rmi $(docker images -qa)` to delete all images and then re-run `make test`
