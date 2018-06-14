@@ -12,9 +12,9 @@ from controllers.collection_exercise_controller import get_collection_exercise
 from controllers.party_controller import add_survey, get_party_by_email
 
 
-@given('a company has a separate trading name (s01)')
-def company_has_separate_trading_name_s01(_):
-    _add_survey_for_ru_to_respondent_suppress_exception('example@example.com', '49900000006',
+@given('a company with "{ru_ref}" has a separate trading name')
+def company_has_separate_trading_name_s01(_, ru_ref):
+    _add_survey_for_ru_to_respondent_suppress_exception('example@example.com', ru_ref,
                                                         _get_last_QBS_collection_exercise_id())
 
 
@@ -27,12 +27,6 @@ def respondent_views_survey_in_todo(_):
 def trading_as_name_is_displayed_below_business_name_in_todo(_):
     assert 'BOLTS LTD' in browser.driver.find_element_by_id('REPORTING_UNIT_DETAILS_49900000006').text,\
         'could not find trading as name "BOLTS LTD" in respondent todo page'
-
-
-@given('a company has a separate trading name (s02)')
-def company_has_separate_trading_name_s02(_):
-    _add_survey_for_ru_to_respondent_suppress_exception('example@example.com', '49900000007',
-                                                        _get_last_QBS_collection_exercise_id())
 
 
 @when('the respondent has completed a survey which is now in their history')

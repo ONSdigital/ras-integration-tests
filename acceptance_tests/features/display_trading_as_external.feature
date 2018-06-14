@@ -8,13 +8,13 @@ Feature: Display "trading as" in To do and History
 
   @us110-displayTradingAsExternal_s01
   Scenario: "Trading As" name is displayed for each survey in "to do" page
-    Given a company has a separate trading name (s01)
+    Given a company with "49900000006" has a separate trading name
     When the respondent views a survey in To do
     Then the "trading as" name should be displayed below the business name for every survey
 
   @us110-displayTradingAsExternal_s02
   Scenario: "Trading As" name is displayed for each survey in "history" page
-    Given a company has a separate trading name (s02)
+    Given a company with "49900000007" has a separate trading name
     When the respondent has completed a survey which is now in their history
     Then the trading name should be displayed below the business name for every survey
 
