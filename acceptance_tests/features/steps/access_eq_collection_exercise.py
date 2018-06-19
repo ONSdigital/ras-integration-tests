@@ -1,22 +1,17 @@
 from behave import given, when, then
 
 from acceptance_tests import browser
-from acceptance_tests.features.pages import add_survey
+from config import Config
+from controllers import party_controller
+from acceptance_tests.features.environment import enrol_respondent
 from acceptance_tests.features.pages import surveys_todo
-from acceptance_tests.features.pages.add_survey import enter_enrolment_code, click_continue_button
-from acceptance_tests.features.pages.reporting_unit import get_unused_iac
-from acceptance_tests.features.steps.authentication import signed_in_internal
 
 
 @given('the respondent has a CE for an eQ available')
 def respondent_has_eq_ce_available(context):
-    # go_live event datetime is currently being hacked to an earlier date in qbs_1809_setup.sql script
-    signed_in_internal(context)
-    enrolment_code = get_unused_iac(49900000005, 'QBS')
-    assert enrolment_code
-    add_survey.go_to()
-    enter_enrolment_code(enrolment_code)
-    click_continue_button()
+    party_id = party_controller.get_party_by_email(Config.RESPONDENT_USERNAME)['id']
+    # Enrolling for QBS 1806
+    enrol_respondent(party_id, '02b9c366-7397-42f7-942a-76dc5876d86d', '1806')
 
 
 @when('the respondent accesses the eQ CE')
