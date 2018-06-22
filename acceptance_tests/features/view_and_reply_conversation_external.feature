@@ -1,3 +1,4 @@
+@secure_messaging
 Feature: External User Views a Conversation
   As an external User
   I need to be able to see all of the previous messages in a conversation

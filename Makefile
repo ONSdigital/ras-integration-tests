@@ -31,6 +31,7 @@ setup: clean
 #
 # If you want to run a single feature file WITH setup first use:
 # make TEST_TARGET=acceptance_tests/features/your.feature acceptance_tests
+BEHAVE_FORMAT = progress2
 
 system_tests: TEST_TARGET = system_tests/features  # This will only run the system tests
 system_tests: run_tests
@@ -39,6 +40,15 @@ acceptance_tests: TEST_TARGET = acceptance_tests/features  # This will only run 
 acceptance_tests: setup
 	pipenv run behave --format ${BEHAVE_FORMAT} ${TEST_TARGET}
 
-BEHAVE_FORMAT = progress2
+rasrm_acceptance_tests: TEST_TARGET = acceptance_tests/features
+rasrm_acceptance_tests: TEST_TAGS = ~@secure_messaging
+rasrm_acceptance_tests:
+	pipenv run behave --format ${BEHAVE_FORMAT} --tags ${TEST_TAGS} ${TEST_TARGET}
+
+secure_messaging_acceptance_tests: TEST_TARGET = acceptance_tests/features
+secure_messaging_acceptance_tests: TEST_TAGS = @secure_messaging
+secure_messaging_acceptance_tests:
+	pipenv run behave --format ${BEHAVE_FORMAT} --tags ${TEST_TAGS} ${TEST_TARGET}
+
 run_tests:
 	pipenv run behave --format ${BEHAVE_FORMAT} ${TEST_TARGET}

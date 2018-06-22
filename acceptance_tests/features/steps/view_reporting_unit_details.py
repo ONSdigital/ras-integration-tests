@@ -62,7 +62,6 @@ def internal_user_views_correct_reporting_unit_details(_):
 def internal_internal_user_presented_correct_associated_surveys(_):
     associated_surveys = reporting_unit.get_associated_surveys()
     assert '074 Bricks' in associated_surveys
-    assert '139 QBS' in associated_surveys
 
 
 @then('the internal user is presented with the associated collection exercises')

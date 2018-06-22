@@ -58,11 +58,13 @@ def execute_collection_exercises():
     execute_collection_exercise('cb8accda-6118-4d3b-85a3-149e28960c54', '201801')
     execute_collection_exercise('cb8accda-6118-4d3b-85a3-149e28960c54', '201812')
     # QBS
+    execute_collection_exercise('02b9c366-7397-42f7-942a-76dc5876d86d', '1806', ci_type='eQ')
     execute_collection_exercise('02b9c366-7397-42f7-942a-76dc5876d86d', '1809', ci_type='eQ')
 
     logger.info('Waiting for collection exercises to finish executing')
     poll_database_for_iac(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201801')
     poll_database_for_iac(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201812')
+    poll_database_for_iac(survey_id='02b9c366-7397-42f7-942a-76dc5876d86d', period='1806')
     poll_database_for_iac(survey_id='02b9c366-7397-42f7-942a-76dc5876d86d', period='1809')
     logger.info('Collection exercises have finished executing')
 

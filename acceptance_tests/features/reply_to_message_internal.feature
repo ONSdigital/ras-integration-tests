@@ -1,3 +1,4 @@
+@secure_messaging
 Feature: Reply to message internal
   As an internal user
   I need to be able to reply to a secure message

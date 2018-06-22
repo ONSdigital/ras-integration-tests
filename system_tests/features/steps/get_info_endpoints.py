@@ -44,11 +44,6 @@ def requests_django_endpoint_info(context):
     context.response = requests.get(Config.DJANGO_SERVICE + Config.INFO)
 
 
-@when('the system requests frontstage-api endpoint info')
-def requests_frontstage_api_endpoint_info(context):
-    context.response = requests.get(Config.FRONTSTAGE_API_SERVICE + Config.INFO)
-
-
 @when('the system requests frontstage endpoint info')
 def requests_frontstage_endpoint_info(context):
     context.response = requests.get(Config.FRONTSTAGE_SERVICE + Config.INFO)

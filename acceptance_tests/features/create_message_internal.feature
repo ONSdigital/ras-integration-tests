@@ -1,3 +1,4 @@
+@secure_messaging
 Feature: Internal user to send message
   As an internal ONS user
   I need to be able to send a secure message

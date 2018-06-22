@@ -42,7 +42,6 @@ def the_internal_user_can_view_all_collection_exercises_for_qbs(context):
                                                      collection_exercises))
         assert collection_exercises_by_period['exercise_ref'] == row['period']
         assert collection_exercises_by_period['user_description'] == row['shown_to_respondent_as']
-        assert collection_exercises_by_period['state'] == row['status']
 
 
 @then('there is at least one collection exercise')

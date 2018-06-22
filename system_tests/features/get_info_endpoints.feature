@@ -14,7 +14,6 @@ Feature: Get info endpoints
     |collection exercise |
     |collection instrument |
     |django |
-    |frontstage-api |
     |frontstage |
     |iac |
     |notify gateway |
