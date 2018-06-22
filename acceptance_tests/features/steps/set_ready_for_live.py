@@ -28,10 +28,11 @@ def prepare_collection_exercises(_, survey, period):
 
     if state == 'SCHEDULED':
         logger.info('Loading sample', survey=survey, period=period)
-        sample_controller.load_sample(survey, period, sample_file)
+        ce = collection_exercise_controller.get_collection_exercise(s_id, period)
+        sample_controller.upload_sample(ce['id'], sample_file)
 
         logger.info('Loading collection instrument', survey=survey, period=period)
-        ce = collection_exercise_controller.get_collection_exercise(s_id, period)
+
         # form type hard coded to 0001 for all ces to simplify testing
         collection_instrument_controller.upload_seft_collection_instrument(ce['id'], ci_path, '0001')
 

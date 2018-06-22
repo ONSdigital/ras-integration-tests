@@ -9,21 +9,21 @@ Feature: Create mandatory collection exercise event dates
   @us103_s01
   Scenario: Collection Exercise co-ordinator should be able to enter mandatory event dates per CE
     Given the internal user has created a new collection exercise for "MBS" and period "205001" with shown as "January 2050"
-    When there is no mandatory event dates scheduled for the ce for "205001"
-    Then The user must be able to input the mandatory event dates into the CE for a given survey
+    When there is no mandatory event dates scheduled for the ce for "MBS" "205001"
+    Then the user must be able to input the mandatory event dates into the CE "205001" for a given "MBS" survey
 
   @us103_s02
   Scenario: Collection Exercise co-ordinator attempts to enter invalid date
-    Given the internal user has chosen to enter a mandatory ce event date
-    When the user enters an invalid date
+    Given the internal user has chosen to enter a mandatory ce event date for "MBS" "205001"
+    When the user enters a date of "50" "January" "2020"
     And submits mandatory ce event date
     Then an error message should appear identifying invalid date entered
-    And invalid date should not appear on ce details page
+    And invalid date of "50" "January" "2020" should not appear on "MBS" "205001" collection exercise details page
 
   @us103_s03
   Scenario: Collection Exercise co-ordinator enters mandatory event date redirected to ce details page
-    Given the internal user has chosen to enter a mandatory ce event date
-    When the user enters a valid date
+    Given the internal user has chosen to enter a mandatory ce event date for "MBS" "205001"
+    When the user enters a date of "15" "July" "2020"
     And submits mandatory ce event date
     Then the user is redirected to the ce details page
-    And the new mandatory event date is displayed
+    And the new mandatory event date of "15" "July" "2020" is displayed

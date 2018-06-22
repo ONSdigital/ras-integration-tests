@@ -1,6 +1,8 @@
 from os.path import abspath
 import time
 
+from selenium.webdriver.support.ui import Select
+
 from acceptance_tests.features.pages import collection_exercise
 from acceptance_tests import browser
 from common.browser_utilities import is_text_present_with_retry
@@ -212,3 +214,18 @@ def get_remove_sample():
 
 def get_check_sample_contents():
     return browser.find_by_id('btn-check-sample-contents').text
+
+
+def select_add_mps_date():
+    browser.find_by_id("create-event-date-mps").click()
+
+
+def add_ce_event_date(day, month, year):
+    browser.find_by_id("day").send_keys(day)
+    select = Select(browser.find_by_id("month"))
+    select.select_by_visible_text(month)
+    browser.find_by_id("year").send_keys(year)
+
+
+def confirm_ce_event_date():
+    browser.find_by_id("submit").click()
