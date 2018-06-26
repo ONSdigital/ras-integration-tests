@@ -26,4 +26,4 @@ Feature: Create mandatory collection exercise event dates
     When the user enters a date of "15" "July" "2020"
     And submits mandatory ce event date
     Then the user is redirected to the ce details page
-    And the new mandatory event date of "15" "July" "2020" is displayed
+    And the new mandatory event date of "15" "2020" is displayed

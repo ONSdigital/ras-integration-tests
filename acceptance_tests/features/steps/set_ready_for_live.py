@@ -43,7 +43,7 @@ def prepare_collection_exercises(_, survey, period):
 def confirmed_ready(_, survey, period):
     collection_exercise_details.go_to(survey, period)
     collection_exercise_details.click_ready_for_live_and_confirm()
-    success_text = collection_exercise_details.get_execution_success()
+    success_text = collection_exercise_details.get_success_panel_text()
     assert success_text == 'Collection exercise executed'
 
 
@@ -68,7 +68,7 @@ def navigate_to_ce(_, survey, period):
 @when('they confirm that the collection exercise is ready to go live')
 def set_ready_for_live(_):
     collection_exercise_details.click_ready_for_live_and_confirm()
-    success_text = collection_exercise_details.get_execution_success()
+    success_text = collection_exercise_details.get_success_panel_text()
     assert success_text == 'Collection exercise executed'
 
 
