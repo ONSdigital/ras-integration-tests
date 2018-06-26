@@ -10,5 +10,5 @@ def select_eq_ci(_):
 
 @then('the collection instrument is added into the collection exercise')
 def eq_ci_linked_to_ce(_):
-    success_text = collection_exercise_details.get_collection_instrument_added_success_text()
+    success_text = collection_exercise_details.get_success_panel_text()
     assert success_text == 'Collection instruments added'

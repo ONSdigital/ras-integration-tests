@@ -18,7 +18,7 @@ def unselect_ci(_):
 
 @then('the loaded SEFT CI is removed')
 def ci_removed_successfully(_):
-    success_text = collection_exercise_details.get_collection_instrument_removed_success_text()
+    success_text = collection_exercise_details.get_success_panel_text()
     assert success_text == 'Collection instrument removed'
 
 

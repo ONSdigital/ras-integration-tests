@@ -1,6 +1,8 @@
 from os.path import abspath
 import time
 
+from selenium.webdriver.support.ui import Select
+
 from acceptance_tests.features.pages import collection_exercise
 from acceptance_tests import browser
 from common.browser_utilities import is_text_present_with_retry
@@ -56,6 +58,10 @@ def get_loaded_sample():
         return list(map(lambda td: td.value, tds))
 
 
+def get_success_panel_text():
+    return browser.driver.find_element_by_id("success-panel").text
+
+
 def get_collection_exercise_events():
     ce_events = {
         "mps": browser.find_by_name('mps-date').value,
@@ -89,10 +95,6 @@ def add_eq_ci():
 
 def get_collection_instrument_error_text():
     return browser.driver.find_element_by_id('ciFileErrorText').text
-
-
-def get_collection_instrument_success_text():
-    return browser.find_by_id('collection-instrument-success').text
 
 
 def get_collection_instrument_added_success_text():
@@ -212,3 +214,18 @@ def get_remove_sample():
 
 def get_check_sample_contents():
     return browser.find_by_id('btn-check-sample-contents').text
+
+
+def select_add_mps_date():
+    browser.find_by_id("create-event-date-mps").click()
+
+
+def add_ce_event_date(day, month, year):
+    browser.driver.find_element_by_id("day").send_keys(day)
+    select = Select(browser.driver.find_element_by_id("month"))
+    select.select_by_visible_text(month)
+    browser.driver.find_element_by_id("year").send_keys(year)
+
+
+def confirm_ce_event_date():
+    browser.find_by_id("submit").click()
