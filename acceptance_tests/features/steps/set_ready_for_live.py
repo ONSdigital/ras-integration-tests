@@ -29,7 +29,9 @@ def prepare_collection_exercises(_, survey, period):
     if state == 'SCHEDULED':
         logger.info('Loading sample', survey=survey, period=period)
         ce = collection_exercise_controller.get_collection_exercise(s_id, period)
-        sample_controller.upload_sample(ce['id'], sample_file)
+        sample_summary = sample_controller.upload_sample(ce['id'], sample_file)
+
+        collection_exercise_controller.link_sample_summary_to_collection_exercise(ce['id'], sample_summary['id'])
 
         logger.info('Loading collection instrument', survey=survey, period=period)
 
