@@ -6,7 +6,8 @@ from controllers.collection_exercise_controller import create_collection_exercis
 from controllers.survey_controller import get_survey_by_short_name
 
 
-@given('the internal user has created a new collection exercise for "{survey}" and period "{period}" with shown as "{shown_as}"')
+@given('the internal user has created a new collection exercise for '
+       '"{survey}" and period "{period}" with shown as "{shown_as}"')
 def create_ce(_, survey, period, shown_as):
     survey = get_survey_by_short_name(survey)
     create_collection_exercise(survey['id'], period, shown_as)
@@ -26,8 +27,10 @@ def assert_mandatory_dates_can_be_added(_, period, survey):
 
     assert browser.find_by_id("create-event-date-mps"), "Cannot add mps event date"
     assert browser.find_by_id("create-event-date-go-live"), "Cannot add go live event date"
-    assert browser.find_by_id("create-event-date-return-by"), "Cannot add return by event date"
-    assert browser.find_by_id("create-event-date-exercise-end"), "Cannot add exercise end event date"
+    assert browser.find_by_id("create-event-date-return-by"), \
+        "Cannot add return by event date"
+    assert browser.find_by_id("create-event-date-exercise-end"), \
+        "Cannot add exercise end event date"
 
 
 @given('the internal user has chosen to enter a mandatory ce event date for "{survey}" "{period}"')
@@ -51,7 +54,8 @@ def assert_error_message_for_invalid_date(_):
     assert browser.find_by_id("error-saving-message")
 
 
-@then('invalid date of "{day}" "{month}" "{year}" should not appear on "{survey}" "{period}" collection exercise details page')
+@then('invalid date of "{day}" "{month}" "{year}" should not appear on "{survey}"'
+      ' "{period}" collection exercise details page')
 def check_invalid_event_date_not_persisted(_, day, month, year, survey, period):
     collection_exercise_details.go_to(survey, period)
 
