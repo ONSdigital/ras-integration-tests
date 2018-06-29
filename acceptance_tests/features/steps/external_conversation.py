@@ -2,6 +2,8 @@ from behave import given, when, then
 
 from acceptance_tests import browser
 from acceptance_tests.features.pages import external_conversation
+from config import Config
+from controllers import database_controller
 
 
 @given('the external user has conversations in their list')
@@ -12,7 +14,8 @@ def external_user_has_two_conversations(_):
 
 @given('the external user has no conversations to view')
 def no_conversations_to_view(_):
-    pass
+    database_controller.execute_sql('resources/database/database_reset_secure_message.sql',
+                                    database_uri=Config.SECURE_MESSAGE_DATABASE_URI)
 
 
 @given('they receive a message body with over 80 characters')
