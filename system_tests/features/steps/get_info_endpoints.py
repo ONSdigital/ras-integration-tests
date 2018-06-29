@@ -78,6 +78,7 @@ def requests_secure_message_endpoint_info(context):
 def requests_survey_endpoint_info(context):
     context.response = requests.get(Config.SURVEY_SERVICE + Config.INFO)
 
+
 @then('a success status code (200) is returned')
 def success_returned(context):
     assert context.response.status_code == 200, context.response.status_code
