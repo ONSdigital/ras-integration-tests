@@ -38,7 +38,7 @@ system_tests: run_tests
 
 acceptance_tests: TEST_TARGET = acceptance_tests/features  # This will only run the acceptance tests
 acceptance_tests: setup
-	pipenv run behave --format ${BEHAVE_FORMAT} ${TEST_TARGET}
+	pipenv run behave --stop --format ${BEHAVE_FORMAT} ${TEST_TARGET}
 
 rasrm_acceptance_tests: TEST_TARGET = acceptance_tests/features
 rasrm_acceptance_tests: TEST_TAGS = ~@secure_messaging

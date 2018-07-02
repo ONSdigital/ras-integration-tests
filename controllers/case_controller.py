@@ -1,5 +1,4 @@
 import logging
-import time
 
 import requests
 from structlog import wrap_logger
