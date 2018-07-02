@@ -28,10 +28,13 @@ def prepare_collection_exercises(_, survey, period):
 
     if state == 'SCHEDULED':
         logger.info('Loading sample', survey=survey, period=period)
-        sample_controller.load_sample(survey, period, sample_file)
+        ce = collection_exercise_controller.get_collection_exercise(s_id, period)
+        sample_summary = sample_controller.upload_sample(ce['id'], sample_file)
+
+        collection_exercise_controller.link_sample_summary_to_collection_exercise(ce['id'], sample_summary['id'])
 
         logger.info('Loading collection instrument', survey=survey, period=period)
-        ce = collection_exercise_controller.get_collection_exercise(s_id, period)
+
         # form type hard coded to 0001 for all ces to simplify testing
         collection_instrument_controller.upload_seft_collection_instrument(ce['id'], ci_path, '0001')
 
@@ -42,7 +45,7 @@ def prepare_collection_exercises(_, survey, period):
 def confirmed_ready(_, survey, period):
     collection_exercise_details.go_to(survey, period)
     collection_exercise_details.click_ready_for_live_and_confirm()
-    success_text = collection_exercise_details.get_execution_success()
+    success_text = collection_exercise_details.get_success_panel_text()
     assert success_text == 'Collection exercise executed'
 
 
@@ -67,7 +70,7 @@ def navigate_to_ce(_, survey, period):
 @when('they confirm that the collection exercise is ready to go live')
 def set_ready_for_live(_):
     collection_exercise_details.click_ready_for_live_and_confirm()
-    success_text = collection_exercise_details.get_execution_success()
+    success_text = collection_exercise_details.get_success_panel_text()
     assert success_text == 'Collection exercise executed'
 
 

@@ -1,7 +1,7 @@
 import requests
 
 from config import Config
-from behave import given, when
+from behave import given, when, then
 
 
 @given('services are running')
@@ -17,11 +17,6 @@ def requests_action_endpoint_info(context):
 @when('the system requests action exporter endpoint info')
 def requests_action_exporter_endpoint_info(context):
     context.response = requests.get(Config.ACTION_EXPORTER_SERVICE + Config.INFO)
-
-
-@when('the system requests backstage endpoint info')
-def requests_backstage_endpoint_info(context):
-    context.response = requests.get(Config.BACKSTAGE_SERVICE + Config.INFO)
 
 
 @when('the system requests case endpoint info')
@@ -82,3 +77,8 @@ def requests_secure_message_endpoint_info(context):
 @when('the system requests survey endpoint info')
 def requests_survey_endpoint_info(context):
     context.response = requests.get(Config.SURVEY_SERVICE + Config.INFO)
+
+
+@then('a success status code (200) is returned')
+def success_returned(context):
+    assert context.response.status_code == 200, context.response.status_code

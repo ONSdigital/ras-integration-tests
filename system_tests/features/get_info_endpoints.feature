@@ -9,7 +9,6 @@ Feature: Get info endpoints
     |service |
     |action  |
     |action exporter |
-    |backstage |
     |case |
     |collection exercise |
     |collection instrument |
