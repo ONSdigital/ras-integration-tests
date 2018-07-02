@@ -107,10 +107,10 @@ def register_respondent(survey_id, period, username, ru_ref=None, wait_for_case=
     collection_exercise_id = collection_exercise_controller.get_collection_exercise(survey_id, period)['id']
     if ru_ref:
         business_party = party_controller.get_party_by_ru_ref(ru_ref)
-        b_case = case_controller.get_earliest_b_case(collection_exercise_id, business_party['id'])
+        b_case = case_controller.get_b_case(collection_exercise_id, business_party['id'])
         is_iac_active = iac_controller.get_iac(b_case['iac'])['active']
         if not is_iac_active:
-            enrolment_code = case_controller.generate_new_enrolment_code(collection_exercise_id, business_party['id'])
+            enrolment_code = case_controller.generate_new_enrolment_code(b_case['id'], business_party['id'])
         else:
             enrolment_code = b_case['iac']
     else:

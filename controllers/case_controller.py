@@ -36,8 +36,8 @@ def post_case_event(case_id, party_id, category, description):
     return response.json()
 
 
-def get_earliest_b_case(collection_exercise_id, business_id):
-    logger.debug('Retrieving earliest B case',
+def get_b_case(collection_exercise_id, business_id):
+    logger.debug('Retrieving B case',
                  business_id=business_id, collection_exercise_id=collection_exercise_id)
 
     casegroups = get_casegroups_by_party_id(business_id)
@@ -48,25 +48,22 @@ def get_earliest_b_case(collection_exercise_id, business_id):
     b_case = next(case
                   for case in cases
                   if case['sampleUnitType'] == 'B')
-    logger.debug('Successfully retrieved earliest B case',
+    logger.debug('Successfully retrieved B case',
                  collection_exercise_id=collection_exercise_id, business_id=business_id)
     return b_case
 
 
-def generate_new_enrolment_code(collection_exercise_id, business_id):
-    logger.debug('Generating new enrolment code',
-                 business_id=business_id, collection_exercise_id=collection_exercise_id)
-
-    b_case = get_earliest_b_case(collection_exercise_id, business_id)
-    post_case_event(b_case['id'],
+def generate_new_enrolment_code(case_id, business_id):
+    logger.debug('Generating new enrolment code', case_id=case_id, business_id=business_id)
+    post_case_event(case_id,
                     business_id,
                     'GENERATE_ENROLMENT_CODE',
                     'Generate new enrolment code')
 
     # After posting the case event we also need to retrieve that case again to get the iac
-    updated_case = get_case_by_id(b_case['id'])
+    updated_case = get_case_by_id(case_id)
     logger.debug('Successfully generated new enrolment code',
-                 business_id=business_id, collection_exercise_id=collection_exercise_id)
+                 case_id=case_id, business_id=business_id)
     return updated_case['iac']
 
 
