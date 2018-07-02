@@ -110,7 +110,7 @@ def register_respondent(survey_id, period, username, ru_ref=None, wait_for_case=
         enrolment_code = database_controller.get_iac_for_collection_exercise_and_business(collection_exercise_id,
                                                                                           business_party['id'])
         if not enrolment_code:
-            enrolment_code = case_controller.generate_new_enrolment_code(collection_exercise_id, ru_ref).get('iac')
+            enrolment_code = case_controller.generate_new_enrolment_code(collection_exercise_id, business_party['id'])
     else:
         enrolment_code = database_controller.get_iac_for_collection_exercise(collection_exercise_id)
     respondent_party = party_controller.register_respondent(email_address=username,
