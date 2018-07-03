@@ -64,6 +64,11 @@ def requests_response_operations_ui_endpoint_info(context):
     context.response = requests.get(Config.RESPONSE_OPERATIONS_UI + Config.INFO)
 
 
+@when('the system requests respondent home ui endpoint info')
+def requests_response_operations_ui_endpoint_info(context):
+    context.response = requests.get(Config.RESPONDENT_HOME_UI + Config.INFO)
+
+
 @when('the system requests sample endpoint info')
 def requests_sample_endpoint_info(context):
     context.response = requests.get(Config.SAMPLE_SERVICE + Config.INFO)

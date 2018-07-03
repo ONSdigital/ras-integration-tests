@@ -18,6 +18,7 @@ Feature: Get info endpoints
     |notify gateway |
     |party |
     |response operations ui |
+    |respondent home ui |
     |sample |
     |secure message |
     |survey |
