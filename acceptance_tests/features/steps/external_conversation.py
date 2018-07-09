@@ -37,7 +37,7 @@ def test_conversation_available(_):
 
 @then('they are informed that there are no external conversations')
 def informed_of_no_messages(_):
-    assert external_conversation.get_no_messages_text().text == 'No new messages'
+    assert external_conversation.get_no_messages_text()
 
 
 @then('they are able to preview the first 80 characters (respecting word boundaries) of the latest message in the conversation')  # NOQA

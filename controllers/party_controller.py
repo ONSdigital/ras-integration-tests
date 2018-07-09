@@ -1,4 +1,3 @@
-import json
 import logging
 
 import requests
@@ -29,7 +28,7 @@ def register_respondent(email_address, first_name, last_name, password, phone_nu
         logger.error('Failed to register respondent', status=response.status_code)
         raise Exception('Failed to register respondent')
 
-    return json.loads(response.text)
+    return response.json()
 
 
 def get_respondent_details(respondent_id):

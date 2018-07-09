@@ -7,7 +7,7 @@ from structlog import wrap_logger
 from acceptance_tests import browser
 from config import Config
 from controllers import case_controller, collection_exercise_controller, database_controller, \
-    django_oauth_controller, party_controller, sample_controller
+    django_oauth_controller, iac_controller, party_controller, sample_controller
 from controllers.collection_instrument_controller import get_collection_instruments_by_classifier, \
     link_collection_instrument_to_exercise, upload_seft_collection_instrument
 
@@ -107,10 +107,12 @@ def register_respondent(survey_id, period, username, ru_ref=None, wait_for_case=
     collection_exercise_id = collection_exercise_controller.get_collection_exercise(survey_id, period)['id']
     if ru_ref:
         business_party = party_controller.get_party_by_ru_ref(ru_ref)
-        enrolment_code = database_controller.get_iac_for_collection_exercise_and_business(collection_exercise_id,
-                                                                                          business_party['id'])
-        if not enrolment_code:
-            enrolment_code = case_controller.generate_new_enrolment_code(collection_exercise_id, ru_ref).get('iac')
+        b_case = case_controller.get_b_case(collection_exercise_id, business_party['id'])
+        is_iac_active = iac_controller.get_iac(b_case['iac'])['active']
+        if not is_iac_active:
+            enrolment_code = case_controller.generate_new_enrolment_code(b_case['id'], business_party['id'])
+        else:
+            enrolment_code = b_case['iac']
     else:
         enrolment_code = database_controller.get_iac_for_collection_exercise(collection_exercise_id)
     respondent_party = party_controller.register_respondent(email_address=username,

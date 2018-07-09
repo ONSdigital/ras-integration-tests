@@ -7,9 +7,9 @@ from acceptance_tests.features.environment import wait_for_ru_specific_cases_to_
 from acceptance_tests.features.pages.surveys_history import go_to_history_tab
 from acceptance_tests.features.pages.surveys_todo import go_to as go_to_todo
 from acceptance_tests.features.steps.authentication import signed_in_respondent
-from controllers.case_controller import generate_new_enrolment_code, update_case_group_status
+from controllers.case_controller import get_b_case, generate_new_enrolment_code, update_case_group_status
 from controllers.collection_exercise_controller import get_collection_exercise
-from controllers.party_controller import add_survey, get_party_by_email
+from controllers.party_controller import add_survey, get_party_by_email, get_party_by_ru_ref
 
 
 @given('a company with "{ru_ref}" has a separate trading name')
@@ -67,7 +67,9 @@ def _get_last_QBS_collection_exercise_id():
 
 
 def _add_survey_for_ru_to_respondent_suppress_exception(respondent_email, ru_ref, collection_exercise_id):
-    enrolment_code = generate_new_enrolment_code(collection_exercise_id, ru_ref)['iac']
+    business_id = get_party_by_ru_ref(ru_ref)['id']
+    b_case = get_b_case(collection_exercise_id, business_id)
+    enrolment_code = generate_new_enrolment_code(b_case['id'], business_id)
 
     # Suppress exception in case the survey has already been added
     with suppress(Exception):
