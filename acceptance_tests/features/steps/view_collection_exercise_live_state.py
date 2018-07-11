@@ -27,6 +27,7 @@ def create_execute_new_exercise(context, period):
 @given('the user has confirmed that "{survey}" "{period}" is Ready for Live')
 def internal_user_views_ready_for_live(_, survey, period):
     collection_exercise_details.go_to(survey, period)
+    is_text_present_with_retry('Ready for live', 10)
     ce_state = collection_exercise_details.get_status()
     assert collection_exercise.is_ready_for_live(ce_state), ce_state
 

@@ -33,6 +33,7 @@ def select_sample(sample_file_path):
 
 def load_sample(sample_file_path):
     select_sample(sample_file_path)
+    browser.is_element_visible_by_css('#btn-load-sample', 3)
     browser.find_by_id('btn-load-sample').click()
 
 
