@@ -76,6 +76,12 @@ class Config(object):
     SECURITY_USER_PASSWORD = os.getenv('SECURITY_USER_PASSWORD', 'secret')
     BASIC_AUTH = (SECURITY_USER_NAME, SECURITY_USER_PASSWORD)
 
+    SFTP_HOST = os.getenv('SFTP_HOST', 'localhost')
+    SFTP_PORT = os.getenv('SFTP_PORT', '122')
+    SFTP_USERNAME = os.getenv('SFTP_USERNAME', 'centos')
+    SFTP_PASSWORD = os.getenv('SFTP_PASSWORD', 'JLibV2&XD,')
+    SFTP_DIR = os.getenv('SFTP_DIR', 'Documents/sftp')
+
     OAUTH_CLIENT_ID = os.getenv('OAUTH_CLIENT_ID', 'ons@ons.gov')
     OAUTH_CLIENT_SECRET = os.getenv('OAUTH_CLIENT_SECRET', 'password')
 
