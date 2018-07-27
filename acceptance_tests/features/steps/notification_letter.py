@@ -3,6 +3,7 @@ from time import sleep
 
 import paramiko
 from behave import given, when, then
+from retrying import retry
 
 from acceptance_tests.features.environment import poll_database_for_iac
 from config import Config
@@ -31,24 +32,27 @@ def survey_is_live(context):
 
 @then('the reporting unit will receive a letter')
 def letter_is_received(context):
-    content, time = get_latest_file()
-    while datetime.fromtimestamp(time) < context.start:
-        content, time = get_latest_file()
-        sleep(5)
+    content = get_file_after_time(context.start)
     assert context.iac_code in content, content
 
 
-def get_latest_file():
+def get_file_after_time(start_of_test):
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     ssh.connect(hostname=Config.SFTP_HOST,
                 port=int(Config.SFTP_PORT),
                 username=Config.SFTP_USERNAME,
                 password=Config.SFTP_PASSWORD)
-    client = ssh.open_sftp()
+    with ssh.open_sftp() as client:
+        return retrying_get_file_after_time(client, start_of_test)
+
+
+@retry(retry_on_result=lambda r: not r, wait_fixed=1000, stop_max_delay=60000)
+def retrying_get_file_after_time(client, start_of_test):
     files = client.listdir_attr(Config.SFTP_DIR)
     files = sorted(files, key=lambda f: f.st_mtime, reverse=True)
-    latest_file = client.open(f'{Config.SFTP_DIR}/{files[0].filename}')
-    content = str(latest_file.read())
-    client.close()
-    return content, files[0].st_mtime
+    latest_file_attributes = files[0]
+    with client.open(f'{Config.SFTP_DIR}/{latest_file_attributes.filename}') as latest_file:
+        content = str(latest_file.read()) if datetime.fromtimestamp(
+            latest_file_attributes.st_mtime) > start_of_test else None
+        return content

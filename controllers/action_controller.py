@@ -12,6 +12,8 @@ def create_action_rule(survey_name, period):
     logger.debug('Finding action plan', survey_name=survey_name, period=period)
     url = f'{Config.ACTION_SERVICE}/actionplans'
     response = requests.get(url, auth=Config.BASIC_AUTH)
+    response.raise_for_status()
+
     action_plan_id = [action_plan['id'] for action_plan in response.json() if
                       f'{survey_name} B {period}' in action_plan['name']][0]
     logger.debug('Creating action rule', survey_name=survey_name, period=period)
@@ -25,11 +27,5 @@ def create_action_rule(survey_name, period):
         'priority': 3
     }
     response = requests.post(url, auth=Config.BASIC_AUTH, json=json)
-
-    try:
-        response.raise_for_status()
-    except requests.exceptions.HTTPError:
-        logger.exception('Failed to create action rule', survey_name=survey_name, period=period)
-        raise
-
+    response.raise_for_status()
     logger.debug('Successfully created action rule', survey_name=survey_name, period=period)
