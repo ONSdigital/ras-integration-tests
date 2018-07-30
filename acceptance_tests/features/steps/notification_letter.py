@@ -1,5 +1,4 @@
 from datetime import timedelta, datetime
-from time import sleep
 
 import paramiko
 from behave import given, when, then
@@ -47,7 +46,7 @@ def get_file_after_time(start_of_test):
         return retrying_get_file_after_time(client, start_of_test)
 
 
-@retry(retry_on_result=lambda r: not r, wait_fixed=1000, stop_max_delay=60000)
+@retry(retry_on_result=lambda r: not r, wait_fixed=1000, stop_max_delay=120000)
 def retrying_get_file_after_time(client, start_of_test):
     files = client.listdir_attr(Config.SFTP_DIR)
     files = sorted(files, key=lambda f: f.st_mtime, reverse=True)
