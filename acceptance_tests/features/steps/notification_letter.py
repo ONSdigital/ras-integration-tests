@@ -50,6 +50,9 @@ def get_file_after_time(start_of_test):
 def retrying_get_file_after_time(client, start_of_test):
     files = client.listdir_attr(Config.SFTP_DIR)
     files = sorted(files, key=lambda f: f.st_mtime, reverse=True)
+    if not files:
+        return None
+
     latest_file_attributes = files[0]
     with client.open(f'{Config.SFTP_DIR}/{latest_file_attributes.filename}') as latest_file:
         content = str(latest_file.read()) if datetime.fromtimestamp(
