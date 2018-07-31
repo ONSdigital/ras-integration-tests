@@ -1,12 +1,16 @@
+import logging
 from datetime import timedelta, datetime
 
 import paramiko
 from behave import given, when, then
 from retrying import retry
+from structlog import wrap_logger
 
 from acceptance_tests.features.environment import poll_database_for_iac
 from config import Config
 from controllers.collection_exercise_controller import create_and_execute_collection_exercise
+
+logger = wrap_logger(logging.getLogger(__name__))
 
 
 @given('a reporting unit has been enrolled in a survey')
@@ -36,6 +40,7 @@ def letter_is_received(context):
 
 
 def get_file_after_time(start_of_test):
+    logger.info('Connecting to SFTP')
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     ssh.connect(hostname=Config.SFTP_HOST,
@@ -48,6 +53,7 @@ def get_file_after_time(start_of_test):
 
 @retry(retry_on_result=lambda r: not r, wait_fixed=1000, stop_max_delay=120000)
 def retrying_get_file_after_time(client, start_of_test):
+    logger.info('Loading file from SFTP')
     files = client.listdir_attr(Config.SFTP_DIR)
     files = sorted(files, key=lambda f: f.st_mtime, reverse=True)
     if not files:
