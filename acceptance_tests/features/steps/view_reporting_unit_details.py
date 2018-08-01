@@ -13,8 +13,8 @@ from controllers.party_controller import get_party_by_ru_ref, get_respondent_det
 logger = wrap_logger(getLogger(__name__))
 
 
-@given('the reporting unit 49900000001 is in the system')
-def reporting_unit_49900000001_is_in_the_system(_):
+@given('the reporting unit {ru_ref} is in the system')
+def reporting_unit_is_in_the_system(_, ru_ref):
     pass
 
 
@@ -41,9 +41,9 @@ def internal_user_is_on_reporting_unit_page(_):
     reporting_unit.go_to('49900000003')
 
 
-@when('the internal user views the 49900000001 reporting unit page')
-def internal_user_views_the_reporting_unit_page(_):
-    reporting_unit.go_to('49900000001')
+@when('the internal user views the {ru_ref} reporting unit page')
+def internal_user_views_the_reporting_unit_page(_, ru_ref):
+    reporting_unit.go_to(ru_ref)
 
 
 @when('the internal user opens the Bricks data panel')
@@ -96,3 +96,15 @@ def internal_internal_user_presented_correct_associated_respondents(_):
 def status_is_displayed_back_the_internal_user(_):
     associated_ces = reporting_unit.get_associated_collection_exercises('Bricks')
     assert 'Completed by phone' in associated_ces[0]['status']
+
+
+@then('the "trading as" name should be displayed on the RU details')
+def trading_as_name_is_displayed(_):
+    assert 'PC LTD' in browser.driver.find_element_by_id('RU_DETAILS').text,\
+        'Could not find trading as name "PC LTD" in respondent details page'
+
+
+@then('the "trading as" name should not appear on the RU details')
+def trading_as_name_does_not_appear(_):
+    assert 'Trading as:' not in browser.driver.find_element_by_id('RU_DETAILS').text,\
+        '"Trading as" is displayed when the business has no trading name'
