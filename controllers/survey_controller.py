@@ -21,3 +21,47 @@ def get_survey_by_short_name(short_name):
 
     logger.debug("Successfully found survey", short_name=short_name)
     return response.json()
+
+
+def create_survey(survey_ref, short_name, long_name, legal_basis):
+    logger.info('Creating new survey',
+                survey_ref=survey_ref, short_name=short_name,
+                long_name=long_name, legal_basis=legal_basis)
+
+    url = f'{Config.SURVEY_SERVICE}/surveys'
+
+    survey_details = {
+        "surveyRef": survey_ref,
+        "longName": long_name,
+        "shortName": short_name,
+        "legalBasisRef": legal_basis,
+        "surveyType": "Business"
+    }
+
+    response = requests.post(url, json=survey_details, auth=Config.BASIC_AUTH)
+
+    response.raise_for_status()
+
+    logger.info("Successfully created survey", short_name=short_name)
+
+    return response.json()
+
+
+def create_classifiers(survey_id):
+    logger.info('Creating classifiers',
+                survey_id=survey_id)
+
+    url = f'{Config.SURVEY_SERVICE}/surveys/{survey_id}/classifiers'
+
+    classifier_details = {
+        "name": 'COLLECTION_INSTRUMENT' ,
+        "classifierTypes": ['COLLECTION_EXERCISE']
+    }
+
+    response = requests.post(url, json=classifier_details, auth=Config.BASIC_AUTH)
+
+    response.raise_for_status()
+
+    logger.info("Successfully created classifier", survey_id=survey_id)
+
+    return response.json()

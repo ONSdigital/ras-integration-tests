@@ -17,3 +17,7 @@ def verify_messages_link_present():
         return True
     else:
         return False
+
+
+def go_to_external_home():
+    browser.visit(Config.FRONTSTAGE_SERVICE + '/sign-in')

@@ -7,9 +7,8 @@ from structlog import wrap_logger
 
 from acceptance_tests.features.environment import poll_database_for_iac
 from config import Config
-from controllers import collection_instrument_controller as ci_controller,\
+from controllers import collection_instrument_controller as ci_controller, \
     sample_controller
-
 
 logger = wrap_logger(logging.getLogger(__name__))
 
@@ -85,8 +84,7 @@ def get_events_for_collection_exercise(survey_id, period, event_tag=None):
     return response.json()
 
 
-def post_event_to_collection_exercise(survey_id, period, event_tag, date_str):
-    collection_exercise_id = get_collection_exercise(survey_id, period)['id']
+def post_event_to_collection_exercise(collection_exercise_id, event_tag, date_str):
     logger.debug('Adding a collection exercise event',
                  collection_exercise_id=collection_exercise_id, event_tag=event_tag)
 
@@ -151,12 +149,15 @@ def create_collection_exercise(survey_id, period, user_description):
 def create_and_execute_collection_exercise(survey_id, period, user_description, dates):
     create_collection_exercise(survey_id, period, user_description)
     collection_exercise = get_collection_exercise(survey_id, period)
-    post_event_to_collection_exercise(survey_id, period, 'mps', convert_datetime_for_event(dates['mps']))
-    post_event_to_collection_exercise(survey_id, period, 'go_live',
+    collection_exercise_id = collection_exercise['id']
+
+    post_event_to_collection_exercise(collection_exercise_id, 'mps',
+                                      convert_datetime_for_event(dates['mps']))
+    post_event_to_collection_exercise(collection_exercise_id, 'go_live',
                                       convert_datetime_for_event(dates['go_live']))
-    post_event_to_collection_exercise(survey_id, period, 'return_by',
+    post_event_to_collection_exercise(collection_exercise_id, 'return_by',
                                       convert_datetime_for_event(dates['return_by']))
-    post_event_to_collection_exercise(survey_id, period, 'exercise_end',
+    post_event_to_collection_exercise(collection_exercise_id, 'exercise_end',
                                       convert_datetime_for_event(dates['exercise_end']))
     sample_summary = sample_controller.upload_sample(collection_exercise['id'],
                                                      'resources/sample_files/business-survey-sample-date.csv')
@@ -165,7 +166,9 @@ def create_and_execute_collection_exercise(survey_id, period, user_description, 
                                                     'resources/collection_instrument_files/064_201803_0001.xlsx')
     time.sleep(5)
     execute_collection_exercise(survey_id, period)
-    poll_database_for_iac(survey_id, period)
+    iac = poll_database_for_iac(survey_id, period)
+
+    return iac
 
 
 def convert_datetime_for_event(date_time):
