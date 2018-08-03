@@ -18,6 +18,8 @@ retrying = "*"
 pyjwt = "*"
 paramiko = "*"
 "psycopg2-binary" = "*"
+pytz = "*"
+tzlocal = "*"
 
 [requires]
 python_version = "3.6"
