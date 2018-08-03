@@ -9,6 +9,7 @@ from controllers.survey_controller import create_survey, create_classifiers
 
 logger = wrap_logger(getLogger(__name__))
 
+
 def generate_new_iac_code(context):
     """Generates and returns a unique iac code."""
 

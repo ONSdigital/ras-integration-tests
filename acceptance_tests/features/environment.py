@@ -96,11 +96,13 @@ def poll_database_for_iac(survey_id, period):
                 survey_id=survey_id, period=period)
     collection_exercise_id = collection_exercise_controller.get_collection_exercise(survey_id, period)['id']
     while True:
-        if database_controller.get_iac_for_collection_exercise(collection_exercise_id):
+        iac = database_controller.get_iac_for_collection_exercise(collection_exercise_id)
+        if iac:
             logger.info('Collection exercise finished executing', survey_id=survey_id, period=period)
             break
         time.sleep(5)
 
+    return iac
 
 def register_respondent(survey_id, period, username, ru_ref=None, wait_for_case=False):
     logger.info('Registering respondent', survey_id=survey_id, period=period, ru_ref=ru_ref)
