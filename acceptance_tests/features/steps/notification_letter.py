@@ -61,6 +61,5 @@ def retrying_get_file_after_time(client, start_of_test):
 
     latest_file_attributes = files[0]
     with client.open(f'{Config.SFTP_DIR}/{latest_file_attributes.filename}') as latest_file:
-        content = str(latest_file.read()) if datetime.fromtimestamp(
+        return str(latest_file.read()) if datetime.fromtimestamp(
             latest_file_attributes.st_mtime) > start_of_test else None
-        return content
