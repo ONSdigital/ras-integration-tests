@@ -1,15 +1,17 @@
-Feature: As an internal user
+Feature: As an respondent user
   I need to enrol in a survey
 
-  Background: Internal user has received an enrolment code
-    Given the internal user has received an enrolment code
+  Background: Respondent user has received an enrolment code
+    Given the respondent is ready to enrol in a survey
 
-  # todo WIP - Wording subject to BA approval
+  @ade
+  Scenario: Frontstage can see the survey they are enrolling in
+    Given a respondent has got their enrolment code
+    When they enter their enrolment code
+    Then they confirm the survey and organisation details
 
-  @ade  #todo remove?
-  Scenario: Internal user enrols in a survey
-    When the internal user views the survey enrolment page
-    And enters an enrolment code
-    Then confirms the correct survey is selected
-    And completes the account details page
-    Then the internal user can see they have successfully enrolled in a survey
+  Scenario: Frontstage user can create an account
+    Given a respondent has entered their enrolment code
+    And they confirm the survey and organisation details
+    When they enter their account details
+    Then they are sent a verification email

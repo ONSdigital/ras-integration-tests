@@ -11,24 +11,25 @@ from common.enrolment_helper import generate_new_iac_code
 logger = wrap_logger(getLogger(__name__))
 
 
-@given('the internal user has received an enrolment code')
-def generate_enrolment_code(context):
-    context.iac = generate_new_iac_code(context)
-
-
-@when('the internal user views the survey enrolment page')
-def go_to_create_an_account_page(_):
+@given("the respondent is ready to enrol in a survey")
+def ready_to_enrol_in_survey(context):
     home.go_to_external_home()
     browser.find_by_id('create-account').click()
 
 
-@when('enters an enrolment code')
-def enters_enrolment_code(context):
+@given("a respondent has got their enrolment code")
+def generate_enrolment_code(context):
+    context.iac = generate_new_iac_code(context)
+
+
+@when('they enter their enrolment code')
+def enter_enrolment_code(context):
     browser.driver.find_element_by_id('enrolment_code').send_keys(context.iac)
     browser.find_by_id('CONTINUE_BUTTON').click()
 
 
-@then('confirms the correct survey is selected')
+@then('they confirm the survey and organisation details')
+@given('they confirm the survey and organisation details')
 def confirm_correct_survey_selected(context):
     actual_iac = browser.find_by_id('enrolment_code').value
     actual_survey_name = browser.find_by_id('survey_name').value
@@ -39,7 +40,13 @@ def confirm_correct_survey_selected(context):
     browser.find_by_id('CONFIRM_BUTTON').click()
 
 
-@then('completes the account details page')
+@given("a respondent has entered their enrolment code")
+def respondent_enters_enrolment_code(context):
+    generate_enrolment_code(context)
+    enter_enrolment_code(context)
+
+
+@when('they enter their account details')
 def complete_account_details(context):
     context.email = context.test_unique_id + '@somewhere.com'
 
@@ -53,8 +60,8 @@ def complete_account_details(context):
     browser.find_by_id('continue-button').click()
 
 
-@then('the internal user can see they have successfully enrolled in a survey')
-def confirm_successful_enrolment(context):
+@then('they are sent a verification email')
+def confirm_verification_email(context):
     actual_email_confirmation = browser.find_by_id('email_confirmation_sent').value
 
     assert context.email in actual_email_confirmation
