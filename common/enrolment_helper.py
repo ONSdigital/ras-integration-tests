@@ -19,11 +19,12 @@ def generate_new_iac_code(context):
 
     survey_short_name = 'ShortName-' + test_unique_id
     survey_long_name = 'LongName-' + test_unique_id
-    survey_legal_basis='STA1947'
+    survey_legal_basis = 'STA1947'
 
     context.survey_name = survey_long_name
 
-    response = create_survey(survey_ref=test_unique_id, short_name=survey_short_name, long_name=survey_long_name, legal_basis=survey_legal_basis)
+    response = create_survey(survey_ref=test_unique_id, short_name=survey_short_name, long_name=survey_long_name,
+                             legal_basis=survey_legal_basis)
     survey_id = response['id']
 
     logger.info('survey_id = ' + survey_id)

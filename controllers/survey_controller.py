@@ -54,7 +54,7 @@ def create_classifiers(survey_id):
     url = f'{Config.SURVEY_SERVICE}/surveys/{survey_id}/classifiers'
 
     classifier_details = {
-        "name": 'COLLECTION_INSTRUMENT' ,
+        "name": 'COLLECTION_INSTRUMENT',
         "classifierTypes": ['COLLECTION_EXERCISE']
     }
 
