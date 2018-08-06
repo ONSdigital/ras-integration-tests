@@ -61,5 +61,11 @@ def retrying_get_file_after_time(client, start_of_test):
 
     latest_file_attributes = files[0]
     with client.open(f'{Config.SFTP_DIR}/{latest_file_attributes.filename}') as latest_file:
+        start_of_test = round_to_minute(start_of_test) # SFTP time is only accurate to the minute
         return str(latest_file.read()) if datetime.fromtimestamp(
-            latest_file_attributes.st_mtime) > start_of_test else None
+            latest_file_attributes.st_mtime) >= start_of_test else None
+
+
+def round_to_minute(start_of_test):
+    return datetime(start_of_test.year, start_of_test.month, start_of_test.day, start_of_test.hour,
+                    start_of_test.minute, second=0, microsecond=0)
