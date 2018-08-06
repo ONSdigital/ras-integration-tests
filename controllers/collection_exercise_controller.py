@@ -9,7 +9,6 @@ from acceptance_tests.features.environment import poll_database_for_iac
 from config import Config
 from controllers import collection_instrument_controller as ci_controller,\
     sample_controller
-from controllers.action_controller import create_action_rule
 
 logger = wrap_logger(logging.getLogger(__name__))
 
@@ -147,7 +146,7 @@ def create_collection_exercise(survey_id, period, user_description):
     logger.debug('Successfully created collection exercise', survey_id=survey_id, period=period)
 
 
-def create_and_execute_collection_exercise(survey_id, period, user_description, dates, short_name=None):
+def create_and_execute_collection_exercise(survey_id, period, user_description, dates):
     create_collection_exercise(survey_id, period, user_description)
     collection_exercise = get_collection_exercise(survey_id, period)
     collection_exercise_id = collection_exercise['id']
@@ -166,8 +165,6 @@ def create_and_execute_collection_exercise(survey_id, period, user_description, 
     ci_controller.upload_seft_collection_instrument(collection_exercise['id'],
                                                     'resources/collection_instrument_files/064_201803_0001.xlsx')
 
-    if short_name:
-        create_action_rule(short_name, period)
     time.sleep(5)
     execute_collection_exercise(survey_id, period)
     iac = poll_database_for_iac(survey_id, period)
