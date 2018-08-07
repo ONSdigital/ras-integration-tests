@@ -37,7 +37,7 @@ def confirm_correct_survey_selected(context):
     assert context.iac == actual_iac
     assert context.survey_name == actual_survey_name
 
-    browser.find_by_id('CONFIRM_BUTTON').click()
+    browser.find_by_id('confirm_button').click()
 
 
 @given("a respondent has entered their enrolment code")
