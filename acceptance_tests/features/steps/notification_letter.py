@@ -1,5 +1,7 @@
 import logging
+from contextlib import contextmanager
 from datetime import timedelta, datetime
+from time import sleep
 
 import paramiko
 from behave import given, when, then
@@ -35,11 +37,12 @@ def survey_is_live(context):
 
 @then('the reporting unit will receive a letter')
 def letter_is_received(context):
-    content = get_file_after_time(context.start)
-    assert context.iac_code in content, content
+    with get_notification_file_after_time(context.start) as content:
+        assert context.iac_code in content, content
 
 
-def get_file_after_time(start_of_test):
+@contextmanager
+def get_notification_file_after_time(start_of_test):
     logger.info('Connecting to SFTP')
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -48,22 +51,29 @@ def get_file_after_time(start_of_test):
                 username=Config.SFTP_USERNAME,
                 password=Config.SFTP_PASSWORD)
     with ssh.open_sftp() as client:
-        return retrying_get_file_after_time(client, start_of_test)
+        file_path = get_path_of_latest_notification_file(client, start_of_test)
+        with client.open(file_path) as content:
+            yield str(content.read())
+            client.remove(file_path)  # Only delete file if test passes
 
 
-@retry(retry_on_result=lambda r: not r, wait_fixed=1000, stop_max_delay=120000)
-def retrying_get_file_after_time(client, start_of_test):
-    logger.info('Loading file from SFTP')
-    files = client.listdir_attr(Config.SFTP_DIR)
-    files = sorted(files, key=lambda f: f.st_mtime, reverse=True)
-    if not files:
-        return None
+def get_path_of_latest_notification_file(client, start_of_test):
+    start_of_test = round_to_minute(start_of_test)  # SFTP time is only accurate to the minute
+    for i in range(120):
+        logger.info('Loading file from SFTP')
+        files = client.listdir_attr(Config.SFTP_DIR)
+        files = sorted(files, key=lambda f: f.st_mtime, reverse=True)
+        if not files:
+            sleep(1)
+            break
 
-    latest_file_attributes = files[0]
-    with client.open(f'{Config.SFTP_DIR}/{latest_file_attributes.filename}') as latest_file:
-        start_of_test = round_to_minute(start_of_test) # SFTP time is only accurate to the minute
-        return str(latest_file.read()) if datetime.fromtimestamp(
-            latest_file_attributes.st_mtime) >= start_of_test else None
+        latest_file_attributes = files[0]
+        modified_time_of_file = datetime.fromtimestamp(latest_file_attributes.st_mtime)
+        if start_of_test > modified_time_of_file:
+            sleep(1)
+            break
+
+        return f'{Config.SFTP_DIR}/{latest_file_attributes.filename}'
 
 
 def round_to_minute(start_of_test):
