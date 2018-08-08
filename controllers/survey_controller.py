@@ -23,10 +23,11 @@ def get_survey_by_short_name(short_name):
     return response.json()
 
 
-def create_survey(survey_ref, short_name, long_name, legal_basis):
+def create_survey(survey_ref, short_name, long_name, legal_basis, survey_type='Business'):
     logger.info('Creating new survey',
                 survey_ref=survey_ref, short_name=short_name,
-                long_name=long_name, legal_basis=legal_basis)
+                long_name=long_name, legal_basis=legal_basis,
+                survey_type=survey_type)
 
     url = f'{Config.SURVEY_SERVICE}/surveys'
 
@@ -35,7 +36,7 @@ def create_survey(survey_ref, short_name, long_name, legal_basis):
         "longName": long_name,
         "shortName": short_name,
         "legalBasisRef": legal_basis,
-        "surveyType": "Business"
+        "surveyType": survey_type
     }
 
     response = requests.post(url, json=survey_details, auth=Config.BASIC_AUTH)
