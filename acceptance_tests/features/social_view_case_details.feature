@@ -5,10 +5,10 @@ Feature: View social case details
 
   Background: Internal user is already signed in
   Given the internal user is already signed in
-    And a social survey case exists
 
   @sus003-01
   Scenario: Users are able to view their case details
-    Given: SEL searches for a postcode
-    When: They select the address
-    Then: They can see all the above case details
+    Given a social survey case exists
+#    Given SEL searches for a postcode
+#    When They select the address
+    Then They can see all the above case details

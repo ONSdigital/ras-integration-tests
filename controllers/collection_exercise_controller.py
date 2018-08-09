@@ -147,7 +147,7 @@ def create_collection_exercise(survey_id, period, user_description):
     logger.debug('Successfully created collection exercise', survey_id=survey_id, period=period)
 
 
-def create_and_execute_collection_exercise(survey_id, period, user_description, dates, short_name=None):
+def create_and_execute_collection_exercise(survey_id, period, user_description, dates, short_name=None, social=None):
     create_collection_exercise(survey_id, period, user_description)
     collection_exercise = get_collection_exercise(survey_id, period)
     collection_exercise_id = collection_exercise['id']
@@ -160,11 +160,22 @@ def create_and_execute_collection_exercise(survey_id, period, user_description, 
                                       convert_datetime_for_event(dates['return_by']))
     post_event_to_collection_exercise(collection_exercise_id, 'exercise_end',
                                       convert_datetime_for_event(dates['exercise_end']))
-    sample_summary = sample_controller.upload_sample(collection_exercise['id'],
-                                                     'resources/sample_files/business-survey-sample-date.csv')
+    if social:
+        sample_summary = sample_controller.upload_sample(collection_exercise['id'],
+                                                         'resources/sample_files/Social_Test_1_Sample.csv')
+    else:
+        sample_summary = sample_controller.upload_sample(collection_exercise['id'],
+                                                         'resources/sample_files/business-survey-sample-date.csv')
+
     link_sample_summary_to_collection_exercise(collection_exercise['id'], sample_summary['id'])
-    ci_controller.upload_seft_collection_instrument(collection_exercise['id'],
-                                                    'resources/collection_instrument_files/064_201803_0001.xlsx')
+
+    if social:
+        ci_controller.upload_eq_collection_instrument(survey_id='02b9c366-7397-42f7-942a-76dc5876d86d',
+                                                      form_type='1', eq_id='lms')
+
+    else:
+        ci_controller.upload_seft_collection_instrument(collection_exercise['id'],
+                                                        'resources/collection_instrument_files/064_201803_0001.xlsx')
 
     if short_name:
         create_action_rule(short_name, period)
