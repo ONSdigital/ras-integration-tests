@@ -1,7 +1,5 @@
 import logging
-from contextlib import contextmanager
 from datetime import timedelta, datetime
-from time import sleep
 
 import paramiko
 from behave import given, when, then
@@ -37,45 +35,53 @@ def survey_is_live(context):
 
 @then('the reporting unit will receive a letter')
 def letter_is_received(context):
-    with get_notification_file_after_time(context.start) as content:
-        assert context.iac_code in content, content
+    with _get_sftp_client() as client:
+        file_path = _get_path_of_latest_notification_file(client, context.start, survey_ref='074', period='0718')
+
+        with client.open(file_path) as sftp_file:
+            content = str(sftp_file.read())
+            assert context.iac_code in content, content
+            client.remove(file_path)  # Only delete file if test passes
 
 
-@contextmanager
-def get_notification_file_after_time(start_of_test):
+def _get_sftp_client():
     logger.info('Connecting to SFTP')
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     ssh.connect(hostname=Config.SFTP_HOST,
                 port=int(Config.SFTP_PORT),
                 username=Config.SFTP_USERNAME,
-                password=Config.SFTP_PASSWORD)
-    with ssh.open_sftp() as client:
-        file_path = get_path_of_latest_notification_file(client, start_of_test)
-        with client.open(file_path) as content:
-            yield str(content.read())
-            client.remove(file_path)  # Only delete file if test passes
+                password=Config.SFTP_PASSWORD,
+                look_for_keys=False)
+    return ssh.open_sftp()
 
 
-def get_path_of_latest_notification_file(client, start_of_test):
-    start_of_test = round_to_minute(start_of_test)  # SFTP time is only accurate to the minute
-    for i in range(120):
-        logger.info('Loading file from SFTP')
-        files = client.listdir_attr(Config.SFTP_DIR)
-        files = sorted(files, key=lambda f: f.st_mtime, reverse=True)
-        if not files:
-            sleep(1)
-            break
+@retry(retry_on_exception=lambda e: isinstance(e, FileNotFoundError), wait_fixed=1000, stop_max_attempt_number=120)
+def _get_path_of_latest_notification_file(client, start_of_test, survey_ref, period):
+    logger.info('Loading file from SFTP')
+    files = _get_files_ordered_by_modified_time_desc(client)
+    if not files:
+        raise FileNotFoundError
 
-        latest_file_attributes = files[0]
-        modified_time_of_file = datetime.fromtimestamp(latest_file_attributes.st_mtime)
-        if start_of_test > modified_time_of_file:
-            sleep(1)
-            break
+    latest_file_attributes = files[0]
+    filename = latest_file_attributes.filename
+    if f'{survey_ref}_{period}' not in filename:
+        raise FileNotFoundError
 
-        return f'{Config.SFTP_DIR}/{latest_file_attributes.filename}'
+    modified_time_of_file = datetime.fromtimestamp(latest_file_attributes.st_mtime)
+    start_of_test = _round_to_minute(start_of_test)  # Time on SFTP on CI is only precise to the minute
+    if start_of_test > modified_time_of_file:
+        raise FileNotFoundError
+
+    return f'{Config.SFTP_DIR}/{filename}'
 
 
-def round_to_minute(start_of_test):
+def _get_files_ordered_by_modified_time_desc(client):
+    files = client.listdir_attr(Config.SFTP_DIR)
+    files = sorted(files, key=lambda f: f.st_mtime, reverse=True)
+    return files
+
+
+def _round_to_minute(start_of_test):
     return datetime(start_of_test.year, start_of_test.month, start_of_test.day, start_of_test.hour,
                     start_of_test.minute, second=0, microsecond=0)
