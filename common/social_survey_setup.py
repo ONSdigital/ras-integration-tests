@@ -6,7 +6,7 @@ from random import randint
 from behave import given, when
 from structlog import wrap_logger
 
-from controllers.collection_exercise_controller import create_and_execute_collection_exercise
+from controllers.collection_exercise_controller import create_and_execute_social_collection_exercise
 from controllers.survey_controller import create_survey, create_classifiers
 
 logger = wrap_logger(getLogger(__name__))
@@ -37,7 +37,8 @@ def create_social_survey_cases(context):
     user_description = 'UserDescription-' + test_unique_id
     dates = generate_collection_exercise_dates()
 
-    return create_and_execute_collection_exercise(survey_id, period, user_description, dates, social='social')
+    return create_and_execute_social_collection_exercise(survey_id, period, user_description, dates,
+                                                         short_name=survey_short_name)
 
 
 def generate_collection_exercise_dates():
