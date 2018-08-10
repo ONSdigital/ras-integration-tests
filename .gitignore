@@ -111,3 +111,6 @@ tmp_ras_rm_docker_dev
 # Floobits
 *.floo
 *.flooignore
+
+# shell
+setenvs.sh
