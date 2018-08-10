@@ -14,7 +14,7 @@ def create_social_survey(context):
 
 @then('They can see all the above case details')
 def internal_sel_user_can_view_social_case_details(context):
-    social_view_case_details.go_to()
+    social_view_case_details.go_to(context)
     actual_social_ref_number = social_view_case_details.get_reference_number()
     actual_social_status = social_view_case_details.get_status()
     actual_social_address = social_view_case_details.get_address()

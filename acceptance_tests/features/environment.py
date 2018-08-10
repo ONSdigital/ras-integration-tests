@@ -103,6 +103,18 @@ def poll_database_for_iac(survey_id, period):
         time.sleep(5)
 
 
+def poll_database_for_social_iac(survey_id, period):
+    logger.info('Waiting for collection exercise execution process to finish',
+                survey_id=survey_id, period=period)
+    collection_exercise_id = collection_exercise_controller.get_collection_exercise(survey_id, period)['id']
+    while True:
+        iac_code = database_controller.get_iac_for_social_collection_exercise(collection_exercise_id)
+        if iac_code:
+            logger.info('Collection exercise finished executing', survey_id=survey_id, period=period)
+            return iac_code
+        time.sleep(5)
+
+
 def register_respondent(survey_id, period, username, ru_ref=None, wait_for_case=False):
     logger.info('Registering respondent', survey_id=survey_id, period=period, ru_ref=ru_ref)
     collection_exercise_id = collection_exercise_controller.get_collection_exercise(survey_id, period)['id']

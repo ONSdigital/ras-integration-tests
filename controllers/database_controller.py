@@ -54,6 +54,21 @@ def get_iac_for_collection_exercise(collection_exercise_id):
     return iac
 
 
+def get_iac_for_social_collection_exercise(collection_exercise_id):
+    sql_statement = "SELECT c.iac FROM casesvc.case c " \
+                    "INNER JOIN casesvc.casegroup g ON g.id = c.casegroupid " \
+                    "INNER JOIN iac.iac i ON c.iac = i.code " \
+                    "WHERE c.statefk = 'ACTIONABLE' AND c.SampleUnitType = 'H' " \
+                    f"AND g.collectionexerciseid = '{collection_exercise_id}' " \
+                    "AND i.active = TRUE " \
+                    "ORDER BY c.createddatetime DESC LIMIT 1;"
+    result = execute_sql(sql_string=sql_statement)
+    iac = None
+    for row in result:
+        iac = row['iac']
+    return iac
+
+
 def get_iac_for_collection_exercise_and_business(collection_exercise_id, business_id):
     sql_statement = "SELECT c.iac FROM casesvc.case c " \
                     "INNER JOIN casesvc.casegroup g ON g.id = c.casegroupid " \

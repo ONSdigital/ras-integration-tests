@@ -1,11 +1,9 @@
 from acceptance_tests import browser
 from config import Config
 
-case_id = "7a321aa2-a46b-4637-b7a9-35f3d1b94dea"
-
 
 def go_to():
-    browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/social/case/{case_id}")
+    browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/social")  # TODO update this when search by postcode is completed
 
 
 def get_page_title():

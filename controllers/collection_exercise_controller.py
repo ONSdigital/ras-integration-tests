@@ -5,11 +5,11 @@ import time
 import requests
 from structlog import wrap_logger
 
-from acceptance_tests.features.environment import poll_database_for_iac
+from acceptance_tests.features.environment import poll_database_for_iac, poll_database_for_social_iac
 from config import Config
 from controllers import collection_instrument_controller as ci_controller,\
     sample_controller
-from controllers.action_controller import create_action_rule
+from controllers.action_controller import create_action_rule, create_social_action_rule
 from controllers.collection_instrument_controller import get_collection_instruments_by_classifier
 
 logger = wrap_logger(logging.getLogger(__name__))
@@ -193,8 +193,8 @@ def create_and_execute_social_collection_exercise(survey_id, period, user_descri
     post_event_to_collection_exercise(collection_exercise_id, 'exercise_end',
                                       convert_datetime_for_event(dates['exercise_end']))
 
-    sample_summary = sample_controller.upload_sample(collection_exercise['id'],
-                                                     'resources/sample_files/Social_Test_1_Sample.csv')
+    sample_summary = sample_controller.upload_social_sample(collection_exercise['id'],
+                                                            'resources/sample_files/Social_Test_1_Sample.csv')
 
     link_sample_summary_to_collection_exercise(collection_exercise['id'], sample_summary['id'])
 
@@ -205,10 +205,10 @@ def create_and_execute_social_collection_exercise(survey_id, period, user_descri
         ci_controller.link_collection_instrument_to_exercise(collection_instrument['id'], collection_exercise['id'])
 
     if short_name:
-        create_action_rule(short_name, period)
+        create_social_action_rule(short_name, period)
     time.sleep(5)
     execute_collection_exercise(survey_id, period)
-    iac = poll_database_for_iac(survey_id, period)
+    iac = poll_database_for_social_iac(survey_id, period)
 
     return iac
 
