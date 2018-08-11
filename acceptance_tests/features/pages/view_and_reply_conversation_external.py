@@ -41,7 +41,7 @@ def get_text_from_reply_text_area():
 
 
 def click_reply_send_button():
-    browser.driver.find_element_by_id("send-message-btn").click()
+    browser.driver.find_element_by_id("send_message_button").click()
 
 
 def get_latest_message_by_tag():
