@@ -1,9 +1,6 @@
 from datetime import datetime, timedelta
 from logging import getLogger
-from uuid import uuid4
 from random import randint
-
-from behave import given, when
 from structlog import wrap_logger
 
 from controllers.collection_exercise_controller import create_and_execute_social_collection_exercise

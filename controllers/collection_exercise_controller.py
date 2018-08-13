@@ -206,7 +206,7 @@ def create_and_execute_social_collection_exercise(survey_id, period, user_descri
 
     if short_name:
         create_social_action_rule(short_name, period)
-    time.sleep(5)
+    time.sleep(2)
     execute_collection_exercise(survey_id, period)
     iac = poll_database_for_social_iac(survey_id, period)
 
