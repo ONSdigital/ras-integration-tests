@@ -112,7 +112,7 @@ def poll_database_for_social_iac(survey_id, period):
         if iac_code:
             logger.info('Collection exercise finished executing', survey_id=survey_id, period=period)
             return iac_code
-        time.sleep(5)
+        time.sleep(2)
 
 
 def register_respondent(survey_id, period, username, ru_ref=None, wait_for_case=False):
