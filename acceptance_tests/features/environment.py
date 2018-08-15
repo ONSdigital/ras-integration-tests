@@ -91,7 +91,7 @@ def execute_collection_exercise(survey_id, period, ci_type='SEFT'):
     logger.info('Successfully executed collection exercise', survey_id=survey_id, period=period, ci_type=ci_type)
 
 
-def poll_database_for_iac(survey_id, period, social=None):
+def poll_database_for_iac(survey_id, period, social=False):
     logger.info('Waiting for collection exercise execution process to finish',
                 survey_id=survey_id, period=period)
     collection_exercise_id = collection_exercise_controller.get_collection_exercise(survey_id, period)['id']

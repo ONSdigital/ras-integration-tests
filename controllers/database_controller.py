@@ -39,7 +39,7 @@ def select_iac():
     return iac
 
 
-def get_iac_for_collection_exercise(collection_exercise_id, social=None):
+def get_iac_for_collection_exercise(collection_exercise_id, social=False):
 
     if social:
         sample_unit_type = "H"

@@ -17,7 +17,7 @@ def load_sample(survey_name, period, test_file):
     browser.driver.find_element_by_id('btn-load-sample').click()
 
 
-def upload_sample(collection_exercise_id, file_path, social=None):
+def upload_sample(collection_exercise_id, file_path, social=False):
     logger.info('Uploading sample file',
                 collection_exercise_id=collection_exercise_id, sample_file=file_path)
     if social:
