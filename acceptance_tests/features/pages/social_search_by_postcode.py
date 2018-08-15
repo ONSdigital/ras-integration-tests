@@ -36,4 +36,3 @@ def click_case_link():
 
 def enter_postcode(postcode):
     browser.driver.find_element_by_id('postcode-search').send_keys(postcode)
-

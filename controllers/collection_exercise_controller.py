@@ -5,7 +5,7 @@ import time
 import requests
 from structlog import wrap_logger
 
-from acceptance_tests.features.environment import poll_database_for_iac, poll_database_for_social_iac
+from acceptance_tests.features.environment import poll_database_for_iac
 from config import Config
 from controllers import collection_instrument_controller as ci_controller,\
     sample_controller
@@ -208,7 +208,7 @@ def create_and_execute_social_collection_exercise(survey_id, period, user_descri
         create_social_action_rule(short_name, period)
     time.sleep(2)
     execute_collection_exercise(survey_id, period)
-    iac = poll_database_for_social_iac(survey_id, period)
+    iac = poll_database_for_iac(survey_id, period, social=True)
 
     return iac
 

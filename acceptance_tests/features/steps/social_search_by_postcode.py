@@ -9,13 +9,13 @@ def internal_user_navigates_to_social_page(context):
 
 
 @given('the format of the postcode entered is XX11 X11')
-def user_enters_postcode(context):
+def user_enters_postcode_with_spaces(context):
     internal_user_navigates_to_social_page(context)
     social_search_by_postcode.enter_postcode('NP10 8XG')
 
 
 @given('the format of the postcode entered is XX11X11')
-def user_enters_postcode(context):
+def user_enters_postcode_without_spaces(context):
     internal_user_navigates_to_social_page(context)
     social_search_by_postcode.enter_postcode('NP108XG')
 

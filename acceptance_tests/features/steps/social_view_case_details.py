@@ -30,5 +30,3 @@ def internal_sel_user_can_view_social_case_details(context):
     assert 'Gwent District' == actual_social_address['district']
     assert 'Newport' == actual_social_address['post_town']
     assert 'NP10 8XG' == actual_social_address['postcode']
-
-
