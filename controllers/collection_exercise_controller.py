@@ -192,8 +192,9 @@ def create_and_execute_social_collection_exercise(survey_id, period, user_descri
     post_event_to_collection_exercise(collection_exercise_id, 'exercise_end',
                                       convert_datetime_for_event(dates['exercise_end']))
 
-    sample_summary = sample_controller.upload_social_sample(collection_exercise['id'],
-                                                            'resources/sample_files/Social_Test_1_Sample.csv')
+    sample_summary = sample_controller.upload_sample(collection_exercise['id'],
+                                                     'resources/sample_files/Social_Test_1_Sample.csv',
+                                                     social=True)
 
     link_sample_summary_to_collection_exercise(collection_exercise['id'], sample_summary['id'])
 

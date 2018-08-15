@@ -17,30 +17,15 @@ def load_sample(survey_name, period, test_file):
     browser.driver.find_element_by_id('btn-load-sample').click()
 
 
-def upload_sample(collection_exercise_id, file_path):
+def upload_sample(collection_exercise_id, file_path, social=None):
     logger.info('Uploading sample file',
                 collection_exercise_id=collection_exercise_id, sample_file=file_path)
-    url = f'{Config.SAMPLE_SERVICE}/samples/B/fileupload'
-    files = {"file": ('test_sample_file.xlxs', open(file_path, 'rb'), 'text/csv')}
+    if social:
+        sample_type = "SOCIAL"
+    else:
+        sample_type = "B"
 
-    response = requests.post(url=url, auth=Config.BASIC_AUTH, files=files)
-
-    # Sample service *should* return something other than 201 when upload / ingest fails
-    if response.status_code != 201:
-        logger.error('Error uploading sample file',
-                     collection_exercise_id=collection_exercise_id, status=response.status_code)
-        raise Exception('Failed to upload sample')
-
-    response_json = response.json()
-    logger.info('Successfully uploaded sample file',
-                collection_exercise_id=collection_exercise_id, sample_file=file_path)
-    return response_json
-
-
-def upload_social_sample(collection_exercise_id, file_path):
-    logger.info('Uploading sample file',
-                collection_exercise_id=collection_exercise_id, sample_file=file_path)
-    url = f'{Config.SAMPLE_SERVICE}/samples/SOCIAL/fileupload'
+    url = f'{Config.SAMPLE_SERVICE}/samples/{sample_type}/fileupload'
     files = {"file": ('test_sample_file.xlxs', open(file_path, 'rb'), 'text/csv')}
 
     response = requests.post(url=url, auth=Config.BASIC_AUTH, files=files)

@@ -108,7 +108,7 @@ def poll_database_for_social_iac(survey_id, period):
                 survey_id=survey_id, period=period)
     collection_exercise_id = collection_exercise_controller.get_collection_exercise(survey_id, period)['id']
     while True:
-        iac_code = database_controller.get_iac_for_social_collection_exercise(collection_exercise_id)
+        iac_code = database_controller.get_iac_for_collection_exercise(collection_exercise_id, social=True)
         if iac_code:
             logger.info('Collection exercise finished executing', survey_id=survey_id, period=period)
             return iac_code
