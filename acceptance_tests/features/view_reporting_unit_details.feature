@@ -33,3 +33,16 @@ Feature: View reporting unit details
     When the internal user views the 49900000001 reporting unit page
     And the internal user opens the Bricks data panel
     Then the internal user is presented with the associated respondents
+
+  @us047_s01
+  Scenario: "Trading as" name is displayed on Reporting Units page
+    Given the reporting unit 49900000007 is in the system
+    When the internal user views the 49900000007 reporting unit page
+    Then the "trading as" name should be displayed on the RU details
+
+  @us047_s01
+  Scenario: If no "Trading As" name, no further information should be provided
+    Given the reporting unit 49900000008 is in the system
+    When the internal user views the 49900000008 reporting unit page
+    Then the "trading as" name should not appear on the RU details
+

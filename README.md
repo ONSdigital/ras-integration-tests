@@ -66,7 +66,7 @@ If any config is updated it also has to be updated in the Jenkinsfile
 1. Get database URI `export DATABASE_NAME=$(cf apps | grep ras-collection-instrument-ci | awk '{ print "cf env "$1 }' | bash | grep "postgres://" | awk -F \" '{ print $4 }' | sed 's!postgres://.*@\(.*\):.*!\1!')`
 1. Create an SSH tunnel to the database `cf ssh -L 5432:$DATABASE_NAME:5432 ras-collection-instrument-ci`
 cloudfoundry app name of a service that has a dependency on the database.
-1. Set environment variables in shell `fly -t ons get-pipeline -p rasrm|sed -n '/- name: ci-rasrm-acceptance-tests/,/on_failure/p;/on_failure/q'|sed -n '/ras-deploy\/tasks\/rasrm-acceptance-tests\/run_acceptance_tests.yml/,$p'|sed -e '/on_failure/,$d'|tail -n +3|sed -e 's/\"//g'|sed -e 's/\:\ /=/g'|awk '{print "export "$1 }' >> setenvs.sh`
+1. Set environment variables in shell `fly -t ons get-pipeline -p rasrm|sed '1,/task: rasrm\-acceptance\-tests/d;/on_failure/,$d'|sed -e '1,3d; s/\"//g'|sed -e 's/\:\ /=/g'|awk '{print "export "$1 }' >> setenvs.sh`
 1. Set database environment variables `source setenvs.sh`
 1. Reset data in cloudfoundry `make setup`
 1. Run tests `pipenv run python run.py`

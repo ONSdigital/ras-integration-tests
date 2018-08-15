@@ -15,7 +15,7 @@ def surveys_to_do_list(context):
 @when('they add a new survey')
 @then('they are able to add a new survey')
 def add_a_new_survey(context):
-    browser.find_by_id('ADD_SURVEY_BTN').click()
+    browser.find_by_id('add_survey_button').click()
 
 
 @then('they are able to enter an enrolment code')
@@ -29,7 +29,7 @@ def enter_valid_enrolment_code(context):
     add_survey.go_to()
     enrolment_code = select_iac()
     browser.driver.find_element_by_id('ENROLEMENT_CODE_FIELD').send_keys(enrolment_code)
-    browser.find_by_id('CONTINUE_BTN').click()
+    browser.find_by_id('continue_button').click()
 
 
 @then('they are to be presented with the survey and organisation that they are enrolling for')
@@ -40,7 +40,7 @@ def view_confirmation_page(context):
 @when('they enter an invalid enrolment code')
 def enter_invalid_enrolment_code(context):
     browser.driver.find_element_by_id('ENROLEMENT_CODE_FIELD').send_keys('222thu78nj7m')
-    browser.find_by_id('CONTINUE_BTN').click()
+    browser.find_by_id('continue_button').click()
 
 
 @then('they are to be notified')
@@ -50,7 +50,7 @@ def invalid_enrolment_code_notification(context):
 
 @when('they continue and confirm that the organisation and survey that they are enrolling for is correct')
 def confirm_organisation_and_continue(context):
-    browser.find_by_id('CONFIRM_SURVEY_BTN').click()
+    browser.find_by_id('confirm_survey_button').click()
 
 
 @then('the new survey is to be listed in My Surveys and confirmation is presented to the user')
@@ -60,7 +60,7 @@ def confirmation_presented_for_new_survey(context):
 
 @when('they navigate to the confirm organisation page and click cancel')
 def click_cancel(context):
-    browser.find_by_id('CANCEL_BTN').click()
+    browser.find_by_id('cancel_button').click()
 
 
 @then('the user is navigated back to their "To do" list and they have not enrolled for that survey')

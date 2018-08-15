@@ -25,7 +25,7 @@ def generate_enrolment_code(context):
 @when('they enter their enrolment code')
 def enter_enrolment_code(context):
     browser.driver.find_element_by_id('enrolment_code').send_keys(context.iac)
-    browser.find_by_id('CONTINUE_BUTTON').click()
+    browser.find_by_id('continue_button').click()
 
 
 @then('they confirm the survey and organisation details')
@@ -57,7 +57,7 @@ def complete_account_details(context):
     browser.driver.find_element_by_id('password_confirm').send_keys('A234567_')
     browser.driver.find_element_by_id('phone_number').send_keys('01172345678')
 
-    browser.find_by_id('continue-button').click()
+    browser.find_by_id('continue_button').click()
 
 
 @then('they are sent a verification email')

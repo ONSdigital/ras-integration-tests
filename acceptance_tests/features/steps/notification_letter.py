@@ -25,7 +25,7 @@ def reporting_unit_enrolled(context):
     }
     # Create action rule
     create_and_execute_collection_exercise('cb8accda-6118-4d3b-85a3-149e28960c54', '0718', 'Testing notification file',
-                                           dates, short_name='Bricks')
+                                           dates)
 
 
 @when('the survey goes live')

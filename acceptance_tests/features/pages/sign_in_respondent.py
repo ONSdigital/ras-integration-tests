@@ -11,7 +11,7 @@ def sign_in_alternate_respondent():
     if '/sign-in' in browser.url:
         browser.driver.find_element_by_id('username').send_keys(Config.RESPONDENT_USERNAME)
         browser.driver.find_element_by_id('password').send_keys(Config.RESPONDENT_PASSWORD)
-        browser.find_by_id('SIGN_IN_BUTTON').click()
+        browser.find_by_id('sign_in_button').click()
 
 
 def signed_in_respondent_with_email(email):
@@ -19,4 +19,4 @@ def signed_in_respondent_with_email(email):
     if '/sign-in' in browser.url:
         browser.driver.find_element_by_id('username').send_keys(email)
         browser.driver.find_element_by_id('password').send_keys(Config.RESPONDENT_PASSWORD)
-        browser.find_by_id('SIGN_IN_BUTTON').click()
+        browser.find_by_id('sign_in_button').click()

@@ -7,7 +7,7 @@ def go_to():
 
 
 def get_access_survey_button():
-    sign_in_button = browser.find_by_id('SIGN_IN_BUTTON')
+    sign_in_button = browser.find_by_id('sign_in_button')
     sign_in_button.click()
 
 
@@ -16,5 +16,5 @@ def enter_enrolment_code(enrolment_code):
 
 
 def click_continue_button():
-    browser.find_by_id('CONTINUE_BTN').click()
-    browser.find_by_id('CONFIRM_SURVEY_BTN').click()
+    browser.find_by_id('continue_button').click()
+    browser.find_by_id('confirm_survey_button').click()

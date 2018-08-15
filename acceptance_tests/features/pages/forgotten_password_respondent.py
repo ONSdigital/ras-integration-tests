@@ -16,7 +16,7 @@ def enter_invalid_username():
 
 
 def send_reset_link():
-    browser.find_by_id('reset-password-btn').click()
+    browser.find_by_id('reset_password_button').click()
 
 
 def password_reset_sent():
