@@ -8,18 +8,6 @@ def internal_user_navigates_to_social_page(context):
     social_search_by_postcode.go_to()
 
 
-@given('the format of the postcode entered is XX11 X11')
-def user_enters_postcode_with_spaces(context):
-    internal_user_navigates_to_social_page(context)
-    social_search_by_postcode.enter_postcode('NP10 8XG')
-
-
-@given('the format of the postcode entered is XX11X11')
-def user_enters_postcode_without_spaces(context):
-    internal_user_navigates_to_social_page(context)
-    social_search_by_postcode.enter_postcode('NP108XG')
-
-
 @given('the user enters a postcode that doesnt exist in the sample')
 def user_enters_postcode_that_doesnt_exist(context):
     internal_user_navigates_to_social_page(context)
@@ -33,15 +21,7 @@ def user_enters_valid_postcode(_):
     social_search_by_postcode.click_search_by_postcode()
 
 
-@when('they search for a partial postcode')
-def user_enters_postcode(context):
-    context.invalid_postcode = 'NP10'
-    social_search_by_postcode.enter_postcode(context.invalid_postcode)
-    social_search_by_postcode.click_search_by_postcode()
-
-
 @when('the internal user searches for that postcode')
-@when('the user clicks search')
 def user_clicks_search(_):
     social_search_by_postcode.click_search_by_postcode()
 
