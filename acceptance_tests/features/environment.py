@@ -127,9 +127,9 @@ def register_respondent(survey_id, period, username, ru_ref=None, wait_for_case=
     party_controller.change_respondent_status(respondent_party['id'])
     django_oauth_controller.verify_user(respondent_party['emailAddress'])
     case_id = database_controller.enrol_party(respondent_id)
-    case_controller.post_case_event(case_id, respondent_id, "RESPONDENT_ENROLED", "Respondent enrolled")
+    case_controller.post_case_event(case_id, None, "RESPONDENT_ENROLED", "Respondent enrolled")
     if wait_for_case:
-        wait_for_case_to_update(respondent_id)
+        wait_for_case_to_update(case_id)
     logger.info('Successfully registered respondent', survey_id=survey_id, period=period,
                 ru_ref=ru_ref, respondent_id=respondent_id)
     return respondent_id
@@ -141,12 +141,12 @@ def enrol_respondent(party_id, survey_id, period):
     party_controller.add_survey(party_id, enrolment_code)
 
 
-def wait_for_case_to_update(respondent_id):
-    logger.debug('Waiting for case to update', respondent_id=respondent_id)
+def wait_for_case_to_update(case_id):
+    logger.debug('Waiting for case to update', case_id=case_id)
     while True:
-        case = case_controller.get_case_by_party_id(respondent_id)[0]
+        case = case_controller.get_case_by_id(case_id)
         if case['state'] == 'ACTIONABLE':
-            logger.debug('Case updated', respondent_id=respondent_id)
+            logger.debug('Case updated', case_id=case_id)
             break
         time.sleep(2)
 
