@@ -33,7 +33,7 @@ def return_addresses_for_searched_postcode(_):
     address_details = social_search_by_postcode.get_address()
     assert 'LMS100002' == case_ref, case_ref
     assert 'NP10 8XG' == post_code, post_code
-    assert 'Office for National Statistics, Cardiff Road, Duffryn, Wales, Gwent District, Newport' in address_details, \
+    assert 'Office for National Statistics, Cardiff Road, Gwent District, Newport' in address_details, \
         address_details
 
 
