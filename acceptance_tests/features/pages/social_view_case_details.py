@@ -11,8 +11,8 @@ def get_status():
 
 def get_address():
     address_details = {
-        "address_line_1": browser.find_by_id('case-address-line-1').text,
-        "address_line_2": browser.find_by_id('case-address-line-2').text,
+        "address_line_1": browser.find_by_id('case-address-line1').text,
+        "address_line_2": browser.find_by_id('case-address-line2').text,
         "locality": browser.find_by_id('case-locality').text,
         "town": browser.find_by_id('case-town-name').text,
         "postcode": browser.find_by_id('case-postcode').text
