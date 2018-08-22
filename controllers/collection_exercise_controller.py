@@ -208,9 +208,7 @@ def create_and_execute_social_collection_exercise(survey_id, period, user_descri
         create_social_action_rule(short_name, period)
     time.sleep(2)
     execute_collection_exercise(survey_id, period)
-    iac = poll_database_for_iac(survey_id, period, social=True)
-
-    return iac
+    return poll_database_for_iac(survey_id, period, social=True)
 
 
 def convert_datetime_for_event(date_time):

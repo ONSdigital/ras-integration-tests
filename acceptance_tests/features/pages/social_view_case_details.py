@@ -10,7 +10,7 @@ def get_status():
 
 
 def get_address():
-    address_details = {
+    return {
         "prem1": browser.find_by_id('case-prem1').text,
         "prem2": browser.find_by_id('case-prem2').text,
         "prem3": browser.find_by_id('case-prem3').text,
@@ -19,4 +19,3 @@ def get_address():
         "post_town": browser.find_by_id('case-post_town').text,
         "postcode": browser.find_by_id('case-postcode').text
     }
-    return address_details
