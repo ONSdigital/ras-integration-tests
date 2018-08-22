@@ -8,6 +8,7 @@ from acceptance_tests.features.pages import enrolment_code, reporting_unit
 from acceptance_tests.features.pages import home
 from common.enrolment_helper import generate_new_iac_code
 
+
 logger = wrap_logger(getLogger(__name__))
 
 

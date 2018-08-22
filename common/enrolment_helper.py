@@ -7,6 +7,7 @@ from structlog import wrap_logger
 from controllers.collection_exercise_controller import create_and_execute_collection_exercise
 from controllers.survey_controller import create_survey, create_classifiers
 
+
 logger = wrap_logger(getLogger(__name__))
 
 

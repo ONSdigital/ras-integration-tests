@@ -1,7 +1,7 @@
 from acceptance_tests import browser
+from acceptance_tests.features.pages.reporting_unit import click_data_panel
 from common.respondent_details import RESPONDENT_DETAILS
 from config import Config
-from acceptance_tests.features.pages.reporting_unit import click_data_panel
 
 
 def go_to():

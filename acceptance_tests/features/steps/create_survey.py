@@ -1,10 +1,11 @@
 import logging
 
 from behave import given, when, then
+from structlog import wrap_logger
 
 from acceptance_tests import browser
 from acceptance_tests.features.pages import create_survey_form, survey
-from structlog import wrap_logger
+
 
 logger = wrap_logger(logging.getLogger(__name__))
 

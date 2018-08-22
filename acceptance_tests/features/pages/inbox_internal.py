@@ -1,6 +1,5 @@
-from config import Config
-
 from acceptance_tests import browser
+from config import Config
 
 
 def go_to():

@@ -5,10 +5,10 @@ from behave import when, given, then
 from acceptance_tests.features.environment import enrol_respondent
 from acceptance_tests.features.pages import change_response_status, surveys_history, reporting_unit
 from acceptance_tests.features.steps.authentication import signed_in_respondent
-from controllers.collection_exercise_controller import create_and_execute_collection_exercise, \
-    get_collection_exercise, map_ce_status
 from config import Config
 from controllers import party_controller
+from controllers.collection_exercise_controller import create_and_execute_collection_exercise, \
+    get_collection_exercise, map_ce_status
 
 
 @given('the internal user is on the reporting unit page for ru ref "{ru_ref}"')

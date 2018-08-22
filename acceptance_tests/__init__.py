@@ -8,6 +8,7 @@ from structlog import configure
 from structlog.stdlib import LoggerFactory
 from urllib3.exceptions import ProtocolError
 
+
 logging.basicConfig()
 configure(logger_factory=LoggerFactory())
 

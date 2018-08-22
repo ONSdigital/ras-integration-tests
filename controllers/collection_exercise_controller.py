@@ -1,13 +1,13 @@
-from datetime import datetime
 import logging
 import time
+from datetime import datetime
 
 import requests
 from structlog import wrap_logger
 
 from acceptance_tests.features.environment import poll_database_for_iac
 from config import Config
-from controllers import collection_instrument_controller as ci_controller,\
+from controllers import collection_instrument_controller as ci_controller, \
     sample_controller
 from controllers.action_controller import create_social_action_rule
 from controllers.collection_instrument_controller import get_collection_instruments_by_classifier

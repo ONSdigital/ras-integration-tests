@@ -1,10 +1,10 @@
-from os.path import abspath
 import time
+from os.path import abspath
 
 from selenium.webdriver.support.ui import Select
 
-from acceptance_tests.features.pages import collection_exercise
 from acceptance_tests import browser
+from acceptance_tests.features.pages import collection_exercise
 from common.browser_utilities import is_text_present_with_retry
 from config import Config
 
