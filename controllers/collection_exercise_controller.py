@@ -178,7 +178,7 @@ def create_and_execute_collection_exercise(survey_id, period, user_description, 
     return iac
 
 
-def create_and_execute_social_collection_exercise(survey_id, period, user_description, dates, short_name=None):
+def create_and_execute_social_collection_exercise(survey_id, period, user_description, dates, sample_file_name, short_name=None):
     create_collection_exercise(survey_id, period, user_description)
     collection_exercise = get_collection_exercise(survey_id, period)
     collection_exercise_id = collection_exercise['id']
@@ -193,7 +193,7 @@ def create_and_execute_social_collection_exercise(survey_id, period, user_descri
                                       convert_datetime_for_event(dates['exercise_end']))
 
     sample_summary = sample_controller.upload_sample(collection_exercise['id'],
-                                                     'resources/sample_files/Social_Test_1_Sample.csv',
+                                                     f'resources/sample_files/{sample_file_name}',
                                                      social=True)
 
     link_sample_summary_to_collection_exercise(collection_exercise['id'], sample_summary['id'])

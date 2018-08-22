@@ -34,7 +34,10 @@ def create_social_survey_cases(context):
     user_description = 'UserDescription-' + test_unique_id
     dates = generate_collection_exercise_dates()
 
+    sample_file_name = getattr(context, 'sample_file_name', 'Social_Test_1_Sample.csv')
+
     return create_and_execute_social_collection_exercise(survey_id, period, user_description, dates,
+                                                         sample_file_name=sample_file_name,
                                                          short_name=survey_short_name)
 
 
