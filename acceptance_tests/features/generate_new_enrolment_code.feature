@@ -8,7 +8,7 @@ Feature: Generate new enrolment code
 
   @us051-generateNewCode_s01
   Scenario: Make a request for a new code
-    Given the internal user views the 49900000001 reporting unit page
+    Given the internal user views the 49900000008 reporting unit page
     When the internal user opens the Bricks data panel
     And the user clicks generate enrolment code
     Then a new enrolment code is displayed back to the user
