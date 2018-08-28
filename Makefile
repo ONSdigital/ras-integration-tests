@@ -45,6 +45,17 @@ rasrm_acceptance_tests: TEST_TAGS = ~@secure_messaging
 rasrm_acceptance_tests:
 	pipenv run behave --stop --format ${BEHAVE_FORMAT} --tags ${TEST_TAGS} ${TEST_TARGET}
 
+rasrm_business_acceptance_tests: TEST_TARGET = acceptance_tests/features
+rasrm_business_acceptance_tests: TEST_TAGS = ~@secure_messaging ~@social
+rasrm_business_acceptance_tests:
+	pipenv run behave --stop --format ${BEHAVE_FORMAT} --tags ${TEST_TAGS} ${TEST_TARGET}
+
+social_acceptance_tests: TEST_TARGET = acceptance_tests/features
+social_acceptance_tests: TEST_TAGS = @social
+social_acceptance_tests: setup
+social_acceptance_tests:
+	pipenv run behave --stop --format ${BEHAVE_FORMAT} --tags ${TEST_TAGS} ${TEST_TARGET}
+
 secure_messaging_acceptance_tests: TEST_TARGET = acceptance_tests/features
 secure_messaging_acceptance_tests: TEST_TAGS = @secure_messaging
 secure_messaging_acceptance_tests:

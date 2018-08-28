@@ -17,10 +17,15 @@ def load_sample(survey_name, period, test_file):
     browser.driver.find_element_by_id('btn-load-sample').click()
 
 
-def upload_sample(collection_exercise_id, file_path):
+def upload_sample(collection_exercise_id, file_path, social=False):
     logger.info('Uploading sample file',
                 collection_exercise_id=collection_exercise_id, sample_file=file_path)
-    url = f'{Config.SAMPLE_SERVICE}/samples/B/fileupload'
+    if social:
+        sample_type = "SOCIAL"
+    else:
+        sample_type = "B"
+
+    url = f'{Config.SAMPLE_SERVICE}/samples/{sample_type}/fileupload'
     files = {"file": ('test_sample_file.xlxs', open(file_path, 'rb'), 'text/csv')}
 
     response = requests.post(url=url, auth=Config.BASIC_AUTH, files=files)

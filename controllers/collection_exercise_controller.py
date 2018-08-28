@@ -9,6 +9,9 @@ from acceptance_tests.features.environment import poll_database_for_iac
 from config import Config
 from controllers import collection_instrument_controller as ci_controller,\
     sample_controller
+from controllers.action_controller import create_social_action_rule
+from controllers.collection_instrument_controller import get_collection_instruments_by_classifier
+
 
 logger = wrap_logger(logging.getLogger(__name__))
 
@@ -159,15 +162,53 @@ def create_and_execute_collection_exercise(survey_id, period, user_description, 
                                       convert_datetime_for_event(dates['return_by']))
     post_event_to_collection_exercise(collection_exercise_id, 'exercise_end',
                                       convert_datetime_for_event(dates['exercise_end']))
+
     sample_summary = sample_controller.upload_sample(collection_exercise['id'],
                                                      'resources/sample_files/business-survey-sample-date.csv')
+
     link_sample_summary_to_collection_exercise(collection_exercise['id'], sample_summary['id'])
+
     ci_controller.upload_seft_collection_instrument(collection_exercise['id'],
                                                     'resources/collection_instrument_files/064_201803_0001.xlsx')
 
     time.sleep(5)
     execute_collection_exercise(survey_id, period)
     iac = poll_database_for_iac(survey_id, period)
+
+    return iac
+
+
+def create_and_execute_social_collection_exercise(survey_id, period, user_description, dates, short_name=None):
+    create_collection_exercise(survey_id, period, user_description)
+    collection_exercise = get_collection_exercise(survey_id, period)
+    collection_exercise_id = collection_exercise['id']
+
+    post_event_to_collection_exercise(collection_exercise_id, 'mps',
+                                      convert_datetime_for_event(dates['mps']))
+    post_event_to_collection_exercise(collection_exercise_id, 'go_live',
+                                      convert_datetime_for_event(dates['go_live']))
+    post_event_to_collection_exercise(collection_exercise_id, 'return_by',
+                                      convert_datetime_for_event(dates['return_by']))
+    post_event_to_collection_exercise(collection_exercise_id, 'exercise_end',
+                                      convert_datetime_for_event(dates['exercise_end']))
+
+    sample_summary = sample_controller.upload_sample(collection_exercise['id'],
+                                                     'resources/sample_files/Social_Pilot_Sample.csv',
+                                                     social=True)
+
+    link_sample_summary_to_collection_exercise(collection_exercise['id'], sample_summary['id'])
+
+    ci_controller.upload_eq_collection_instrument(survey_id=survey_id,
+                                                  form_type='1', eq_id='lms')
+    collection_instruments = get_collection_instruments_by_classifier(survey_id, form_type='1')
+    for collection_instrument in collection_instruments:
+        ci_controller.link_collection_instrument_to_exercise(collection_instrument['id'], collection_exercise['id'])
+
+    if short_name:
+        create_social_action_rule(short_name, period)
+    time.sleep(2)
+    execute_collection_exercise(survey_id, period)
+    iac = poll_database_for_iac(survey_id, period, social=True)
 
     return iac
 
