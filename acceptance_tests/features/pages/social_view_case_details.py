@@ -11,11 +11,9 @@ def get_status():
 
 def get_address():
     return {
-        "prem1": browser.find_by_id('case-prem1').text,
-        "prem2": browser.find_by_id('case-prem2').text,
-        "prem3": browser.find_by_id('case-prem3').text,
-        "prem4": browser.find_by_id('case-prem4').text,
-        "district": browser.find_by_id('case-district').text,
-        "post_town": browser.find_by_id('case-post_town').text,
+        "address_line_1": browser.find_by_id('case-address-line1').text,
+        "address_line_2": browser.find_by_id('case-address-line2').text,
+        "locality": browser.find_by_id('case-locality').text,
+        "town": browser.find_by_id('case-town-name').text,
         "postcode": browser.find_by_id('case-postcode').text
     }
