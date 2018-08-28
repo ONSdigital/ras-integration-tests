@@ -23,10 +23,9 @@ def internal_sel_user_can_view_social_case_details(context):
 
     assert 'LMS100002' == actual_social_ref_number, actual_social_ref_number
     assert 'Not started' == actual_social_status, actual_social_status
-    assert 'Office for National Statistics' == actual_social_address['prem1']
-    assert 'Cardiff Road' == actual_social_address['prem2']
-    assert 'Duffryn' == actual_social_address['prem3']
-    assert 'Wales' == actual_social_address['prem4']
-    assert 'Gwent District' == actual_social_address['district']
-    assert 'Newport' == actual_social_address['post_town']
-    assert 'NP10 8XG' == actual_social_address['postcode']
+    assert 'Office for National Statistics' == actual_social_address['address_line_1'], \
+        actual_social_address['address_line_1']
+    assert 'Cardiff Road' == actual_social_address['address_line_2'], actual_social_address['address_line_2']
+    assert 'Gwent District' == actual_social_address['locality'], actual_social_address['locality']
+    assert 'Newport' == actual_social_address['town'], actual_social_address['town']
+    assert 'NP10 8XG' == actual_social_address['postcode'], actual_social_address['postcode']
