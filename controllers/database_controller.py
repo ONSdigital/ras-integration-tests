@@ -29,7 +29,7 @@ def execute_sql(sql_script_file_path=None, sql_string=None, database_uri=Config.
 def select_iac():
     sql_statement = "SELECT a.iac FROM casesvc.caseiacaudit a " \
                     "INNER JOIN casesvc.case c ON a.casefk = c.casepk " \
-                    "INNER JOIN iac.iac i ON c.iac = i.code " \
+                    "INNER JOIN iac.iac i ON a.iac = i.code " \
                     "WHERE i.active = TRUE AND i.lastuseddatetime IS NULL AND c.SampleUnitType = 'B' " \
                     "ORDER BY i.createddatetime DESC LIMIT 1;"
     result = execute_sql(sql_string=sql_statement)
