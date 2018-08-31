@@ -5,6 +5,7 @@ from structlog import wrap_logger
 
 from config import Config
 
+
 logger = wrap_logger(logging.getLogger(__name__))
 
 

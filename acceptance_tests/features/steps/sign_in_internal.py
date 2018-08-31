@@ -1,8 +1,10 @@
 import logging
-from acceptance_tests.features.pages import sign_in_internal, home, sign_out_internal
-from behave import given, when, then
 
+from behave import given, when, then
 from structlog import wrap_logger
+
+from acceptance_tests.features.pages import sign_in_internal, home, sign_out_internal
+
 
 logger = wrap_logger(logging.getLogger(__name__))
 

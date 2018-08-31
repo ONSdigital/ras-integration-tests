@@ -1,5 +1,6 @@
-from acceptance_tests.features.pages import forgotten_password_respondent
 from behave import given, when, then
+
+from acceptance_tests.features.pages import forgotten_password_respondent
 
 
 @given('the user has an active account and they have forgotten their password')

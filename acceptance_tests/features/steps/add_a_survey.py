@@ -1,8 +1,8 @@
 from behave import given, when, then
 
 from acceptance_tests import browser
-from controllers.database_controller import select_iac
 from acceptance_tests.features.pages import surveys_todo, add_survey
+from controllers.database_controller import select_iac
 
 
 @when('the respondent views the survey list todo page')

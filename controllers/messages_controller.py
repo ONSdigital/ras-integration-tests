@@ -8,6 +8,7 @@ from acceptance_tests.features.pages.reporting_unit import click_data_panel
 from acceptance_tests.features.steps.authentication import signed_in_respondent, signed_in_internal
 from config import Config
 
+
 logger = wrap_logger(logging.getLogger(__name__))
 
 

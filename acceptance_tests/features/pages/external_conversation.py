@@ -1,8 +1,7 @@
-from acceptance_tests.features.steps.authentication import signed_in_respondent
-from config import Config
-
 from acceptance_tests import browser
 from acceptance_tests.features.pages import create_message_external
+from acceptance_tests.features.steps.authentication import signed_in_respondent
+from config import Config
 from controllers import messages_controller
 
 

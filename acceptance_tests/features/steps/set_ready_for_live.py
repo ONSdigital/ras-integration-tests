@@ -8,6 +8,7 @@ from common.browser_utilities import is_text_present_with_retry
 from controllers import (collection_exercise_controller, sample_controller,
                          collection_instrument_controller)
 
+
 logger = wrap_logger(getLogger(__name__))
 
 
