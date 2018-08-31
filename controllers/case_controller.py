@@ -113,7 +113,7 @@ def update_case_group_status(collection_exercise_id, ru_ref, case_group_event):
 
 def get_case_iac(case_id):
     url = f'{Config.CASE_SERVICE}/cases/{case_id}'
-    response = requests.get(url, auth=Config.BASIC_AUTH, params={'iac':'true'})
+    response = requests.get(url, auth=Config.BASIC_AUTH, params={'iac': 'true'})
 
     if response.status_code != 200:
         logger.error('Failed to retrieve Iac code', status=response.status_code)

@@ -27,6 +27,7 @@ def execute_sql(sql_script_file_path=None, sql_string=None, database_uri=Config.
     logger.debug('Successfully executed SQL script', sql_script_file_path=sql_script_file_path)
     return response
 
+
 def select_iac():
     sql_statement = "SELECT a.iac FROM casesvc.caseiacaudit a " \
                     "INNER JOIN casesvc.case c ON a.casefk = c.casepk " \
@@ -60,6 +61,7 @@ def get_iac_for_collection_exercise(collection_exercise_id, social=False):
     for row in result:
         iac = row['iac']
     return iac
+
 
 def enrol_party(respondent_uuid):
     # Enrolling respondent for enrolment code that they registered for is a slightly different
