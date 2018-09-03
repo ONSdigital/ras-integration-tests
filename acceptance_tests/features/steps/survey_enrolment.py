@@ -80,5 +80,11 @@ def internal_user_generates_new_code(_):
 
 @then('a new enrolment code is displayed back to the user')
 def internal_user_views_generated_code(_):
-    iac = enrolment_code.get_iac()
+    iac = enrolment_code.get_new_iac()
+    assert iac
+
+
+@then('an unused enrolment code is displayed back to the user')
+def internal_user_views_unused_code(_):
+    iac = enrolment_code.get_unused_iac()
     assert iac
