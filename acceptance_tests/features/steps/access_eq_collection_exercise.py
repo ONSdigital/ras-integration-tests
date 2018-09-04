@@ -1,10 +1,10 @@
 from behave import given, when, then
 
 from acceptance_tests import browser
-from config import Config
-from controllers import party_controller
 from acceptance_tests.features.environment import enrol_respondent
 from acceptance_tests.features.pages import surveys_todo
+from config import Config
+from controllers import party_controller
 
 
 @given('the respondent has a CE for an eQ available')

@@ -1,7 +1,7 @@
 import requests
+from behave import given, when, then
 
 from config import Config
-from behave import given, when, then
 
 
 @given('services are running')

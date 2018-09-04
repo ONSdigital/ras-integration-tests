@@ -1,6 +1,6 @@
 import datetime
-from logging import getLogger
 import time
+from logging import getLogger
 
 from structlog import wrap_logger
 
@@ -10,6 +10,7 @@ from controllers import case_controller, collection_exercise_controller, databas
     django_oauth_controller, iac_controller, party_controller, sample_controller
 from controllers.collection_instrument_controller import get_collection_instruments_by_classifier, \
     link_collection_instrument_to_exercise, upload_seft_collection_instrument
+
 
 logger = wrap_logger(getLogger(__name__))
 

@@ -1,6 +1,6 @@
 from behave import when, then
 
-from acceptance_tests.features.pages import collection_exercise, collection_exercise_details,  home, survey
+from acceptance_tests.features.pages import collection_exercise, collection_exercise_details, home, survey
 
 
 @when('the internal user navigates to the home page')

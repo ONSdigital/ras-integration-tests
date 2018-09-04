@@ -1,12 +1,12 @@
 from behave import given, then, when
 
-from acceptance_tests.features.pages.inbox_internal import go_to as go_to_internal_bricks_messages
+import acceptance_tests.features.pages.view_and_reply_conversation_external as page_helpers
 from acceptance_tests.features.pages.create_message_internal import get_first_flashed_message
+from acceptance_tests.features.pages.inbox_internal import go_to as go_to_internal_bricks_messages
 from acceptance_tests.features.pages.internal_conversation_view import go_to_thread as go_to_thread_internal
 from acceptance_tests.features.pages.reply_to_message_internal import get_current_url
 from acceptance_tests.features.pages.reply_to_message_internal import \
     reply_to_first_message_in_message_box as reply_to_last_message_internal
-import acceptance_tests.features.pages.view_and_reply_conversation_external as page_helpers
 from acceptance_tests.features.steps.authentication import signed_in_internal, signed_in_respondent
 from controllers.messages_controller import create_message_external_to_internal
 

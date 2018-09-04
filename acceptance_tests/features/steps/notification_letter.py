@@ -10,6 +10,7 @@ from acceptance_tests.features.environment import poll_database_for_iac
 from config import Config
 from controllers.collection_exercise_controller import create_and_execute_collection_exercise
 
+
 logger = wrap_logger(logging.getLogger(__name__))
 
 

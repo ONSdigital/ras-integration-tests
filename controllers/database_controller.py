@@ -5,6 +5,7 @@ from structlog import wrap_logger
 
 from config import Config
 
+
 logger = wrap_logger(logging.getLogger(__name__))
 
 
@@ -28,8 +29,9 @@ def execute_sql(sql_script_file_path=None, sql_string=None, database_uri=Config.
 
 
 def select_iac():
-    sql_statement = "SELECT c.iac FROM casesvc.case c " \
-                    "INNER JOIN iac.iac i ON c.iac = i.code " \
+    sql_statement = "SELECT a.iac FROM casesvc.caseiacaudit a " \
+                    "INNER JOIN casesvc.case c ON a.casefk = c.casepk " \
+                    "INNER JOIN iac.iac i ON a.iac = i.code " \
                     "WHERE i.active = TRUE AND i.lastuseddatetime IS NULL AND c.SampleUnitType = 'B' " \
                     "ORDER BY i.createddatetime DESC LIMIT 1;"
     result = execute_sql(sql_string=sql_statement)
@@ -46,29 +48,14 @@ def get_iac_for_collection_exercise(collection_exercise_id, social=False):
     else:
         sample_unit_type = "B"
 
-    sql_statement = "SELECT c.iac FROM casesvc.case c " \
-                    "INNER JOIN casesvc.casegroup g ON g.id = c.casegroupid " \
-                    "INNER JOIN iac.iac i ON c.iac = i.code " \
+    sql_statement = "SELECT a.iac FROM casesvc.caseiacaudit a " \
+                    "INNER JOIN casesvc.case c ON a.casefk = c.casepk " \
+                    "INNER JOIN iac.iac i ON a.iac = i.code " \
+                    "INNER JOIN casesvc.casegroup g ON c.casegroupfk = g.casegrouppk " \
                     f"WHERE c.statefk = 'ACTIONABLE' AND c.SampleUnitType = '{sample_unit_type}'" \
                     f"AND g.collectionexerciseid = '{collection_exercise_id}' " \
                     "AND i.active = TRUE " \
-                    "ORDER BY c.createddatetime DESC LIMIT 1;"
-    result = execute_sql(sql_string=sql_statement)
-    iac = None
-    for row in result:
-        iac = row['iac']
-    return iac
-
-
-def get_iac_for_collection_exercise_and_business(collection_exercise_id, business_id):
-    sql_statement = "SELECT c.iac FROM casesvc.case c " \
-                    "INNER JOIN casesvc.casegroup g ON g.id = c.casegroupid " \
-                    "INNER JOIN iac.iac i ON c.iac = i.code " \
-                    "WHERE c.statefk = 'ACTIONABLE' AND c.SampleUnitType = 'B' " \
-                    f"AND g.collectionexerciseid = '{collection_exercise_id}' " \
-                    "AND i.active = TRUE " \
-                    f"AND c.partyid = '{business_id}' " \
-                    "ORDER BY c.createddatetime DESC LIMIT 1;"
+                    "ORDER BY c.createddatetime DESC LIMIT 1; "
     result = execute_sql(sql_string=sql_statement)
     iac = None
     for row in result:

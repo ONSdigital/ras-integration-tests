@@ -5,6 +5,7 @@ from structlog import wrap_logger
 
 from config import Config
 
+
 logger = wrap_logger(logging.getLogger(__name__))
 
 
@@ -50,6 +51,11 @@ def get_b_case(collection_exercise_id, business_id):
                   if case['sampleUnitType'] == 'B')
     logger.debug('Successfully retrieved B case',
                  collection_exercise_id=collection_exercise_id, business_id=business_id)
+
+    iac = get_case_iac(b_case['id'])
+
+    b_case['iac'] = iac
+
     return b_case
 
 
@@ -101,3 +107,13 @@ def update_case_group_status(collection_exercise_id, ru_ref, case_group_event):
     response.raise_for_status()
     logger.debug('Successfully updated status', collection_exercise_id=collection_exercise_id, ru_ref=ru_ref,
                  case_group_event=case_group_event)
+
+
+def get_case_iac(case_id):
+    url = f'{Config.CASE_SERVICE}/cases/{case_id}'
+    response = requests.get(url, auth=Config.BASIC_AUTH, params={'iac': 'true'})
+
+    if response.status_code != 200:
+        logger.error('Failed to retrieve Iac code', status=response.status_code)
+
+    return response.json()['iac']

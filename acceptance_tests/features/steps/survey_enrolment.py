@@ -8,6 +8,7 @@ from acceptance_tests.features.pages import enrolment_code, reporting_unit
 from acceptance_tests.features.pages import home
 from common.enrolment_helper import generate_new_iac_code
 
+
 logger = wrap_logger(getLogger(__name__))
 
 
@@ -79,5 +80,11 @@ def internal_user_generates_new_code(_):
 
 @then('a new enrolment code is displayed back to the user')
 def internal_user_views_generated_code(_):
-    iac = enrolment_code.get_iac()
+    iac = enrolment_code.get_new_iac()
+    assert iac
+
+
+@then('an unused enrolment code is displayed back to the user')
+def internal_user_views_unused_code(_):
+    iac = enrolment_code.get_unused_iac()
     assert iac
