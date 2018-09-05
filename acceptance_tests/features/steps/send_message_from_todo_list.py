@@ -2,6 +2,7 @@ from behave import given, when, then
 
 from acceptance_tests import browser
 from acceptance_tests.features.pages import surveys_todo, create_message_external
+import acceptance_tests.features.pages.view_and_reply_conversation_external as page_helpers
 
 
 @given('the respondent is on their todo list')
@@ -26,6 +27,18 @@ def select_create_message(_):
 @then('the respondent is navigated to the create message page')
 def assert_create_message_page(_):
     browser.find_by_id('secure-message-subject')
+
+
+@then('They are able to enter up to and including 10,000 characters')
+def enter_text_body_up_to_10000_characters(_):
+    # Check user can enter 10000 characters
+    page_helpers.enter_text_in_conversation_reply_with_javascript('a' * 9900)
+    page_helpers.enter_text_in_conversation_reply('a' * 100)
+    assert page_helpers.get_text_from_reply_text_area() == 'a' * 10000
+
+    # Check user cannot enter more than 10000 characters
+    page_helpers.enter_text_in_conversation_reply('a' * 100)
+    assert page_helpers.get_text_from_reply_text_area() == 'a' * 10000
 
 
 @when('the respondent enters a valid message')
@@ -108,3 +121,10 @@ def populate_subject_no_body(_):
 @then('an error message appears notifying the respondent a body must be supplied')
 def assert_error_no_body(_):
     browser.driver.find_element_by_link_text('Please enter a message')
+
+
+@when("they enter text in the body of the external message")
+def user_enters_text_in_message_body(_):
+    create_message_external.enter_valid_body('Message body')
+    assert create_message_external.get_message_body_text() == 'Message body'
+    create_message_external.empty_body()
