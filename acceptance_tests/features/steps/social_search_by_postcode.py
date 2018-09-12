@@ -11,13 +11,13 @@ def internal_user_navigates_to_social_page(context):
 @given('the user enters a postcode that doesnt exist in the sample')
 def user_enters_postcode_that_doesnt_exist(context):
     internal_user_navigates_to_social_page(context)
-    context.invalid_postcode = 'LN10 5GB'
+    context.invalid_postcode = 'NOTVALID'
     social_search_by_postcode.enter_postcode(context.invalid_postcode)
 
 
 @when('they enter a postcode')
-def user_enters_valid_postcode(_):
-    social_search_by_postcode.enter_postcode('NP10 8XG')
+def user_enters_valid_postcode(context):
+    social_search_by_postcode.enter_postcode(context.address["postcode"])
     social_search_by_postcode.click_search_by_postcode()
 
 
@@ -27,14 +27,15 @@ def user_clicks_search(_):
 
 
 @then('all address are returned for the postcode')
-def return_addresses_for_searched_postcode(_):
+def return_addresses_for_searched_postcode(context):
     case_ref = social_search_by_postcode.get_reference_number()
     post_code = social_search_by_postcode.get_postcode()
     address_details = social_search_by_postcode.get_address()
-    assert 'LMS100002' == case_ref, case_ref
-    assert 'NP10 8XG' == post_code, post_code
-    assert 'Office for National Statistics, Cardiff Road, Gwent District, Newport' in address_details, \
-        address_details
+    assert f'{context.address["TLA"]}{context.address["reference"]}' == case_ref, case_ref
+    assert context.address["postcode"] == post_code, post_code
+    assert (f'{context.address["address_line1"]}, {context.address["address_line2"]}, {context.address["locality"]}, '
+            f'{context.address["town_name"]}') \
+        in address_details, address_details
 
 
 @then('no postcodes/addresses are to be returned')
