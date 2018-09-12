@@ -2,6 +2,8 @@ import os
 
 
 class Config(object):
+    STANDALONE = os.getenv('STANDALONE', 'False')
+
     PROTOCOL = os.getenv('PROTOCOL', 'http')
     INFO = '/info'
 

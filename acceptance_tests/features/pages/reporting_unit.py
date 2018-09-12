@@ -82,8 +82,8 @@ def get_unused_iac(ru_ref, survey_short_name):
     return unused_iac
 
 
-def click_generate_new_code():
-    browser.find_by_id('generate-new-code').click()
+def click_generate_new_code(code):
+    browser.find_by_id('generate-new-code-' + code).click()
 
 
 def click_disable_enrolment(email):

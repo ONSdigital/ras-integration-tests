@@ -11,24 +11,36 @@ from controllers import case_controller, collection_exercise_controller, databas
 from controllers.collection_instrument_controller import get_collection_instruments_by_classifier, \
     link_collection_instrument_to_exercise, upload_seft_collection_instrument
 
-
 logger = wrap_logger(getLogger(__name__))
-
 
 timings = {}
 
 
-def before_all(_):
-    execute_collection_exercises()
-    register_respondent(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201801',
-                        username=Config.RESPONDENT_USERNAME, ru_ref=49900000001)
+def set_test_execution_mode(context):
+    try:
+        context.standalone_mode = Config.STANDALONE and Config.STANDALONE == 'True'
+    except AttributeError:
+        context.standalone_mode = False
 
 
-def before_scenario(_, scenario):
+def before_all(context):
+    set_test_execution_mode(context)
+
+    mode = ' ' if context.standalone_mode else ' NOT '
+    logger.info(f'Acceptance Tests are{mode}RUNNING IN STANDALONE mode')
+
+    if not context.standalone_mode:
+        execute_collection_exercises()
+        register_respondent(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201801',
+                            username=Config.RESPONDENT_USERNAME, ru_ref=49900000001)
+
+
+def before_scenario(context, scenario):
     if "skip" in scenario.effective_tags:
         scenario.skip("Marked with @skip")
         return
     timings[scenario.name] = {'start_time': datetime.datetime.now()}
+    context.scenario_name = scenario.name
 
 
 def after_scenario(_, scenario):
@@ -39,6 +51,10 @@ def after_scenario(_, scenario):
 def after_step(context, step):
     if step.status == "failed":
         logger.exception('Failed step', scenario=context.scenario.name, step=step.name)
+
+
+def before_feature(context, feature):
+    context.feature_name = feature.name
 
 
 def after_all(_):

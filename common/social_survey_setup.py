@@ -5,8 +5,7 @@ from random import randint
 from structlog import wrap_logger
 
 from controllers.collection_exercise_controller import create_and_execute_social_collection_exercise
-from controllers.survey_controller import create_survey, create_classifiers
-
+from controllers.survey_controller import create_survey
 
 logger = wrap_logger(getLogger(__name__))
 
@@ -28,8 +27,6 @@ def create_social_survey_cases(context):
     response = create_survey(survey_ref=test_unique_id, short_name=survey_short_name, long_name=survey_long_name,
                              legal_basis=survey_legal_basis, survey_type=survey_type)
     survey_id = response['id']
-
-    create_classifiers(survey_id)
 
     period = '1'
 

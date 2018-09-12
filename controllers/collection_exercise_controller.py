@@ -12,7 +12,6 @@ from controllers import collection_instrument_controller as ci_controller, \
 from controllers.action_controller import create_social_action_rule
 from controllers.collection_instrument_controller import get_collection_instruments_by_classifier
 
-
 logger = wrap_logger(logging.getLogger(__name__))
 
 
@@ -133,7 +132,16 @@ def delete_collection_exercise_event(survey_id, period, event_tag):
 def create_collection_exercise(survey_id, period, user_description):
     logger.debug('Creating collection exercise', survey_id=survey_id, period=period)
     url = f'{Config.COLLECTION_EXERCISE_SERVICE}/collectionexercises'
+
+    # Retain as much of the user_description as possible
+    if len(user_description) > 50:
+        user_description = user_description.title()
+        user_description = user_description.replace(' ', '')
+        if len(user_description) > 50:
+            user_description = user_description[:50]
+
     json = {
+        "surveyId": survey_id,
         "surveyId": survey_id,
         "exerciseRef": period,
         "userDescription": user_description
@@ -165,6 +173,35 @@ def create_and_execute_collection_exercise(survey_id, period, user_description, 
 
     sample_summary = sample_controller.upload_sample(collection_exercise['id'],
                                                      'resources/sample_files/business-survey-sample-date.csv')
+
+    link_sample_summary_to_collection_exercise(collection_exercise['id'], sample_summary['id'])
+
+    ci_controller.upload_seft_collection_instrument(collection_exercise['id'],
+                                                    'resources/collection_instrument_files/064_201803_0001.xlsx')
+
+    time.sleep(5)
+    execute_collection_exercise(survey_id, period)
+    iac = poll_database_for_iac(survey_id, period)
+
+    return iac
+
+def create_and_execute_collection_exercise_with_unique_sample(survey_id, period, user_description, dates, ru_ref):
+    create_collection_exercise(survey_id, period, user_description)
+    collection_exercise = get_collection_exercise(survey_id, period)
+    collection_exercise_id = collection_exercise['id']
+
+    post_event_to_collection_exercise(collection_exercise_id, 'mps',
+                                      convert_datetime_for_event(dates['mps']))
+    post_event_to_collection_exercise(collection_exercise_id, 'go_live',
+                                      convert_datetime_for_event(dates['go_live']))
+    post_event_to_collection_exercise(collection_exercise_id, 'return_by',
+                                      convert_datetime_for_event(dates['return_by']))
+    post_event_to_collection_exercise(collection_exercise_id, 'exercise_end',
+                                      convert_datetime_for_event(dates['exercise_end']))
+
+    upload_response = sample_controller.upload_unique_sample(collection_exercise['id'], ru_ref)
+
+    sample_summary = upload_response['upload_response']
 
     link_sample_summary_to_collection_exercise(collection_exercise['id'], sample_summary['id'])
 

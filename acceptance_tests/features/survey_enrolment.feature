@@ -4,11 +4,13 @@ Feature: As an respondent user
   Background: Respondent user has received an enrolment code
     Given the respondent is ready to enrol in a survey
 
+  @standalone
   Scenario: Frontstage can see the survey they are enrolling in
     Given a respondent has got their enrolment code
     When they enter their enrolment code
     Then they confirm the survey and organisation details
 
+  @standalone
   Scenario: Frontstage user can create an account
     Given a respondent has entered their enrolment code
     And they confirm the survey and organisation details
