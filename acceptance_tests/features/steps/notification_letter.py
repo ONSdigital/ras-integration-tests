@@ -53,7 +53,8 @@ def _get_sftp_client():
                 port=int(Config.SFTP_PORT),
                 username=Config.SFTP_USERNAME,
                 password=Config.SFTP_PASSWORD,
-                look_for_keys=False)
+                look_for_keys=False,
+                timeout=120)
     return ssh.open_sftp()
 
 
