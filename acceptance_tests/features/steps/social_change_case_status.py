@@ -27,6 +27,7 @@ def change_response_status(context):
 
 
 @then('the new status is to be saved against that case')
+@then('the new response status is to be displayed on the case details page')
 def new_case_status_is_saved(context):
     assert context.new_status == get_detailed_case_status()
 
@@ -53,17 +54,16 @@ def case_is_set_to_inactionable(context):
 
 @given('the SEL user has selected a new response status')
 def sel_user_selects_first_new_status(context):
-    raise NotImplementedError
+    sel_user_finds_case_details(context)
+    click_change_status()
+    click_first_new_response_status_option()
 
 
 @when('they confirm the status change')
 def sel_user_confirms_status_change(context):
-    raise NotImplementedError
-
-
-@then('the new response status is to be displayed on the case details page')
-def new_status_is_displayed_on_case_details(context):
-    raise NotImplementedError
+    new_status = click_first_new_response_status_option()
+    context.new_status = new_status.text
+    click_set_new_status()
 
 
 def _get_case_id_from_url():
