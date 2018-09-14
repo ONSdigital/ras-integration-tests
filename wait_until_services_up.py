@@ -18,7 +18,7 @@ def retry_if_http_error(exception):
     return isinstance(exception, RequestException) or isinstance(exception, HealthCheckException)
 
 
-@retry(retry_on_exception=retry_if_http_error, wait_fixed=10000, stop_max_delay=600000, wrap_exception=True)
+@retry(retry_on_exception=retry_if_http_error, wait_fixed=10000, stop_max_delay=1200000, wrap_exception=True)
 def check_status(url):
     try:
         resp = requests.get(f'{url}/info')
