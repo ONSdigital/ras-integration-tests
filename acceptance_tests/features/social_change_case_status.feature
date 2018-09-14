@@ -17,7 +17,7 @@ Feature: Change Response Status
   @sus005-02
   Scenario: The user is able to select a status from the list below
     Given the SEL user has selected to change the status
-    When the status is updated to 'Legitimacy concerns'
+    When the status is updated to '412 Legitimacy concerns'
     Then any further communication from being triggered such as pre-notification/invitation/reminder is prevented
 
   @sus005-03
