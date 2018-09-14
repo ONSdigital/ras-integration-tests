@@ -41,6 +41,7 @@ def letter_is_received(context):
 
         with client.open(file_path) as sftp_file:
             content = str(sftp_file.read())
+            logger.info('Checking file contains IAC code', file_path=file_path, iac_code=context.iac_code)
             assert context.iac_code in content, content
             client.remove(file_path)  # Only delete file if test passes
 
