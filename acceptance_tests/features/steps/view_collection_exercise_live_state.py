@@ -12,7 +12,7 @@ def create_execute_new_exercise(context, period):
     if collection_exercise_controller.get_collection_exercise('cb8accda-6118-4d3b-85a3-149e28960c54', period):
         return
     now = datetime.utcnow()
-    go_live = now + timedelta(minutes=1)
+    go_live = now + timedelta(minutes=2)
     context.go_live = go_live
     dates = {
         "mps": now + timedelta(seconds=5),

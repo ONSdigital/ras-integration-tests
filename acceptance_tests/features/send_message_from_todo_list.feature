@@ -34,9 +34,8 @@ Feature: Send message from todo list
   @sm137-05
   Scenario: Body field can be max 10000 characters long
     Given the respondent chooses to send a message to ONS
-    When the respondent enters more than 10000 characters in the body field
-    And selects to send message
-    Then an error message appears specifying body too long
+    When they enter text in the body of the external message
+    Then they are able to enter up to and including 10,000 characters
 
   @sm137-06
   Scenario: Body and Subject fields must be populated

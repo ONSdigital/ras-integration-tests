@@ -9,6 +9,17 @@ def enter_valid_body(body):
     browser.driver.find_element_by_id('secure-message-body').send_keys(body)
 
 
+def get_subject_and_body():
+    form_text_fields = browser.find_by_id("secure-message-form").first
+    form_text_field_attributes = {'subject': form_text_fields.find_by_id('secure-message-subject').value,
+                                  'body': form_text_fields.find_by_id('secure-message-body').value}
+    return form_text_field_attributes
+
+
+def get_message_body_text():
+    return get_subject_and_body().get('body')
+
+
 def enter_valid_body_over_80_character_summary():
     browser.driver.find_element_by_id('secure-message-body').send_keys('I would like to query data. ' * 5)
 
