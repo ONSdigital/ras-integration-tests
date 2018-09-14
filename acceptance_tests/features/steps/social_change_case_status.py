@@ -24,7 +24,7 @@ def change_response_status(context):
 
 @then('the new status is to be saved against that case')
 def new_case_status_is_saved(context):
-    assert context.new_status.encode == get_detailed_case_status()
+    assert context.new_status == get_detailed_case_status()
 
 
 @given('the SEL user has selected to change the status')

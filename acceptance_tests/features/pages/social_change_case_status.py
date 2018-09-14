@@ -3,7 +3,6 @@ from acceptance_tests import browser
 
 def click_first_new_response_status_option():
     event = browser.driver.find_element_by_id('status-group-1-status-1')
-    print(event)
     event.click()
     return event
 
