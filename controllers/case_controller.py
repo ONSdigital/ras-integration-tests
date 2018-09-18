@@ -25,7 +25,6 @@ def post_case_event(case_id, category, description):
     payload = {
         'description': description,
         'category': category,
-        'partyId': None,
         'createdBy': 'TESTS'
     }
     response = requests.post(url, json=payload, auth=Config.BASIC_AUTH)
