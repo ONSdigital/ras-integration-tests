@@ -1,3 +1,5 @@
+import time
+
 from datetime import datetime, timedelta
 
 from behave import when, given, then
@@ -61,6 +63,7 @@ def respondent_enrolled_for_ce(_, survey, period, ru_ref):
 @when('the respondent goes to the history page')
 def respondent_goes_to_history_page_for_49900000002(_):
     signed_in_respondent(_)
+    time.sleep(60)
     surveys_history.go_to_history_tab()
 
 
