@@ -1,13 +1,8 @@
 from behave import given, when, then
 
-from acceptance_tests.features.pages import enrolment_code, reporting_unit
-from acceptance_tests.features.pages import home
-from common.feature_helper import is_display_an_unused_active_code_scenario, is_generate_new_enrolment_code_scenario, \
-    is_frontstage_can_see_the_survey_they_are_enrolling_in_scenario, is_frontstage_user_can_create_an_account_scenario
-from common.survey_utilities import *
-from reset_database import reset_database
-
-logger = wrap_logger(getLogger(__name__))
+from acceptance_tests import browser
+from acceptance_tests.features.pages import enrolment_code, reporting_unit, home
+from common import respondent_utilities
 
 
 @given("the respondent is ready to enrol in a survey")
@@ -18,7 +13,7 @@ def ready_to_enrol_in_survey(context):
 
 @given("a respondent has got their enrolment code")
 def generate_enrolment_code(context):
-    setup_survey_enrolment_for_test(context)
+    pass
 
 
 @then('an unused enrolment code is displayed back to the user')
@@ -47,13 +42,13 @@ def confirm_correct_survey_selected(context):
 
 @given("a respondent has entered their enrolment code")
 def respondent_enters_enrolment_code(context):
-    setup_survey_enrolment_for_test(context)
     enter_enrolment_code(context)
 
 
 @when('they enter their account details')
 def complete_account_details(context):
-    context.email = make_respondent_user_name(str(context.unique_id), context.survey_short_name)
+    context.email = respondent_utilities.make_respondent_user_name(str(context.unique_id),
+                                                                   context.survey_short_name)
 
     browser.driver.find_element_by_id('first_name').send_keys('FirstName')
     browser.driver.find_element_by_id('last_name').send_keys('LastName')
@@ -73,7 +68,7 @@ def confirm_verification_email(context):
 
 @given('the internal user views the reporting unit page for a sample unit')
 def internal_user_views_the_reporting_unit(context):
-    setup_survey_enrolment_for_test(context)
+    # setup_survey_enrolment_for_test(context)
     reporting_unit.go_to(context.unique_id)
 
 
@@ -93,34 +88,36 @@ def internal_user_views_generated_code(_):
     assert iac
 
 
-def setup_survey_enrolment_for_test(context):
-    ''' Setup up a survey and collection exercise for enrolment tests '''
+def scenario_setup_display_an_unused_enrolment_code(context):
+    respondent_utilities.make_respondent_user_name(str(context.unique_id), context.survey_short_name)
 
-    # todo debug
-    if context.standalone_mode:
-        if is_display_an_unused_active_code_scenario(context.scenario_name):
-            reset_database()
 
-    period = create_period()
-    context.unique_id = create_unique_ru_ref()
-    survey_name = format_survey_name(context.feature_name)
+def scenario_setup_make_a_request_for_a_new_code(context):
+    user_name = respondent_utilities.make_respondent_user_name(str(context.unique_id), context.survey_short_name)
+    respondent_id = \
+        respondent_utilities.create_respondent(user_name=user_name, enrolment_code=context.enrolment_code)['id']
+    respondent_utilities.create_respondent_user_login_account(user_name)
+    respondent_utilities.enrol_respondent(respondent_id)
 
-    survey_response = setup_survey_for_test(context, period, survey_name)
 
-    # Save values for use later
-    context.survey_name = survey_response['survey_name']
-    context.survey_short_name = survey_response['survey_short_name']
-    context.enrolment_code = survey_response['enrolment_code']
+def scenario_setup_frontstage_can_see_the_survey_they_are_enrolling_in(context):
+    pass
 
+
+def scenario_setup_frontstage_user_can_create_an_account(context):
+    pass
+
+
+def feature_setup_survey_enrolment_for_test(context):
     # Scenario specific setup
-    if is_generate_new_enrolment_code_scenario(context.scenario_name):
-        user_name = make_respondent_user_name(str(context.unique_id), context.survey_short_name)
-        respondent_id = create_respondent(user_name=user_name, enrolment_code=context.enrolment_code)['id']
-        create_user_login(user_name)
-        enrol_respondent(respondent_id)
-    elif is_display_an_unused_active_code_scenario(context.scenario_name):
-        make_respondent_user_name(str(context.unique_id), context.survey_short_name)
-    elif is_frontstage_can_see_the_survey_they_are_enrolling_in_scenario(context.scenario_name):
-        pass
-    elif is_frontstage_user_can_create_an_account_scenario(context.scenario_name):
-        pass
+
+    scenarios[context.scenario_name](context)
+
+
+# Add each Scenario name + data setup method handler here
+scenarios = {
+    'Display an unused active code': scenario_setup_display_an_unused_enrolment_code,
+    'Make a request for a new code': scenario_setup_make_a_request_for_a_new_code,
+    'Frontstage can see the survey they are enrolling in': scenario_setup_frontstage_can_see_the_survey_they_are_enrolling_in,
+    'Frontstage user can create an account': scenario_setup_frontstage_user_can_create_an_account
+}

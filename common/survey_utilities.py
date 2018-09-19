@@ -1,17 +1,70 @@
-from datetime import timedelta
+from datetime import datetime
+from logging import getLogger
 from random import randint
 
-from acceptance_tests.features.environment import *
-from controllers.collection_exercise_controller import *
-from controllers.survey_controller import create_survey
+from structlog import wrap_logger
+
+from acceptance_tests.features.steps.add_a_survey import feature_setup_add_a_survey_for_test
+from acceptance_tests.features.steps.survey_enrolment import feature_setup_survey_enrolment_for_test
+from common import collection_exercise_utilities, respondent_utilities
+from common import common_utilities
+from config import Config
+from controllers import collection_exercise_controller, survey_controller
 
 logger = wrap_logger(getLogger(__name__))
 
+# todo more constants needed everywhere
+FIELD_SEPARATOR = '-'
+
+SURVEY_NAME_PREFIX = 'TEST'
+
+RU_REFERENCE_START = 50000000000
+RU_REFERENCE_END = 59999999999
+
+SURVEY_REFERENCE_START = 1001
+SURVEY_REFERENCE_END = 9999
+
+COLLECTION_EXERCISE_STATUS_LIVE = 'LIVE'
+
+
+# todo docs everywhere
+
+# Non-standalone methods
+
+def setup_non_standalone_data_for_test():
+    collection_exercise_utilities.execute_collection_exercises()
+    collection_exercise_utilities.register_respondent(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201801',
+                                                      username=Config.RESPONDENT_USERNAME, ru_ref=49900000001)
+
+
+# Standalone methods
+
+def setup_standalone_data_for_test(context):
+    period = create_period()
+    context.unique_id = create_ru_reference()
+    survey_name = format_survey_name(context.feature_name)
+
+    survey_response = setup_survey_for_test(context, period, survey_name)
+
+    # Save values for use later
+    context.period = period
+    context.survey_id = survey_response['survey_id']
+    context.survey_name = survey_response['survey_name']
+    context.survey_short_name = survey_response['survey_short_name']
+    context.enrolment_code = survey_response['enrolment_code']
+
+    # Create unique username based on unique_id (RU Reference)
+    context.user_name = respondent_utilities.make_respondent_user_name(str(context.unique_id),
+                                                                       context.survey_short_name)
+
+    # Call Feature method where Scenario specific setup lives
+    features[context.feature_name](context)
+
 
 def setup_survey_for_test(context, period, survey_name):
-    ''' Creates a new Survey based on the values supplied '''
+    ''' Creates a new Survey with single collection exercise based on the values supplied '''
 
-    survey_ref = str(randint(1001, 9999))
+    survey_ref = create_survey_reference()
     response = create_survey_for_test(survey_name, context.unique_id, survey_ref)
 
     survey_id = response['survey_id']
@@ -20,6 +73,7 @@ def setup_survey_for_test(context, period, survey_name):
                                                          context.scenario_name)
 
     survey_response = {
+        'survey_id': survey_id,
         'survey_name': response['survey_name'],
         'survey_short_name': response['survey_short_name'],
         'enrolment_code': enrolment_code
@@ -28,30 +82,17 @@ def setup_survey_for_test(context, period, survey_name):
     return survey_response
 
 
-def create_period(from_date=datetime.utcnow()):
-    return format_period(from_date.year, from_date.month)
-
-
-def create_base_date_from_period(period):
-    now = datetime.utcnow()
-    period_year = int(period[:4])
-    period_month = int(period[-2:])
-
-    return datetime(period_year, period_month, now.day, now.hour, now.minute, now.second, now.microsecond)
-
-
-def create_unique_ru_ref():
-    return str(randint(50000000000, 59999999999))
-
+# General methods
 
 def create_survey_for_test(survey_name, unique_id, survey_ref, survey_type='Business', survey_legal_basis='STA1947'):
     logger.info('Creating survey', test_name=survey_name)
 
     survey_short_name = unique_id
 
-    response = create_survey(survey_type=survey_type, survey_ref=survey_ref, short_name=survey_short_name,
-                             long_name=survey_name,
-                             legal_basis=survey_legal_basis)
+    response = survey_controller.create_survey(survey_type=survey_type, survey_ref=survey_ref,
+                                               short_name=survey_short_name,
+                                               long_name=survey_name,
+                                               legal_basis=survey_legal_basis)
 
     survey_id = response['id']
 
@@ -74,10 +115,12 @@ def create_collection_exercise_for_test(survey_id, period, ru_ref, ce_name):
 
     logger.info('Creating Collection Exercise', survey_id=survey_id, period=period)
 
-    user_description = make_user_description(ce_name)
-    dates = generate_collection_exercise_dates_from_period(period)
+    user_description = collection_exercise_utilities.make_user_description(ce_name)
+    dates = collection_exercise_utilities.generate_collection_exercise_dates_from_period(period)
 
-    iac = create_and_execute_collection_exercise_with_unique_sample(survey_id, period, user_description, dates, ru_ref)
+    iac = collection_exercise_controller.create_and_execute_collection_exercise_with_unique_sample(survey_id, period,
+                                                                                                   user_description,
+                                                                                                   dates, ru_ref)
 
     logger.info('Collection Exercise created - ', survey_id=survey_id,
                 ru_ref=ru_ref,
@@ -88,91 +131,58 @@ def create_collection_exercise_for_test(survey_id, period, ru_ref, ce_name):
     return iac
 
 
-def register_respondent_for_test(survey_id, period, username, ru_ref):
-    register_respondent(survey_id, period, username, ru_ref)
+def create_respondent_enrolled_in_the_test_survey(context):
+    # todo sort out common.*
+    user_name = respondent_utilities.make_respondent_user_name(str(context.unique_id),
+                                                               context.survey_short_name)
+    respondent_utilities.create_respondent(user_name=user_name, enrolment_code=context.enrolment_code)['id']
+    respondent_utilities.create_respondent_user_login_account(user_name)
+
+    case = collection_exercise_utilities.find_case_by_enrolment_code(context.enrolment_code)
+
+    context.enrolment_code = collection_exercise_utilities.generate_new_enrolment_code(case['id'], case['partyId'])
 
 
-def generate_collection_exercise_dates_from_period(period):
-    """Generates a collection exercise events base date from the period supplied."""
+def create_respondent_not_enrolled_in_the_test_survey(context, wait_for_live_collection_exercise=False):
+    create_respondent_enrolled_in_the_test_survey(context)
 
-    now = datetime.utcnow()
-    period_year = int(period[:4])
-    period_month = int(period[-2:])
+    #  Rollback the enrolment part of registering a respondent
+    respondent_utilities.unenrol_respondent_in_survey(context.survey_id)
 
-    base_date = datetime(period_year, period_month, now.day, now.hour, now.minute, now.second, now.microsecond)
-
-    return generate_collection_exercise_dates(base_date)
-
-
-def generate_collection_exercise_dates(base_date):
-    """Generates and returns collection exercise dates based on the base date supplied."""
-
-    dates = {
-        'mps': base_date + timedelta(seconds=5),
-        'go_live': base_date + timedelta(minutes=1),
-        'return_by': base_date + timedelta(days=10),
-        'exercise_end': base_date + timedelta(days=11)
-    }
-
-    return dates
+    if wait_for_live_collection_exercise:
+        collection_exercise_controller.wait_for_collection_exercise_state(context.survey_id, context.period,
+                                                                          COLLECTION_EXERCISE_STATUS_LIVE)
 
 
-def create_respondent(user_name, enrolment_code):
-    logger.info('Creating/retrieving respondent', username=user_name, enrolment_code=enrolment_code)
+# Add every Feature name + data setup method handler here
+features = {
+    'Display enrolment code': feature_setup_survey_enrolment_for_test,
+    'Generate new enrolment code': feature_setup_survey_enrolment_for_test,
+    'As an respondent user': feature_setup_survey_enrolment_for_test,
 
-    respondent = party_controller.register_respondent(email_address=user_name,
-                                                      first_name='first_name',
-                                                      last_name='last_name',
-                                                      password=Config.RESPONDENT_PASSWORD,
-                                                      phone_number='0987654321',
-                                                      enrolment_code=enrolment_code)
-    respondent_id = respondent['id']
-
-    party_controller.change_respondent_status(respondent_id)
-
-    logger.info('Respondent exists', respondent_id=respondent_id, username=user_name, enrolment_code=enrolment_code)
-
-    return respondent
+    'Add a survey': feature_setup_add_a_survey_for_test
+}
 
 
-def create_user_login(user_name):
-    django_oauth_controller.verify_user(user_name)
-
-
-def enrol_respondent(respondent_id, wait_for_case=False):
-    logger.info('Enroling respondent', respondent_id=respondent_id, wait_for_case=wait_for_case)
-
-    case_id = database_controller.enrol_party(respondent_id)
-
-    case_controller.post_case_event(case_id, respondent_id, "RESPONDENT_ENROLED", "Respondent enrolled")
-    if wait_for_case:
-        wait_for_case_to_update(respondent_id)
-
-    logger.info('Respondent Enrolled', respondent_id=respondent_id, case_id=case_id, wait_for_case=wait_for_case)
-
-    return respondent_id
-
-
-def create_utc_timestamp():
-    return datetime.utcnow().strftime('%Y-%m-%d-%H-%M-%S-%f')
+def create_period(from_date=datetime.utcnow()):
+    return format_period(from_date.year, from_date.month)
 
 
 def format_period(period_year, period_month):
-    return concatenate_strings(str(period_year), str(period_month).zfill(2))
+    return common_utilities.concatenate_strings(str(period_year), str(period_month).zfill(2))
+
+
+def create_ru_reference():
+    return str(randint(RU_REFERENCE_START, RU_REFERENCE_END))
 
 
 def format_survey_name(description):
-    unique_id = create_utc_timestamp()
-    return concatenate_strings(concatenate_strings('TEST', description, "-"), unique_id, '-')
+    unique_id = common_utilities.create_utc_timestamp()
+
+    left_part = common_utilities.concatenate_strings(SURVEY_NAME_PREFIX, description, FIELD_SEPARATOR)
+
+    return common_utilities.concatenate_strings(left_part, unique_id, FIELD_SEPARATOR)
 
 
-def make_user_description(description):
-    return concatenate_strings('TEST', description, "-")
-
-
-def make_respondent_user_name(left_part, right_part):
-    return concatenate_strings(concatenate_strings(left_part, '@'), concatenate_strings(right_part, '.com'))
-
-
-def concatenate_strings(left_part, right_part, separator=''):
-    return left_part + separator + right_part
+def create_survey_reference():
+    return str(randint(SURVEY_REFERENCE_START, SURVEY_REFERENCE_END))

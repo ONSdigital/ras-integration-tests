@@ -5,7 +5,6 @@ from structlog import wrap_logger
 
 from config import Config
 
-
 logger = wrap_logger(logging.getLogger(__name__))
 
 
@@ -79,3 +78,11 @@ def enrol_party(respondent_uuid):
     execute_sql(sql_string=sql_delete_pending_enrolment, database_uri=Config.PARTY_DATABASE_URI)
 
     return case_id
+
+
+def unenrol_respondent_in_survey(survey_id):
+    sql_statement_delete_pending_enrolment = f"delete from partysvc.pending_enrolment where survey_id = '{survey_id}'";
+    execute_sql(sql_string=sql_statement_delete_pending_enrolment, database_uri=Config.PARTY_DATABASE_URI)
+
+    sql_statement_delete_enrolment = f"delete from partysvc.enrolment where survey_id = '{survey_id}'";
+    execute_sql(sql_string=sql_statement_delete_enrolment, database_uri=Config.PARTY_DATABASE_URI)

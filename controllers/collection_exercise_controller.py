@@ -5,7 +5,7 @@ from datetime import datetime
 import requests
 from structlog import wrap_logger
 
-from acceptance_tests.features.environment import poll_database_for_iac
+from common import collection_exercise_utilities
 from config import Config
 from controllers import collection_instrument_controller as ci_controller, \
     sample_controller
@@ -181,7 +181,7 @@ def create_and_execute_collection_exercise(survey_id, period, user_description, 
 
     time.sleep(5)
     execute_collection_exercise(survey_id, period)
-    iac = poll_database_for_iac(survey_id, period)
+    iac = collection_exercise_utilities.poll_database_for_iac(survey_id, period)
 
     return iac
 
@@ -210,7 +210,7 @@ def create_and_execute_collection_exercise_with_unique_sample(survey_id, period,
 
     time.sleep(5)
     execute_collection_exercise(survey_id, period)
-    iac = poll_database_for_iac(survey_id, period)
+    iac = collection_exercise_utilities.poll_database_for_iac(survey_id, period)
 
     return iac
 
@@ -245,7 +245,7 @@ def create_and_execute_social_collection_exercise(survey_id, period, user_descri
         create_social_action_rule(short_name, period)
     time.sleep(2)
     execute_collection_exercise(survey_id, period)
-    iac = poll_database_for_iac(survey_id, period, social=True)
+    iac = collection_exercise_utilities.poll_database_for_iac(survey_id, period, social=True)
 
     return iac
 
@@ -259,3 +259,16 @@ def map_ce_status(status):
         "Completed by phone": "COMPLETED_BY_PHONE",
         "No longer required": "NO_LONGER_REQUIRED",
     }.get(status, status)
+
+
+def wait_for_collection_exercise_state(survey_id, period, expected_state):
+    logger.debug('Waiting for collection exercise state', survey_id=survey_id, period=period,
+                 expected_state=expected_state)
+
+    while True:
+        collection_exercise = get_collection_exercise(survey_id, period)
+
+        if collection_exercise['state'] == expected_state:
+            logger.debug(f'Collection exercise is now [{expected_state}]')
+            break
+        time.sleep(3)

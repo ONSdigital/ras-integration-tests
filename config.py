@@ -3,11 +3,14 @@ import os
 
 class Config(object):
     STANDALONE = os.getenv('STANDALONE', 'False')
+    RESET_DATABASE = os.getenv('RESET_DATABASE', 'False')
 
     PROTOCOL = os.getenv('PROTOCOL', 'http')
     INFO = '/info'
 
+    # todo redundant when all converted
     RESPONDENT_USERNAME = os.getenv('RESPONDENT_USERNAME', 'example@example.com')
+
     RESPONDENT_PASSWORD = os.getenv('RESPONDENT_PASSWORD', 'password')
 
     INTERNAL_USERNAME = os.getenv('INTERNAL_USERNAME', 'uaa_user')

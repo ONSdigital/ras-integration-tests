@@ -47,7 +47,7 @@ def generate_collection_exercise_dates():
 
     dates = {
         'mps': now + timedelta(seconds=5),
-        'go_live': now + timedelta(minutes=1),
+        'go_live': now + timedelta(minutes=2),
         'return_by': now + timedelta(days=10),
         'exercise_end': now + timedelta(days=11)
     }

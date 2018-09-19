@@ -1,8 +1,8 @@
 from behave import given, when, then
 
 from acceptance_tests import browser
-from acceptance_tests.features.environment import register_respondent
 from acceptance_tests.features.pages import edit_respondent_details_form, reporting_unit
+from common import collection_exercise_utilities
 from controllers.party_controller import get_party_by_email
 
 
@@ -121,5 +121,6 @@ def error_email_already_in_use(_):
 def create_respondent(email, wait=False):
     email_in_use = get_party_by_email(email)
     if not email_in_use:
-        register_respondent(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201801',
-                            username=email, ru_ref=49900000001, wait_for_case=wait)
+        collection_exercise_utilities.register_respondent(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54',
+                                                          period='201801',
+                                                          username=email, ru_ref=49900000001, wait_for_case=wait)

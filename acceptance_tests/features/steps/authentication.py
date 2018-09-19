@@ -7,17 +7,17 @@ from config import Config
 
 
 @given('the respondent is signed into their account')
-def signed_in_respondent(_):
+def signed_in_respondent(context):
     sign_in_respondent.go_to()
     # Only attempt to sign in if not already signed in otherwise implicitly redirected to homepage
     if '/sign-in' in browser.url:
-        browser.driver.find_element_by_id('username').send_keys(Config.RESPONDENT_USERNAME)
+        browser.driver.find_element_by_id('username').send_keys(context.user_name)
         browser.driver.find_element_by_id('inputPassword').send_keys(Config.RESPONDENT_PASSWORD)
         browser.find_by_id('sign_in_button').click()
 
 
 @given('The internal user is already signed in')
-def signed_in_internal(_):
+def signed_in_internal(context):
     sign_in_internal.go_to()
     # Only attempt to sign in if not already signed in otherwise implicitly redirected to homepage
     if '/sign-in' in browser.url:
