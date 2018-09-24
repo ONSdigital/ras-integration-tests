@@ -197,7 +197,7 @@ def create_and_execute_social_collection_exercise(context, survey_id, period, us
     sample_summary = sample_controller.upload_sample(collection_exercise['id'],
                                                      generate_social_sample(context=context),
                                                      social=True,
-                                                     file_as_string=True )
+                                                     file_as_string=True)
 
     link_sample_summary_to_collection_exercise(collection_exercise['id'], sample_summary['id'])
 
