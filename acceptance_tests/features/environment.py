@@ -1,6 +1,7 @@
 import datetime
 import time
 from logging import getLogger
+from uuid import UUID
 
 from structlog import wrap_logger
 
@@ -126,11 +127,7 @@ def register_respondent(survey_id, period, username, ru_ref=None, wait_for_case=
 
     respondent_id = respondent_party['id']
     party_controller.change_respondent_status(respondent_party['id'])
-    django_oauth_controller.verify_user(respondent_party['emailAddress'])
-    case_id = database_controller.enrol_party(respondent_id)
-    case_controller.post_case_event(case_id, "RESPONDENT_ENROLED", "Respondent enrolled")
-    if wait_for_case:
-        wait_for_case_to_update(case_id)
+    # django_oauth_controller.verify_user(respondent_party['emailAddress'])
     logger.info('Successfully registered respondent', survey_id=survey_id, period=period,
                 ru_ref=ru_ref, respondent_id=respondent_id)
     return respondent_id
