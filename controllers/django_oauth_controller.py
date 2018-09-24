@@ -17,7 +17,7 @@ def verify_user(email_address):
         'account_verified': 'true'
     }
 
-    url = Config.DJANGO_SERVICE + '/api/account/create'
+    url = Config.AUTH_SERVICE + '/api/account/create'
 
     response = requests.put(url, auth=(Config.OAUTH_CLIENT_ID, Config.OAUTH_CLIENT_SECRET), data=payload)
 

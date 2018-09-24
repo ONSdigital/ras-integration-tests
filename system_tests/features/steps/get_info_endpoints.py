@@ -36,7 +36,7 @@ def requests_collection_instrument_endpoint_info(context):
 
 @when('the system requests django endpoint info')
 def requests_django_endpoint_info(context):
-    context.response = requests.get(Config.DJANGO_SERVICE + Config.INFO)
+    context.response = requests.get(Config.AUTH_SERVICE + Config.INFO)
 
 
 @when('the system requests frontstage endpoint info')

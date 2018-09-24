@@ -71,7 +71,7 @@ pipeline {
             environment {
                 DOMAIN_SUFFIX = credentials('CF_DOMAIN_SUFFIX')
                 DATABASE_URI = credentials('RM_CF_DATABASE')
-                DJANGO_OAUTH_DATABASE_URI = credentials('DJANGO_CF_DATABASE')
+                AUTH_DATABASE_URI = credentials('DJANGO_CF_DATABASE')
                 PARTY_DATABASE_URI = credentials('PARTY_CF_DATABASE')
                 SECURE_MESSAGE_DATABASE_URI = credentials('SECURE_MESSAGE_CF_DATABASE')
                 COLLECTION_INSTRUMENT_DATABASE_URI = credentials('COLLECTION_INSTRUMENT_CF_DATABASE')
