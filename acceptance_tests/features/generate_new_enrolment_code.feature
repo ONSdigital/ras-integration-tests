@@ -1,3 +1,5 @@
+@business
+@standalone
 Feature: Generate new enrolment code
   As an internal user
   I need to obtain a new enrolment code for a RU for a specific survey
@@ -7,7 +9,6 @@ Feature: Generate new enrolment code
     Given the internal user is already signed in
 
   @us051-generateNewCode_s01
-  @standalone
   Scenario: Make a request for a new code
     Given the internal user views the reporting unit page for a sample unit
     When the internal user opens the survey data panel

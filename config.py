@@ -2,8 +2,8 @@ import os
 
 
 class Config(object):
-    STANDALONE = os.getenv('STANDALONE', 'False')
-    RESET_DATABASE = os.getenv('RESET_DATABASE', 'False')
+    DELETE_STANDALONE_DATA = os.getenv('DELETE_STANDALONE_DATA', 'False')
+    IGNORE_NON_STANDALONE_DATA_SETUP = os.getenv('IGNORE_NON_STANDALONE_DATA_SETUP', 'False')
 
     PROTOCOL = os.getenv('PROTOCOL', 'http')
     INFO = '/info'

@@ -27,7 +27,7 @@ def enter_enrolment_code(context):
 @when('they enter a valid enrolment code')
 def enter_valid_enrolment_code(context):
     add_survey.go_to()
-    browser.driver.find_element_by_id('ENROLEMENT_CODE_FIELD').send_keys(context.enrolment_code)
+    browser.driver.find_element_by_id('ENROLEMENT_CODE_FIELD').send_keys(context.iac)
     browser.find_by_id('continue_button').click()
 
 
@@ -92,7 +92,7 @@ def scenario_setup_user_can_cancel_at_any_point_for(context):
     survey_utilities.create_respondent_not_enrolled_in_the_test_survey(context)
 
 
-def feature_setup_add_a_survey_for_test(context):
+def feature_setup_add_a_survey(context):
     # Scenario specific setup
 
     scenarios[context.scenario_name](context)

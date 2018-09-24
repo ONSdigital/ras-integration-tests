@@ -9,8 +9,8 @@ from controllers.messages_controller import create_message_external_to_internal
 
 
 @given('the internal user has received a message')
-def internal_user_receive_message(_):
-    create_message_external_to_internal()
+def internal_user_receive_message(context):
+    create_message_external_to_internal(context)
 
     # Sending external to internal may sign out the internal user
     signed_in_internal(None)

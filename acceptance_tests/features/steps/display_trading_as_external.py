@@ -30,7 +30,7 @@ def trading_as_name_is_displayed_below_business_name_in_todo(_):
 
 
 @when('the respondent has completed a survey which is now in their history')
-def respondent_has_completed_survey(_):
+def respondent_has_completed_survey(context):
 
     # Complete the survey by phone
     ru_ref = '49900000007'
@@ -40,7 +40,7 @@ def respondent_has_completed_survey(_):
     update_case_group_status(ce_id, ru_ref, 'COMPLETED_BY_PHONE')
 
     # Ensure respondent is signed in and navigate to history
-    signed_in_respondent(_)
+    signed_in_respondent(context)
     go_to_history_tab()
 
 

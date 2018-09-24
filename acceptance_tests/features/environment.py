@@ -1,4 +1,3 @@
-import datetime
 from datetime import datetime
 from logging import getLogger
 
@@ -14,23 +13,15 @@ logger = wrap_logger(getLogger(__name__))
 timings = {}
 
 
-def set_test_execution_mode(context):
-    try:
-        context.standalone_mode = Config.STANDALONE and Config.STANDALONE == 'True'
-    except AttributeError:
-        context.standalone_mode = 'False'
-
-
 def before_all(context):
-    set_test_execution_mode(context)
 
-    mode = ' ' if context.standalone_mode else ' NOT '
-    logger.info(f'Acceptance Tests are{mode}RUNNING IN STANDALONE mode')
-
-    if Config.RESET_DATABASE and Config.RESET_DATABASE == 'True':
+    # todo remove after all standalone?
+    # Delete all standalone test data
+    if is_delete_standalone_data():
         reset_database()
 
-    if not context.standalone_mode:
+    # Defaults to setting up data for non-standalone tests as before
+    if not is_ignore_non_standalone_data_setup():
         survey_utilities.setup_non_standalone_data_for_test()
 
 
@@ -44,18 +35,23 @@ def before_scenario(context, scenario):
         return
     timings[scenario.name] = {'start_time': datetime.now()}
     context.scenario_name = scenario.name
+    context.survey_type = get_survey_type(context.tags)
 
     logger.info(f'Running Feature [{context.feature_name}], Scenario [{context.scenario_name}]')
 
-    # Default to non-standalone fixed user name standalone mode changes
+    # Default to non-standalone fixed user name, standalone mode changes it
     context.user_name = Config.RESPONDENT_USERNAME
 
-    # Every standalone Scenario creates a new Survey and Collection Exercise
-    if context.standalone_mode:
+    # A standalone Scenario creates a new Survey and Collection Exercise
+    if is_standalone_scenario(context.tags):
         survey_utilities.setup_standalone_data_for_test(context)
 
 
-def after_scenario(context, scenario):
+def after_feature(_, feature):
+    logger.info('Finished Feature [' + feature.name + ']')
+
+
+def after_scenario(_, scenario):
     if "skip" not in scenario.effective_tags:
         timings[scenario.name]['end_time'] = datetime.now()
 
@@ -65,7 +61,7 @@ def after_step(context, step):
         logger.exception('Failed step', scenario=context.scenario.name, step=step.name)
 
 
-def after_all(context):
+def after_all(_):
     browser.quit()
     logger.info('Outputting execution time per test')
 
@@ -75,3 +71,37 @@ def after_all(context):
     for name, timing in sorted(timings.items(), key=sort_by_execution_time, reverse=True):
         diff = timing['end_time'] - timing['start_time']
         logger.info(f'{name} took {diff.total_seconds()}s')
+
+
+def is_ignore_non_standalone_data_setup():
+    try:
+        if Config.IGNORE_NON_STANDALONE_DATA_SETUP and Config.IGNORE_NON_STANDALONE_DATA_SETUP == 'True':
+            return True
+        else:
+            return False
+    except AttributeError:
+        return False
+
+
+def is_delete_standalone_data():
+    try:
+        if Config.DELETE_STANDALONE_DATA and Config.DELETE_STANDALONE_DATA == 'True':
+            return True
+        else:
+            return False
+    except AttributeError:
+        return False
+
+
+def is_standalone_scenario(tags):
+    return 'standalone' in tags
+
+
+def get_survey_type(tags):
+    if 'social' in tags:
+        return "Social"
+
+    #todo EQ?
+
+    # todo ok as default?
+    return 'Business'

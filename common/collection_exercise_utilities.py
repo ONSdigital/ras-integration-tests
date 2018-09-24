@@ -11,6 +11,12 @@ from controllers import collection_exercise_controller, sample_controller, datab
 from controllers.collection_instrument_controller import get_collection_instruments_by_classifier, \
     link_collection_instrument_to_exercise, upload_seft_collection_instrument
 
+# todo more constants needed everywhere
+FIELD_SEPARATOR = '-'
+
+SURVEY_NAME_SOCIAL_PREFIX = 'SOCIAL'
+SURVEY_NAME_BUSINESS_PREFIX = 'BUSINESS'
+
 logger = wrap_logger(getLogger(__name__))
 
 
@@ -48,7 +54,7 @@ def execute_collection_exercise(survey_id, period, ci_type='SEFT'):
                                                      'resources/sample_files/business-survey-sample-date.csv')
     collection_exercise_controller.link_sample_summary_to_collection_exercise(collection_exercise['id'],
                                                                               sample_summary['id'])
-    datetime.time.sleep(5)
+    time.sleep(5)
     collection_exercise_controller.execute_collection_exercise(survey_id, period)
     logger.info('Successfully executed collection exercise', survey_id=survey_id, period=period, ci_type=ci_type)
 
@@ -139,6 +145,21 @@ def wait_for_ru_specific_cases_to_update(respondent_id, ru_ref):
         time.sleep(2)
 
 
+def generate_social_collection_exercise_dates():
+    """Generates and returns collection exercise dates."""
+
+    now = datetime.utcnow()
+
+    dates = {
+        'mps': now + timedelta(seconds=5),
+        'go_live': now + timedelta(minutes=2),
+        'return_by': now + timedelta(days=10),
+        'exercise_end': now + timedelta(days=11)
+    }
+
+    return dates
+
+
 def generate_collection_exercise_dates_from_period(period):
     """Generates a collection exercise events base date from the period supplied."""
 
@@ -164,5 +185,10 @@ def generate_collection_exercise_dates(base_date):
     return dates
 
 
-def make_user_description(description):
-    return common_utilities.concatenate_strings('TEST', description, "-")
+def make_user_description(description, is_social_survey):
+    if is_social_survey:
+        prefix = SURVEY_NAME_SOCIAL_PREFIX
+    else:
+        prefix = SURVEY_NAME_BUSINESS_PREFIX
+
+    return common_utilities.concatenate_strings(prefix, description, FIELD_SEPARATOR)

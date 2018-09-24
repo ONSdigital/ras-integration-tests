@@ -17,7 +17,7 @@ def signed_in_respondent(context):
 
 
 @given('The internal user is already signed in')
-def signed_in_internal(context):
+def signed_in_internal(_):
     sign_in_internal.go_to()
     # Only attempt to sign in if not already signed in otherwise implicitly redirected to homepage
     if '/sign-in' in browser.url:

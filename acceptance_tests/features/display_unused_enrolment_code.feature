@@ -1,3 +1,5 @@
+@business
+@standalone
 Feature: Display enrolment code
   As an internal user
   I need to display unused code for a RU for a specific survey
@@ -6,7 +8,6 @@ Feature: Display enrolment code
   Background: Internal user is already signed in
     Given the internal user is already signed in
 
-  @standalone
   Scenario: Display an unused active code
     Given the internal user views the reporting unit page for a sample unit
     When the internal user opens the survey data panel

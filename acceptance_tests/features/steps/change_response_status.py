@@ -5,7 +5,7 @@ from behave import when, given, then
 
 from acceptance_tests.features.pages import change_response_status, surveys_history, reporting_unit
 from acceptance_tests.features.steps.authentication import signed_in_respondent
-from common import respondent_utilities
+from common import collection_exercise_utilities
 from config import Config
 from controllers import party_controller
 from controllers.collection_exercise_controller import create_and_execute_collection_exercise, \
@@ -56,12 +56,12 @@ def internal_user_changes_response_status(_, survey, period, status):
 @given('the respondent has been enrolled for "{survey}" "{period}" for ru "{ru_ref}"')
 def respondent_enrolled_for_ce(_, survey, period, ru_ref):
     party_id = party_controller.get_party_by_email(Config.RESPONDENT_USERNAME)['id']
-    respondent_utilities.enrol_respondent(party_id, 'cb8accda-6118-4d3b-85a3-149e28960c54', period)
+    collection_exercise_utilities.enrol_respondent(party_id, 'cb8accda-6118-4d3b-85a3-149e28960c54', period)
 
 
 @when('the respondent goes to the history page')
-def respondent_goes_to_history_page_for_49900000002(_):
-    signed_in_respondent(_)
+def respondent_goes_to_history_page_for_49900000002(context):
+    signed_in_respondent(context)
     time.sleep(60)
     surveys_history.go_to_history_tab()
 

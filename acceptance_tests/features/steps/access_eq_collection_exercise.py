@@ -2,7 +2,7 @@ from behave import given, when, then
 
 from acceptance_tests import browser
 from acceptance_tests.features.pages import surveys_todo
-from common import respondent_utilities
+from common import collection_exercise_utilities
 from config import Config
 from controllers import party_controller
 
@@ -11,7 +11,7 @@ from controllers import party_controller
 def respondent_has_eq_ce_available(context):
     party_id = party_controller.get_party_by_email(Config.RESPONDENT_USERNAME)['id']
     # Enrolling for QBS 1806
-    respondent_utilities.enrol_respondent(party_id, '02b9c366-7397-42f7-942a-76dc5876d86d', '1806')
+    collection_exercise_utilities.enrol_respondent(party_id, '02b9c366-7397-42f7-942a-76dc5876d86d', '1806')
 
 
 @when('the respondent accesses the eQ CE')

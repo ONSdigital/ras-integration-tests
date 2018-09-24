@@ -12,7 +12,7 @@ def ready_to_enrol_in_survey(context):
 
 
 @given("a respondent has got their enrolment code")
-def generate_enrolment_code(context):
+def generate_enrolment_code(_):
     pass
 
 
@@ -24,7 +24,7 @@ def internal_user_views_unused_code(context):
 
 @when('they enter their enrolment code')
 def enter_enrolment_code(context):
-    browser.driver.find_element_by_id('enrolment_code').send_keys(context.enrolment_code)
+    browser.driver.find_element_by_id('enrolment_code').send_keys(context.iac)
     browser.find_by_id('continue_button').click()
 
 
@@ -34,7 +34,7 @@ def confirm_correct_survey_selected(context):
     actual_enrolment_code = browser.find_by_id('enrolment_code').value
     actual_survey_name = browser.find_by_id('survey_name').value
 
-    assert context.enrolment_code == actual_enrolment_code
+    assert context.iac == actual_enrolment_code
     assert context.survey_name == actual_survey_name
 
     browser.find_by_id('confirm_button').click()
@@ -88,27 +88,26 @@ def internal_user_views_generated_code(_):
     assert iac
 
 
-def scenario_setup_display_an_unused_enrolment_code(context):
-    respondent_utilities.make_respondent_user_name(str(context.unique_id), context.survey_short_name)
-
+def scenario_setup_display_an_unused_enrolment_code(_):
+    pass
 
 def scenario_setup_make_a_request_for_a_new_code(context):
     user_name = respondent_utilities.make_respondent_user_name(str(context.unique_id), context.survey_short_name)
     respondent_id = \
-        respondent_utilities.create_respondent(user_name=user_name, enrolment_code=context.enrolment_code)['id']
+        respondent_utilities.create_respondent(user_name=user_name, enrolment_code=context.iac)['id']
     respondent_utilities.create_respondent_user_login_account(user_name)
     respondent_utilities.enrol_respondent(respondent_id)
 
 
-def scenario_setup_frontstage_can_see_the_survey_they_are_enrolling_in(context):
+def scenario_setup_frontstage_can_see_the_survey_they_are_enrolling_in(_):
     pass
 
 
-def scenario_setup_frontstage_user_can_create_an_account(context):
+def scenario_setup_frontstage_user_can_create_an_account(_):
     pass
 
 
-def feature_setup_survey_enrolment_for_test(context):
+def feature_setup_survey_enrolment(context):
     # Scenario specific setup
 
     scenarios[context.scenario_name](context)
