@@ -18,3 +18,11 @@ def get_address():
         "postcode": browser.find_by_id('case-postcode').text
     }
     return address_details
+
+
+def click_change_status():
+    browser.driver.find_element_by_id('change-status-submit').click()
+
+
+def get_detailed_case_status():
+    return browser.find_by_id('case-group-status-detailed').text
