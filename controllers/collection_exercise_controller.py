@@ -184,6 +184,7 @@ def create_and_execute_social_collection_exercise(context, survey_id, period, us
     create_collection_exercise(survey_id, period, user_description)
     collection_exercise = get_collection_exercise(survey_id, period)
     collection_exercise_id = collection_exercise['id']
+    context.collection_exercise_id = collection_exercise_id
 
     post_event_to_collection_exercise(collection_exercise_id, 'mps',
                                       convert_datetime_for_event(dates['mps']))
