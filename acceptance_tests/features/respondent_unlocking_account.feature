@@ -4,7 +4,7 @@ Feature: Respondent unlocking their account
   So that I can access my account
 
   Background: A respondent has to have created an account
-    Given the respondent has created an account which is unverified
+    Given the respondent has created an account which is unverified called "unverified1@test.com"
 
   @us204_01
   Scenario: User is informed if they exceed 10 failed sign in attempts

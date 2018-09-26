@@ -15,11 +15,15 @@ def log_in_respondent(_):
 
 
 def get_verification_message(_):
+    return browser.find_by_text('Check your email')
+
+
+def get_unverified_message(_):
     return browser.find_by_text('Verify your email')
 
 
 def click_verification_link(_):
-    browser.find_by_text('request another email').click()
+    return browser.find_by_text('request another email')
 
 
 def get_verification_resend_message(_):

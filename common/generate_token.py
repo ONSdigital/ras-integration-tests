@@ -12,7 +12,6 @@ def generate_email_token(email):
     secret_key = config.Config.SECRET_KEY
     email_token_salt = config.Config.EMAIL_TOKEN_SALT
 
-    # TODO: eventually implement a service startup check for all required config values
     if secret_key is None or email_token_salt is None:
         msg = "SECRET_KEY or EMAIL_TOKEN_SALT are not configured."
         logger.error(msg)

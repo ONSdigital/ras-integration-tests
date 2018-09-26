@@ -4,9 +4,9 @@ from acceptance_tests.features.pages.respondent_unlocking_account import creatin
     respondent_enters_wrong_password, get_lockout_message
 
 
-@given('the respondent has created an account which is unverified')
-def respondent_account(_):
-    creating_unverified_account(username='unverified@test.com')
+@given('the respondent has created an account which is unverified called "{username}"')
+def respondent_account(_, username):
+    creating_unverified_account(username=username)
 
 
 @given('A unverified user enters an incorrect password')
