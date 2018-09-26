@@ -10,22 +10,22 @@ def enter_credentials(username, password):
     browser.driver.find_element_by_id('inputPassword').send_keys(password)
 
 
-def log_in_respondent(_):
+def log_in_respondent():
     browser.find_by_id('sign_in_button').click()
 
 
-def get_verification_message(_):
+def get_verification_message():
     return browser.find_by_text('Check your email')
 
 
-def get_unverified_message(_):
+def get_unverified_message():
     return browser.find_by_text('Verify your email')
 
 
-def click_verification_link(_):
+def click_verification_link():
     return browser.find_by_text('request another email')
 
 
-def get_verification_resend_message(_):
+def get_verification_resend_message():
     return browser.find_by_text('Please follow the link in the email we\'ve sent you to verify your email address '
                                 'and sign in to your account.')

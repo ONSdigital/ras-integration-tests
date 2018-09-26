@@ -15,17 +15,17 @@ def enter_respondent_credentials(_, user):
 @when('they enter correct credentials')
 @given('they enter correct credentials')
 def log_in_attempt(_):
-    log_in_respondent(_)
+    log_in_respondent()
 
 
 @then('they are shown on-screen notification to verify their email')
 def verification_page(_):
-    assert get_unverified_message(_)
+    assert get_unverified_message()
 
 
 @then('They are shown on-screen notification to request a verification link email')
 def request_verification_link(_):
-    assert click_verification_link(_)
+    assert click_verification_link()
 
 
 @given('a user has an expired verification link')
@@ -38,7 +38,7 @@ def click_expired_verification_link(_):
 
 @given('a user has received a verification link')
 def unverified_user_page(_):
-    assert get_verification_message(_)
+    assert get_verification_message()
 
 
 @when('they select the verification link in the email "{email}"')
