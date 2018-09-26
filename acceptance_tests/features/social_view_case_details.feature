@@ -5,7 +5,7 @@ Feature: View social case details
   So that I can confirm the household details and take any further action
 
   Background: Internal user is already signed in and social survey exists
-  Given the internal user is already signed in
+  Given the internal user is already signed in to social UI
   And a social survey exists
 
   @sus003-01
