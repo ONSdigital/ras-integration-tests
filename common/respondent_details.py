@@ -1,4 +1,3 @@
-from controllers.case_controller import post_case_event
 from controllers.collection_exercise_controller import get_collection_exercise
 from controllers.database_controller import get_iac_for_collection_exercise, enrol_party
 from controllers.django_oauth_controller import verify_user
