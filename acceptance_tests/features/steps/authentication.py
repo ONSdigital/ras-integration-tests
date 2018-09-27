@@ -27,7 +27,7 @@ def signed_in_internal(_):
 
 
 @given('The internal user is already signed in to social UI')
-def signed_in_internal(_):
+def signed_in_internal_social(_):
     sign_in_internal_social.go_to()
     # Only attempt to sign in if not already signed in otherwise implicitly redirected to homepage
     if '/sign-in' in browser.url:
