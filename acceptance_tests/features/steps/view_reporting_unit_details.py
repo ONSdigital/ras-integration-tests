@@ -47,9 +47,9 @@ def internal_user_views_the_reporting_unit_page(_, ru_ref):
     reporting_unit.go_to(ru_ref)
 
 
-@when('the internal user opens the Bricks data panel')
-def internal_user_views_the_survey_page(_):
-    reporting_unit.click_data_panel('Bricks')
+@when('the internal user opens the {survey} data panel')
+def internal_user_views_the_survey_page(_, survey):
+    reporting_unit.click_data_panel(survey)
 
 
 @then('the internal user is displayed the correct reporting unit details')

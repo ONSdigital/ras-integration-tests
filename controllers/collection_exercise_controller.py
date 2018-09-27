@@ -171,7 +171,8 @@ def create_and_execute_collection_exercise(survey_id, period, user_description, 
     link_sample_summary_to_collection_exercise(collection_exercise['id'], sample_summary['id'])
 
     ci_controller.upload_seft_collection_instrument(collection_exercise['id'],
-                                                    'resources/collection_instrument_files/064_201803_0001.xlsx')
+                                                    'resources/collection_instrument_files/064_201803_0001.xlsx',
+                                                    form_type='0001')
 
     time.sleep(5)
     execute_collection_exercise(survey_id, period)

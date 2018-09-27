@@ -1,3 +1,4 @@
+import uuid
 import logging
 
 import requests
@@ -18,14 +19,13 @@ def get_case_by_id(case_id):
     return response.json()
 
 
-def post_case_event(case_id, party_id, category, description):
-    logger.debug('Posting case event', case_id=case_id, party_id=party_id, category=category)
+def post_case_event(case_id, category, description):
+    logger.debug('Posting case event', case_id=case_id, category=category)
 
     url = f'{Config.CASE_SERVICE}/cases/{case_id}/events'
     payload = {
         'description': description,
         'category': category,
-        'partyId': party_id,
         'createdBy': 'TESTS'
     }
     response = requests.post(url, json=payload, auth=Config.BASIC_AUTH)
@@ -33,7 +33,7 @@ def post_case_event(case_id, party_id, category, description):
         logger.error('Failed to post case event', status=response.status_code)
 
     logger.debug('Successfully posted case event',
-                 case_id=case_id, party_id=party_id, category=category)
+                 case_id=case_id, category=category)
     return response.json()
 
 
@@ -62,10 +62,8 @@ def get_b_case(collection_exercise_id, business_id):
 def generate_new_enrolment_code(case_id, business_id):
     logger.debug('Generating new enrolment code', case_id=case_id, business_id=business_id)
     post_case_event(case_id,
-                    business_id,
                     'GENERATE_ENROLMENT_CODE',
                     'Generate new enrolment code')
-
     # After posting the case event we also need to retrieve that case again to get the iac
     updated_case = get_case_by_id(case_id)
     logger.debug('Successfully generated new enrolment code',
