@@ -36,7 +36,7 @@ def create_social_survey_cases(context):
     user_description = 'UserDescription-' + test_unique_id
     dates = generate_collection_exercise_dates()
 
-    return create_and_execute_social_collection_exercise(survey_id, period, user_description, dates,
+    return create_and_execute_social_collection_exercise(context, survey_id, period, user_description, dates,
                                                          short_name=survey_short_name)
 
 
