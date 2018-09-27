@@ -1,6 +1,8 @@
 import logging
+import string
 import time
 from datetime import datetime
+from random import choice, randint
 
 import requests
 from structlog import wrap_logger
@@ -133,13 +135,6 @@ def create_collection_exercise(survey_id, period, user_description):
     logger.debug('Creating collection exercise', survey_id=survey_id, period=period)
     url = f'{Config.COLLECTION_EXERCISE_SERVICE}/collectionexercises'
 
-    # Retain as much of the user_description as possible
-    if len(user_description) > 50:
-        user_description = user_description.title()
-        user_description = user_description.replace(' ', '')
-        if len(user_description) > 50:
-            user_description = user_description[:50]
-
     json = {
         "surveyId": survey_id,
         "surveyId": survey_id,
@@ -215,10 +210,11 @@ def create_and_execute_collection_exercise_with_unique_sample(survey_id, period,
     return iac
 
 
-def create_and_execute_social_collection_exercise(survey_id, period, user_description, dates, short_name=None):
+def create_and_execute_social_collection_exercise(context, survey_id, period, user_description, dates, short_name=None):
     create_collection_exercise(survey_id, period, user_description)
     collection_exercise = get_collection_exercise(survey_id, period)
     collection_exercise_id = collection_exercise['id']
+    context.collection_exercise_id = collection_exercise_id
 
     post_event_to_collection_exercise(collection_exercise_id, 'mps',
                                       convert_datetime_for_event(dates['mps']))
@@ -230,8 +226,9 @@ def create_and_execute_social_collection_exercise(survey_id, period, user_descri
                                       convert_datetime_for_event(dates['exercise_end']))
 
     sample_summary = sample_controller.upload_sample(collection_exercise['id'],
-                                                     'resources/sample_files/Social_Pilot_Sample.csv',
-                                                     social=True)
+                                                     generate_social_sample(context=context),
+                                                     social=True,
+                                                     file_as_string=True)
 
     link_sample_summary_to_collection_exercise(collection_exercise['id'], sample_summary['id'])
 
@@ -248,6 +245,35 @@ def create_and_execute_social_collection_exercise(survey_id, period, user_descri
     iac = collection_exercise_utilities.poll_database_for_iac(survey_id, period, social=True)
 
     return iac
+
+
+def generate_social_sample(context) -> str:
+    context.address = {
+        'postcode': generate_random_postcode(),
+        'reference': str(randint(1000000, 9999999)),
+        'address_line1': 'Office for National Statistics',
+        'address_line2': 'Cardiff Road',
+        'locality': 'Gwent District',
+        'town_name': 'Newport',
+        'UPRN': '123456',
+        'TLA': 'OHS',
+        'country': 'W'
+
+    }
+    return (f'TLA,REFERENCE,COUNTRY,ORGANISATION_NAME,ADDRESS_LINE1,ADDRESS_LINE2,LOCALITY,TOWN_NAME,POSTCODE,UPRN\n'
+            f'{context.address["TLA"]},'
+            f'{context.address["reference"]},'
+            f'{context.address["country"]},,'
+            f'{context.address["address_line1"]},'
+            f'{context.address["address_line2"]},'
+            f'{context.address["locality"]},'
+            f'{context.address["town_name"]},'
+            f'{context.address["postcode"]},'
+            f'{context.address["UPRN"]}')
+
+
+def generate_random_postcode() -> str:
+    return ''.join([choice(string.ascii_uppercase + string.digits) for _ in range(7)])
 
 
 def convert_datetime_for_event(date_time):

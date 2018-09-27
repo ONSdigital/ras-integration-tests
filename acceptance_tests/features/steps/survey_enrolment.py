@@ -87,36 +87,3 @@ def internal_user_views_generated_code(_):
     iac = enrolment_code.get_new_iac()
     assert iac
 
-
-def scenario_setup_display_an_unused_enrolment_code(_):
-    pass
-
-def scenario_setup_make_a_request_for_a_new_code(context):
-    user_name = respondent_utilities.make_respondent_user_name(str(context.unique_id), context.survey_short_name)
-    respondent_id = \
-        respondent_utilities.create_respondent(user_name=user_name, enrolment_code=context.iac)['id']
-    respondent_utilities.create_respondent_user_login_account(user_name)
-    respondent_utilities.enrol_respondent(respondent_id)
-
-
-def scenario_setup_frontstage_can_see_the_survey_they_are_enrolling_in(_):
-    pass
-
-
-def scenario_setup_frontstage_user_can_create_an_account(_):
-    pass
-
-
-def feature_setup_survey_enrolment(context):
-    # Scenario specific setup
-
-    scenarios[context.scenario_name](context)
-
-
-# Add each Scenario name + data setup method handler here
-scenarios = {
-    'Display an unused active code': scenario_setup_display_an_unused_enrolment_code,
-    'Make a request for a new code': scenario_setup_make_a_request_for_a_new_code,
-    'Frontstage can see the survey they are enrolling in': scenario_setup_frontstage_can_see_the_survey_they_are_enrolling_in,
-    'Frontstage user can create an account': scenario_setup_frontstage_user_can_create_an_account
-}

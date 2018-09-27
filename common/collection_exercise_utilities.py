@@ -11,11 +11,11 @@ from controllers import collection_exercise_controller, sample_controller, datab
 from controllers.collection_instrument_controller import get_collection_instruments_by_classifier, \
     link_collection_instrument_to_exercise, upload_seft_collection_instrument
 
-# todo more constants needed everywhere
+# todo more constants
 FIELD_SEPARATOR = '-'
 
-SURVEY_NAME_SOCIAL_PREFIX = 'SOCIAL'
-SURVEY_NAME_BUSINESS_PREFIX = 'BUSINESS'
+USER_DESCRIPTION_SOCIAL_PREFIX = 'SOCIAL'
+USER_DESCRIPTION_BUSINESS_PREFIX = 'BUSINESS'
 
 logger = wrap_logger(getLogger(__name__))
 
@@ -68,7 +68,7 @@ def poll_database_for_iac(survey_id, period, social=False):
         if iac_code:
             logger.info('Collection exercise finished executing', survey_id=survey_id, period=period)
             return iac_code
-        time.sleep(2)
+        time.sleep(3)
 
 
 def register_respondent(survey_id, period, username, ru_ref=None, wait_for_case=False):
@@ -185,10 +185,12 @@ def generate_collection_exercise_dates(base_date):
     return dates
 
 
-def make_user_description(description, is_social_survey):
+def make_user_description(user_description_in, is_social_survey, max_field_length):
     if is_social_survey:
-        prefix = SURVEY_NAME_SOCIAL_PREFIX
+        prefix = common_utilities.concatenate_strings(USER_DESCRIPTION_SOCIAL_PREFIX, '', FIELD_SEPARATOR)
     else:
-        prefix = SURVEY_NAME_BUSINESS_PREFIX
+        prefix = common_utilities.concatenate_strings(USER_DESCRIPTION_BUSINESS_PREFIX, '', FIELD_SEPARATOR)
 
-    return common_utilities.concatenate_strings(prefix, description, FIELD_SEPARATOR)
+    compacted_user_description = common_utilities.compact_string(user_description_in, max_field_length - len(prefix))
+
+    return common_utilities.concatenate_strings(prefix, compacted_user_description)

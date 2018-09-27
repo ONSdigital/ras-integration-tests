@@ -1,16 +1,19 @@
+import traceback
 from datetime import datetime
 from logging import getLogger
 from random import randint
 
 from structlog import wrap_logger
 
-from acceptance_tests.features.steps import add_a_survey, social_survey, survey_enrolment
+from acceptance_tests.features.data_setup import display_unused_enrolment_code, generate_new_enrolment_code, \
+    survey_enrolment, add_a_survey, social_change_case_status, social_disable_uac, social_find_case_by_postcode, \
+    social_view_case_details
 from common import collection_exercise_utilities, respondent_utilities
 from common import common_utilities
 from config import Config
 from controllers import collection_exercise_controller, survey_controller
 
-# todo more constants needed everywhere
+# todo more constants
 FIELD_SEPARATOR = '-'
 
 SURVEY_NAME_SOCIAL_PREFIX = 'SOCIAL'
@@ -19,6 +22,7 @@ SURVEY_NAME_BUSINESS_PREFIX = 'BUSINESS'
 RU_REFERENCE_START = 50000000000
 RU_REFERENCE_END = 59999999999
 
+SURVEY_REFERENCE_PREFIX = '9'
 SURVEY_REFERENCE_START = 1001
 SURVEY_REFERENCE_END = 9999
 
@@ -28,6 +32,7 @@ logger = wrap_logger(getLogger(__name__))
 
 
 # todo docs everywhere
+
 
 # Non-standalone methods
 
@@ -41,6 +46,8 @@ def setup_non_standalone_data_for_test():
 
 
 def setup_standalone_data_for_test(context):
+    # todo handles business/social with many defaults - this will probably change big time as more tests are converted
+
     survey_type = context.survey_type
 
     if is_social_survey(survey_type):
@@ -51,7 +58,7 @@ def setup_standalone_data_for_test(context):
         survey_legal_basis = 'STA1947'
 
     context.unique_id = create_ru_reference()
-    survey_name = format_survey_name(context.feature_name, is_social_survey(survey_type))
+    survey_name = format_survey_name(context.feature_name, is_social_survey(survey_type), 100)
 
     survey_response = setup_survey_for_test(context, period, survey_name, survey_type, survey_legal_basis)
 
@@ -69,7 +76,12 @@ def setup_standalone_data_for_test(context):
                                                                        context.survey_short_name)
 
     # Call Feature method where Scenario specific setup lives
-    features[context.feature_name](context)
+    #todo fixtures are cleaner but initial investigation did not work as expected, needs further investigaton
+    try:
+        features[context.feature_name](context)
+    except KeyError as e:
+        traceback.print_exc()
+        exit(1)
 
 
 def setup_survey_for_test(context, period, survey_name, survey_type, survey_legal_basis):
@@ -81,8 +93,8 @@ def setup_survey_for_test(context, period, survey_name, survey_type, survey_lega
     survey_id = response['survey_id']
 
     if is_social_survey(survey_type):
-        iac = create_social_collection_exercise_for_test(survey_id, period, context.unique_id,
-                                                                    context.scenario_name, survey_type)
+        iac = create_social_collection_exercise_for_test(context, survey_id, period, context.unique_id,
+                                                         context.scenario_name, survey_type)
     else:
         iac = create_business_collection_exercise_for_test(survey_id, period, context.unique_id,
                                                                       context.scenario_name, survey_type)
@@ -125,15 +137,15 @@ def create_survey_for_test(survey_name, unique_id, survey_ref, survey_type, surv
     return response
 
 
-def create_social_collection_exercise_for_test(survey_id, period, ru_ref, ce_name, survey_type):
+def create_social_collection_exercise_for_test(context, survey_id, period, ru_ref, ce_name, survey_type):
     ''' Creates a new Collection Exercise for the survey supplied '''
 
     logger.info('Creating Social Collection Exercise', survey_id=survey_id, period=period)
 
-    user_description = collection_exercise_utilities.make_user_description(ce_name, is_social_survey(survey_type))
-    dates = collection_exercise_utilities.generate_collection_exercise_dates_from_period(period)
+    user_description = collection_exercise_utilities.make_user_description(ce_name, is_social_survey(survey_type), 50)
+    dates = collection_exercise_utilities.generate_social_collection_exercise_dates()
 
-    iac = collection_exercise_controller.create_and_execute_social_collection_exercise(survey_id, period,
+    iac = collection_exercise_controller.create_and_execute_social_collection_exercise(context, survey_id, period,
                                                                                        user_description, dates,
                                                                                        short_name=ru_ref)
 
@@ -151,7 +163,7 @@ def create_business_collection_exercise_for_test(survey_id, period, ru_ref, ce_n
 
     logger.info('Creating Business Collection Exercise', survey_id=survey_id, period=period)
 
-    user_description = collection_exercise_utilities.make_user_description(ce_name, is_social_survey(survey_type))
+    user_description = collection_exercise_utilities.make_user_description(ce_name, is_social_survey(survey_type), 50)
     dates = collection_exercise_utilities.generate_collection_exercise_dates_from_period(period)
 
     iac = collection_exercise_controller.create_and_execute_collection_exercise_with_unique_sample(survey_id, period,
@@ -201,6 +213,7 @@ def create_business_survey_period(from_date=datetime.utcnow()):
 def create_social_survey_period():
     return '1'
 
+
 def format_period(period_year, period_month):
     return common_utilities.concatenate_strings(str(period_year), str(period_month).zfill(2))
 
@@ -209,31 +222,39 @@ def create_ru_reference():
     return str(randint(RU_REFERENCE_START, RU_REFERENCE_END))
 
 
-def format_survey_name(description, is_social_survey):
-    unique_id = common_utilities.create_utc_timestamp()
-
+def format_survey_name(survey_name_in, is_social_survey, max_field_length):
     if is_social_survey:
-        prefix = SURVEY_NAME_SOCIAL_PREFIX
+        prefix = common_utilities.concatenate_strings(SURVEY_NAME_SOCIAL_PREFIX, '', FIELD_SEPARATOR)
     else:
-        prefix = SURVEY_NAME_BUSINESS_PREFIX
+        prefix = common_utilities.concatenate_strings(SURVEY_NAME_BUSINESS_PREFIX, '', FIELD_SEPARATOR)
 
-    left_part = common_utilities.concatenate_strings(prefix, description, FIELD_SEPARATOR)
+    # Append timestamp
+    survey_name_out = common_utilities.concatenate_strings(survey_name_in, common_utilities.create_utc_timestamp(),
+                                                           FIELD_SEPARATOR)
 
-    return common_utilities.concatenate_strings(left_part, unique_id, FIELD_SEPARATOR)
+    survey_name_out = common_utilities.compact_string(survey_name_out, max_field_length - len(prefix))
+
+    # return with prefix
+    return common_utilities.concatenate_strings(prefix, survey_name_out)
 
 
 def create_survey_reference():
-    return str(randint(SURVEY_REFERENCE_START, SURVEY_REFERENCE_END))
+    ref = str(randint(SURVEY_REFERENCE_START, SURVEY_REFERENCE_END))
+
+    return common_utilities.concatenate_strings(SURVEY_REFERENCE_PREFIX, ref)
 
 
+# todo features with no scenario setup could be stopped here using setup_utilities.scenario_setup_not_defined ?
 # Add every Feature name + data setup method handler here
 features = {
-    'Display enrolment code': survey_enrolment.feature_setup_survey_enrolment,
-    'Generate new enrolment code': survey_enrolment.feature_setup_survey_enrolment,
-    'As an respondent user': survey_enrolment.feature_setup_survey_enrolment,
+    'Display enrolment code': display_unused_enrolment_code.scenario_setup_display_unused_enrolment_code,
+    'Generate new enrolment code': generate_new_enrolment_code.scenario_setup_generate_new_enrolment_code,
+    'As an respondent user': survey_enrolment.scenario_setup_survey_enrolment,
 
-    'Add a survey': add_a_survey.feature_setup_add_a_survey,
+    'Add a survey': add_a_survey.scenario_setup_add_a_survey,
 
-    'View social case details': social_survey.feature_setup_social_survey,
-    'Search social cases by postcode': social_survey.feature_setup_social_survey
+    'View social case details': social_view_case_details.scenario_setup_social_view_case_details,
+    'Search social cases by postcode': social_find_case_by_postcode.scenario_setup_social_find_case_by_postcode,
+    'Change Response Status': social_change_case_status.scenario_setup_social_change_case_status,
+    'Change Response Status to \'Partial interview achieved but respondent requested data be deleted\'': social_disable_uac.scenario_setup_social_disable_uac
 }

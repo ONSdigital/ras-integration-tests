@@ -1,8 +1,7 @@
 from behave import given, when, then
 
 from acceptance_tests import browser
-from acceptance_tests.features.pages import surveys_todo, add_survey
-from common import survey_utilities
+from acceptance_tests.features.pages import surveys_todo, add_a_survey
 
 
 @when('the respondent views the survey list todo page')
@@ -26,7 +25,7 @@ def enter_enrolment_code(context):
 @given('the user has entered a valid enrolment code')
 @when('they enter a valid enrolment code')
 def enter_valid_enrolment_code(context):
-    add_survey.go_to()
+    add_a_survey.go_to()
     browser.driver.find_element_by_id('ENROLEMENT_CODE_FIELD').send_keys(context.iac)
     browser.find_by_id('continue_button').click()
 
@@ -66,44 +65,3 @@ def click_cancel(context):
 def view_todo_list(context):
     browser.find_by_id('SURVEY_TODO_TAB')\
         .first.has_class('btn btn--secondary btn--border navigation-tabs__tab navigation-tabs__tab--active')
-
-
-def scenario_setup_select_to_add_new_survey(context):
-    survey_utilities.create_respondent_not_enrolled_in_the_test_survey(context)
-
-
-def scenario_setup_enter_the_enrolment_code(context):
-    survey_utilities.create_respondent_not_enrolled_in_the_test_survey(context)
-
-
-def scenario_setup_view_survey_and_organisation_that_they_are_enrolling_for(context):
-    survey_utilities.create_respondent_not_enrolled_in_the_test_survey(context)
-
-
-def scenario_setup_invalid_entry_of_an_enrolment_code(context):
-    survey_utilities.create_respondent_not_enrolled_in_the_test_survey(context)
-
-
-def scenario_setup_view_new_survey_in_my_surveys(context):
-    survey_utilities.create_respondent_not_enrolled_in_the_test_survey(context, wait_for_live_collection_exercise=True)
-
-
-def scenario_setup_user_can_cancel_at_any_point_for(context):
-    survey_utilities.create_respondent_not_enrolled_in_the_test_survey(context)
-
-
-def feature_setup_add_a_survey(context):
-    # Scenario specific setup
-
-    scenarios[context.scenario_name](context)
-
-
-# Add every Scenario name + data setup method handler here
-scenarios = {
-    'Select to add new survey': scenario_setup_select_to_add_new_survey,
-    'Enter the enrolment code': scenario_setup_enter_the_enrolment_code,
-    'View survey & organisation that they are enrolling for': scenario_setup_view_survey_and_organisation_that_they_are_enrolling_for,
-    'Invalid entry of an enrolment code': scenario_setup_invalid_entry_of_an_enrolment_code,
-    'View new survey in my surveys': scenario_setup_view_new_survey_in_my_surveys,
-    'User can cancel at any point': scenario_setup_user_can_cancel_at_any_point_for
-}
