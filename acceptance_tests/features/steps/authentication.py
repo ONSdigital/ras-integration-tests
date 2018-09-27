@@ -1,7 +1,7 @@
 from behave import given
 
 from acceptance_tests import browser
-from acceptance_tests.features.pages import sign_in_internal, sign_in_internal_social
+from acceptance_tests.features.pages import sign_in_internal, social_sign_in_internal
 from acceptance_tests.features.pages import sign_in_respondent
 from config import Config
 
@@ -28,7 +28,7 @@ def signed_in_internal(_):
 
 @given('The internal user is already signed in to social UI')
 def signed_in_internal_social(_):
-    sign_in_internal_social.go_to()
+    social_sign_in_internal.go_to()
     # Only attempt to sign in if not already signed in otherwise implicitly redirected to homepage
     if '/sign-in' in browser.url:
         sign_in_internal.enter_correct_username()
