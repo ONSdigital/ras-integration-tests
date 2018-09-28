@@ -13,7 +13,7 @@ logger = wrap_logger(getLogger(__name__))
 
 
 @given("the respondent is ready to enrol in a survey")
-def ready_to_enrol_in_survey(context):
+def ready_to_enrol_in_survey(_):
     home.go_to_external_home()
     browser.find_by_id('create-account').click()
 
@@ -68,9 +68,9 @@ def confirm_verification_email(context):
     assert context.email in actual_email_confirmation
 
 
-@given('the internal user views the 49900000001 reporting unit page')
-def internal_user_views_the_reporting_unit(_):
-    reporting_unit.go_to('49900000001')
+@given('the internal user views the {ru_ref} reporting unit page')
+def internal_user_views_the_reporting_unit(_, ru_ref):
+    reporting_unit.go_to(ru_ref)
 
 
 @when('the user clicks generate enrolment code')

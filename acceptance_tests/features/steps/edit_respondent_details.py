@@ -13,7 +13,7 @@ def respondent_is_enrolled(_, email):
 
 @given('the respondent with email "{email}" is enrolled and active')
 def respondent_is_enrolled_and_active(_, email):
-    create_respondent(email, wait=True)
+    create_respondent(email)
 
 
 @given('the internal user chooses to change "{email}" account details')
@@ -118,8 +118,8 @@ def error_email_already_in_use(_):
     assert reporting_unit.save_email_error()
 
 
-def create_respondent(email, wait=False):
+def create_respondent(email):
     email_in_use = get_party_by_email(email)
     if not email_in_use:
         register_respondent(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201801',
-                            username=email, ru_ref=49900000001, wait_for_case=wait)
+                            username=email, ru_ref=49900000001)

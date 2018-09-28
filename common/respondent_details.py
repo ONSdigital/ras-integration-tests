@@ -26,8 +26,6 @@ class RespondentDetails:
                                                enrolment_code=enrolment_code)
         verify_user(respondent_party['emailAddress'])
         change_respondent_status(respondent_party['id'])
-        case_id = enrol_party(respondent_party['id'])
-        post_case_event(case_id, respondent_party['id'], "RESPONDENT_ENROLED", "Respondent enrolled")
         return respondent_party['id']
 
     def _create_respondent_and_get_details(self):

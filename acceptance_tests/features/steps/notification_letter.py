@@ -25,19 +25,20 @@ def reporting_unit_enrolled(context):
         "exercise_end": now + timedelta(days=11),
     }
     # Create action rule
-    create_and_execute_collection_exercise('cb8accda-6118-4d3b-85a3-149e28960c54', '0718', 'Testing notification file',
-                                           dates)
+    create_and_execute_collection_exercise('9b6872eb-28ee-4c09-b705-c3ab1bb0f9ec', '0718',
+                                           'Testing notification file', dates)
 
 
 @when('the survey goes live')
 def survey_is_live(context):
-    context.iac_code = poll_database_for_iac('cb8accda-6118-4d3b-85a3-149e28960c54', '0718')
+    context.iac_code = poll_database_for_iac('9b6872eb-28ee-4c09-b705-c3ab1bb0f9ec', '0718')
 
 
 @then('the reporting unit will receive a letter')
 def letter_is_received(context):
     with _get_sftp_client() as client:
-        file_path = _get_path_of_latest_notification_file(client, context.start, survey_ref='074', period='0718')
+        file_path = _get_path_of_latest_notification_file(client, context.start,
+                                                          survey_ref='073', period='0718')
 
         with client.open(file_path) as sftp_file:
             content = str(sftp_file.read())
@@ -59,7 +60,8 @@ def _get_sftp_client():
     return ssh.open_sftp()
 
 
-@retry(retry_on_exception=lambda e: isinstance(e, FileNotFoundError), wait_fixed=1000, stop_max_attempt_number=120)
+@retry(retry_on_exception=lambda e: isinstance(e, FileNotFoundError),
+       wait_fixed=1000, stop_max_attempt_number=120)
 def _get_path_of_latest_notification_file(client, start_of_test, survey_ref, period):
     logger.info('Loading file from SFTP')
     files = _get_files_ordered_by_modified_time_desc(client)
@@ -86,5 +88,6 @@ def _get_files_ordered_by_modified_time_desc(client):
 
 
 def _round_to_minute(start_of_test):
-    return datetime(start_of_test.year, start_of_test.month, start_of_test.day, start_of_test.hour,
+    return datetime(start_of_test.year, start_of_test.month,
+                    start_of_test.day, start_of_test.hour,
                     start_of_test.minute, second=0, microsecond=0)
