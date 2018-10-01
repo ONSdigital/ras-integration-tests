@@ -1,14 +1,13 @@
 import datetime
 import time
 from logging import getLogger
-from uuid import UUID
 
 from structlog import wrap_logger
 
 from acceptance_tests import browser
 from config import Config
 from controllers import case_controller, collection_exercise_controller, database_controller, \
-    django_oauth_controller, iac_controller, party_controller, sample_controller
+     iac_controller, party_controller, sample_controller
 from controllers.collection_instrument_controller import get_collection_instruments_by_classifier, \
     link_collection_instrument_to_exercise, upload_seft_collection_instrument
 
