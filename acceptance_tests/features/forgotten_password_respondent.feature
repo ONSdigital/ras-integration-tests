@@ -29,7 +29,7 @@ Feature: External user recovering their password
 
   Scenario: User re-sends reset password link
     Given the user has been notified that the link they used has expired
-    When they click the link the request new reset password link
+    When they click the request new reset password link
     Then the user is notified that they should check their email
 
   Scenario: User clicks a reset password link
@@ -40,14 +40,14 @@ Feature: External user recovering their password
   Scenario: User attempts to reset password with incorrect confirmed password
     Given the user has entered a new password and an incorrect confirmed password
     When they submit the new password
-    Then the user is notified that a that the passwords don't match
+    Then the user is notified that the passwords don't match
 
   Scenario: User attempts to reset password with password not meeting requirements
     Given the user has entered a new password and confirmed the password which does not meet requirements
     When they submit the new password
-    Then the user is notified that a that the password does not meet requirements
+    Then the user is notified that the password does not meet requirements
 
   Scenario: User attempts to reset password
     Given the user has entered a new password and confirmed the password
     When they submit the new password
-    Then the user is notified that a that the password has been changed
+    Then the user is notified that the password has been changed

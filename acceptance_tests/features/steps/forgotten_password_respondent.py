@@ -55,7 +55,7 @@ def request_new_password_link_available(_):
     assert forgotten_password_respondent.get_request_new_password_email()
 
 
-@when('they click the link the request new reset password link')
+@when('they click the request new reset password link')
 def click_request_new_password_link_(_):
     forgotten_password_respondent.click_request_new_password_email()
 
@@ -88,7 +88,7 @@ def submitting_password(_):
     forgotten_password_respondent.click_confirm_new_password()
 
 
-@then("the user is notified that a that the passwords don't match")
+@then("the user is notified that the passwords don't match")
 def passwords_is_invalid(_):
     assert forgotten_password_respondent.get_passwords_do_not_match_message()
 
@@ -98,7 +98,7 @@ def entering_in_valid_passwords(_):
     forgotten_password_respondent.enter_in_passwords('Password1!', 'Password1!')
 
 
-@then('the user is notified that a that the password has been changed')
+@then('the user is notified that the password has been changed')
 def password_changed(_):
     assert forgotten_password_respondent.get_password_changed_message()
 
@@ -108,6 +108,6 @@ def entering_passwords_does_not_meet_requirements(_):
     forgotten_password_respondent.enter_in_passwords('password', 'password')
 
 
-@then('the user is notified that a that the password does not meet requirements')
+@then('the user is notified that the password does not meet requirements')
 def password_does_not_meet_requirements(_):
     assert forgotten_password_respondent.get_password_requirements_message()
