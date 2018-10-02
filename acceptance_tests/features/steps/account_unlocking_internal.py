@@ -46,5 +46,3 @@ def account_status_changed(_):
     assert browser.find_by_id('success')[0].value == 'Account status changed'
     reporting_unit.click_data_panel('Bricks')
     assert browser.find_by_id('account-status')[0].value == 'Active'
-
-
