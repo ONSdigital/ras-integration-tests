@@ -31,8 +31,8 @@ def request_verification_link(_):
 @given('a user has an expired verification link')
 @when('they click the expired verification link')
 def click_expired_verification_link(_):
-    url = 'http://localhost:8082/register/activate-account/InVudmVyaWZpZWQyQGVtYWlsLmNvbSI.Doph4w.tZ4c1ajxBA_vinkUbfV' \
-          '-4ksFzMI'
+    url = 'http://localhost:8082/register/activate-account/InVudmVyaWZpZWQxQGVtYWlsLmNvbSI.DoOicQ.Fi4dkj3J1C41Ehd4qNh' \
+          'nOdsZELc'
     browser.visit(url)
 
 
@@ -61,13 +61,6 @@ def click_resend_verification_link(_):
 @then('they are notified that their verification email has been re-sent')
 def resend_verification_page(_):
     assert browser.find_by_text('Check your email')
-
-
-@when('they click an expired verification link in the email "{email}"')
-def click_expired_verification_link(_, email):
-    url = 'http://localhost:8082/register/activate-account/InVudmVyaWZpZWQxQGVtYWlsLmNvbSI.DoOicQ.Fi4dkj3J1C41Ehd4qNhn' \
-          'OdsZELc'
-    browser.visit(url)
 
 
 @then('the user is taken to a page stating their account has been activated')

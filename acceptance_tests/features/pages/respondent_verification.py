@@ -1,5 +1,3 @@
-import time
-
 from acceptance_tests import browser
 from acceptance_tests.features.pages import sign_in_respondent
 

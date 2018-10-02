@@ -53,4 +53,3 @@ def password_reset_complete(_):
 @when('They confirm their password reset')
 def submitting_password(_):
     forgotten_password_respondent.click_confirm_new_password()
-
