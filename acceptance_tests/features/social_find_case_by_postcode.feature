@@ -5,7 +5,7 @@ Feature: Search social cases by postcode
   So that I can find the right household related to the call
 
   Background: Internal user is already signed in and social survey exists
-    Given the internal user is already signed in
+    Given the internal user is already signed in to social UI
     And a social survey exists
 
   @sus002-01

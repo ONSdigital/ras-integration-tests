@@ -5,7 +5,7 @@ Feature: Change Response Status
   So that: This is recorded on the system and no further actions are taken for these cases
 
   Background: Internal user is already signed in and social survey exists
-    Given the internal user is already signed in
+    Given the internal user is already signed in to social UI
     And a social survey exists
 
   @sus005-01

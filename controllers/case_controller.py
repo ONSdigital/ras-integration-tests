@@ -1,4 +1,3 @@
-import uuid
 import logging
 
 import requests
