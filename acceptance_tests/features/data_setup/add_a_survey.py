@@ -32,7 +32,7 @@ def scenario_setup_add_a_survey(context):
 
     try:
         scenarios[context.scenario_name](context)
-    except KeyError as e:
+    except KeyError:
         traceback.print_exc()
         exit(1)
 

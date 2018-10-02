@@ -8,12 +8,12 @@ def scenario_setup_display_unused_enrolment_code(context):
 
     try:
         scenarios[context.scenario_name](context)
-    except KeyError as e:
+    except KeyError:
         traceback.print_exc()
         exit(1)
 
 
 # Add every Scenario name + data setup method handler here
 scenarios = {
-    'Display an unused active code': setup_utilities.scenario_setup_not_defined
+    'Display an unused active code': setup_utilities.scenario_data_setup_not_required
 }

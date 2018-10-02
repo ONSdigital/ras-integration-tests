@@ -13,7 +13,7 @@ logger = wrap_logger(getLogger(__name__))
 timings = {}
 
 
-def before_all(context):
+def before_all(_):
 
     # Delete all standalone test data
     if is_delete_standalone_data():

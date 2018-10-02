@@ -2,7 +2,7 @@ from behave import given, when, then
 
 from acceptance_tests import browser
 from acceptance_tests.features.pages import edit_respondent_details_form, reporting_unit
-from common import collection_exercise_utilities
+from common.collection_exercise_utilities import register_respondent
 from controllers.party_controller import get_party_by_email
 
 

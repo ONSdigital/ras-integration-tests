@@ -2,7 +2,7 @@ from logging import getLogger
 
 from structlog import wrap_logger
 
-from common import collection_exercise_utilities, common_utilities
+from common import common_utilities
 from config import Config
 from controllers import party_controller, database_controller, case_controller, django_oauth_controller
 
@@ -33,16 +33,14 @@ def unenrol_respondent_in_survey(survey_id):
     database_controller.unenrol_respondent_in_survey(survey_id)
 
 
-def enrol_respondent(respondent_id, wait_for_case=False):
-    logger.info('Enroling respondent', respondent_id=respondent_id, wait_for_case=wait_for_case)
+def enrol_respondent(respondent_id):
+    logger.info('Enroling respondent', respondent_id=respondent_id)
 
     case_id = database_controller.enrol_party(respondent_id)
 
-    case_controller.post_case_event(case_id, respondent_id, "RESPONDENT_ENROLED", "Respondent enrolled")
-    if wait_for_case:
-        collection_exercise_utilities.wait_for_case_to_update(respondent_id)
+    case_controller.post_case_event(case_id, respondent_id, "RESPONDENT_ENROLED")
 
-    logger.info('Respondent Enrolled', respondent_id=respondent_id, case_id=case_id, wait_for_case=wait_for_case)
+    logger.info('Respondent Enrolled', respondent_id=respondent_id, case_id=case_id)
 
     return respondent_id
 

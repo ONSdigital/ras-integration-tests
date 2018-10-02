@@ -137,7 +137,6 @@ def create_collection_exercise(survey_id, period, user_description):
 
     json = {
         "surveyId": survey_id,
-        "surveyId": survey_id,
         "exerciseRef": period,
         "userDescription": user_description
     }

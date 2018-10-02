@@ -8,12 +8,12 @@ def scenario_setup_social_view_case_details(context):
 
     try:
         scenarios[context.scenario_name](context)
-    except KeyError as e:
+    except KeyError:
         traceback.print_exc()
         exit(1)
 
 
 # Add every Scenario name + data setup method handler here
 scenarios = {
-    'Users are able to view their case details': setup_utilities.scenario_setup_not_defined
+    'Users are able to view their case details': setup_utilities.scenario_data_setup_not_required
 }

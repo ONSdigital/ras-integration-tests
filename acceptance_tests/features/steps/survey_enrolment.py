@@ -72,14 +72,15 @@ def internal_user_views_the_survey_page(context):
 
 
 @when('the user clicks generate enrolment code')
-def internal_user_generates_new_code(_):
-    reporting_unit.click_generate_new_code()
+def internal_user_generates_new_code(context):
+    reporting_unit.click_generate_new_code(context.survey_short_name)
 
 
 @then('a new enrolment code is displayed back to the user')
 def internal_user_views_generated_code(_):
     iac = enrolment_code.get_new_iac()
     assert iac
+
 
 @then('an unused enrolment code is displayed back to the user')
 def internal_user_views_unused_code(_):

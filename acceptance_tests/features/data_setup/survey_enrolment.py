@@ -8,13 +8,13 @@ def scenario_setup_survey_enrolment(context):
 
     try:
         scenarios[context.scenario_name](context)
-    except KeyError as e:
+    except KeyError:
         traceback.print_exc()
         exit(1)
 
 
 # Add every Scenario name + data setup method handler here
 scenarios = {
-    'Frontstage can see the survey they are enrolling in': setup_utilities.scenario_setup_not_defined,
-    'Frontstage user can create an account': setup_utilities.scenario_setup_not_defined
+    'Frontstage can see the survey they are enrolling in': setup_utilities.scenario_data_setup_not_required,
+    'Frontstage user can create an account': setup_utilities.scenario_data_setup_not_required
 }

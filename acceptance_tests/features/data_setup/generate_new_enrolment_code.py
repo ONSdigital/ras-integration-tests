@@ -16,7 +16,7 @@ def scenario_setup_generate_new_enrolment_code(context):
 
     try:
         scenarios[context.scenario_name](context)
-    except KeyError as e:
+    except KeyError:
         traceback.print_exc()
         exit(1)
 

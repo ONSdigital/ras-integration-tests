@@ -6,9 +6,8 @@ from acceptance_tests import browser
 from acceptance_tests.features.pages.surveys_history import go_to_history_tab
 from acceptance_tests.features.pages.surveys_todo import go_to as go_to_todo
 from acceptance_tests.features.steps.authentication import signed_in_respondent
-from controllers.case_controller import get_b_case, generate_new_enrolment_code, post_case_event
-from common import collection_exercise_utilities
-from controllers.case_controller import get_b_case, generate_new_enrolment_code, update_case_group_status
+from controllers.case_controller import get_b_case, generate_new_enrolment_code
+from controllers.case_controller import post_case_event
 from controllers.collection_exercise_controller import get_collection_exercise
 from controllers.party_controller import add_survey, get_party_by_email, get_party_by_ru_ref
 

@@ -79,7 +79,7 @@ def setup_standalone_data_for_test(context):
     #todo fixtures are cleaner but initial investigation did not work as expected, needs further investigaton
     try:
         features[context.feature_name](context)
-    except KeyError as e:
+    except KeyError:
         traceback.print_exc()
         exit(1)
 
@@ -128,11 +128,12 @@ def create_survey_for_test(survey_name, unique_id, survey_ref, survey_type, surv
                 survey_long_name=survey_name,
                 survey_short_name=survey_short_name)
 
-    response = {}
-    response['survey_id'] = survey_id
-    response['unique_id'] = unique_id
-    response['survey_name'] = survey_name
-    response['survey_short_name'] = survey_short_name
+    response = {
+        'survey_id': survey_id,
+        'unique_id': unique_id,
+        'survey_name': survey_name,
+        'survey_short_name': survey_short_name
+    }
 
     return response
 
@@ -222,8 +223,8 @@ def create_ru_reference():
     return str(randint(RU_REFERENCE_START, RU_REFERENCE_END))
 
 
-def format_survey_name(survey_name_in, is_social_survey, max_field_length):
-    if is_social_survey:
+def format_survey_name(survey_name_in, social_survey, max_field_length):
+    if social_survey:
         prefix = common_utilities.concatenate_strings(SURVEY_NAME_SOCIAL_PREFIX, '', FIELD_SEPARATOR)
     else:
         prefix = common_utilities.concatenate_strings(SURVEY_NAME_BUSINESS_PREFIX, '', FIELD_SEPARATOR)
