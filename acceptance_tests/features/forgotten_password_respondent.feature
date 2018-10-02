@@ -29,7 +29,7 @@ Feature: External user recovering their password
 
   Scenario: User re-sends reset password link
     Given the user has been notified that the link they used has expired
-    When they click the request new reset password link
+    When they click the request new password link
     Then the user is notified that they should check their email
 
   Scenario: User clicks a reset password link
@@ -51,3 +51,8 @@ Feature: External user recovering their password
     Given the user has entered a new password and confirmed the password
     When they submit the new password
     Then the user is notified that the password has been changed
+
+  Scenario: User logs in with new password
+    Given the user has reset their password
+    When  "unverified1@email.com" enters their credentials
+    Then They successfully log in to their account

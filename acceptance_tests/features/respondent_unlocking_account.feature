@@ -4,17 +4,17 @@ Feature: Respondent unlocking their account
   So that I can access my account
 
   Background: A respondent has to have created an account
-    Given the respondent has created an account which is unverified called "unverified1@email.com"
-    And the respondent has created an account which is verified called "locked@email.com"
+    Given the respondent has created an account which is unverified called "locked1@email.com"
+    And the respondent has created an account which is verified called "locked2@email.com"
 
   Scenario: Unverified user is informed if they exceed 10 failed sign in attempts
-    Given "unverified1@email.com" enters an incorrect password
-    When "unverified1@email.com" enters a password incorrectly for the 10th time
+    Given "locked1@email.com" enters an incorrect password
+    When "locked1@email.com" enters a password incorrectly for the 10th time
     Then The system is to inform the user that an email has been sent to a registered email
 
   Scenario: User is sent an email after 10 failed sign in attempts, gets directed to the password reset page
     Given An unverified user has received the unsuccessful sign in email
-    When "unverified1@email.com" clicks the link
+    When "locked1@email.com" clicks the link
     Then They are directed to the reset password page
 
   Scenario: Account is unlocked and verified after confirming password reset
@@ -24,13 +24,13 @@ Feature: Respondent unlocking their account
     Then Their password is reset and their account is unlocked and verified
 
   Scenario: Verified user is informed if they exceed 10 failed sign in attempts
-    Given "locked@email.com" enters an incorrect password
-    When "locked@email.com" enters a password incorrectly for the 10th time
+    Given "locked2@email.com" enters an incorrect password
+    When "locked2@email.com" enters a password incorrectly for the 10th time
     Then The system is to inform the user that an email has been sent to a registered email
 
   Scenario: User is sent an email after 10 failed sign in attempts
     Given A verified user has received the unsuccessful sign in email
-    When "locked@email.com" clicks the link
+    When "locked2@email.com" clicks the link
     Then They are directed to the reset password page
 
   Scenario: Account is unlocked after confirming password reset

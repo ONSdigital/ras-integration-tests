@@ -68,3 +68,7 @@ def enter_in_passwords(password, confirm_password):
 
 def get_password_requirements_message():
     return browser.find_by_text("Your password doesn't meet the requirements")
+
+
+def respondent_successfully_logged_in():
+    return browser.find_by_text('ONS Business Surveys')

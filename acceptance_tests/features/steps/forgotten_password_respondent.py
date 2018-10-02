@@ -1,7 +1,7 @@
 from behave import given, when, then
 
 from acceptance_tests import browser
-from acceptance_tests.features.pages import forgotten_password_respondent
+from acceptance_tests.features.pages import forgotten_password_respondent, sign_in_respondent
 from common.generate_token import generate_email_token
 from config import Config
 
@@ -55,7 +55,7 @@ def request_new_password_link_available(_):
     assert forgotten_password_respondent.get_request_new_password_email()
 
 
-@when('they click the request new reset password link')
+@when('they click the request new password link')
 def click_request_new_password_link_(_):
     forgotten_password_respondent.click_request_new_password_email()
 
@@ -99,6 +99,7 @@ def entering_in_valid_passwords(_):
 
 
 @then('the user is notified that the password has been changed')
+@given('the user has reset their password')
 def password_changed(_):
     assert forgotten_password_respondent.get_password_changed_message()
 
@@ -111,3 +112,16 @@ def entering_passwords_does_not_meet_requirements(_):
 @then('the user is notified that the password does not meet requirements')
 def password_does_not_meet_requirements(_):
     assert forgotten_password_respondent.get_password_requirements_message()
+
+
+@when('"{username}" enters their credentials')
+def respondent_logs_into_account(_, username):
+    sign_in_respondent.go_to()
+    browser.driver.find_element_by_id('username').send_keys(username)
+    browser.driver.find_element_by_id('inputPassword').send_keys('Password1!')
+    browser.find_by_id('sign_in_button').click()
+
+
+@then('They successfully log in to their account')
+def respondent_home_page(_):
+    assert forgotten_password_respondent.respondent_successfully_logged_in()
