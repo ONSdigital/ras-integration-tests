@@ -61,21 +61,3 @@ def get_iac_for_collection_exercise(collection_exercise_id, social=False):
     for row in result:
         iac = row['iac']
     return iac
-
-
-def enrol_party(respondent_uuid):
-    # Enrolling respondent for enrolment code that they registered for is a slightly different
-    # process that enrolling to a survey when already registered so we use SQL here
-    sql_statement_update_enrolment = f"UPDATE partysvc.enrolment SET status = 'ENABLED' WHERE respondent_id = (SELECT id FROM partysvc.respondent WHERE party_uuid = '{respondent_uuid}');"  # NOQA
-    execute_sql(sql_string=sql_statement_update_enrolment, database_uri=Config.PARTY_DATABASE_URI)
-
-    sql_get_case_id = f"SELECT case_id FROM partysvc.pending_enrolment WHERE respondent_id = (SELECT id FROM partysvc.respondent WHERE party_uuid = '{respondent_uuid}');"  # NOQA
-    result = execute_sql(sql_string=sql_get_case_id, database_uri=Config.PARTY_DATABASE_URI)
-    case_id = None
-    for row in result:
-        case_id = row['case_id']
-
-    sql_delete_pending_enrolment = f"DELETE FROM partysvc.pending_enrolment WHERE respondent_id = (SELECT id FROM partysvc.respondent WHERE party_uuid = '{respondent_uuid}');"  # NOQA
-    execute_sql(sql_string=sql_delete_pending_enrolment, database_uri=Config.PARTY_DATABASE_URI)
-
-    return case_id

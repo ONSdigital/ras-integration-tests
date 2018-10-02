@@ -3,7 +3,7 @@ from config import Config
 
 
 def go_to():
-    browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/social")
+    browser.visit(f"{Config.RESPONSE_OPERATIONS_SOCIAL_UI}/")
 
 
 def get_page_title():
