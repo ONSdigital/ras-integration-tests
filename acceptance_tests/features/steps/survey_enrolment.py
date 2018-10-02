@@ -6,7 +6,7 @@ from common import respondent_utilities
 
 
 @given("the respondent is ready to enrol in a survey")
-def ready_to_enrol_in_survey(context):
+def ready_to_enrol_in_survey(_):
     home.go_to_external_home()
     browser.find_by_id('create-account').click()
 
@@ -14,12 +14,6 @@ def ready_to_enrol_in_survey(context):
 @given("a respondent has got their enrolment code")
 def generate_enrolment_code(_):
     pass
-
-
-@then('an unused enrolment code is displayed back to the user')
-def internal_user_views_unused_code(context):
-    iac = enrolment_code.get_unused_iac()
-    assert iac
 
 
 @when('they enter their enrolment code')
@@ -31,10 +25,10 @@ def enter_enrolment_code(context):
 @then('they confirm the survey and organisation details')
 @given('they confirm the survey and organisation details')
 def confirm_correct_survey_selected(context):
-    actual_enrolment_code = browser.find_by_id('enrolment_code').value
+    actual_iac = browser.find_by_id('enrolment_code').value
     actual_survey_name = browser.find_by_id('survey_name').value
 
-    assert context.iac == actual_enrolment_code
+    assert context.iac == actual_iac
     assert context.survey_name == actual_survey_name
 
     browser.find_by_id('confirm_button').click()
@@ -78,8 +72,8 @@ def internal_user_views_the_survey_page(context):
 
 
 @when('the user clicks generate enrolment code')
-def internal_user_generates_new_code(context):
-    reporting_unit.click_generate_new_code(context.survey_short_name)
+def internal_user_generates_new_code(_):
+    reporting_unit.click_generate_new_code()
 
 
 @then('a new enrolment code is displayed back to the user')
@@ -87,3 +81,7 @@ def internal_user_views_generated_code(_):
     iac = enrolment_code.get_new_iac()
     assert iac
 
+@then('an unused enrolment code is displayed back to the user')
+def internal_user_views_unused_code(_):
+    iac = enrolment_code.get_unused_iac()
+    assert iac
