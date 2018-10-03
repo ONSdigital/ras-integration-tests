@@ -3,7 +3,7 @@ from behave import given, when, then
 from acceptance_tests import browser
 from acceptance_tests.features.pages import reporting_unit
 from acceptance_tests.features.pages.respondent_unlocking_account import create_locked_account,\
-    get_lockout_message, locking_respondent_out
+    get_lockout_message
 
 
 @given('a respondent with an email "{username}" locks their account')
