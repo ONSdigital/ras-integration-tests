@@ -3,10 +3,9 @@ Feature: Internal User unlocking Respondent account
   I need to be able to unlock a respondent's account
   So that the respondent can access their survey account
 
-  Scenario: A verified respondent has locked their account
-    Given the respondent has created an account with username "locked@email.com"
-    When the respondent enters an incorrect password 10 times for "locked@email.com"
-    Then the account will be locked
+  Background: A respondent has locked their account
+    Given a respondent with an email "locked@email.com" locks their account
+
 
   @us203_01
   Scenario: Internal user can view account is locked with an unlock link

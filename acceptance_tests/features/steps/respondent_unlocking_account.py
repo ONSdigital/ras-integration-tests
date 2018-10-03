@@ -1,8 +1,8 @@
 from behave import given, when, then
 
 from acceptance_tests.features.pages import forgotten_password_respondent
-from acceptance_tests.features.pages.respondent_unlocking_account import creating_unverified_account, \
-    respondent_enters_wrong_password, get_lockout_message, respondent_password_reset_complete
+from acceptance_tests.features.pages.respondent_unlocking_account import creating_unverified_account,\
+    get_lockout_message, respondent_password_reset_complete, locking_respondent_out
 from acceptance_tests.features.steps.edit_respondent_details import create_respondent
 
 
@@ -16,15 +16,9 @@ def respondent_account(_, username):
     create_respondent(username)
 
 
-@given('"{username}" enters an incorrect password')
-def respondent_invalid_login(_, username):
-    respondent_enters_wrong_password(username)
-
-
-@when('"{username}" enters a password incorrectly for the 10th time')
-def locking_respondent_out(_, username):
-    for i in range(0, 10):
-        respondent_enters_wrong_password(username)
+@given('"{username}" enters their password incorrectly 10 times in a row')
+def locking_respondent_out_of_account(_, username):
+    locking_respondent_out(username)
 
 
 @then('The system is to inform the user that an email has been sent to a registered email')

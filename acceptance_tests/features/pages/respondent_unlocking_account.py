@@ -11,11 +11,12 @@ def creating_unverified_account(username):
                             username=username, ru_ref=49900000001, unverified=True)
 
 
-def create_verified_account(username):
+def create_locked_account(username):
     email_in_use = get_party_by_email(username)
     if not email_in_use:
         register_respondent(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201801',
                             username=username, ru_ref=49900000005)
+        locking_respondent_out(username)
 
 
 def respondent_enters_wrong_password(username):

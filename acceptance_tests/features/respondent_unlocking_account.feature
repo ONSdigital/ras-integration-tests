@@ -8,8 +8,7 @@ Feature: Respondent unlocking their account
     And the respondent has created an account which is verified called "locked2@email.com"
 
   Scenario: Unverified user is informed if they exceed 10 failed sign in attempts
-    Given "locked1@email.com" enters an incorrect password
-    When "locked1@email.com" enters a password incorrectly for the 10th time
+    Given "locked1@email.com" enters their password incorrectly 10 times in a row
     Then The system is to inform the user that an email has been sent to a registered email
 
   Scenario: User is sent an email after 10 failed sign in attempts, gets directed to the password reset page
@@ -24,8 +23,7 @@ Feature: Respondent unlocking their account
     Then Their password is reset and their account is unlocked and verified
 
   Scenario: Verified user is informed if they exceed 10 failed sign in attempts
-    Given "locked2@email.com" enters an incorrect password
-    When "locked2@email.com" enters a password incorrectly for the 10th time
+    Given "locked2@email.com" enters their password incorrectly 10 times in a row
     Then The system is to inform the user that an email has been sent to a registered email
 
   Scenario: User is sent an email after 10 failed sign in attempts

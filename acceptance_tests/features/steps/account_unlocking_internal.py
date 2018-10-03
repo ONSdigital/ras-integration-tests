@@ -2,18 +2,13 @@ from behave import given, when, then
 
 from acceptance_tests import browser
 from acceptance_tests.features.pages import reporting_unit
-from acceptance_tests.features.pages.respondent_unlocking_account import create_verified_account,\
+from acceptance_tests.features.pages.respondent_unlocking_account import create_locked_account,\
     get_lockout_message, locking_respondent_out
 
 
-@given('the respondent has created an account with username "{username}"')
+@given('a respondent with an email "{username}" locks their account')
 def respondent_account(_, username):
-    create_verified_account(username=username)
-
-
-@when('the respondent enters an incorrect password 10 times for "{username}"')
-def respondent_lock_account(_, username):
-    locking_respondent_out(username=username)
+    create_locked_account(username=username)
 
 
 @then('the account will be locked')
