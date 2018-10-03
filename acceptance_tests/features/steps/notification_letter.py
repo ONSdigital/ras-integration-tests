@@ -1,4 +1,5 @@
 import logging
+import time
 from datetime import timedelta, datetime
 
 import paramiko
@@ -39,6 +40,8 @@ def letter_is_received(context):
     with _get_sftp_client() as client:
         file_path = _get_path_of_latest_notification_file(client, context.start,
                                                           survey_ref='073', period='0718')
+
+        time.sleep(5)
 
         with client.open(file_path) as sftp_file:
             content = str(sftp_file.read())
