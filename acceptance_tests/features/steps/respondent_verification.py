@@ -31,8 +31,8 @@ def request_verification_link(_):
 @given('a user has an expired verification link')
 @when('they click the expired verification link')
 def click_expired_verification_link(_):
-    url = 'http://localhost:8082/register/activate-account/InVudmVyaWZpZWQxQGVtYWlsLmNvbSI.DoOicQ.Fi4dkj3J1C41Ehd4qNh' \
-          'nOdsZELc'
+    url = f'{Config.FRONTSTAGE_SERVICE}/register/activate-account/InVudmVyaWZpZWQxQGVtYWlsLmNvbSI.DoOicQ.Fi4dkj3J1C' \
+          f'41Ehd4qNhnOdsZELc'
     browser.visit(url)
 
 

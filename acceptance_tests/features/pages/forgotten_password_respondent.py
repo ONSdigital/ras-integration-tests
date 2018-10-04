@@ -24,7 +24,7 @@ def check_email_error_message():
 
 
 def go_to_expired_password_request_url():
-    url = 'http://localhost:8082/passwords/reset-password/InVudmVyaWZpZWQxQGVtYWlsLmNvbSI.DoOicQ.Fi4dkj3J1C' \
+    url = f'{Config.FRONTSTAGE_SERVICE}/passwords/reset-password/InVudmVyaWZpZWQxQGVtYWlsLmNvbSI.DoOicQ.Fi4dkj3J1C' \
           '41Ehd4qNhnOdsZELc'
     browser.visit(url)
 
