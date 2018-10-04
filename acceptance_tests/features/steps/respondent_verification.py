@@ -65,7 +65,7 @@ def resend_verification_page(_):
 
 @then('the user is taken to a page stating their account has been activated')
 def verified_user_page(_):
-    assert browser.url == f'{Config.FRONTSTAGE_SERVICE}/sign-in/?account_activated=True'
+    assert '/sign-in/?account_activated=True' in browser.url
     assert browser.find_by_text("You've activated your account")
 
 
