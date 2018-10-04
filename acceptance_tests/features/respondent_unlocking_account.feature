@@ -4,8 +4,8 @@ Feature: Respondent unlocking their account
   So that I can access my account
 
   Background: A respondent has to have created an account
-    Given the respondent has created an account which is unverified called "locked1@email.com"
-    And the respondent has created an account which is verified called "locked2@email.com"
+    Given The respondent has created an account which is unverified called "locked1@email.com"
+    And The respondent has created an account which is verified called "locked2@email.com"
 
   Scenario: Unverified user is informed if they exceed 10 failed sign in attempts
     Given "locked1@email.com" enters their password incorrectly 10 times in a row
@@ -18,8 +18,8 @@ Feature: Respondent unlocking their account
 
   Scenario: Account is unlocked and verified after confirming password reset
     Given An Unverified user's account is locked
-    And the user has entered a new password and confirmed the password
-    When they submit the new password
+    And The user has entered a new password and confirmed the password
+    When They submit the new password
     Then Their password is reset and their account is unlocked and verified
 
   Scenario: Verified user is informed if they exceed 10 failed sign in attempts
@@ -33,6 +33,6 @@ Feature: Respondent unlocking their account
 
   Scenario: Account is unlocked after confirming password reset
     Given A verified user's account is locked
-    And the user has entered a new password and confirmed the password
+    And The user has entered a new password and confirmed the password
     When They confirm their password reset
     Then Their password is reset and their account is unlocked and verified

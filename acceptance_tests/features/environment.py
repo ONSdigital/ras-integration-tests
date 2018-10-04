@@ -104,7 +104,7 @@ def poll_database_for_iac(survey_id, period, social=False):
         time.sleep(5)
 
 
-def register_respondent(survey_id, period, username, ru_ref=None, unverified=False):
+def register_respondent(survey_id, period, username, ru_ref=None, verified=True):
     logger.info('Registering respondent', survey_id=survey_id, period=period, ru_ref=ru_ref)
     collection_exercise_id = collection_exercise_controller.get_collection_exercise(survey_id, period)['id']
     if ru_ref:
@@ -125,7 +125,7 @@ def register_respondent(survey_id, period, username, ru_ref=None, unverified=Fal
                                                             enrolment_code=enrolment_code)
 
     respondent_id = respondent_party['id']
-    if not unverified:
+    if verified:
         party_controller.change_respondent_status(respondent_party['id'])
     logger.info('Successfully registered respondent', survey_id=survey_id, period=period,
                 ru_ref=ru_ref, respondent_id=respondent_id)

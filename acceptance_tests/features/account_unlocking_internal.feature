@@ -4,7 +4,7 @@ Feature: Internal User unlocking Respondent account
   So that the respondent can access their survey account
 
   Background: A respondent has locked their account
-    Given a respondent with an email "locked@email.com" locks their account
+    Given A respondent with an email "locked@email.com" locks their account
 
 
   @us203_01
