@@ -7,7 +7,7 @@ from random import choice, randint
 import requests
 from structlog import wrap_logger
 
-from common import collection_exercise_utilities
+from acceptance_tests.features import environment
 from config import Config
 from controllers import collection_instrument_controller as ci_controller, \
     sample_controller
@@ -134,7 +134,6 @@ def delete_collection_exercise_event(survey_id, period, event_tag):
 def create_collection_exercise(survey_id, period, user_description):
     logger.debug('Creating collection exercise', survey_id=survey_id, period=period)
     url = f'{Config.COLLECTION_EXERCISE_SERVICE}/collectionexercises'
-
     json = {
         "surveyId": survey_id,
         "exerciseRef": period,
@@ -176,36 +175,7 @@ def create_and_execute_collection_exercise(survey_id, period, user_description, 
 
     time.sleep(5)
     execute_collection_exercise(survey_id, period)
-    iac = collection_exercise_utilities.poll_database_for_iac(survey_id, period)
-
-    return iac
-
-def create_and_execute_collection_exercise_with_unique_sample(survey_id, period, user_description, dates, ru_ref):
-    create_collection_exercise(survey_id, period, user_description)
-    collection_exercise = get_collection_exercise(survey_id, period)
-    collection_exercise_id = collection_exercise['id']
-
-    post_event_to_collection_exercise(collection_exercise_id, 'mps',
-                                      convert_datetime_for_event(dates['mps']))
-    post_event_to_collection_exercise(collection_exercise_id, 'go_live',
-                                      convert_datetime_for_event(dates['go_live']))
-    post_event_to_collection_exercise(collection_exercise_id, 'return_by',
-                                      convert_datetime_for_event(dates['return_by']))
-    post_event_to_collection_exercise(collection_exercise_id, 'exercise_end',
-                                      convert_datetime_for_event(dates['exercise_end']))
-
-    upload_response = sample_controller.upload_unique_sample(collection_exercise['id'], ru_ref)
-
-    sample_summary = upload_response['upload_response']
-
-    link_sample_summary_to_collection_exercise(collection_exercise['id'], sample_summary['id'])
-
-    ci_controller.upload_seft_collection_instrument(collection_exercise['id'],
-                                                    'resources/collection_instrument_files/064_201803_0001.xlsx')
-
-    time.sleep(5)
-    execute_collection_exercise(survey_id, period)
-    iac = collection_exercise_utilities.poll_database_for_iac(survey_id, period)
+    iac = environment.poll_database_for_iac(survey_id, period)
 
     return iac
 
@@ -242,7 +212,7 @@ def create_and_execute_social_collection_exercise(context, survey_id, period, us
         create_social_action_rule(short_name, period)
     time.sleep(2)
     execute_collection_exercise(survey_id, period)
-    iac = collection_exercise_utilities.poll_database_for_iac(survey_id, period, social=True)
+    iac = environment.poll_database_for_iac(survey_id, period, social=True)
 
     return iac
 
@@ -285,6 +255,36 @@ def map_ce_status(status):
         "Completed by phone": "COMPLETED_BY_PHONE",
         "No longer required": "NO_LONGER_REQUIRED",
     }.get(status, status)
+
+
+def create_and_execute_collection_exercise_with_unique_sample(survey_id, period, user_description, dates, ru_ref):
+    create_collection_exercise(survey_id, period, user_description)
+    collection_exercise = get_collection_exercise(survey_id, period)
+    collection_exercise_id = collection_exercise['id']
+
+    post_event_to_collection_exercise(collection_exercise_id, 'mps',
+                                      convert_datetime_for_event(dates['mps']))
+    post_event_to_collection_exercise(collection_exercise_id, 'go_live',
+                                      convert_datetime_for_event(dates['go_live']))
+    post_event_to_collection_exercise(collection_exercise_id, 'return_by',
+                                      convert_datetime_for_event(dates['return_by']))
+    post_event_to_collection_exercise(collection_exercise_id, 'exercise_end',
+                                      convert_datetime_for_event(dates['exercise_end']))
+
+    upload_response = sample_controller.upload_unique_sample(collection_exercise['id'], ru_ref)
+
+    sample_summary = upload_response['upload_response']
+
+    link_sample_summary_to_collection_exercise(collection_exercise['id'], sample_summary['id'])
+
+    ci_controller.upload_seft_collection_instrument(collection_exercise['id'],
+                                                    'resources/collection_instrument_files/064_201803_0001.xlsx')
+
+    time.sleep(5)
+    execute_collection_exercise(survey_id, period)
+    iac = environment.poll_database_for_iac(survey_id, period)
+
+    return iac
 
 
 def wait_for_collection_exercise_state(survey_id, period, expected_state):

@@ -6,7 +6,7 @@ from behave import given, when, then
 from retrying import retry
 from structlog import wrap_logger
 
-from common import collection_exercise_utilities
+from acceptance_tests.features.environment import poll_database_for_iac
 from config import Config
 from controllers.collection_exercise_controller import create_and_execute_collection_exercise
 
@@ -30,7 +30,7 @@ def reporting_unit_enrolled(context):
 
 @when('the survey goes live')
 def survey_is_live(context):
-    context.iac_code = collection_exercise_utilities.poll_database_for_iac('9b6872eb-28ee-4c09-b705-c3ab1bb0f9ec',
+    context.iac_code = poll_database_for_iac('9b6872eb-28ee-4c09-b705-c3ab1bb0f9ec',
                                                                            '0718')
 
 
