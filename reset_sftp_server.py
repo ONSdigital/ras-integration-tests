@@ -16,7 +16,11 @@ if __name__ == '__main__':
 
     files = sftp.listdir(path=Config.SFTP_DIR)
     for file in files:
-        sftp.remove(f"{Config.SFTP_DIR}/{file}")
+        path = f"{Config.SFTP_DIR}/{file}"
+        try:
+            sftp.remove(path)
+        except FileNotFoundError:
+            print("Can't find file " + path)
 
     sftp.close()
     ssh.close()
