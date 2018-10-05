@@ -12,7 +12,7 @@ from controllers.iac_controller import get_iac
 def sel_user_changes_case_details(context, status):
     transition_case_to_in_progress(context)  # Case must be INPROGRESS
 
-    authentication.signed_in_internal(context)
+    authentication.signed_in_internal_social(context)
     social_search_by_postcode.go_to()
     social_search_by_postcode.enter_postcode(context.address["postcode"])
     social_search_by_postcode.click_search_by_postcode()
