@@ -8,6 +8,8 @@ from structlog import wrap_logger
 
 logger = wrap_logger(getLogger(__name__))
 
+#TODO redundant when method found to debug tests during parallel running
+
 if __name__ == '__main__':
 
     if len(sys.argv) < 2:

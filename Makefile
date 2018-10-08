@@ -22,6 +22,7 @@ wait_for_services:
 
 clean:
 	pipenv run python reset_database.py
+	pipenv run python reset_sftp_server.py
 
 setup: clean
 	./setup_data.sh ${RM_TOOLS_REPO_URL}

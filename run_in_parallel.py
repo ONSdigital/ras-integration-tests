@@ -20,7 +20,9 @@ logging.basicConfig(level=logging.INFO,
                     format="[%(levelname)-8s %(asctime)s] %(message)s")
 logger = logging.getLogger(__name__)
 
-delimiter = "_BEHAVE_PARALLEL_BDD_"
+DEFAULT_FEATURES_DIRECTORY = "acceptance_tests/features"
+DEFAULT_TAGS = "standalone"
+DELIMITER = "_BEHAVE_PARALLEL_BDD_"
 
 start_time = datetime.now()
 
@@ -31,13 +33,14 @@ def parse_arguments():
     :return: Parsed arguments
     """
     parser = argparse.ArgumentParser('Run behave in parallel mode for scenarios')
-    parser.add_argument('--directory', '-d', help='specify directory containing features')
+    parser.add_argument('--directory', '-d', help='specify directory containing features',
+                        default=DEFAULT_FEATURES_DIRECTORY)
     parser.add_argument('--processes', '-p', type=int, help='Maximum number of processes. Default = 8', default=8)
-    parser.add_argument('--tags', '-t', help='specify behave tags to run')
+    parser.add_argument('--tags', '-t', help='specify behave tags to run', default=DEFAULT_TAGS)
     parser.add_argument('--timeout', '-tout', type=int,
                         help='Maximum seconds to execute each scenario. Default = 300', default=300)
 
-    #TODO BUG does not handle "AND" tags properly
+    # TODO BUG: "AND" tags not handled properly
     args = parser.parse_args()
 
     return args
@@ -51,7 +54,7 @@ def _run_feature(feature_scenario, timeout, directory):
     :return: Feature/scenario and status
     """
     execution_code = {0: 'OK', 1: 'FAILED', 2: 'TIMEOUT'}
-    feature, scenario = feature_scenario.split(delimiter)
+    feature, scenario = feature_scenario.split(DELIMITER)
     logger.info(f"Processing feature: {feature} and scenario {scenario}")
     params = "--no-capture"
     cmd = f'behave --stop --format progress2 {feature} -i {feature.split("/")[-1]} --name \'{scenario}\''
@@ -76,10 +79,6 @@ def main():
     args = parse_arguments()
     pool = Pool(args.processes)
 
-    if not args.tags:
-        logger.error('Only Standalone Acceptance Tests can currently run in parallel!')
-        sys.exit(1)
-
     features_to_run = extract_scenarios_to_run(args)
 
     run_feature = partial(_run_feature, timeout=args.timeout, directory=args.directory)
@@ -101,6 +100,12 @@ def main():
 
 
 def extract_scenarios_to_run(args):
+    """
+    Performs a Behave dry run to extract all Features/Scenarios with matching Tags before filtering out only Scenarios
+    that need testing i.e. 'status' == 'untested'
+    :return: Scenarios to run
+    """
+
     if args.tags:
         cmd = f'behave -d --no-junit --f json --no-summary -t {args.tags} {args.directory}'
     else:
@@ -113,8 +118,8 @@ def extract_scenarios_to_run(args):
     except ValueError:
         json_all_features = []
 
-    # Extract scenarios that need testing
-    matching_features_scenarios = [[e['location'][:-2] + delimiter + i['name']
+    # Extract only the scenarios that need testing
+    matching_features_scenarios = [[e['location'][:-2] + DELIMITER + i['name']
                             for i in e['elements']
                             if i['keyword'].upper() in ["scenario".upper(), "scenario outline".upper()] and i[
                                 'status'] == 'untested']
