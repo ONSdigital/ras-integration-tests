@@ -172,23 +172,11 @@ def enrol_respondent(party_id, survey_id, period):
 
 
 def is_ignore_non_standalone_data_setup():
-    try:
-        if Config.IGNORE_NON_STANDALONE_DATA_SETUP and Config.IGNORE_NON_STANDALONE_DATA_SETUP == 'True':
-            return True
-        else:
-            return False
-    except AttributeError:
-        return False
+    return Config.IGNORE_NON_STANDALONE_DATA_SETUP
 
 
 def is_delete_standalone_data():
-    try:
-        if Config.DELETE_STANDALONE_DATA and Config.DELETE_STANDALONE_DATA == 'True':
-            return True
-        else:
-            return False
-    except AttributeError:
-        return False
+    return Config.DELETE_STANDALONE_DATA
 
 
 def is_standalone_scenario(tags):
