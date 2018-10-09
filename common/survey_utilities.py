@@ -72,6 +72,7 @@ def setup_standalone_data_for_test(context):
     context.survey_name = survey_response['survey_name']
     context.survey_short_name = survey_response['survey_short_name']
     context.iac = survey_response['iac']
+    context.survey_ref = survey_response['survey_ref']
 
     # Create unique username based on unique_id (RU Reference)
     context.user_name = respondent_utilities.make_respondent_user_name(str(context.unique_id),
@@ -104,7 +105,8 @@ def setup_survey_for_test(context, period, survey_name, survey_type, survey_lega
         'survey_id': survey_id,
         'survey_name': response['survey_name'],
         'survey_short_name': response['survey_short_name'],
-        'iac': iac
+        'iac': iac,
+        'survey_ref': survey_ref
     }
 
     return survey_response

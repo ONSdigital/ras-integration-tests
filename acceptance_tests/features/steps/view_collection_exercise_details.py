@@ -3,20 +3,20 @@ from behave import given, when, then
 from acceptance_tests.features.pages import collection_exercise_details
 
 
-@given('the 1803 collection exercise for the QBS survey has been created')
-def qbs_1803_exists(_):
+@given('a collection exercise has been created')
+def collection_exercise_exists(_):
     pass
 
 
 @given('the 1803 collection exercise events for the QBS survey has been created')
-def qbs_2018_events_exist(_):
+def collection_exercise_events_exist(_):
     pass
 
 
 @given('the internal user navigates to the collection exercise details page for QBS 1803')
 @when('the internal user navigates to the collection exercise details page for QBS 1803')
-def internal_user_views_qbs_2018_collection_exercise(_):
-    collection_exercise_details.go_to('QBS', '1803')
+def internal_user_views_qbs_2018_collection_exercise(context):
+    collection_exercise_details.go_to(context.unique_id, context.period)
 
 
 @then('the user is able to view the survey details and period for that survey')

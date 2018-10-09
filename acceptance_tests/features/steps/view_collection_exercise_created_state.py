@@ -24,8 +24,8 @@ def survey_ce_state_is_created(_):
 
 
 @when('the internal user navigates to the collection exercise details page')
-def view_ce_details(_):
-    collection_exercise_details.go_to('RSI', '201801')
+def view_ce_details(context):
+    collection_exercise_details.go_to(context.unique_id, context.period)
 
 
 @then('the displayed status should be Created')
