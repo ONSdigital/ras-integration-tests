@@ -1,4 +1,3 @@
-import traceback
 from datetime import datetime
 from logging import getLogger
 from random import randint
@@ -6,9 +5,8 @@ from random import randint
 from structlog import wrap_logger
 
 from acceptance_tests.features import environment
-from acceptance_tests.features.data_setup import display_unused_enrolment_code, generate_new_enrolment_code, \
-    survey_enrolment, add_a_survey, social_change_case_status, social_disable_uac, social_find_case_by_postcode, \
-    social_view_case_details, internal_user_signs_out, internal_user_signs_in
+from acceptance_tests.features.data_setup import generate_new_enrolment_code, \
+    add_a_survey
 from common import common_utilities
 from common import respondent_utilities
 from config import Config
@@ -84,8 +82,7 @@ def setup_standalone_data_for_test(context):
     try:
         features[context.feature_name](context)
     except KeyError:
-        traceback.print_exc()
-        exit(1)
+        logger.info(f'Feature [{context.feature_name}], Scenario [{context.scenario_name}] specific data setup is not required')
 
 
 def setup_survey_for_test(context, period, survey_name, survey_type, survey_legal_basis):
@@ -249,21 +246,9 @@ def create_survey_reference():
     return common_utilities.concatenate_strings(SURVEY_REFERENCE_PREFIX, ref)
 
 
-# todo features with no scenario setup could be stopped here using setup_utilities.scenario_setup_not_defined ?
-# Add every Feature name + data setup method handler here
+# Add every Feature name + data setup method handler here that requires mods to default data at Scenario level
 features = {
-    'Display enrolment code': display_unused_enrolment_code.scenario_setup_display_unused_enrolment_code,
     'Generate new enrolment code': generate_new_enrolment_code.scenario_setup_generate_new_enrolment_code,
-    'As an respondent user': survey_enrolment.scenario_setup_survey_enrolment,
 
-    'Add a survey': add_a_survey.scenario_setup_add_a_survey,
-
-    'View social case details': social_view_case_details.scenario_setup_social_view_case_details,
-    'Search social cases by postcode': social_find_case_by_postcode.scenario_setup_social_find_case_by_postcode,
-    'Change Response Status': social_change_case_status.scenario_setup_social_change_case_status,
-    'Change Response Status to \'Partial interview achieved but respondent requested data be deleted\'': social_disable_uac.scenario_setup_social_disable_uac,
-
-    'Internal user signs in': internal_user_signs_in.scenario_setup_internal_user_signs_in,
-
-    'Internal user signs out': internal_user_signs_out.scenario_setup_internal_user_signs_out
+    'Add a survey': add_a_survey.scenario_setup_add_a_survey
 }
