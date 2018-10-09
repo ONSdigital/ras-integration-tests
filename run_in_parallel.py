@@ -9,12 +9,16 @@ Authors: i4s-pserrano
 import argparse
 import json
 import logging
+import os
 import sys
 from datetime import datetime
+from distutils.util import strtobool
 from functools import partial
 from multiprocessing import Pool
 from subprocess import Popen, PIPE
 from subprocess import check_output, CalledProcessError, TimeoutExpired
+
+from reset_database import reset_database
 
 logging.basicConfig(level=logging.INFO,
                     format="[%(levelname)-8s %(asctime)s] %(message)s")
@@ -25,6 +29,16 @@ DEFAULT_TAGS = "standalone"
 DELIMITER = "_BEHAVE_PARALLEL_BDD_"
 
 start_time = datetime.now()
+
+
+def is_valid_parallel_environment():
+    if os.getenv('DELETE_STANDALONE_DATA') == None or os.getenv('IGNORE_NON_STANDALONE_DATA_SETUP') == None:
+        return False
+
+    is_delete_standalone_data = strtobool(os.getenv('DELETE_STANDALONE_DATA'))
+    is_ignore_non_standalone_data_setup = strtobool(os.getenv('IGNORE_NON_STANDALONE_DATA_SETUP'))
+
+    return not is_delete_standalone_data and is_ignore_non_standalone_data_setup
 
 
 def parse_arguments():
@@ -76,6 +90,14 @@ def main():
     """
     Runner
     """
+
+    if not is_valid_parallel_environment():
+        logger.info(
+            "Environment Variables must be set as 'DELETE_STANDALONE_DATA=False' & 'IGNORE_NON_STANDALONE_DATA_SETUP=True'")
+        exit(1)
+
+    reset_database()
+
     args = parse_arguments()
     pool = Pool(args.processes)
 
