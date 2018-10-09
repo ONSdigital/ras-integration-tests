@@ -1,4 +1,5 @@
 @social
+@standalone @default_data_setup_not_required
 Feature: Internal user signs in to social UI
   As an internal user
   I need to sign in to the social SDC system
