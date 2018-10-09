@@ -10,7 +10,7 @@ from common import common_utilities
 from common import survey_utilities
 from config import Config
 from controllers import case_controller, collection_exercise_controller, database_controller, \
-     iac_controller, party_controller, sample_controller
+    iac_controller, party_controller, sample_controller
 from controllers.collection_instrument_controller import get_collection_instruments_by_classifier, \
     link_collection_instrument_to_exercise, upload_seft_collection_instrument
 from reset_database import reset_database
@@ -54,9 +54,10 @@ def before_scenario(context, scenario):
     # Default to non-standalone fixed user name, standalone mode changes it
     context.user_name = Config.RESPONDENT_USERNAME
 
-    # A standalone Scenario creates a new Survey and Collection Exercise
+    # Standalone Scenario's can run in parallel and may/mat not require a default Survey and Collection Exercise
     if is_standalone_scenario(context.tags):
-        survey_utilities.setup_standalone_data_for_test(context)
+        if is_default_data_setup_required(context.tags):
+            survey_utilities.setup_standalone_data_for_test(context)
 
 
 def after_feature(_, feature):
@@ -192,6 +193,10 @@ def is_delete_standalone_data():
 
 def is_standalone_scenario(tags):
     return 'standalone' in tags
+
+
+def is_default_data_setup_required(tags):
+    return not 'default_data_setup_not_required' in tags
 
 
 def get_survey_type(tags):

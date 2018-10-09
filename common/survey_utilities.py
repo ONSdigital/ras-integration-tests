@@ -49,6 +49,9 @@ def setup_non_standalone_data_for_test():
 def setup_standalone_data_for_test(context):
     # todo handles business/social with many defaults - this will probably change big time as more tests are converted
 
+    logger.info(
+        f'Feature [{context.feature_name}], Scenario [{context.scenario_name}] requires default Survey & Collection Exercise created')
+
     survey_type = context.survey_type
 
     if is_social_survey(survey_type):

@@ -1,4 +1,5 @@
-@standalone
+@business
+@standalone @default_data_setup_not_required
 Feature: Internal user signs out
   As an internal user
   I need to sign out of the SDC system
