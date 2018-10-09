@@ -1,3 +1,4 @@
+@standalone
 Feature: Internal user signs in
   As an internal user
   I need to sign in to the SDC system
