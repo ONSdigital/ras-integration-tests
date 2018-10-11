@@ -7,7 +7,7 @@ from random import choice, randint
 import requests
 from structlog import wrap_logger
 
-from acceptance_tests.features import environment
+import common.collection_exercise_utilities
 from config import Config
 from controllers import collection_instrument_controller as ci_controller, \
     sample_controller
@@ -175,7 +175,7 @@ def create_and_execute_collection_exercise(survey_id, period, user_description, 
 
     time.sleep(5)
     execute_collection_exercise(survey_id, period)
-    iac = environment.poll_database_for_iac(survey_id, period)
+    iac = common.collection_exercise_utilities.poll_database_for_iac(survey_id, period)
 
     return iac
 
@@ -212,7 +212,7 @@ def create_and_execute_social_collection_exercise(context, survey_id, period, us
         create_social_action_rule(short_name, period)
     time.sleep(2)
     execute_collection_exercise(survey_id, period)
-    iac = environment.poll_database_for_iac(survey_id, period, social=True)
+    iac = common.collection_exercise_utilities.poll_database_for_iac(survey_id, period, social=True)
 
     return iac
 
@@ -257,8 +257,13 @@ def map_ce_status(status):
     }.get(status, status)
 
 
-def create_and_execute_collection_exercise_with_unique_sample(survey_id, period, user_description, dates, ru_ref):
+def create_and_execute_collection_exercise_with_unique_sample(survey_id, period, user_description, dates, ru_ref,
+                                                              stop_at_state):
     create_collection_exercise(survey_id, period, user_description)
+
+    if stop_at_state == 'CREATED':
+        return
+
     collection_exercise = get_collection_exercise(survey_id, period)
     collection_exercise_id = collection_exercise['id']
 
@@ -282,7 +287,7 @@ def create_and_execute_collection_exercise_with_unique_sample(survey_id, period,
 
     time.sleep(5)
     execute_collection_exercise(survey_id, period)
-    iac = environment.poll_database_for_iac(survey_id, period)
+    iac = common.collection_exercise_utilities.poll_database_for_iac(survey_id, period)
 
     return iac
 

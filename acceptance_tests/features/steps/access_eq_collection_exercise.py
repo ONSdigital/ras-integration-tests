@@ -1,8 +1,8 @@
 from behave import given, when, then
 
 from acceptance_tests import browser
-from acceptance_tests.features.environment import enrol_respondent
 from acceptance_tests.features.pages import surveys_todo
+from common.collection_exercise_utilities import enrol_respondent
 from config import Config
 from controllers import party_controller
 

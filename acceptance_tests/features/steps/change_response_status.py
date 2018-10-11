@@ -3,9 +3,9 @@ from datetime import datetime, timedelta
 
 from behave import when, given, then
 
-from acceptance_tests.features.environment import enrol_respondent
 from acceptance_tests.features.pages import change_response_status, surveys_history, reporting_unit
 from acceptance_tests.features.steps.authentication import signed_in_respondent
+from common.collection_exercise_utilities import enrol_respondent
 from config import Config
 from controllers import party_controller
 from controllers.collection_exercise_controller import create_and_execute_collection_exercise, \

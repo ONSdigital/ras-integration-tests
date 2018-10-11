@@ -1,8 +1,8 @@
 from behave import given, when, then
 
 from acceptance_tests import browser
-from acceptance_tests.features.environment import register_respondent
 from acceptance_tests.features.pages import edit_respondent_details_form, reporting_unit
+from common.respondent_utilities import register_respondent
 from controllers.party_controller import get_party_by_email
 
 

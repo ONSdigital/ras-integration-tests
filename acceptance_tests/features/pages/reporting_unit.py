@@ -7,8 +7,8 @@ def go_to(ru_ref):
     browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/reporting-units/{ru_ref}")
 
 
-def click_data_panel(survey_short_name):
-    browser.find_by_id(f'survey-{survey_short_name}').click()
+def click_data_panel(short_name):
+    browser.find_by_id(f'survey-{short_name}').click()
 
 
 def get_ru_details():

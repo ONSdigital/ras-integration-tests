@@ -28,5 +28,5 @@ def site_hierarchy_in_breadcrumb_trail(context):
     breadcrumbs_list = breadcrumbs.get_breadcrumbs()
     assert breadcrumbs_list[0] == 'Home'
     assert breadcrumbs_list[1] == 'Surveys'
-    assert breadcrumbs_list[2] == context.survey_ref + ' ' + context.survey_short_name
+    assert breadcrumbs_list[2] == context.survey_ref + ' ' + context.short_name
     assert breadcrumbs_list[3] == context.period

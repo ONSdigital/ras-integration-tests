@@ -9,6 +9,7 @@ Feature: Generate new enrolment code
     Given the internal user is already signed in
 
   @us051-generateNewCode_s01
+  @fixture.setup.data.unenrolled.respondent.generate.new.iac
   Scenario: Make a request for a new code
     Given the internal user views the reporting unit page for a sample unit
     When the internal user opens the survey data panel

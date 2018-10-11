@@ -26,10 +26,10 @@ def enter_enrolment_code(context):
 @given('they confirm the survey and organisation details')
 def confirm_correct_survey_selected(context):
     actual_iac = browser.find_by_id('enrolment_code').value
-    actual_survey_name = browser.find_by_id('survey_name').value
+    actual_long_name = browser.find_by_id('survey_name').value
 
     assert context.iac == actual_iac
-    assert context.survey_name == actual_survey_name
+    assert context.long_name == actual_long_name
 
     browser.find_by_id('confirm_button').click()
 
@@ -41,8 +41,7 @@ def respondent_enters_enrolment_code(context):
 
 @when('they enter their account details')
 def complete_account_details(context):
-    context.email = respondent_utilities.make_respondent_user_name(str(context.unique_id),
-                                                                   context.survey_short_name)
+    context.email = respondent_utilities.make_respondent_user_name(str(context.short_name), context.short_name)
 
     browser.driver.find_element_by_id('first_name').send_keys('FirstName')
     browser.driver.find_element_by_id('last_name').send_keys('LastName')
@@ -62,18 +61,17 @@ def confirm_verification_email(context):
 
 @given('the internal user views the reporting unit page for a sample unit')
 def internal_user_views_the_reporting_unit(context):
-    # setup_survey_enrolment_for_test(context)
-    reporting_unit.go_to(context.unique_id)
+    reporting_unit.go_to(context.short_name)
 
 
 @when('the internal user opens the survey data panel')
 def internal_user_views_the_survey_page(context):
-    reporting_unit.click_data_panel(context.survey_short_name)
+    reporting_unit.click_data_panel(context.short_name)
 
 
 @when('the user clicks generate enrolment code')
 def internal_user_generates_new_code(context):
-    reporting_unit.click_generate_new_code(context.survey_short_name)
+    reporting_unit.click_generate_new_code(context.short_name)
 
 
 @then('a new enrolment code is displayed back to the user')
