@@ -86,16 +86,16 @@ def get_all_iacs_for_collection_exercise(collection_exercise_id, social=False):
     return iacs
 
 
-def poll_collection_exercise_until_ready_for_live_or_live(collection_exercise_id):
+def poll_collection_exercise_until_state_changed(collection_exercise_id, state):
 
-    for _ in range(12):
+    for _ in range(60):
         sql = f"SELECT 1 FROM collectionexercise.collectionexercise" \
-              f" WHERE id='{collection_exercise_id}' AND statefk in ('READY_FOR_LIVE', 'LIVE')"
+              f" WHERE id='{collection_exercise_id}' AND statefk = '{state}'"
         result = execute_sql(sql_string=sql)
 
         if len(result.fetchall()) == 1:
             return True
 
-        time.sleep(10)
+        time.sleep(2)
 
     return False

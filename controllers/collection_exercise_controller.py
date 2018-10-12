@@ -1,6 +1,5 @@
 import logging
 import string
-import time
 from datetime import datetime
 from random import choice, randint
 
@@ -13,7 +12,7 @@ from controllers import collection_instrument_controller as ci_controller, \
     sample_controller
 from controllers.action_controller import create_social_action_rule
 from controllers.collection_instrument_controller import get_collection_instruments_by_classifier
-
+from controllers.database_controller import poll_collection_exercise_until_state_changed
 
 logger = wrap_logger(logging.getLogger(__name__))
 
@@ -174,7 +173,7 @@ def create_and_execute_collection_exercise(survey_id, period, user_description, 
                                                     'resources/collection_instrument_files/064_201803_0001.xlsx',
                                                     form_type='0001')
 
-    time.sleep(5)
+    poll_collection_exercise_until_state_changed(collection_exercise['id'], 'READY_FOR_REVIEW')
     execute_collection_exercise(survey_id, period)
     iac = poll_database_for_iac(survey_id, period)
 
@@ -211,7 +210,7 @@ def create_and_execute_social_collection_exercise(context, survey_id, period, us
 
     if short_name:
         create_social_action_rule(short_name, period)
-    time.sleep(2)
+    poll_collection_exercise_until_state_changed(collection_exercise['id'], 'READY_FOR_REVIEW')
     execute_collection_exercise(survey_id, period)
     iac = poll_database_for_iac(survey_id, period, social=True)
 

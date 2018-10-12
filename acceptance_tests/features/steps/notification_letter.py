@@ -10,7 +10,7 @@ from config import Config
 from controllers import collection_exercise_controller
 from controllers.collection_exercise_controller import create_and_execute_collection_exercise
 from controllers.database_controller import get_all_iacs_for_collection_exercise,\
-    poll_collection_exercise_until_ready_for_live_or_live
+    poll_collection_exercise_until_state_changed
 
 logger = wrap_logger(logging.getLogger(__name__))
 
@@ -36,7 +36,7 @@ def survey_is_live(context):
     period = '0718'
 
     collection_exercise_id = collection_exercise_controller.get_collection_exercise(survey_id, period)['id']
-    result = poll_collection_exercise_until_ready_for_live_or_live(collection_exercise_id)
+    result = poll_collection_exercise_until_state_changed(collection_exercise_id, "LIVE")
     if not result:
         assert False, f"collection exercise failed to execute {collection_exercise_id}"
 

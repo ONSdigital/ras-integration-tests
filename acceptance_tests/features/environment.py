@@ -10,7 +10,7 @@ from controllers import case_controller, collection_exercise_controller, databas
      iac_controller, party_controller, sample_controller
 from controllers.collection_instrument_controller import get_collection_instruments_by_classifier, \
     link_collection_instrument_to_exercise, upload_seft_collection_instrument
-
+from controllers.database_controller import poll_collection_exercise_until_state_changed
 
 logger = wrap_logger(getLogger(__name__))
 
@@ -87,7 +87,7 @@ def execute_collection_exercise(survey_id, period, ci_type='SEFT'):
                                                      'resources/sample_files/business-survey-sample-date.csv')
     collection_exercise_controller.link_sample_summary_to_collection_exercise(collection_exercise['id'],
                                                                               sample_summary['id'])
-    time.sleep(5)
+    poll_collection_exercise_until_state_changed(collection_exercise['id'], 'READY_FOR_REVIEW')
     collection_exercise_controller.execute_collection_exercise(survey_id, period)
     logger.info('Successfully executed collection exercise', survey_id=survey_id, period=period, ci_type=ci_type)
 

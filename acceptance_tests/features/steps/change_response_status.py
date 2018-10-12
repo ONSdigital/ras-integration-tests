@@ -1,5 +1,3 @@
-import time
-
 from datetime import datetime, timedelta
 
 from behave import when, given, then
@@ -63,11 +61,11 @@ def respondent_enrolled_for_ce(_, survey, period, ru_ref):
 @when('the respondent goes to the history page')
 def respondent_goes_to_history_page_for_49900000002(_):
     signed_in_respondent(_)
-    time.sleep(60)
     surveys_history.go_to_history_tab()
 
 
 @then('the respondent is presented the "{survey}" "{period}" "{ru_ref}" status as "{status}"')
 def respondent_view_ce_status(_, survey, period, ru_ref, status):
+    surveys_history.refresh_history_until_survey_for_ru_found(ru_ref)
     case = surveys_history.get_case(ru_ref)
     assert status == case.get('status'), case.get('status')
