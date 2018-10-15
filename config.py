@@ -2,7 +2,7 @@ import os
 from distutils.util import strtobool
 
 class Config(object):
-    DELETE_STANDALONE_DATA = strtobool(os.getenv('DELETE_STANDALONE_DATA', 'False'))
+    RESET_DATABASE = strtobool(os.getenv('RESET_DATABASE', 'False'))
     IGNORE_NON_STANDALONE_DATA_SETUP = strtobool(os.getenv('IGNORE_NON_STANDALONE_DATA_SETUP', 'False'))
 
     PROTOCOL = os.getenv('PROTOCOL', 'http')

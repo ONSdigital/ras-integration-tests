@@ -32,13 +32,13 @@ start_time = datetime.now()
 
 
 def is_valid_parallel_environment():
-    if os.getenv('DELETE_STANDALONE_DATA') == None or os.getenv('IGNORE_NON_STANDALONE_DATA_SETUP') == None:
+    if os.getenv('RESET_DATABASE') == None or os.getenv('IGNORE_NON_STANDALONE_DATA_SETUP') == None:
         return False
 
-    is_delete_standalone_data = strtobool(os.getenv('DELETE_STANDALONE_DATA'))
+    is_reset_database = strtobool(os.getenv('RESET_DATABASE'))
     is_ignore_non_standalone_data_setup = strtobool(os.getenv('IGNORE_NON_STANDALONE_DATA_SETUP'))
 
-    return not is_delete_standalone_data and is_ignore_non_standalone_data_setup
+    return not is_reset_database and is_ignore_non_standalone_data_setup
 
 
 def parse_arguments():
@@ -93,7 +93,7 @@ def main():
 
     if not is_valid_parallel_environment():
         logger.info(
-            "Environment Variables must be set as 'DELETE_STANDALONE_DATA=False' & 'IGNORE_NON_STANDALONE_DATA_SETUP=True'")
+            "Environment Variables must be set as 'RESET_DATABASE=False' & 'IGNORE_NON_STANDALONE_DATA_SETUP=True'")
         exit(1)
 
     reset_database()

@@ -42,7 +42,7 @@ fixture_scenario_registry = {
 def before_all(_):
 
     # Delete all standalone test data
-    if is_delete_standalone_data():
+    if is_reset_database():
         reset_database()
 
     # Run all tests using original method - standalone tests run in sequence
@@ -110,8 +110,8 @@ def is_ignore_non_standalone_data_setup():
     return Config.IGNORE_NON_STANDALONE_DATA_SETUP
 
 
-def is_delete_standalone_data():
-    return Config.DELETE_STANDALONE_DATA
+def is_reset_database():
+    return Config.RESET_DATABASE
 
 
 def get_survey_type(tags):
