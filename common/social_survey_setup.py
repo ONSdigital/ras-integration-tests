@@ -4,7 +4,6 @@ from random import randint
 
 from structlog import wrap_logger
 
-from controllers.case_controller import get_case_by_iac
 from controllers.collection_exercise_controller import create_and_execute_social_collection_exercise
 from controllers.survey_controller import create_survey, create_classifiers
 
