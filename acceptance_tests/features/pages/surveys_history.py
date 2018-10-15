@@ -1,9 +1,20 @@
+import time
+
 from acceptance_tests import browser
 from common.browser_utilities import is_text_present_with_retry
 
 
 def go_to_history_tab():
     browser.find_by_id('SURVEY_HISTORY_TAB').click()
+
+
+def refresh_history_until_survey_for_ru_found(ru_ref):
+    for _ in range(12):
+        go_to_history_tab()
+        case = get_case(ru_ref)
+        if case:
+            return True
+        time.sleep(5)
 
 
 def get_cases():
