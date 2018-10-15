@@ -81,7 +81,7 @@ def create_default_data(context):
     period = survey_data['period']
     legal_basis = survey_data['legal_basis']
     short_name = survey_data['short_name']
-    long_name = survey_data['long_name']  # todo remove survey_ from context properties
+    long_name = survey_data['long_name']
     survey_ref = create_data_for_collection_exercise()['survey_ref']
 
     survey_id = create_test_survey(long_name, short_name, survey_ref, context.survey_type, legal_basis)
@@ -167,7 +167,6 @@ def create_test_business_collection_exercise(survey_id, period, ru_ref, ce_name,
 
 
 def create_enrolled_respondent_for_the_test_survey(context, generate_new_iac=False):
-    # todo sort out common.*
     user_name = respondent_utilities.make_respondent_user_name(str(context.short_name),
                                                                context.short_name)
     respondent_utilities.create_respondent(user_name=user_name, enrolment_code=context.iac)['id']

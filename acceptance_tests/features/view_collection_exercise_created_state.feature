@@ -1,3 +1,4 @@
+@business
 @standalone
 @fixture.setup.data.collection.exercise.created
 Feature: View created state of a collection exercise

@@ -20,13 +20,12 @@ from subprocess import check_output, CalledProcessError, TimeoutExpired
 
 from reset_database import reset_database
 
-logging.basicConfig(level=logging.INFO,
-                    format="[%(levelname)-8s %(asctime)s] %(message)s")
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-DEFAULT_FEATURES_DIRECTORY = "acceptance_tests/features"
-DEFAULT_TAGS = "standalone"
-DELIMITER = "_BEHAVE_PARALLEL_BDD_"
+DEFAULT_FEATURES_DIRECTORY = 'acceptance_tests/features'
+DEFAULT_TAGS = 'standalone'
+DELIMITER = '_BEHAVE_PARALLEL_BDD_'
 
 start_time = datetime.now()
 
@@ -92,7 +91,7 @@ def main():
     """
 
     if not is_valid_parallel_environment():
-        logger.info(
+        logger.error(
             "Environment Variables must be set as 'RESET_DATABASE=False' & 'IGNORE_NON_STANDALONE_DATA_SETUP=True'")
         exit(1)
 

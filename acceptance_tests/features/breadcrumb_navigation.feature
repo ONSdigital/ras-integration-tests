@@ -1,6 +1,5 @@
 @business
 @standalone
-@wip2
 Feature: Breadcrumb Navigation
   As an internal user
   I need to understand where I am within the system's hierarchical structure
