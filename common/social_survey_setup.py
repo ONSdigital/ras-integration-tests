@@ -4,6 +4,7 @@ from random import randint
 
 from structlog import wrap_logger
 
+from controllers.case_controller import get_case_by_iac
 from controllers.collection_exercise_controller import create_and_execute_social_collection_exercise
 from controllers.survey_controller import create_survey, create_classifiers
 
@@ -35,7 +36,6 @@ def create_social_survey_cases(context):
 
     user_description = 'UserDescription-' + test_unique_id
     dates = generate_collection_exercise_dates()
-
     return create_and_execute_social_collection_exercise(context, survey_id, period, user_description, dates,
                                                          short_name=survey_short_name)
 
