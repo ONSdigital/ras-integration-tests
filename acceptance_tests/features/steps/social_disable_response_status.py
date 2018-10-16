@@ -4,7 +4,7 @@ from acceptance_tests.features.pages import social_change_case_status
 from acceptance_tests.features.pages import social_search_by_postcode
 from acceptance_tests.features.pages import social_view_case_details
 from acceptance_tests.features.steps import authentication
-from controllers.case_controller import update_case_group_status
+from controllers.case_controller import post_case_event
 from controllers.iac_controller import get_iac
 
 
@@ -27,9 +27,7 @@ def sel_user_changes_case_details(context, status):
 @when('the respondent enters a UAC')
 def transition_case_to_in_progress(context):
     # Send an EQ_LAUNCH event to transition the case to IN_PROGRESS
-    update_case_group_status(context.collection_exercise_id,
-                             f"{context.address['TLA']}{context.address['reference']}",
-                             'EQ_LAUNCH')
+    post_case_event(context.case['id'], 'EQ_LAUNCH', 'Launching EQ')
 
 
 @then('they are informed that they are unable to launch the survey')
