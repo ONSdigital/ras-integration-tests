@@ -70,7 +70,7 @@ def _run_feature(feature_scenario, timeout, directory):
     feature, scenario = feature_scenario.split(DELIMITER)
     logger.info(f"Processing feature: {feature} and scenario {scenario}")
     params = "--no-capture"
-    cmd = f'behave --stop --format progress2 {feature} -i {feature.split("/")[-1]} --name \'{scenario}\''
+    cmd = f'behave --stop --format progress2 {feature} --name \"{scenario}\"'
     try:
         r = check_output(cmd, shell=True, timeout=timeout)
         code = 0
