@@ -50,6 +50,16 @@ def informed_of_no_messages(_):
     assert inbox_internal.get_no_messages_text()
 
 
+@when('they navigate to closed conversations')
+def internal_user_views_closed_messages(_):
+    inbox_internal.go_to_closed()
+
+
+@then('they are informed that there are no closed conversations')
+def informed_of_no_closed_conversations(_):
+    assert inbox_internal.get_no_closed_conversations_text()
+
+
 @then('they are able to view all received messages')
 def test_presence_of_messages(_):
     assert len(inbox_internal.get_messages()) > 0
@@ -111,3 +121,8 @@ def message_is_no_longer_marked_unread_in_internal_inbox(_):
 def pagination_links_available(_):
     assert inbox_internal.get_pagination_previous_link()
     assert inbox_internal.get_pagination_next_link()
+
+
+@then('they can see the closed tab')
+def closed_tab_is_visible(_):
+    assert inbox_internal.closed_tab_present()

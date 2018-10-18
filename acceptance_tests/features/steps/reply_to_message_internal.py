@@ -1,4 +1,6 @@
 from behave import given, when, then
+from config import Config
+from controllers import database_controller
 
 from acceptance_tests.features.pages import create_message_internal
 from acceptance_tests.features.pages import inbox_internal
@@ -16,10 +18,39 @@ def internal_user_receive_message(_):
     signed_in_internal(None)
 
 
+@given('the internal user has a closed conversation in their inbox')
+def create_and_close_conversation(_):
+    database_controller.execute_sql('resources/database/database_reset_secure_message.sql',
+                                    database_uri=Config.SECURE_MESSAGE_DATABASE_URI)
+    create_message_external_to_internal()
+    signed_in_internal(None)
+    inbox_internal.go_to()
+    go_to_thread()
+    create_message_internal.click_close_conversation_button()
+    create_message_internal.click_confirm_close_conversation_button()
+
+
 @when('they view the message')
 def internal_user_can_view_message(_):
     inbox_internal.go_to()
     go_to_thread()
+
+
+@when('they view the closed message')
+def internal_user_can_view_message(_):
+    inbox_internal.go_to_closed()
+    go_to_thread()
+
+
+@when('they close the conversation')
+def close_a_conversation(_):
+    create_message_internal.click_close_conversation_button()
+    create_message_internal.click_confirm_close_conversation_button()
+
+
+@when('they reopen the conversation')
+def close_a_conversation(_):
+    create_message_internal.click_reopen_conversation_button()
 
 
 @when('they reply to the message')
@@ -38,3 +69,31 @@ def internal_user_navigated_to_inbox(_):
 @then('they receive confirmation that the message has been sent')
 def internal_user_receives_confirmation(_):
     assert 'Message sent' in create_message_internal.get_first_flashed_message()
+
+
+@then('they receive confirmation that the conversation is closed')
+def internal_user_informed_that_conversation_is_closed(_):
+    assert 'Conversation closed.' in create_message_internal.get_first_flashed_message()
+
+
+@then('the conversation appears in their closed list')
+def message_in_closed_list(_):
+    inbox_internal.go_to_closed()
+    assert len(inbox_internal.get_messages()) > 0
+
+
+@then('the conversation is not present in their closed list')
+def no_messages_in_closed_list(_):
+    inbox_internal.go_to_closed()
+    assert inbox_internal.get_no_closed_conversations_text()
+
+
+@then('they receive confirmation that the conversation has been reopened')
+def internal_user_informed_that_conversation_is_closed(_):
+    assert 'Conversation re-opened.' in create_message_internal.get_first_flashed_message()
+
+
+@then('the conversation is present in their open list')
+def conversation_in_open_list(_):
+    inbox_internal.go_to()
+    assert len(inbox_internal.get_messages()) > 0
