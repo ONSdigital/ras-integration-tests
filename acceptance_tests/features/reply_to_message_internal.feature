@@ -64,6 +64,3 @@ Feature: Reply to message internal
     Given the internal user has a conversation in their inbox
     When they view the message
     Then they are able to see the messages in the conversation in chronological order
-
-
-

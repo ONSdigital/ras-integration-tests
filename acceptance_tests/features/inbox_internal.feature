@@ -81,4 +81,3 @@ Feature: Internal inbox
     Given the user has access to secure messaging
     When they navigate to the inbox messages
     Then they can see the closed tab
-
