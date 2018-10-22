@@ -1,5 +1,8 @@
+from acceptance_tests import browser
 from behave import given, when, then
 from config import Config
+from datetime import datetime
+
 from controllers import database_controller
 
 from acceptance_tests.features.pages import create_message_internal
@@ -16,6 +19,16 @@ def internal_user_receive_message(_):
 
     # Sending external to internal may sign out the internal user
     signed_in_internal(None)
+
+
+@given('the internal user has a conversation in their inbox')
+def create_conversation_internal(_):
+    create_message_external_to_internal()
+    signed_in_internal(None)
+    inbox_internal.go_to()
+    go_to_thread()
+    create_message_internal.enter_text_in_message_body('Body')
+    create_message_internal.click_message_send_button()
 
 
 @given('the internal user has a closed conversation in their inbox')
@@ -49,7 +62,7 @@ def close_a_conversation(_):
 
 
 @when('they reopen the conversation')
-def close_a_conversation(_):
+def reopen_a_conversation(_):
     create_message_internal.click_reopen_conversation_button()
 
 
@@ -97,3 +110,10 @@ def internal_user_informed_that_conversation_is_closed(_):
 def conversation_in_open_list(_):
     inbox_internal.go_to()
     assert len(inbox_internal.get_messages()) > 0
+
+
+@then('they are able to see the messages in the conversation in chronological order')
+def messages_in_chronological_order(_):
+    first_message_date = datetime.strptime(browser.find_by_id('sm-sent-date-1').value.split(' ')[2], '%H:%M')
+    second_message_date = datetime.strptime(browser.find_by_id('sm-sent-date-2').value.split(' ')[2], '%H:%M')
+    assert first_message_date <= second_message_date

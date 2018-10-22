@@ -59,4 +59,11 @@ Feature: Reply to message internal
     And the conversation is not present in their closed list
     And the conversation is present in their open list
 
+  @sm123_s05
+  Scenario: User is able to see messages in the conversation in reverse chronological order (latest first)
+    Given the internal user has a conversation in their inbox
+    When they view the message
+    Then they are able to see the messages in the conversation in chronological order
+
+
 

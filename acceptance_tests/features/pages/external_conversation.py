@@ -9,6 +9,10 @@ def go_to():
     browser.visit(f"{Config.FRONTSTAGE_SERVICE}/secure-message/threads")
 
 
+def go_to_closed():
+    browser.visit(f"{Config.FRONTSTAGE_SERVICE}/secure-message/threads?is_closed=true")
+
+
 def go_to_surveys_todo():
     browser.visit(f"{Config.FRONTSTAGE_SERVICE}/surveys/todo")
 
@@ -53,3 +57,15 @@ def send_message_from_external_with_body_over_80_characters():
 
 def get_no_messages_text():
     return browser.find_by_text('No new conversations')
+
+
+def get_no_closed_messages_text():
+    return browser.find_by_text('No closed conversations')
+
+
+def closed_tab_present():
+    return browser.driver.find_element_by_link_text('Closed')
+
+
+def go_to_messages_tab():
+    browser.find_by_id('SURVEY_MESSAGES_TAB').click()

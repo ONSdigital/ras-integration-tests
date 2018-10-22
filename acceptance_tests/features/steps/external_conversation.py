@@ -1,9 +1,16 @@
 from behave import given, when, then
 
 from acceptance_tests import browser
-from acceptance_tests.features.pages import external_conversation
+from acceptance_tests.features.pages import create_message_internal, external_conversation, inbox_internal, \
+    internal_conversation_view
 from config import Config
 from controllers import database_controller
+from controllers.messages_controller import create_and_close_message_internal_to_external
+
+
+@given('the external user has access to secure messaging')
+def messages_tab_is_present(_):
+    assert browser.find_by_id('SURVEY_MESSAGES_TAB')
 
 
 @given('the external user has conversations in their list')
@@ -23,9 +30,27 @@ def external_user_sent_message_with_over_80_characters(_):
     external_conversation.send_message_from_external_with_body_over_80_characters()
 
 
+@given('a closed conversation has been reopened')
+def close_and_reopen_a_conversation(_):
+    create_and_close_message_internal_to_external('Message to ONS', 'Message body to ONS')
+    inbox_internal.go_to_closed()
+    internal_conversation_view.go_to_thread()
+    create_message_internal.click_reopen_conversation_button()
+
+
 @when('they navigate to the external inbox messages')
 def go_to_messages_box(_):
     external_conversation.go_to()
+
+
+@when('they navigate to the external closed inbox messages')
+def go_to_messages_box(_):
+    external_conversation.go_to_closed()
+
+
+@when('they click the Messages tab')
+def select_messages_tab(_):
+    external_conversation.go_to_messages_tab()
 
 
 @then('they are able to view a list of external conversations')
@@ -38,6 +63,11 @@ def test_conversation_available(_):
 @then('they are informed that there are no external conversations')
 def informed_of_no_messages(_):
     assert external_conversation.get_no_messages_text()
+
+
+@then('they are informed that there are no external closed conversations')
+def informed_of_no_messages(_):
+    assert external_conversation.get_no_closed_messages_text()
 
 
 @then('they are able to preview the first 80 characters (respecting word boundaries) of the latest message in the conversation')  # NOQA
@@ -56,3 +86,19 @@ def view_date_and_time_of_conversation(_):
 def external_message_is_unread(_):
     assert browser.find_by_id('message-list-unread')
     assert browser.is_text_present('(New)')
+
+
+@then('the external user can see the closed tab')
+def closed_tab_is_visible(_):
+    assert external_conversation.closed_tab_present()
+
+
+@then('they are taken to their open conversations')
+def open_conversations_are_visible(_):
+    assert 'secure-message/threads' in browser.url
+    assert 'is_closed=true' not in browser.url
+
+
+@then('they are able to view the external conversation')
+def message_present_in_inbox(_):
+    assert browser.find_by_id('message-link-1')

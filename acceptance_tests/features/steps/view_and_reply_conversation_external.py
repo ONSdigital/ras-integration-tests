@@ -1,14 +1,16 @@
+from acceptance_tests import browser
 from behave import given, then, when
-
 import acceptance_tests.features.pages.view_and_reply_conversation_external as page_helpers
 from acceptance_tests.features.pages.create_message_internal import get_first_flashed_message
+from acceptance_tests.features.pages.external_conversation import go_to_closed
 from acceptance_tests.features.pages.inbox_internal import go_to as go_to_internal_bricks_messages
 from acceptance_tests.features.pages.internal_conversation_view import go_to_thread as go_to_thread_internal
 from acceptance_tests.features.pages.reply_to_message_internal import get_current_url
 from acceptance_tests.features.pages.reply_to_message_internal import \
     reply_to_first_message_in_message_box as reply_to_last_message_internal
 from acceptance_tests.features.steps.authentication import signed_in_internal, signed_in_respondent
-from controllers.messages_controller import create_message_external_to_internal
+from controllers.messages_controller import create_message_external_to_internal, \
+    create_and_close_message_internal_to_external
 
 
 @given('an external user has sent ONS a message')
@@ -23,6 +25,11 @@ def internal_user_replies_to_last_message(_):
 
     # sign in again as respondent
     signed_in_respondent(None)
+
+
+@when('the user navigates to the external closed inbox messages')
+def navigate_to_external_closed_messages(_):
+    go_to_closed()
 
 
 @then('the external user can see all messages in the conversation')
@@ -82,9 +89,19 @@ def external_user_has_a_conversation(_):
     page_helpers.go_to_first_conversation_in_message_box()
 
 
+@given('the external user has a closed conversation')
+def external_user_has_a_closed_conversation(_):
+    create_and_close_message_internal_to_external('Message to ONS', 'Message body to ONS')
+
+
 @when('they view that conversation')
 def external_user_views_conversation(_):
     page_helpers.go_to_first_conversation_in_message_box()
+
+
+@when ('they view the closed conversation')
+def external_user_views_closed_conversation(_):
+    page_helpers.go_to_first_closed_conversation_in_message_box()
 
 
 @then('they are able to reply (external)')
@@ -139,3 +156,10 @@ def external_user_is_navigated_to_list_of_conversations(_):
 @then('they receive confirmation that the message has been sent (external)')
 def external_user_receives_confirmation_that_message_has_been_sent(_):
     assert "Message sent." in get_first_flashed_message()
+
+
+@then('they are informed that the conversation is closed')
+def external_conversation_closed_message(_):
+    assert browser.find_by_text('This conversation has now been closed. ')
+    assert browser.driver.find_element_by_link_text('to do list')
+    assert browser.driver.find_element_by_link_text('history')
