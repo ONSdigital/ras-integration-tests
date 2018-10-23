@@ -97,17 +97,6 @@ def get_case_by_party_id(party_id):
     return response.json()
 
 
-def update_case_group_status(collection_exercise_id, ru_ref, case_group_event):
-    logger.debug('Updating status', collection_exercise_id=collection_exercise_id, ru_ref=ru_ref,
-                 case_group_event=case_group_event)
-    url = f'{Config.CASE_SERVICE}/casegroups/transitions/{collection_exercise_id}/{ru_ref}'
-    response = requests.put(url, auth=Config.BASIC_AUTH, json={'event': case_group_event})
-
-    response.raise_for_status()
-    logger.debug('Successfully updated status', collection_exercise_id=collection_exercise_id, ru_ref=ru_ref,
-                 case_group_event=case_group_event)
-
-
 def get_case_iac(case_id):
     url = f'{Config.CASE_SERVICE}/cases/{case_id}'
     response = requests.get(url, auth=Config.BASIC_AUTH, params={'iac': 'true'})
@@ -116,3 +105,10 @@ def get_case_iac(case_id):
         logger.error('Failed to retrieve Iac code', status=response.status_code)
 
     return response.json()['iac']
+
+
+def get_case_by_iac(iac):
+    url = f'{Config.CASE_SERVICE}/cases/iac/{iac}'
+    response = requests.get(url, auth=Config.BASIC_AUTH)
+    response.raise_for_status()
+    return response.json()
