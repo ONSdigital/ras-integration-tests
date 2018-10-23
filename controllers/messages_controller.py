@@ -66,5 +66,3 @@ def create_and_close_message_internal_to_external(subject='Subject', body='Body'
     go_to_thread()
     create_message_internal.click_close_conversation_button()
     create_message_internal.click_confirm_close_conversation_button()
-
-

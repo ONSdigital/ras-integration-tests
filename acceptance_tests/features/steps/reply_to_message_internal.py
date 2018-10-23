@@ -44,13 +44,13 @@ def create_and_close_conversation(_):
 
 
 @when('they view the message')
-def internal_user_can_view_message(_):
+def internal_user_can_view_open_message(_):
     inbox_internal.go_to()
     go_to_thread()
 
 
 @when('they view the closed message')
-def internal_user_can_view_message(_):
+def internal_user_can_view_closed_message(_):
     inbox_internal.go_to_closed()
     go_to_thread()
 
@@ -102,7 +102,7 @@ def no_messages_in_closed_list(_):
 
 
 @then('they receive confirmation that the conversation has been reopened')
-def internal_user_informed_that_conversation_is_closed(_):
+def internal_user_informed_that_conversation_has_been_reopened(_):
     assert 'Conversation re-opened.' in create_message_internal.get_first_flashed_message()
 
 

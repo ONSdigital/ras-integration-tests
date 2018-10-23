@@ -44,7 +44,7 @@ def go_to_messages_box(_):
 
 
 @when('they navigate to the external closed inbox messages')
-def go_to_messages_box(_):
+def go_to_closed_messages_box(_):
     external_conversation.go_to_closed()
 
 
@@ -61,12 +61,12 @@ def test_conversation_available(_):
 
 
 @then('they are informed that there are no external conversations')
-def informed_of_no_messages(_):
+def informed_of_no_open_messages(_):
     assert external_conversation.get_no_messages_text()
 
 
 @then('they are informed that there are no external closed conversations')
-def informed_of_no_messages(_):
+def informed_of_no_closed_messages(_):
     assert external_conversation.get_no_closed_messages_text()
 
 

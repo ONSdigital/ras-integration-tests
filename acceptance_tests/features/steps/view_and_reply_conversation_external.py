@@ -99,7 +99,7 @@ def external_user_views_conversation(_):
     page_helpers.go_to_first_conversation_in_message_box()
 
 
-@when ('they view the closed conversation')
+@when('they view the closed conversation')
 def external_user_views_closed_conversation(_):
     page_helpers.go_to_first_closed_conversation_in_message_box()
 
