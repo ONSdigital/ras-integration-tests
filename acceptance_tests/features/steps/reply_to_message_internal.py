@@ -10,7 +10,8 @@ from acceptance_tests.features.pages import inbox_internal
 from acceptance_tests.features.pages.internal_conversation_view import go_to_thread
 from acceptance_tests.features.pages.reply_to_message_internal import get_current_url
 from acceptance_tests.features.steps.authentication import signed_in_internal
-from controllers.messages_controller import create_message_external_to_internal
+from controllers.messages_controller import create_message_external_to_internal, \
+    create_and_close_message_internal_to_external
 
 
 @given('the internal user has received a message')
@@ -33,14 +34,7 @@ def create_conversation_internal(_):
 
 @given('the internal user has a closed conversation in their inbox')
 def create_and_close_conversation(_):
-    database_controller.execute_sql('resources/database/database_reset_secure_message.sql',
-                                    database_uri=Config.SECURE_MESSAGE_DATABASE_URI)
-    create_message_external_to_internal()
-    signed_in_internal(None)
-    inbox_internal.go_to()
-    go_to_thread()
-    create_message_internal.click_close_conversation_button()
-    create_message_internal.click_confirm_close_conversation_button()
+    create_and_close_message_internal_to_external()
 
 
 @when('they view the message')
