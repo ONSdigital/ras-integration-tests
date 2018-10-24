@@ -1,9 +1,6 @@
 from acceptance_tests import browser
 from behave import given, when, then
-from config import Config
 from datetime import datetime
-
-from controllers import database_controller
 
 from acceptance_tests.features.pages import create_message_internal
 from acceptance_tests.features.pages import inbox_internal
