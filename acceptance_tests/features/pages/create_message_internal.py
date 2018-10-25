@@ -76,3 +76,15 @@ def clear_message_body_text():
 
 def get_first_flashed_message():
     return browser.find_by_id("flashed-message-1").value
+
+
+def click_close_conversation_button():
+    browser.find_by_id('btn-close-conversation').click()
+
+
+def click_confirm_close_conversation_button():
+    browser.driver.find_element_by_xpath("//*[@class='btn btn--primary u-mt-m']").click()
+
+
+def click_reopen_conversation_button():
+    browser.find_by_id('btn-reopen-conversation').click()

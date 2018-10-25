@@ -19,7 +19,6 @@ from subprocess import Popen, PIPE, check_output, CalledProcessError, TimeoutExp
 
 from reset_database import reset_database
 
-# todo make global?
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 

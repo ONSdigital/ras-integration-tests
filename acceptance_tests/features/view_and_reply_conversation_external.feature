@@ -66,3 +66,10 @@ Feature: External User Views a Conversation
     Given the external user has a conversation
     When they reply in that conversation
     Then they receive confirmation that the message has been sent (external)
+
+  @sm145_s05
+  Scenario: The user views a closed conversation
+    Given the external user has a closed conversation
+    When  the user navigates to the external closed inbox messages
+    And   they view the closed conversation
+    Then they are informed that the conversation is closed

@@ -23,6 +23,11 @@ def go_to_first_conversation_in_message_box():
     browser.driver.find_element_by_id("open-conversation-link-1").click()
 
 
+def go_to_first_closed_conversation_in_message_box():
+    browser.visit(f"{Config.FRONTSTAGE_SERVICE}/secure-message/threads?is_closed=true")
+    browser.driver.find_element_by_id("message-link-1").click()
+
+
 def get_first_conversation_in_message_box():
     go_to_first_conversation_in_message_box()
     return get_conversation_messages()

@@ -38,3 +38,27 @@ Feature: External conversations
     When they navigate to the external inbox messages
     Then they are able to distinguish that the external message is unread
 
+  @sm145_s01
+  Scenario: External user can see closed tab
+    Given the external user has access to secure messaging
+    When they navigate to the external inbox messages
+    Then the external user can see the closed tab
+
+  @sm145_s02
+  Scenario: User will be informed if there are no closed conversations
+    Given the external user has no conversations to view
+    When they navigate to the external closed inbox messages
+    Then they are informed that there are no external closed conversations
+
+  @sm145_s03
+  Scenario: Selecting Messages tab in closed view shows open conversations
+    Given the external user has access to secure messaging
+    When they navigate to the external closed inbox messages
+    And they click the Messages tab
+    Then they are taken to their open conversations
+
+  @sm145_s04
+  Scenario: When a conversation is reopened, the conversation appears in open conversations list
+  Given a closed conversation has been reopened
+  When they navigate to the external inbox messages
+  Then they are able to view the external conversation

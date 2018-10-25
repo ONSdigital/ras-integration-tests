@@ -40,3 +40,27 @@ Feature: Reply to message internal
     When they view the message
     And they reply to the message
     Then they receive confirmation that the message has been sent
+
+  @sm123_s01
+  Scenario: User is able to close a conversation
+    Given the user has no messages in their inbox
+    And the internal user has received a message
+    When they view the message
+    And they close the conversation
+    Then they receive confirmation that the conversation is closed
+    And the conversation appears in their closed list
+
+  @sm123_s02
+  Scenario: User is able to reopen a closed conversation
+    Given the internal user has a closed conversation in their inbox
+    When they view the closed message
+    And they reopen the conversation
+    Then they receive confirmation that the conversation has been reopened
+    And the conversation is not present in their closed list
+    And the conversation is present in their open list
+
+  @sm123_s05
+  Scenario: User is able to see messages in the conversation in reverse chronological order (latest first)
+    Given the internal user has a conversation in their inbox
+    When they view the message
+    Then they are able to see the messages in the conversation in chronological order

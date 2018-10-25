@@ -8,7 +8,6 @@ class Config(object):
     PROTOCOL = os.getenv('PROTOCOL', 'http')
     INFO = '/info'
 
-    # todo redundant when all converted
     RESPONDENT_USERNAME = os.getenv('RESPONDENT_USERNAME', 'example@example.com')
 
     RESPONDENT_PASSWORD = os.getenv('RESPONDENT_PASSWORD', 'password')

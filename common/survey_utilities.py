@@ -11,7 +11,6 @@ from common import respondent_utilities
 from config import Config
 from controllers import collection_exercise_controller, survey_controller
 
-# todo more constants
 FIELD_SEPARATOR = '-'
 
 SURVEY_NAME_SOCIAL_PREFIX = 'SOCIAL'
@@ -28,9 +27,6 @@ COLLECTION_EXERCISE_STATUS_CREATED = 'CREATED'
 COLLECTION_EXERCISE_STATUS_LIVE = 'LIVE'
 
 logger = wrap_logger(getLogger(__name__))
-
-
-# todo docs everywhere
 
 
 # Non-standalone methods

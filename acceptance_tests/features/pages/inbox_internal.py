@@ -6,6 +6,10 @@ def go_to():
     browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/messages/Bricks")
 
 
+def go_to_closed():
+    browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/messages/Bricks?is_closed=true")
+
+
 def go_to_select_survey():
     browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/messages/select-survey")
 
@@ -40,6 +44,10 @@ def get_no_messages_text():
     return browser.find_by_text('No new conversations')
 
 
+def get_no_closed_conversations_text():
+    return browser.find_by_text('No closed conversations')
+
+
 def get_dropdown_list():
     return browser.driver.find_element_by_id('survey-list')
 
@@ -66,3 +74,7 @@ def get_pagination_next_link():
 
 def get_message_link_index(number_of_messages):
     return browser.find_by_id(f"message-link-{number_of_messages}")
+
+
+def closed_tab_present():
+    return browser.driver.find_element_by_link_text('Closed')

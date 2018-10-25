@@ -17,7 +17,6 @@ from config import Config
 from exceptions import MissingFixtureError
 from reset_database import reset_database
 
-# todo more constants
 FIELD_SEPARATOR = '-'
 FIXTURE_TAG_PREFIX = 'fixture.'
 

@@ -6,8 +6,6 @@ def create_utc_timestamp():
 
 
 def compact_string(string_in, max_length):
-    # todo could remove non_alphanumeric_characters here to make more readable?
-
     string_out = string_in
 
     # Retain as much of the string as possible, init cap all words, remove spaces and truncate if necessary

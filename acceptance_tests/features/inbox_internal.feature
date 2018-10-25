@@ -68,3 +68,16 @@ Feature: Internal inbox
     When they navigate to the inbox messages
     Then they are able to view '10' messages
     And the pagination links are available
+
+  @sm123_s03
+  Scenario: If there are no closed messages the user will be informed of this
+    Given the user has access to secure messaging
+    And the user has no messages in their inbox
+    When they navigate to closed conversations
+    Then they are informed that there are no closed conversations
+
+  @sm123_s04
+  Scenario: Internal user can see closed tab
+    Given the user has access to secure messaging
+    When they navigate to the inbox messages
+    Then they can see the closed tab
