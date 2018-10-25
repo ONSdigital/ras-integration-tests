@@ -20,8 +20,8 @@ def internal_user_receive_message(context):
 
 
 @given('the internal user has a conversation in their inbox')
-def create_conversation_internal(_):
-    create_message_external_to_internal()
+def create_conversation_internal(context):
+    create_message_external_to_internal(context)
     signed_in_internal(None)
     inbox_internal.go_to()
     go_to_thread()
