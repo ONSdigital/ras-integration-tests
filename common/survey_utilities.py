@@ -35,7 +35,7 @@ logger = wrap_logger(getLogger(__name__))
 
 # Non-standalone methods
 
-def setup_non_standalone_data_for_test():
+def setup_sequential_data_for_test():
     common.collection_exercise_utilities.execute_collection_exercises()
     common.respondent_utilities.register_respondent(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201801',
                                                     username=Config.RESPONDENT_USERNAME, ru_ref=49900000001)

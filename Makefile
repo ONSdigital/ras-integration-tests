@@ -33,13 +33,26 @@ setup: clean
 # If you want to run a single feature file WITH setup first use:
 # make TEST_TARGET=acceptance_tests/features/your.feature acceptance_tests
 BEHAVE_FORMAT = progress2
+TEST_ARGS = --stop
 
 system_tests: TEST_TARGET = system_tests/features  # This will only run the system tests
 system_tests: run_tests
 
-acceptance_tests: TEST_TARGET = acceptance_tests/features  # This will only run the acceptance tests
-acceptance_tests: setup
-	pipenv run behave --stop --format ${BEHAVE_FORMAT} ${TEST_TARGET}
+acceptance_tests: acceptance_sequential_tests acceptance_parallel_tests
+
+acceptance_sequential_tests: TEST_TARGET = acceptance_tests/features
+acceptance_sequential_tests: TEST_TAGS = ~@standalone
+acceptance_sequential_tests: setup
+	export RESET_DATABASE=False; \
+	export IGNORE_SEQUENTIAL_DATA_SETUP=False; \
+	pipenv run python run.py --command_line_args=${TEST_ARGS} --format=${BEHAVE_FORMAT} --tags ${TEST_TAGS} --acceptance_features_directory=${TEST_TARGET}
+
+acceptance_parallel_tests: TEST_TARGET = acceptance_tests/features
+acceptance_parallel_tests: TEST_TAGS = @standalone
+acceptance_parallel_tests:
+	export RESET_DATABASE=False; \
+	export IGNORE_SEQUENTIAL_DATA_SETUP=True; \
+	pipenv run python run_in_parallel.py --command_line_args=${TEST_ARGS} --format=${BEHAVE_FORMAT}  --tags ${TEST_TAGS} --acceptance_features_directory=${TEST_TARGET}
 
 rasrm_acceptance_tests: TEST_TARGET = acceptance_tests/features
 rasrm_acceptance_tests: TEST_TAGS = ~@secure_messaging

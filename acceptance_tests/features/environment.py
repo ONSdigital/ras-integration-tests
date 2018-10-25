@@ -46,8 +46,8 @@ def before_all(_):
         reset_database()
 
     # Run all tests using original method - standalone tests run in sequence
-    if not is_ignore_non_standalone_data_setup():
-        survey_utilities.setup_non_standalone_data_for_test()
+    if not is_ignore_sequential_data_setup():
+        survey_utilities.setup_sequential_data_for_test()
 
 
 def before_feature(context, feature):
@@ -106,8 +106,8 @@ def after_all(_):
         logger.info(f'{name} took {diff.total_seconds()}s')
 
 
-def is_ignore_non_standalone_data_setup():
-    return Config.IGNORE_NON_STANDALONE_DATA_SETUP
+def is_ignore_sequential_data_setup():
+    return Config.IGNORE_SEQUENTIAL_DATA_SETUP
 
 
 def is_reset_database():

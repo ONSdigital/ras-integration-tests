@@ -3,7 +3,7 @@ from distutils.util import strtobool
 
 class Config(object):
     RESET_DATABASE = strtobool(os.getenv('RESET_DATABASE', 'False'))
-    IGNORE_NON_STANDALONE_DATA_SETUP = strtobool(os.getenv('IGNORE_NON_STANDALONE_DATA_SETUP', 'False'))
+    IGNORE_SEQUENTIAL_DATA_SETUP = strtobool(os.getenv('IGNORE_SEQUENTIAL_DATA_SETUP', 'False'))
 
     PROTOCOL = os.getenv('PROTOCOL', 'http')
     INFO = '/info'
