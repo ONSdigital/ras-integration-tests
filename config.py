@@ -2,7 +2,6 @@ import os
 from distutils.util import strtobool
 
 class Config(object):
-    RESET_DATABASE = strtobool(os.getenv('RESET_DATABASE', 'False'))
     IGNORE_SEQUENTIAL_DATA_SETUP = strtobool(os.getenv('IGNORE_SEQUENTIAL_DATA_SETUP', 'False'))
 
     PROTOCOL = os.getenv('PROTOCOL', 'http')

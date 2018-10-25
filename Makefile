@@ -43,14 +43,12 @@ acceptance_tests: acceptance_sequential_tests acceptance_parallel_tests
 acceptance_sequential_tests: TEST_TARGET = acceptance_tests/features
 acceptance_sequential_tests: TEST_TAGS = ~@standalone
 acceptance_sequential_tests: setup
-	export RESET_DATABASE=False; \
 	export IGNORE_SEQUENTIAL_DATA_SETUP=False; \
 	pipenv run python run.py --command_line_args=${TEST_ARGS} --format=${BEHAVE_FORMAT} --tags ${TEST_TAGS} --acceptance_features_directory=${TEST_TARGET}
 
 acceptance_parallel_tests: TEST_TARGET = acceptance_tests/features
 acceptance_parallel_tests: TEST_TAGS = @standalone
 acceptance_parallel_tests:
-	export RESET_DATABASE=False; \
 	export IGNORE_SEQUENTIAL_DATA_SETUP=True; \
 	pipenv run python run_in_parallel.py --command_line_args=${TEST_ARGS} --format=${BEHAVE_FORMAT}  --tags ${TEST_TAGS} --acceptance_features_directory=${TEST_TARGET}
 

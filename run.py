@@ -15,7 +15,7 @@ DEFAULT_TAGS = '~@standalone'
 
 
 def is_valid_sequential_environment():
-    if os.getenv('RESET_DATABASE') == None or os.getenv('IGNORE_SEQUENTIAL_DATA_SETUP') == None:
+    if os.getenv('IGNORE_SEQUENTIAL_DATA_SETUP') == None:
         return True
 
     is_ignore_sequential_data_setup = strtobool(os.getenv('IGNORE_SEQUENTIAL_DATA_SETUP'))
@@ -50,7 +50,7 @@ def main():
 
     if not is_valid_sequential_environment():
         logger.error(
-            "Error: Environment Variables must be set as 'RESET_DATABASE=True or False' & 'IGNORE_NON_STANDALONE_DATA_SETUP=False'")
+            "Error: Environment Variable(s) must be set as 'IGNORE_NON_STANDALONE_DATA_SETUP=False'")
 
     args = parse_arguments()
 

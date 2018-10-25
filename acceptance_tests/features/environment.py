@@ -15,7 +15,6 @@ from acceptance_tests.features.fixtures import \
 from common import survey_utilities
 from config import Config
 from exceptions import MissingFixtureError
-from reset_database import reset_database
 
 FIELD_SEPARATOR = '-'
 FIXTURE_TAG_PREFIX = 'fixture.'
@@ -39,10 +38,6 @@ fixture_scenario_registry = {
 
 
 def before_all(_):
-
-    # Delete all standalone test data
-    if is_reset_database():
-        reset_database()
 
     # Run all tests using original method - standalone tests run in sequence
     if not is_ignore_sequential_data_setup():
@@ -107,10 +102,6 @@ def after_all(_):
 
 def is_ignore_sequential_data_setup():
     return Config.IGNORE_SEQUENTIAL_DATA_SETUP
-
-
-def is_reset_database():
-    return Config.RESET_DATABASE
 
 
 def get_survey_type(tags):

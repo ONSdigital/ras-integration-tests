@@ -17,8 +17,6 @@ from distutils.util import strtobool
 from multiprocessing import Process, Queue
 from subprocess import Popen, PIPE, check_output, CalledProcessError, TimeoutExpired
 
-from reset_database import reset_database
-
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -32,13 +30,12 @@ DELIMITER = '_BEHAVE_PARALLEL_BDD_'
 
 
 def is_valid_parallel_environment():
-    if os.getenv('RESET_DATABASE') == None or os.getenv('IGNORE_SEQUENTIAL_DATA_SETUP') == None:
+    if os.getenv('IGNORE_SEQUENTIAL_DATA_SETUP') == None:
         return False
 
-    is_reset_database = strtobool(os.getenv('RESET_DATABASE'))
     is_ignore_sequential_data_setup = strtobool(os.getenv('IGNORE_SEQUENTIAL_DATA_SETUP'))
 
-    return not is_reset_database and is_ignore_sequential_data_setup
+    return is_ignore_sequential_data_setup
 
 
 def parse_arguments():
@@ -95,6 +92,8 @@ def _run_scenario(q, feature_scenario, timeout, command_line_args):
     if status == 'FAILED':
         q.put(f'FAILED - Feature: [{feature}], Scenario [{scenario}]"')
         logger.error(out_bytes.decode())
+
+    time.sleep(10)
 
     return feature, scenario, status
 
@@ -221,7 +220,7 @@ def main():
     """
     if not is_valid_parallel_environment():
         logger.error(
-            "Error: Environment Variables must be set as 'RESET_DATABASE=False' & 'IGNORE_NON_STANDALONE_DATA_SETUP=True'")
+            "Error: Environment Variable(s) must be set as 'IGNORE_NON_STANDALONE_DATA_SETUP=True'")
         exit(1)
 
     args = parse_arguments()
@@ -229,8 +228,6 @@ def main():
     scenarios_to_run = extract_scenarios_to_run(args.tags, args.acceptance_features_directory)
 
     logger.info(f"Running [{len(scenarios_to_run)}] Scenarios in [{args.processes}] Processes")
-
-    reset_database()
 
     start_time = datetime.now()
     total_scenarios_run, failure_queue = run_all_scenarios(scenarios_to_run, args.processes, args.timeout,
