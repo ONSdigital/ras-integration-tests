@@ -26,6 +26,8 @@ def internal_user_cannot_see_breadcrumb_trail(_):
 @then('the user can see breadcrumbs showing the site hierarchy')
 def site_hierarchy_in_breadcrumb_trail(_):
     breadcrumbs_list = breadcrumbs.get_breadcrumbs()
+    print(breadcrumbs_list)
+    assert len(breadcrumbs_list) == 4
     assert breadcrumbs_list[0] == 'Home'
     assert breadcrumbs_list[1] == 'Surveys'
     assert breadcrumbs_list[2] == '139 QBS'
