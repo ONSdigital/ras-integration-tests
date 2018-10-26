@@ -30,7 +30,7 @@ DELIMITER = '_BEHAVE_PARALLEL_BDD_'
 
 
 def is_valid_parallel_environment():
-    if os.getenv('IGNORE_SEQUENTIAL_DATA_SETUP') == None:
+    if os.getenv('IGNORE_SEQUENTIAL_DATA_SETUP') is None:
         return False
 
     is_ignore_sequential_data_setup = strtobool(os.getenv('IGNORE_SEQUENTIAL_DATA_SETUP'))
@@ -54,14 +54,13 @@ def parse_arguments():
     parser.add_argument('--timeout', '-tout', type=int,
                         help='Maximum seconds to execute each scenario. Default = 300', default=300)
 
-    # TODO BUG: "AND" tags not handled properly
     args = parser.parse_args()
 
     return args
 
 
 def is_process_running(process):
-    return process != None and process.is_alive()
+    return process is not None and process.is_alive()
 
 
 def _run_scenario(q, feature_scenario, timeout, command_line_args):
@@ -72,7 +71,7 @@ def _run_scenario(q, feature_scenario, timeout, command_line_args):
     :return: Feature/scenario and status
     """
 
-    execution_code = {0: 'OK', 1: 'FAILED', 2: 'TIMEOUT'}
+    execution_code = {0: 'OK', 1: 'FAILED', 2: 'TIMEOUT', 3: 'UNEXPECTED_ERROR'}
     feature, scenario = feature_scenario.split(DELIMITER)
 
     cmd = f'behave {command_line_args} --format progress2 {feature} --name \"{scenario}\"'
@@ -82,9 +81,11 @@ def _run_scenario(q, feature_scenario, timeout, command_line_args):
         code = 0
     except CalledProcessError as e:
         out_bytes = e.output
-        code = e.returncode
+        code = 1
     except TimeoutExpired:
         code = 2
+    except Exception:
+        code = 3
 
     status = execution_code[code]
     logger.info(f"{feature:50}: {scenario} --> {status}")
@@ -93,19 +94,20 @@ def _run_scenario(q, feature_scenario, timeout, command_line_args):
         q.put(f'FAILED - Feature: [{feature}], Scenario [{scenario}]"')
         logger.error(out_bytes.decode())
 
+    # To give time for postgres connections to close before starting the next Scenario
     time.sleep(10)
 
     return feature, scenario, status
 
 
-def run_all_scenarios(scenarios_to_run, thread_count, timeout, command_line_args):
+def run_all_scenarios(scenarios_to_run, process_count, timeout, command_line_args):
     total_scenarios_to_run = len(scenarios_to_run)
 
     # Set number of threads needed
-    if total_scenarios_to_run < thread_count:
+    if total_scenarios_to_run < process_count:
         process_pool_size = total_scenarios_to_run
     else:
-        process_pool_size = thread_count
+        process_pool_size = process_count
 
     process_pool = [None] * process_pool_size
     scenario_index = 0
@@ -141,8 +143,8 @@ def run_all_scenarios(scenarios_to_run, thread_count, timeout, command_line_args
                 # Assume all finished
                 processes_running = False
 
-                for process_index in range(process_pool_size):
-                    if is_process_running(process_pool[process_index]):
+                for process in process_pool:
+                    if is_process_running(process):
                         processes_running = True
                         time.sleep(3)
                         break
@@ -228,6 +230,9 @@ def main():
     scenarios_to_run = extract_scenarios_to_run(args.tags, args.acceptance_features_directory)
 
     logger.info(f"Running [{len(scenarios_to_run)}] Scenarios in [{args.processes}] Processes")
+
+    if len(scenarios_to_run) == 0:
+        sys.exit(0)
 
     start_time = datetime.now()
     total_scenarios_run, failure_queue = run_all_scenarios(scenarios_to_run, args.processes, args.timeout,

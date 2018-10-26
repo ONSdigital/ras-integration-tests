@@ -183,8 +183,6 @@ def create_and_execute_collection_exercise(survey_id, period, user_description, 
 
 def create_and_execute_collection_exercise_with_unique_sample(survey_id, period, user_description, dates, ru_ref,
                                                               stop_at_state):
-
-
     create_collection_exercise(survey_id, period, user_description)
 
     if stop_at_state == 'CREATED':

@@ -15,7 +15,7 @@ DEFAULT_TAGS = '~@standalone'
 
 
 def is_valid_sequential_environment():
-    if os.getenv('IGNORE_SEQUENTIAL_DATA_SETUP') == None:
+    if os.getenv('IGNORE_SEQUENTIAL_DATA_SETUP') is None:
         return True
 
     is_ignore_sequential_data_setup = strtobool(os.getenv('IGNORE_SEQUENTIAL_DATA_SETUP'))

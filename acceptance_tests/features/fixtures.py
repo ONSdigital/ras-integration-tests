@@ -78,7 +78,8 @@ def setup_collection_exercise_to_created_status(context):
 
 @fixture
 def setup_unenrolled_respondent_generate_new_iac_collection_exercise_to_live_status(context):
-    """ Creates default data, an unenrolled Respondent, generates a new unused iac and waits until collection exercise state = live """
+    """ Creates default data, an unenrolled Respondent, generates a new unused iac
+    and waits until collection exercise state = live """
 
     setup_unenrolled_respondent(context, generate_new_iac=True,
                                 wait_for_collection_exercise_state=COLLECTION_EXERCISE_STATUS_LIVE)
