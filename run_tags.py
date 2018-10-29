@@ -24,7 +24,7 @@ if __name__ == '__main__':
     all_tags = ''
 
     for t in tags:
-        all_tags += ' --tags=' + t
+        all_tags += f' --tags={t}'
 
     logger.warn('Running Acceptance Tests with ' + all_tags)
 

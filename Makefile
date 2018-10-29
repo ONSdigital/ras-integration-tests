@@ -42,16 +42,23 @@ acceptance_tests: acceptance_sequential_tests acceptance_parallel_tests
 
 acceptance_sequential_tests: setup
 	export IGNORE_SEQUENTIAL_DATA_SETUP=False; \
-	pipenv run python run.py --command_line_args=${TEST_ARGS}
+	pipenv run python run_in_sequence.py --command_line_args="${TEST_ARGS}"
 
 acceptance_parallel_tests:
 	export IGNORE_SEQUENTIAL_DATA_SETUP=True; \
-	pipenv run python run_in_parallel.py --command_line_args=${TEST_ARGS}
+	pipenv run python run_in_parallel.py --command_line_args="${TEST_ARGS}"
 
-rasrm_acceptance_tests: TEST_TARGET = acceptance_tests/features
-rasrm_acceptance_tests: TEST_TAGS = ~@secure_messaging
-rasrm_acceptance_tests:
-	pipenv run behave --stop --format ${BEHAVE_FORMAT} --tags ${TEST_TAGS} ${TEST_TARGET}
+rasrm_acceptance_tests: rasrm_acceptance_sequential_tests rasrm_acceptance_parallel_tests
+
+rasrm_acceptance_sequential_tests: TEST_TAGS = ~@secure_messaging ~@standalone
+rasrm_acceptance_sequential_tests:
+	export IGNORE_SEQUENTIAL_DATA_SETUP=False; \
+	pipenv run python run_in_sequence.py --command_line_args="${TEST_ARGS}" --test_tags "${TEST_TAGS}"
+
+rasrm_acceptance_parallel_tests: TEST_TAGS = ~@secure_messaging @standalone
+rasrm_acceptance_parallel_tests:
+	export IGNORE_SEQUENTIAL_DATA_SETUP=True; \
+	pipenv run python run_in_parallel.py --command_line_args="${TEST_ARGS}" --test_tags "${TEST_TAGS}"
 
 rasrm_business_acceptance_tests: TEST_TARGET = acceptance_tests/features
 rasrm_business_acceptance_tests: TEST_TAGS = ~@secure_messaging ~@social

@@ -6,6 +6,8 @@ from distutils.util import strtobool
 
 from behave import __main__ as behave_executable
 
+from common.common_utilities import create_behave_tags
+
 logger = logging.getLogger(__name__)
 
 DEFAULT_COMMAND_LINE_ARGS = '--stop'
@@ -32,7 +34,7 @@ def parse_arguments():
     parser = argparse.ArgumentParser('Run behave in sequential mode for scenarios')
     parser.add_argument('--command_line_args', '-a', help='Command line arguments', default=DEFAULT_COMMAND_LINE_ARGS)
     parser.add_argument('--format', '-f', help='Behave format', default=DEFAULT_BEHAVE_FORMAT)
-    parser.add_argument('--tags', '-t', help='specify behave tags to run', default=DEFAULT_TAGS)
+    parser.add_argument('--test_tags', '-t', help='specify behave tags to run', default=DEFAULT_TAGS)
     parser.add_argument('--system_features_directory', '-sd', help='specify directory containing system features',
                         default=DEFAULT_SYSTEM_DIRECTORY)
     parser.add_argument('--acceptance_features_directory', '-ad',
@@ -41,6 +43,9 @@ def parse_arguments():
 
     args = parser.parse_args()
 
+    # Handle Tag ANDing properly
+    args.tags = create_behave_tags(args.test_tags)
+
     return args
 
 
@@ -48,32 +53,19 @@ def main():
     """
     Runner
     """
-
     if not is_valid_sequential_environment():
-        logger.error(
-            "Error: Environment Variable(s) must be set as 'IGNORE_NON_STANDALONE_DATA_SETUP=False'")
+        logger.error("Error: Environment Variable(s) must be set as 'IGNORE_SEQUENTIAL_DATA_SETUP=False'")
 
     args = parse_arguments()
 
-    logger.error('command_line_args=' + args.command_line_args)
-    logger.error('args.format=' + args.format)
-    logger.error('args.tags=' + args.tags)
-    logger.error('args.system_features_directory' + args.system_features_directory)
-    logger.error('args.acceptance_features_directory' + args.acceptance_features_directory)
-
-    exitCode = behave_executable.main(
-        args=f'--stop {args.command_line_args} '
-             f'--format {args.format} '
-             f'--tags={args.tags} '
-             f'{args.system_features_directory}')
+    behave_args = f'{args.command_line_args} --format {args.format} {args.tags} {args.system_features_directory}'
+    exitCode = behave_executable.main(behave_args)
 
     if exitCode != 0:
         sys.exit(exitCode)
 
-    exitCode = behave_executable.main(
-        args=f'--stop {args.command_line_args} '
-             f'--format {args.format}'
-             f' --tags={args.tags} {args.acceptance_features_directory}')
+    behave_args = f'{args.command_line_args} --format {args.format} {args.tags} {args.acceptance_features_directory}'
+    exitCode = behave_executable.main(behave_args)
 
     sys.exit(exitCode)
 

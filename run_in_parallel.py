@@ -17,6 +17,8 @@ from distutils.util import strtobool
 from multiprocessing import Process, Queue
 from subprocess import Popen, PIPE, check_output, CalledProcessError, TimeoutExpired
 
+from common.common_utilities import create_behave_tags
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -50,11 +52,14 @@ def parse_arguments():
                         default=DEFAULT_FEATURES_DIRECTORY)
     parser.add_argument('--processes', '-p', type=int,
                         help=f'Maximum number of processes. Default [{DEFAULT_PROCESSES}] ', default=DEFAULT_PROCESSES)
-    parser.add_argument('--tags', '-t', help='specify behave tags to run', default=DEFAULT_TAGS)
+    parser.add_argument('--test_tags', '-t', help='specify behave tags to run', default=DEFAULT_TAGS)
     parser.add_argument('--timeout', '-tout', type=int,
                         help='Maximum seconds to execute each scenario. Default = 300', default=300)
 
     args = parser.parse_args()
+
+    # Handle Tag ANDing properly
+    args.tags = create_behave_tags(args.test_tags)
 
     return args
 
@@ -155,7 +160,7 @@ def run_all_scenarios(scenarios_to_run, process_count, timeout, command_line_arg
 
 
 def find_matching_features_and_scenarios(tags, acceptance_features_directory):
-    cmd = f'behave -d --no-junit --f json --no-summary -t {tags} {acceptance_features_directory}'
+    cmd = f'behave -d --no-junit --f json --no-summary {tags} {acceptance_features_directory}'
 
     p = Popen(cmd, stdout=PIPE, shell=True)
     out, err = p.communicate()
@@ -175,18 +180,20 @@ def extract_scenarios_to_run(tags, acceptance_features_directory):
     """
     matching_features_and_scenarios = find_matching_features_and_scenarios(tags, acceptance_features_directory)
 
-    # Extract only the scenarios that need testing
-    untested_scenarios = [[e['location'][:-2] + DELIMITER + i['name']
-                           for i in e['elements']
-                           if i['keyword'].upper() in ["scenario".upper(), "scenario outline".upper()] and i[
-                               'status'] == 'untested']
-                          for e in matching_features_and_scenarios]
-
     scenarios_to_run = []
 
-    # Convert to single List
-    for scenario in untested_scenarios:
-        scenarios_to_run = scenarios_to_run + scenario
+    # Extract only the scenarios that need testing
+    for feature in matching_features_and_scenarios:
+
+        # Feature has at least 1 untested Scenario
+        if feature['status'] == 'untested':
+
+            # Find them
+            for scenario in feature['elements']:
+
+                # Test this Scenario
+                if scenario['keyword'] in ["Scenario", "Scenario Outline"] and scenario['status'] == 'untested':
+                    scenarios_to_run.append(feature['location'][:-2] + DELIMITER + scenario['name'])
 
     return scenarios_to_run
 
@@ -204,7 +211,7 @@ def print_summary(start_time, end_time, total_scenarios_run, failure_queue):
 
     if not failure_queue.empty():
         while not failure_queue.empty():
-            logger.info('  ' + failure_queue.get())
+            logger.info(f'\t{failure_queue.get()}')
             failed += 1
 
         exit_code = 1
@@ -222,7 +229,7 @@ def main():
     """
     if not is_valid_parallel_environment():
         logger.error(
-            "Error: Environment Variable(s) must be set as 'IGNORE_NON_STANDALONE_DATA_SETUP=True'")
+            "Error: Environment Variable(s) must be set as 'IGNORE_SEQUENTIAL_DATA_SETUP=True'")
         exit(1)
 
     args = parse_arguments()

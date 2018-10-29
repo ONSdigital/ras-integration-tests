@@ -21,3 +21,12 @@ def compact_string(string_in, max_length):
 
 def concatenate_strings(left_part, right_part, separator=''):
     return left_part + separator + right_part
+
+
+def create_behave_tags(tags):
+    behave_tags = ''
+
+    for t in tags.split(' '):
+        behave_tags += f' --tags={t}'
+
+    return behave_tags
