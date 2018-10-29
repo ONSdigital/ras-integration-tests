@@ -8,11 +8,11 @@ from acceptance_tests.features.pages import reporting_unit
 @then('the "{survey}" "{period}" collection exercise for ru "{ru_ref}" displays a view link')
 def assert_view_response_status_link(_, survey, period, ru_ref):
     reporting_unit.go_to(ru_ref)
-    reporting_unit.click_data_panel('Bricks')
+    reporting_unit.click_data_panel(survey)
     response_table = browser.find_by_name('tbl-ce-for-survey')
     rows = response_table.find_by_tag('tbody').find_by_tag('tr')
     for row in rows:
-        if '202001' in row.text:
+        if period in row.text:
             assert browser.is_text_present('Completed by phone View')
 
 
