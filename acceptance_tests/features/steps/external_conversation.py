@@ -70,7 +70,7 @@ def informed_of_no_closed_messages(_):
     assert external_conversation.get_no_closed_messages_text()
 
 
-@then('they are able to preview the first 80 characters (respecting word boundaries) of the latest message in the conversation')  # NOQA
+@then('they are able to preview the first 80 characters of the latest message in the conversation')  # NOQA
 def preview_summary_of_conversation(_):
     assert external_conversation.get_summary_length() < 80
     assert external_conversation.get_message_body_summary()[-3:] == '...'

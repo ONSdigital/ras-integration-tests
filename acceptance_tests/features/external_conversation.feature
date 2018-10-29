@@ -24,7 +24,7 @@ Feature: External conversations
     Given the external user has conversations in their list
       And they receive a message body with over 80 characters
     When they navigate to the external inbox messages
-    Then they are able to preview the first 80 characters (respecting word boundaries) of the latest message in the conversation
+    Then they are able to preview the first 80 characters of the latest message in the conversation
 
   @sm112_s04
   Scenario: User is able to view message details
