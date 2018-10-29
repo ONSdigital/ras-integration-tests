@@ -1,6 +1,7 @@
 import argparse
 import logging
 import os
+import sys
 from distutils.util import strtobool
 
 from behave import __main__ as behave_executable
@@ -20,7 +21,7 @@ def is_valid_sequential_environment():
 
     is_ignore_sequential_data_setup = strtobool(os.getenv('IGNORE_SEQUENTIAL_DATA_SETUP'))
 
-    return not not is_ignore_sequential_data_setup
+    return not is_ignore_sequential_data_setup
 
 
 def parse_arguments():
@@ -60,16 +61,21 @@ def main():
     logger.error('args.system_features_directory' + args.system_features_directory)
     logger.error('args.acceptance_features_directory' + args.acceptance_features_directory)
 
-    behave_executable.main(
+    exitCode = behave_executable.main(
         args=f'--stop {args.command_line_args} '
              f'--format {args.format} '
              f'--tags={args.tags} '
              f'{args.system_features_directory}')
 
-    behave_executable.main(
+    if exitCode != 0:
+        sys.exit(exitCode)
+
+    exitCode = behave_executable.main(
         args=f'--stop {args.command_line_args} '
              f'--format {args.format}'
              f' --tags={args.tags} {args.acceptance_features_directory}')
+
+    sys.exit(exitCode)
 
 
 if __name__ == '__main__':

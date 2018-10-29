@@ -38,17 +38,15 @@ TEST_ARGS = --stop
 system_tests: TEST_TARGET = system_tests/features  # This will only run the system tests
 system_tests: run_tests
 
-acceptance_tests: TEST_TARGET = acceptance_tests/features
-acceptance_tests: TEST_TAGS = ~@standalone
-acceptance_tests: setup
-	export IGNORE_SEQUENTIAL_DATA_SETUP=False; \
-	pipenv run python run.py --command_line_args=${TEST_ARGS} --format=${BEHAVE_FORMAT} --tags ${TEST_TAGS} --acceptance_features_directory=${TEST_TARGET}
+acceptance_tests: acceptance_sequential_tests acceptance_parallel_tests
 
-acceptance_parallel_tests: TEST_TARGET = acceptance_tests/features
-acceptance_parallel_tests: TEST_TAGS = @standalone
+acceptance_sequential_tests: setup
+	export IGNORE_SEQUENTIAL_DATA_SETUP=False; \
+	pipenv run python run.py --command_line_args=${TEST_ARGS}
+
 acceptance_parallel_tests:
 	export IGNORE_SEQUENTIAL_DATA_SETUP=True; \
-	pipenv run python run_in_parallel.py --command_line_args=${TEST_ARGS} --format=${BEHAVE_FORMAT}  --tags ${TEST_TAGS} --acceptance_features_directory=${TEST_TARGET}
+	pipenv run python run_in_parallel.py --command_line_args=${TEST_ARGS}
 
 rasrm_acceptance_tests: TEST_TARGET = acceptance_tests/features
 rasrm_acceptance_tests: TEST_TAGS = ~@secure_messaging
