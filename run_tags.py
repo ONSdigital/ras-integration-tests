@@ -1,14 +1,12 @@
 import os
 import sys
 from logging import getLogger
-
 from behave import __main__ as behave_executable
-
 from structlog import wrap_logger
+
 
 logger = wrap_logger(getLogger(__name__))
 
-#TODO redundant when method found to debug tests during parallel running
 
 if __name__ == '__main__':
 

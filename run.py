@@ -71,5 +71,6 @@ def main():
              f'--format {args.format}'
              f' --tags={args.tags} {args.acceptance_features_directory}')
 
+
 if __name__ == '__main__':
     main()
