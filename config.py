@@ -1,6 +1,7 @@
 import os
 from distutils.util import strtobool
 
+
 class Config(object):
     IGNORE_SEQUENTIAL_DATA_SETUP = strtobool(os.getenv('IGNORE_SEQUENTIAL_DATA_SETUP', 'False'))
 

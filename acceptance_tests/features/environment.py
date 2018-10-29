@@ -1,4 +1,3 @@
-import datetime
 from datetime import datetime
 from logging import getLogger
 
@@ -33,7 +32,8 @@ fixture_scenario_registry = {
     'fixture.setup.data.unenrolled.respondent': setup_unenrolled_respondent,
     'fixture.setup.data.unenrolled.respondent.generate.new.iac': setup_unenrolled_respondent_generate_new_iac,
     'fixture.setup.data.collection.exercise.created': fixtures.setup_collection_exercise_to_created_status,
-    'fixture.setup.data.unenrolled.respondent.generate.new.iac.collection.exercise.live': setup_unenrolled_respondent_generate_new_iac_collection_exercise_to_live_status
+    'fixture.setup.data.unenrolled.respondent.generate.new.iac.collection.exercise.live':
+        setup_unenrolled_respondent_generate_new_iac_collection_exercise_to_live_status
 }
 
 
@@ -109,5 +109,3 @@ def get_survey_type(tags):
         return "Social"
 
     return 'Business'
-
-

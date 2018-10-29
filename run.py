@@ -61,10 +61,15 @@ def main():
     logger.error('args.acceptance_features_directory' + args.acceptance_features_directory)
 
     behave_executable.main(
-        args=f'--stop {args.command_line_args} --format {args.format} --tags={args.tags} {args.system_features_directory}')
-    behave_executable.main(
-        args=f'--stop {args.command_line_args} --format {args.format} --tags={args.tags} {args.acceptance_features_directory}')
+        args=f'--stop {args.command_line_args} '
+             f'--format {args.format} '
+             f'--tags={args.tags} '
+             f'{args.system_features_directory}')
 
+    behave_executable.main(
+        args=f'--stop {args.command_line_args} '
+             f'--format {args.format}'
+             f' --tags={args.tags} {args.acceptance_features_directory}')
 
 if __name__ == '__main__':
     main()

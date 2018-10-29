@@ -54,8 +54,8 @@ def upload_unique_sample(collection_exercise_id, ru_ref, social=False):
 
     url = f'{Config.SAMPLE_SERVICE}/samples/{sample_type}/fileupload'
 
-    unique_sample = ru_ref + ':F:50300:50300:45320:45320:8478:801325:9900000576:1:E:FE:24/01/2017:RED BRICKS LTD:::RED BRICKS LTD::::::C:D:7:0001:S'
-
+    unique_sample = ru_ref + ':F:50300:50300:45320:45320:8478:801325:9900000576:1:E:FE:24/01/2017:RED BRICKS LTD:::' \
+                             'RED BRICKS LTD::::::C:D:7:0001:S'
     files = {"file": ('test_sample_file.xlxs', unique_sample, 'text/csv')}
 
     response = requests.post(url=url, auth=Config.BASIC_AUTH, files=files)

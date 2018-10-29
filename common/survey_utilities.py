@@ -67,7 +67,7 @@ def create_data_for_collection_exercise():
 
 def create_default_data(context):
     logger.debug(
-        f'Feature [{context.feature_name}], Scenario [{context.scenario_name}] creating default Survey & Collection Exercise')
+        f'Feature [{context.feature_name}], Scenario [{context.scenario_name}] creating default Survey & Exercise')
 
     survey_type = context.survey_type
     scenario_name = context.scenario_name
@@ -86,7 +86,8 @@ def create_default_data(context):
         context.iac = create_test_social_collection_exercise(context, survey_id, period, short_name, scenario_name,
                                                              survey_type)
     else:
-        context.iac = create_test_business_collection_exercise(survey_id, period, short_name, scenario_name, survey_type)
+        context.iac = create_test_business_collection_exercise(survey_id, period, short_name, scenario_name,
+                                                               survey_type)
 
     # Save values for later
     context.period = period
@@ -110,9 +111,7 @@ def create_test_survey(long_name, short_name, survey_ref, survey_type, legal_bas
 
     survey_id = response['id']
 
-    logger.debug('Survey created - ', survey_id=survey_id,
-                long_name=long_name,
-                short_name=short_name)
+    logger.debug('Survey created - ', survey_id=survey_id, long_name=long_name, short_name=short_name)
 
     return survey_id
 
@@ -130,11 +129,8 @@ def create_test_social_collection_exercise(context, survey_id, period, ru_ref, c
                                                                                        user_description, dates,
                                                                                        short_name=ru_ref)
 
-    logger.debug('Social Collection Exercise created - ', survey_id=survey_id,
-                ru_ref=ru_ref,
-                user_description=user_description,
-                period=period,
-                dates=dates)
+    logger.debug('Social Collection Exercise created - ', survey_id=survey_id, ru_ref=ru_ref,
+                 user_description=user_description, period=period, dates=dates)
 
     return iac
 
@@ -153,11 +149,8 @@ def create_test_business_collection_exercise(survey_id, period, ru_ref, ce_name,
                                                                                                    dates, ru_ref,
                                                                                                    stop_at_state)
 
-    logger.debug('Business Collection Exercise created - ', survey_id=survey_id,
-                ru_ref=ru_ref,
-                user_description=user_description,
-                period=period,
-                dates=dates)
+    logger.debug('Business Collection Exercise created - ', survey_id=survey_id, ru_ref=ru_ref,
+                 user_description=user_description, period=period, dates=dates)
 
     return iac
 

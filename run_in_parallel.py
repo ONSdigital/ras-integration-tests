@@ -125,7 +125,7 @@ def run_all_scenarios(scenarios_to_run, process_count, timeout, command_line_arg
                 feature, scenario = scenarios_to_run[scenario_index].split(DELIMITER)
 
                 logger.info(
-                    f"Processing Feature [{scenario_index}] : [{feature}], Scenario [{scenario}] in process no [{process_index}]")
+                    f"Processing Feature [{scenario_index}] : [{feature}], Scenario [{scenario}] in [{process_index}]")
                 process_pool[process_index] = Process(target=_run_scenario, args=(
                     failure_queue, scenarios_to_run[scenario_index], timeout, command_line_args))
                 process_pool[process_index].start()

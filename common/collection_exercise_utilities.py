@@ -1,4 +1,3 @@
-import datetime
 import time
 from datetime import datetime, timedelta
 from logging import getLogger
