@@ -5,7 +5,6 @@ Feature: View response status
 
   Background: Internal user is already signed in and a respondent is enrolled on a new collection exercise
     Given the internal user is already signed in
-    And the "Bricks" "202001" collection exercise has been executed
 
   @us208
   Scenario: Internal user can see the view link for response status Completed by phone
@@ -18,6 +17,6 @@ Feature: View response status
   Scenario: Internal user can view the date and timestamp for a completed survey in the response status panel
     Given the internal user is on the reporting unit page for ru ref "49900000001"
     And the "Bricks" "202001" collection exercise for ru "49900000001" is in the "Completed by phone" status
-    When the internal user click view the response status for "Bricks" "202001"
+    When the internal user click view the response status for the survey with correct period
     Then the internal user can view the timestamp for the completed state
     And the only action available is the close link
