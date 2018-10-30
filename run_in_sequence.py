@@ -13,7 +13,6 @@ logger = logging.getLogger(__name__)
 DEFAULT_COMMAND_LINE_ARGS = '--stop'
 DEFAULT_BEHAVE_FORMAT = 'progress2'
 DEFAULT_ACCEPTANCE_FEATURES_DIRECTORY = 'acceptance_tests/features'
-DEFAULT_SYSTEM_DIRECTORY = 'system_tests/features'
 DEFAULT_TAGS = '~@standalone'
 
 
@@ -35,8 +34,6 @@ def parse_arguments():
     parser.add_argument('--command_line_args', '-a', help='Command line arguments', default=DEFAULT_COMMAND_LINE_ARGS)
     parser.add_argument('--format', '-f', help='Behave format', default=DEFAULT_BEHAVE_FORMAT)
     parser.add_argument('--test_tags', '-t', help='specify behave tags to run', default=DEFAULT_TAGS)
-    parser.add_argument('--system_features_directory', '-sd', help='specify directory containing system features',
-                        default=DEFAULT_SYSTEM_DIRECTORY)
     parser.add_argument('--acceptance_features_directory', '-ad',
                         help='specify directory containing acceptance features',
                         default=DEFAULT_ACCEPTANCE_FEATURES_DIRECTORY)
@@ -58,16 +55,10 @@ def main():
 
     args = parse_arguments()
 
-    behave_args = f'{args.command_line_args} --format {args.format} {args.tags} {args.system_features_directory}'
-    exitCode = behave_executable.main(behave_args)
-
-    if exitCode != 0:
-        sys.exit(exitCode)
-
     behave_args = f'{args.command_line_args} --format {args.format} {args.tags} {args.acceptance_features_directory}'
-    exitCode = behave_executable.main(behave_args)
+    exit_code = behave_executable.main(behave_args)
 
-    sys.exit(exitCode)
+    sys.exit(exit_code)
 
 
 if __name__ == '__main__':
