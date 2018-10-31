@@ -6,7 +6,8 @@ from acceptance_tests import browser
 from acceptance_tests.features.pages.surveys_history import go_to_history_tab
 from acceptance_tests.features.pages.surveys_todo import go_to as go_to_todo
 from acceptance_tests.features.steps.authentication import signed_in_respondent
-from controllers.case_controller import get_b_case, generate_new_enrolment_code, post_case_event
+from controllers.case_controller import get_b_case, generate_new_enrolment_code
+from controllers.case_controller import post_case_event
 from controllers.collection_exercise_controller import get_collection_exercise
 from controllers.party_controller import add_survey, get_party_by_email, get_party_by_ru_ref
 
@@ -29,7 +30,7 @@ def trading_as_name_is_displayed_below_business_name_in_todo(_):
 
 
 @when('the respondent has completed a survey which is now in their history')
-def respondent_has_completed_survey(_):
+def respondent_has_completed_survey(context):
 
     # Complete the survey by phone
     ru_ref = '49900000007'
@@ -38,7 +39,7 @@ def respondent_has_completed_survey(_):
     case = get_b_case(ce_id, business_party['id'])
     post_case_event(case['id'], 'COMPLETED_BY_PHONE', 'Completed by phone')
     # Ensure respondent is signed in and navigate to history
-    signed_in_respondent(_)
+    signed_in_respondent(context)
     go_to_history_tab()
 
 

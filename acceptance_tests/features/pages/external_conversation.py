@@ -37,13 +37,13 @@ def send_message_from_internal():
     messages_controller.create_message_internal_to_external('Message received from ONS', 'Message body')
 
 
-def send_message_from_external():
-    messages_controller.create_message_external_to_internal()
+def send_message_from_external(context):
+    messages_controller.create_message_external_to_internal(context)
 
 
-def send_message_from_external_with_body_over_80_characters():
+def send_message_from_external_with_body_over_80_characters(context):
     # Get authentication and navigate to correct page
-    signed_in_respondent(())
+    signed_in_respondent(context)
     go_to_surveys_todo()
     select_to_create_message()
 

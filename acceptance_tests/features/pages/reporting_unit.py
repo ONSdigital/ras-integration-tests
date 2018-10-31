@@ -7,8 +7,8 @@ def go_to(ru_ref):
     browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/reporting-units/{ru_ref}")
 
 
-def click_data_panel(survey_short_name):
-    browser.find_by_id(f'survey-{survey_short_name}').click()
+def click_data_panel(short_name):
+    browser.find_by_id(f'survey-{short_name}').click()
 
 
 def get_ru_details():
@@ -82,8 +82,8 @@ def get_unused_iac(ru_ref, survey_short_name):
     return unused_iac
 
 
-def click_generate_new_code():
-    browser.find_by_id('generate-new-code').click()
+def click_generate_new_code(code):
+    browser.find_by_id('generate-new-code-' + code).click()
 
 
 def click_disable_enrolment(email):

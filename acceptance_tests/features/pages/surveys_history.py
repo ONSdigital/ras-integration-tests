@@ -21,11 +21,11 @@ def get_cases():
     is_text_present_with_retry('Trading as:', delay=5, retries=10)
     case_list = browser.find_by_id('survey-list').find_by_name('survey-card')
     cases = [{
-                 "survey": case.find_by_id('SURVEY_NAME').text,
-                 "business_details": case.find_by_name('reporting-unit-details').text,
-                 "period": case.find_by_name('period').text,
-                 "status": case.find_by_name('status').text
-             } for case in case_list]
+        "survey": case.find_by_id('SURVEY_NAME').text,
+        "business_details": case.find_by_name('reporting-unit-details').text,
+        "period": case.find_by_name('period').text,
+        "status": case.find_by_name('status').text
+    } for case in case_list]
     return cases
 
 

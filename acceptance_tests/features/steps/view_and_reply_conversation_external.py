@@ -14,17 +14,17 @@ from controllers.messages_controller import create_message_external_to_internal,
 
 
 @given('an external user has sent ONS a message')
-def external_user_has_sent_ONS_a_message(_):
-    create_message_external_to_internal('Message to ONS', 'Message body to ONS')
+def external_user_has_sent_ONS_a_message(context):
+    create_message_external_to_internal(context, 'Message to ONS', 'Message body to ONS')
 
 
 @when('an internal user responds')
-def internal_user_replies_to_last_message(_):
+def internal_user_replies_to_last_message(context):
     signed_in_internal(None)
     reply_to_last_message_internal()
 
     # sign in again as respondent
-    signed_in_respondent(None)
+    signed_in_respondent(context)
 
 
 @when('the user navigates to the external closed inbox messages')
@@ -81,11 +81,11 @@ def external_user_is_anchored_to_latest_message_in_conversation(_):
 
 
 @given('the external user has a conversation')
-def external_user_has_a_conversation(_):
-    create_message_external_to_internal('Message to ONS', 'Message body to ONS')
+def external_user_has_a_conversation(context):
+    create_message_external_to_internal(context, 'Message to ONS', 'Message body to ONS')
     signed_in_internal(None)
     reply_to_last_message_internal()
-    signed_in_respondent(None)
+    signed_in_respondent(context)
     page_helpers.go_to_first_conversation_in_message_box()
 
 

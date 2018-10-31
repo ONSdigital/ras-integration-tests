@@ -5,7 +5,7 @@ from selenium.webdriver.support.ui import Select
 
 from acceptance_tests import browser
 from acceptance_tests.features.pages import collection_exercise
-from common.browser_utilities import is_text_present_with_retry
+from common import browser_utilities
 from config import Config
 
 
@@ -38,7 +38,7 @@ def load_sample(sample_file_path):
 
 
 def get_sample_success_text():
-    while not is_text_present_with_retry('Sample loaded'):
+    while not browser_utilities.is_text_present_with_retry('Sample loaded'):
         click_refresh_link_for_sample_upload()
     return browser.find_by_id('sample-success').first.text
 
@@ -54,7 +54,7 @@ def cancel_sample_preview():
 
 
 def get_loaded_sample():
-    if is_text_present_with_retry('Total businesses'):
+    if browser_utilities.is_text_present_with_retry('Total businesses'):
         tds = browser.find_by_id('sample-table').find_by_tag('tbody').find_by_tag('td')
         return list(map(lambda td: td.value, tds))
 

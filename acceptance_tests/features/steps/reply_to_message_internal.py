@@ -12,16 +12,16 @@ from controllers.messages_controller import create_message_external_to_internal,
 
 
 @given('the internal user has received a message')
-def internal_user_receive_message(_):
-    create_message_external_to_internal()
+def internal_user_receive_message(context):
+    create_message_external_to_internal(context)
 
     # Sending external to internal may sign out the internal user
     signed_in_internal(None)
 
 
 @given('the internal user has a conversation in their inbox')
-def create_conversation_internal(_):
-    create_message_external_to_internal()
+def create_conversation_internal(context):
+    create_message_external_to_internal(context)
     signed_in_internal(None)
     inbox_internal.go_to()
     go_to_thread()

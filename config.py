@@ -1,11 +1,15 @@
 import os
+from distutils.util import strtobool
 
 
 class Config(object):
+    IGNORE_SEQUENTIAL_DATA_SETUP = strtobool(os.getenv('IGNORE_SEQUENTIAL_DATA_SETUP', 'False'))
+
     PROTOCOL = os.getenv('PROTOCOL', 'http')
     INFO = '/info'
 
     RESPONDENT_USERNAME = os.getenv('RESPONDENT_USERNAME', 'example@example.com')
+
     RESPONDENT_PASSWORD = os.getenv('RESPONDENT_PASSWORD', 'password')
 
     INTERNAL_USERNAME = os.getenv('INTERNAL_USERNAME', 'uaa_user')

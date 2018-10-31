@@ -95,8 +95,8 @@ def test_select_survey_page_view(_):
 
 
 @when('the user has an unread message in their inbox')
-def internal_user_has_unread_message_in_inbox(_):
-    messages_controller.create_message_external_to_internal('message subject', 'message body')
+def internal_user_has_unread_message_in_inbox(context):
+    messages_controller.create_message_external_to_internal(context, 'message subject', 'message body')
 
     # Sending external to internal may sign out the internal user
     signed_in_internal(None)

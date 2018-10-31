@@ -1,6 +1,6 @@
 from acceptance_tests import browser
-from acceptance_tests.features.environment import register_respondent
 from acceptance_tests.features.pages import sign_in_respondent
+from common.respondent_utilities import register_respondent
 from controllers.party_controller import get_party_by_email
 
 

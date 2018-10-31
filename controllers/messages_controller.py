@@ -40,12 +40,12 @@ def create_message_internal_to_external(subject='Subject', body='Body'):
     logger.debug("Message from internal to external created")
 
 
-def create_message_external_to_internal(subject='Subject', body='Body'):
+def create_message_external_to_internal(context, subject='Subject', body='Body'):
     # Send a message from a respondent in the context of a Bricks survey
     # Note that internal users may have to be signed in again after calling this function
 
     # Navigate to send a message
-    signed_in_respondent(())
+    signed_in_respondent(context)
     surveys_todo.go_to()
     surveys_todo.select_to_create_message()
 

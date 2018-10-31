@@ -1,4 +1,6 @@
 @social
+@standalone
+@fixture.setup.data.default
 Feature: Change Response Status
   As a: Survey Enquiry Line User
   I need: To be able to change the response status to an outcome that requires no further action

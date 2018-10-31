@@ -34,8 +34,7 @@ def return_addresses_for_searched_postcode(context):
     assert f'{context.address["TLA"]}{context.address["reference"]}' == case_ref, case_ref
     assert context.address["postcode"] == post_code, post_code
     assert (f'{context.address["address_line1"]}, {context.address["address_line2"]}, {context.address["locality"]}, '
-            f'{context.address["town_name"]}') \
-        in address_details, address_details
+            f'{context.address["town_name"]}') in address_details, address_details
 
 
 @then('no postcodes/addresses are to be returned')

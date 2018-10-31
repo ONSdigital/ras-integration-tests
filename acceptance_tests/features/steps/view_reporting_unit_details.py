@@ -10,7 +10,6 @@ from acceptance_tests.features.steps.authentication import signed_in_internal
 from config import Config
 from controllers.party_controller import get_party_by_ru_ref, get_respondent_details
 
-
 logger = wrap_logger(getLogger(__name__))
 
 

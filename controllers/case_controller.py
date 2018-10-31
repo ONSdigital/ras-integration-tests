@@ -5,7 +5,6 @@ from structlog import wrap_logger
 
 from config import Config
 
-
 logger = wrap_logger(logging.getLogger(__name__))
 
 
@@ -56,6 +55,15 @@ def get_b_case(collection_exercise_id, business_id):
     b_case['iac'] = iac
 
     return b_case
+
+
+def find_case_by_iac(iac):
+    logger.debug('Retrieving case for iac ', iac=iac)
+    url = f'{Config.CASE_SERVICE}/cases/iac/{iac}'
+    response = requests.get(url, auth=Config.BASIC_AUTH)
+    response.raise_for_status()
+    logger.debug('Successfully retrieved case for iac', iac=iac)
+    return response.json()
 
 
 def generate_new_enrolment_code(case_id, business_id):

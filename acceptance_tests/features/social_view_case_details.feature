@@ -1,4 +1,6 @@
 @social
+@standalone
+@fixture.setup.data.default
 Feature: View social case details
   As a Survey Enquiry Line User
   I need to be able to view the case details in relation to the call I have received

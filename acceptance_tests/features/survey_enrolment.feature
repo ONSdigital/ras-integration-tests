@@ -1,3 +1,6 @@
+@business
+@standalone
+@fixture.setup.data.default
 Feature: As an respondent user
   I need to enrol in a survey
 

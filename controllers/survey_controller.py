@@ -5,7 +5,6 @@ from structlog import wrap_logger
 
 from config import Config
 
-
 logger = wrap_logger(logging.getLogger(__name__))
 
 
@@ -44,14 +43,17 @@ def create_survey(survey_ref, short_name, long_name, legal_basis, survey_type='B
 
     response.raise_for_status()
 
+    response_json = response.json()
+
+    create_classifiers(response_json['id'])
+
     logger.info("Successfully created survey", short_name=short_name)
 
-    return response.json()
+    return response_json
 
 
 def create_classifiers(survey_id):
-    logger.info('Creating classifiers',
-                survey_id=survey_id)
+    logger.info('Creating classifiers', survey_id=survey_id)
 
     url = f'{Config.SURVEY_SERVICE}/surveys/{survey_id}/classifiers'
 
@@ -64,6 +66,6 @@ def create_classifiers(survey_id):
 
     response.raise_for_status()
 
-    logger.info("Successfully created classifier", survey_id=survey_id)
+    logger.info("Classifier created", classifier_details=classifier_details, survey_id=survey_id)
 
     return response.json()

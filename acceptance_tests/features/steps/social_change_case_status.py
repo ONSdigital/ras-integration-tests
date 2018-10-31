@@ -3,8 +3,8 @@ from urllib.parse import urlparse
 
 from behave import given, when, then
 
-from acceptance_tests.features.pages import social_search_by_postcode
 from acceptance_tests.features.pages import social_change_case_status
+from acceptance_tests.features.pages import social_search_by_postcode
 from acceptance_tests.features.pages import social_view_case_details
 from controllers.case_controller import get_case_by_id
 

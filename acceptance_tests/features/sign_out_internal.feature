@@ -1,3 +1,5 @@
+@business
+@standalone
 Feature: Internal user signs out
   As an internal user
   I need to sign out of the SDC system

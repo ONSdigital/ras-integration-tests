@@ -14,8 +14,8 @@ def messages_tab_is_present(_):
 
 
 @given('the external user has conversations in their list')
-def external_user_has_two_conversations(_):
-    external_conversation.send_message_from_external()
+def external_user_has_two_conversations(context):
+    external_conversation.send_message_from_external(context)
     external_conversation.send_message_from_internal()
 
 
@@ -26,8 +26,8 @@ def no_conversations_to_view(_):
 
 
 @given('they receive a message body with over 80 characters')
-def external_user_sent_message_with_over_80_characters(_):
-    external_conversation.send_message_from_external_with_body_over_80_characters()
+def external_user_sent_message_with_over_80_characters(context):
+    external_conversation.send_message_from_external_with_body_over_80_characters(context)
 
 
 @given('a closed conversation has been reopened')

@@ -1,8 +1,7 @@
 from behave import given, when, then
 
 from acceptance_tests import browser
-from acceptance_tests.features.pages import surveys_todo, add_survey
-from controllers.database_controller import select_iac
+from acceptance_tests.features.pages import surveys_todo, add_a_survey
 
 
 @when('the respondent views the survey list todo page')
@@ -26,9 +25,8 @@ def enter_enrolment_code(context):
 @given('the user has entered a valid enrolment code')
 @when('they enter a valid enrolment code')
 def enter_valid_enrolment_code(context):
-    add_survey.go_to()
-    enrolment_code = select_iac()
-    browser.driver.find_element_by_id('ENROLEMENT_CODE_FIELD').send_keys(enrolment_code)
+    add_a_survey.go_to()
+    browser.driver.find_element_by_id('ENROLEMENT_CODE_FIELD').send_keys(context.iac)
     browser.find_by_id('continue_button').click()
 
 

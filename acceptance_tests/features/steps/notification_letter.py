@@ -9,7 +9,7 @@ from structlog import wrap_logger
 from config import Config
 from controllers import collection_exercise_controller
 from controllers.collection_exercise_controller import create_and_execute_collection_exercise
-from controllers.database_controller import get_all_iacs_for_collection_exercise,\
+from controllers.database_controller import get_all_iacs_for_collection_exercise, \
     poll_collection_exercise_until_state_changed
 
 logger = wrap_logger(logging.getLogger(__name__))

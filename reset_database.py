@@ -1,7 +1,8 @@
 from config import Config
 from controllers import database_controller
 
-if __name__ == '__main__':
+
+def reset_database():
     print('Resetting databases')
     database_controller.execute_sql('resources/database/database_reset_rm.sql')
     database_controller.execute_sql('resources/database/database_reset_party.sql',
@@ -13,3 +14,7 @@ if __name__ == '__main__':
     database_controller.execute_sql('resources/database/database_reset_ras_ci.sql',
                                     database_uri=Config.COLLECTION_INSTRUMENT_DATABASE_URI)
     print('Successfully reset databases')
+
+
+if __name__ == '__main__':
+    reset_database()
