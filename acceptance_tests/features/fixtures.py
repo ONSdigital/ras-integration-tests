@@ -15,11 +15,15 @@ def setup_default_data(context):
 
 
 @fixture
-def setup_enrolled_respondent(context, generate_new_iac=False):
+def setup_enrolled_respondent(context, generate_new_iac=False, wait_for_collection_exercise_state=None):
     """ Creates default data + an enrolled Respondent in the default colelction exercise """
     setup_default_data(context)
 
     create_enrolled_respondent_for_the_test_survey(context, generate_new_iac)
+
+    if wait_for_collection_exercise_state:
+        collection_exercise_controller.wait_for_collection_exercise_state(context.survey_id, context.period,
+                                                                          wait_for_collection_exercise_state)
 
 
 @fixture
@@ -83,3 +87,12 @@ def setup_unenrolled_respondent_generate_new_iac_collection_exercise_to_live_sta
 
     setup_unenrolled_respondent(context, generate_new_iac=True,
                                 wait_for_collection_exercise_state=COLLECTION_EXERCISE_STATUS_LIVE)
+
+
+@fixture
+def setup_enrolled_respondent_generate_new_iac_collection_exercise_to_live_status(context):
+    """ Creates default data, an enrolled Respondent, generates a new unused iac
+    and waits until collection exercise state = live """
+
+    setup_enrolled_respondent(context, generate_new_iac=True,
+                              wait_for_collection_exercise_state=COLLECTION_EXERCISE_STATUS_LIVE)
