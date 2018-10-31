@@ -10,7 +10,8 @@ from acceptance_tests.features.fixtures import \
     setup_enrolled_respondent, \
     setup_unenrolled_respondent, setup_default_data, \
     setup_unenrolled_respondent_generate_new_iac_collection_exercise_to_live_status, \
-    setup_unenrolled_respondent_generate_new_iac
+    setup_unenrolled_respondent_generate_new_iac, \
+    setup_enrolled_respondent_generate_new_iac_collection_exercise_to_live_status
 from common import survey_utilities
 from config import Config
 from exceptions import MissingFixtureError
@@ -33,7 +34,9 @@ fixture_scenario_registry = {
     'fixture.setup.data.unenrolled.respondent.generate.new.iac': setup_unenrolled_respondent_generate_new_iac,
     'fixture.setup.data.collection.exercise.created': fixtures.setup_collection_exercise_to_created_status,
     'fixture.setup.data.unenrolled.respondent.generate.new.iac.collection.exercise.live':
-        setup_unenrolled_respondent_generate_new_iac_collection_exercise_to_live_status
+        setup_unenrolled_respondent_generate_new_iac_collection_exercise_to_live_status,
+    'fixture.setup.data.enrolled.respondent.generate.new.iac.collection.exercise.live':
+        setup_enrolled_respondent_generate_new_iac_collection_exercise_to_live_status
 }
 
 
