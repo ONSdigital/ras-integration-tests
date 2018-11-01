@@ -20,7 +20,7 @@ def assert_collection_exercise_status(context, status):
 
 
 @given('the respondent has had their response status changed to Completed by phone')
-def already_enrolled(context):
+def change_response_status_to_completed_by_phone(context):
     reporting_unit.go_to(context.short_name)
     reporting_unit.click_data_panel(context.short_name)
     internal_user_changes_response_status(context, "Completed by phone")
