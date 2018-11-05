@@ -2,6 +2,7 @@ from acceptance_tests import browser
 
 driver = browser.driver
 
+
 def click_breadcrumb(number):
     browser.find_by_id(f'breadcrumb-{number}').find_by_tag('a').click()
 
