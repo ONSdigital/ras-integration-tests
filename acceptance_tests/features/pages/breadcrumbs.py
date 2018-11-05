@@ -1,5 +1,4 @@
 from acceptance_tests import browser
-from selenium.common.exceptions import NoSuchElementException
 
 driver = browser.driver
 
