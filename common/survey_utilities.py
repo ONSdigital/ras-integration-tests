@@ -31,7 +31,7 @@ COLLECTION_EXERCISE_STATUS_LIVE = 'LIVE'
 logger = wrap_logger(getLogger(__name__))
 
 
-# Non-standalone methods
+# Sequential methods
 
 def setup_sequential_data_for_test():
     common.collection_exercise_utilities.execute_collection_exercises()
@@ -39,7 +39,7 @@ def setup_sequential_data_for_test():
                                                     username=Config.RESPONDENT_USERNAME, ru_ref=49900000001)
 
 
-# Standalone methods
+# Parallel methods
 
 def create_data_for_survey(context, period_offset_days=0):
     """ Data used for creating a Survey """
