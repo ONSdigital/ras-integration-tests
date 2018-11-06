@@ -123,3 +123,17 @@ def unenrol_respondent_in_survey(survey_id):
 
     sql_statement_delete_enrolment = f"delete from partysvc.enrolment where survey_id = '{survey_id}'"
     execute_sql(sql_string=sql_statement_delete_enrolment, database_uri=Config.PARTY_DATABASE_URI)
+
+
+def get_different_respondent_email_address(respondent_email_address):
+    sql_statement = "select p.email_address " \
+                    "from partysvc.respondent p " \
+                    f"where email_address <> '{respondent_email_address}' " \
+                    "LIMIT 1"
+
+    result = execute_sql(sql_string=sql_statement)
+    email = None
+    for row in result:
+        email = row['email_address']
+
+    return email

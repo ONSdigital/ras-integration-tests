@@ -7,10 +7,11 @@ from common.survey_utilities import create_default_data, create_enrolled_respond
 from controllers import collection_exercise_controller
 
 
+# todo lots of refactoring in here when all done
+
 @fixture
 def setup_default_data(context):
     """ Create the default Survey and Collection Exercise """
-
     create_default_data(context)
 
 
@@ -35,7 +36,6 @@ def setup_unenrolled_respondent(context, generate_new_iac=False, wait_for_collec
     :param wait_for_collection_exercise_state: wait for collection exercise state = live
     :return:
     """
-
     setup_default_data(context)
 
     create_unenrolled_respondent(context, generate_new_iac)
@@ -48,10 +48,7 @@ def setup_unenrolled_respondent(context, generate_new_iac=False, wait_for_collec
 @fixture
 def setup_unenrolled_respondent_generate_new_iac(context):
     """ Creates default data, an unenrolled Respondent and generates a new unused iac """
-
-    setup_default_data(context)
-
-    create_enrolled_respondent_for_the_test_survey(context)
+    setup_unenrolled_respondent(context)
 
 
 @fixture
@@ -84,7 +81,6 @@ def setup_collection_exercise_to_created_status(context):
 def setup_unenrolled_respondent_generate_new_iac_collection_exercise_to_live_status(context):
     """ Creates default data, an unenrolled Respondent, generates a new unused iac
     and waits until collection exercise state = live """
-
     setup_unenrolled_respondent(context, generate_new_iac=True,
                                 wait_for_collection_exercise_state=COLLECTION_EXERCISE_STATUS_LIVE)
 
@@ -93,6 +89,30 @@ def setup_unenrolled_respondent_generate_new_iac_collection_exercise_to_live_sta
 def setup_enrolled_respondent_generate_new_iac_collection_exercise_to_live_status(context):
     """ Creates default data, an enrolled Respondent, generates a new unused iac
     and waits until collection exercise state = live """
-
     setup_enrolled_respondent(context, generate_new_iac=True,
                               wait_for_collection_exercise_state=COLLECTION_EXERCISE_STATUS_LIVE)
+
+
+
+@fixture
+def setup_data_2_enrolled_respondents(context):
+    """ Creates default survey + 2 enrolled respondents in 2 collection exercises """
+    setup_enrolled_respondent(context)
+
+    # Save 1st collection exercise details - will probably need more depending on use?
+    ce1_short_name = context.short_name
+
+    survey_data = create_data_for_survey(context, -31)
+    period = survey_data['period']
+    short_name = survey_data['short_name']
+    survey_id = context.survey_id
+    ce_name = context.scenario_name
+    survey_type = context.survey_type
+
+    context.iac = create_test_business_collection_exercise(survey_id, period, short_name, ce_name, survey_type)
+
+    context.short_name = short_name
+    create_enrolled_respondent_for_the_test_survey(context)
+
+    # Restore 1st collection exercise details
+    context.short_name = ce1_short_name

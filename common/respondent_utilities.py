@@ -2,7 +2,7 @@ from logging import getLogger
 
 from structlog import wrap_logger
 
-from common import common_utilities
+from common import survey_utilities
 from config import Config
 from controllers import party_controller, database_controller, case_controller, django_oauth_controller, \
     collection_exercise_controller, iac_controller
@@ -10,8 +10,8 @@ from controllers import party_controller, database_controller, case_controller, 
 logger = wrap_logger(getLogger(__name__))
 
 
-def create_respondent(user_name, enrolment_code):
-    logger.info('Creating a respondent', username=user_name, enrolment_code=enrolment_code)
+def create_respondent(user_name, enrolment_code, phone_number):
+    logger.info('Creating a respondent', username=user_name, enrolment_code=enrolment_code, phone_number=phone_number)
 
     # party_controller.register_respondent endpoint performs many tasks including survey enrolment (which is not always
     # needed and can be rolled back using the unenrol_respondent_in_survey() method)
@@ -19,7 +19,7 @@ def create_respondent(user_name, enrolment_code):
                                                       first_name='first_name',
                                                       last_name='last_name',
                                                       password=Config.RESPONDENT_PASSWORD,
-                                                      phone_number='0987654321',
+                                                      phone_number=phone_number,
                                                       enrolment_code=enrolment_code)
     respondent_id = respondent['id']
 
@@ -47,8 +47,7 @@ def enrol_respondent(respondent_id):
 
 
 def make_respondent_user_name(left_part, right_part):
-    return common_utilities.concatenate_strings(common_utilities.concatenate_strings(left_part, '@'),
-                                                common_utilities.concatenate_strings(right_part, '.com'))
+    return survey_utilities.make_email_address(left_part, right_part)
 
 
 def create_respondent_user_login_account(user_name):

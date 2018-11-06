@@ -1,11 +1,10 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from logging import getLogger
 from random import randint
 
 from structlog import wrap_logger
 
 import common.collection_exercise_utilities
-import common.respondent_utilities
 from common import common_utilities
 from common import respondent_utilities
 from config import Config
@@ -23,6 +22,9 @@ SURVEY_REFERENCE_PREFIX = '9'
 SURVEY_REFERENCE_START = 1001
 SURVEY_REFERENCE_END = 999999
 
+TELEPHONE_NUMBER_START = 0
+TELEPHONE_NUMBER_END = 99999999999
+
 COLLECTION_EXERCISE_STATUS_CREATED = 'CREATED'
 COLLECTION_EXERCISE_STATUS_LIVE = 'LIVE'
 
@@ -39,14 +41,14 @@ def setup_sequential_data_for_test():
 
 # Standalone methods
 
-def create_data_for_survey(context):
+def create_data_for_survey(context, period_offset_days=0):
     """ Data used for creating a Survey """
 
     if is_social_survey(context.survey_type):
         period = create_social_survey_period()
         legal_basis = 'Vol'
     else:
-        period = create_business_survey_period()
+        period = create_business_survey_period(period_offset_days=period_offset_days)
         legal_basis = 'STA1947'
 
     return {
@@ -158,7 +160,11 @@ def create_test_business_collection_exercise(survey_id, period, ru_ref, ce_name,
 def create_enrolled_respondent_for_the_test_survey(context, generate_new_iac=False):
     user_name = respondent_utilities.make_respondent_user_name(str(context.short_name),
                                                                context.short_name)
-    respondent_utilities.create_respondent(user_name=user_name, enrolment_code=context.iac)['id']
+
+    context.phone_number = create_phone_number()
+
+    respondent_utilities.create_respondent(user_name=user_name, enrolment_code=context.iac,
+                                           phone_number=context.phone_number)['id']
     respondent_utilities.create_respondent_user_login_account(user_name)
 
     if generate_new_iac:
@@ -176,8 +182,10 @@ def is_social_survey(survey_type):
     return 'Social' == survey_type
 
 
-def create_business_survey_period(from_date=datetime.utcnow()):
-    return format_period(from_date.year, from_date.month)
+def create_business_survey_period(period_offset_days=0):
+    period_date = datetime.utcnow() + timedelta(days=period_offset_days)
+
+    return format_period(period_date.year, period_date.month)
 
 
 def create_social_survey_period():
@@ -190,6 +198,17 @@ def format_period(period_year, period_month):
 
 def create_ru_reference():
     return str(randint(RU_REFERENCE_START, RU_REFERENCE_END))
+
+
+def make_email_address(local_part=None, domain=None):
+    if not local_part:
+        local_part = create_ru_reference()
+
+    if not domain:
+        domain = local_part
+
+    return common_utilities.concatenate_strings(common_utilities.concatenate_strings(local_part, '@'),
+                                                common_utilities.concatenate_strings(domain, '.com'))
 
 
 def format_survey_name(survey_name_in, social_survey, max_field_length):
@@ -212,3 +231,7 @@ def create_survey_reference():
     ref = str(randint(SURVEY_REFERENCE_START, SURVEY_REFERENCE_END))
 
     return common_utilities.concatenate_strings(SURVEY_REFERENCE_PREFIX, ref)
+
+
+def create_phone_number():
+    return format(randint(TELEPHONE_NUMBER_START, TELEPHONE_NUMBER_END), '011d')
