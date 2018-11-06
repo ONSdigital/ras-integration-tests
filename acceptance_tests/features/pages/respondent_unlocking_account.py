@@ -32,7 +32,7 @@ def locking_respondent_out(username):
 
 
 def get_lockout_message(_):
-    return browser.find_by_text("You've tried to sign in few times with the wrong details.")
+    return browser.find_by_text("You've tried to sign in a few times with the wrong details.")
 
 
 def respondent_password_reset_complete():

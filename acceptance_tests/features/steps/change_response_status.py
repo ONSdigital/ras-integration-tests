@@ -1,71 +1,46 @@
-from datetime import datetime, timedelta
-
 from behave import when, given, then
 
 from acceptance_tests.features.pages import change_response_status, surveys_history, reporting_unit
 from acceptance_tests.features.steps.authentication import signed_in_respondent
-from common.collection_exercise_utilities import enrol_respondent
-from config import Config
-from controllers import party_controller
-from controllers.collection_exercise_controller import create_and_execute_collection_exercise, \
-    get_collection_exercise, map_ce_status
+from controllers.collection_exercise_controller import map_ce_status
 
 
-@given('the internal user is on the reporting unit page for ru ref "{ru_ref}"')
-def go_to_reporting_unit_page(_, ru_ref):
-    reporting_unit.go_to(ru_ref)
+@given('the internal user is on the reporting unit page')
+def go_to_reporting_unit_page(context):
+    reporting_unit.go_to(context.short_name)
 
 
-@given('the "{survey}" "{period}" collection exercise has been executed')
-def create_collection_exercise(_, survey, period):
-    if get_collection_exercise('cb8accda-6118-4d3b-85a3-149e28960c54', period):
-        return
-    now = datetime.utcnow()
-    dates = {
-        "mps": now + timedelta(seconds=5),
-        "go_live": now + timedelta(minutes=2),
-        "return_by": now + timedelta(days=10),
-        "exercise_end": now + timedelta(days=11),
-    }
-    create_and_execute_collection_exercise('cb8accda-6118-4d3b-85a3-149e28960c54',
-                                           period, 'test_exercise', dates)
-
-
-@given('the "{survey}" "{period}" collection exercise for ru "{ru_ref}" is in the "{status}" status')
-@then('the "{survey}" "{period}" collection exercise for ru "{ru_ref}" is in the "{status}" status')
-def assert_collection_exercise_status(_, survey, period, ru_ref, status):
-    reporting_unit.go_to(ru_ref)
-    reporting_unit.click_data_panel('Bricks')
-    collection_exericse = reporting_unit.get_collection_exercise(period, survey)
+@given('the collection exercise is in the "{status}" status')
+@then('the collection exercise is in the "{status}" status')
+def assert_collection_exercise_status(context, status):
+    reporting_unit.go_to(context.short_name)
+    reporting_unit.click_data_panel(context.short_name)
+    collection_exericse = reporting_unit.get_collection_exercise(context.period, context.short_name)
     assert status in collection_exericse['status'], collection_exericse['status']
 
 
-@given('the respondent has been enrolled for Bricks 204901 for ru 49900000001 which is in Completed by phone status')
-def already_enrolled(_):
-    pass
+@given('the respondent has had their response status changed to Completed by phone')
+def change_response_status_to_completed_by_phone(context):
+    reporting_unit.go_to(context.short_name)
+    reporting_unit.click_data_panel(context.short_name)
+    internal_user_changes_response_status(context, "Completed by phone")
 
 
-@when('the internal user changes the response status for "{survey}" "{period}" to "{status}"')
-def internal_user_changes_response_status(_, survey, period, status):
-    reporting_unit.click_change_response_status_link(survey=survey, period=period)
+@when('the internal user changes the response status to "{status}"')
+def internal_user_changes_response_status(context, status):
+    reporting_unit.click_change_response_status_link(survey=context.short_name, period=context.period)
     mapped_status = map_ce_status(status)
     change_response_status.update_response_status(mapped_status)
 
 
-@given('the respondent has been enrolled for "{survey}" "{period}" for ru "{ru_ref}"')
-def respondent_enrolled_for_ce(_, survey, period, ru_ref):
-    party_id = party_controller.get_party_by_email(Config.RESPONDENT_USERNAME)['id']
-    enrol_respondent(party_id, 'cb8accda-6118-4d3b-85a3-149e28960c54', period)
-
-
 @when('the respondent goes to the history page')
-def respondent_goes_to_history_page_for_49900000002(context):
+def respondent_goes_to_history_page(context):
     signed_in_respondent(context)
     surveys_history.go_to_history_tab()
 
 
-@then('the respondent is presented the "{survey}" "{period}" "{ru_ref}" status as "{status}"')
-def respondent_view_ce_status(_, survey, period, ru_ref, status):
-    surveys_history.refresh_history_until_survey_for_ru_found(ru_ref)
-    case = surveys_history.get_case(ru_ref)
+@then('the respondent is presented the status as "{status}"')
+def respondent_view_ce_status(context, status):
+    surveys_history.refresh_history_until_survey_for_ru_found(context.short_name)
+    case = surveys_history.get_case(context.short_name)
     assert status == case.get('status'), case.get('status')
