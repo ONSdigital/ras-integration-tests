@@ -83,7 +83,7 @@ def click_close_conversation_button():
 
 
 def click_confirm_close_conversation_button():
-    browser.driver.find_element_by_xpath("//*[@class='btn btn--primary u-mt-m']").click()
+    browser.driver.find_element_by_xpath("//*[@class='btn u-mt-m']").click()
 
 
 def click_reopen_conversation_button():
