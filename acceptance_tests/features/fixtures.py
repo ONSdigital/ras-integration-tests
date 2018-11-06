@@ -93,7 +93,6 @@ def setup_enrolled_respondent_generate_new_iac_collection_exercise_to_live_statu
                               wait_for_collection_exercise_state=COLLECTION_EXERCISE_STATUS_LIVE)
 
 
-
 @fixture
 def setup_data_2_enrolled_respondents(context):
     """ Creates default survey + 2 enrolled respondents in 2 collection exercises """
