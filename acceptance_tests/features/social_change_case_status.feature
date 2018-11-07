@@ -10,11 +10,11 @@ Feature: Change Response Status
     Given the internal user is already signed in to social UI
     And a social survey exists
 
-#  @sus005-01
-#  Scenario: The user is able to change the status of a case
-#    Given the SEL user has received a call and found the case details
-#    When they change the response status
-#    Then the new status is to be saved against that case
+  @sus005-01
+  Scenario: The user is able to change the status of a case
+    Given the SEL user has received a call and found the case details
+    When they change the response status
+    Then the new status is to be saved against that case
 
   @sus005-02
   Scenario: The user is able to select a status from the list below
