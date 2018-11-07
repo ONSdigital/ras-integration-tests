@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from logging import getLogger
 from random import randint
 
@@ -41,9 +41,10 @@ def setup_sequential_data_for_test():
 
 def create_data_for_survey(context):
     """ Data used for creating a Survey """
+    period_offset_days = getattr(context, 'period_offset_days', 0)
 
     if is_social_survey(context.survey_type):
-        period = create_social_survey_period()
+        period = create_social_survey_period(period_offset_days)
         legal_basis = 'Vol'
     else:
         period = create_business_survey_period()
@@ -123,7 +124,7 @@ def create_test_social_collection_exercise(context, survey_id, period, ru_ref, c
 
     user_description = common.collection_exercise_utilities.make_user_description(ce_name,
                                                                                   is_social_survey(survey_type), 50)
-    dates = common.collection_exercise_utilities.generate_social_collection_exercise_dates()
+    dates = common.collection_exercise_utilities.generate_collection_exercise_dates_from_period(period)
 
     iac = collection_exercise_controller.create_and_execute_social_collection_exercise(context, survey_id, period,
                                                                                        user_description, dates,
@@ -180,8 +181,10 @@ def create_business_survey_period(from_date=datetime.utcnow()):
     return format_period(from_date.year, from_date.month)
 
 
-def create_social_survey_period():
-    return '1'
+def create_social_survey_period(period_offset_days=0):
+    period_date = datetime.utcnow() + timedelta(days=period_offset_days)
+
+    return format_period(period_date.year, period_date.month)
 
 
 def format_period(period_year, period_month):
