@@ -1,3 +1,4 @@
+@business
 @standalone
 @fixture.setup.data.enrolled.respondent
 Feature: View response status
