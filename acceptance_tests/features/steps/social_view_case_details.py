@@ -12,7 +12,7 @@ def internal_user_searches_for_postcode(context):
 
 
 @when('they select the address')
-def internal_user_selects_the_address(context):
+def internal_user_selects_the_address(_):
     social_search_by_postcode.click_case_link()
 
 
@@ -38,7 +38,7 @@ def internal_sel_user_can_view_social_case_details(context):
 
 
 @then('they can see that the collection exercise is closed')
-def internal_sel_user_is_shown_ce_closed(context):
+def internal_sel_user_is_shown_ce_closed(_):
     assert browser.is_element_not_present_by_id('change-status-submit')
     assert browser.is_element_not_present_by_id('generate-iac-submit')
     assert browser.is_element_present_by_id('collection-exercise-closed-panel')

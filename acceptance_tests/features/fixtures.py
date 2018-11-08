@@ -19,7 +19,7 @@ def setup_collection_exercise_to_closed_status(context):
     """ Creates a collection exercise that has mandatory dates in the past """
 
     context.period_offset_days = -365
-    create_default_data(context)
+    setup_default_data(context)
 
 
 @fixture
