@@ -1,7 +1,7 @@
 @social
 @standalone
 @fixture.setup.data.collection.exercise.closed.social
-Feature: UAC cannot be generated if the collection exercise has closed
+Feature: HAC cannot be generated if the collection exercise has closed
   As a Survey Enquiry Line User
   I need to ensure that a new code cannot be generated if the collection exercise has closed
   So that respondents do not attempt to access a closed collection exercise erroneously
