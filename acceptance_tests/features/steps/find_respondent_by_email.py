@@ -8,7 +8,7 @@ from controllers.party_controller import get_party_by_email
 def create_respondent_account(context):
     respondent_party = get_party_by_email(context.user_name)
 
-    assert respondent_party is not None, "No respondent with email example@example.com exists"
+    assert respondent_party is not None, f'No respondent with email {context.user_name} exists'
 
 
 @when('an internal user searches for respondent using their email address')
