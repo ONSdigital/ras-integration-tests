@@ -48,6 +48,10 @@ acceptance_parallel_tests:
 	export IGNORE_SEQUENTIAL_DATA_SETUP=True; \
 	pipenv run python run_in_parallel.py --command_line_args="${TEST_ARGS}"
 
+acceptance_sequential_tests_all: setup
+	export IGNORE_SEQUENTIAL_DATA_SETUP=False; \
+	pipenv run python run_in_sequence.py --command_line_args="${TEST_ARGS}" --test_tags="~donotskipany"
+
 rasrm_acceptance_tests: rasrm_acceptance_sequential_tests rasrm_acceptance_parallel_tests
 
 rasrm_acceptance_sequential_tests: TEST_TAGS = ~@secure_messaging ~@standalone

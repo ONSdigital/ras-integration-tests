@@ -1,3 +1,4 @@
+@standalone
 Feature: Internal user can search for a respondent via email
   As an internal user
   I need to be able to search for a registered respondent via their email
@@ -7,10 +8,11 @@ Feature: Internal user can search for a respondent via email
     Given the internal user is already signed in
 
   @us091_s01
+  @fixture.setup.data.unenrolled.respondent
   Scenario: Search verified respondent by email address
-    Given the respondent account with email "example@example.com" has been created
-    When an internal user searches for respondent using their email address "example@example.com"
-    Then the respondent details should be displayed, email "example@example.com"
+    Given the respondent account with an email has been created
+    When an internal user searches for respondent using their email address
+    Then the respondent details should be displayed
 
   @us091_s02
   Scenario: Search non-existent respondent by email address

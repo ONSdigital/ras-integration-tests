@@ -73,7 +73,7 @@ def sign_in_no_username_and_no_password(_):
 
 @then('the user is directed to their home page (social)')
 def sign_in_directed_to_home_page(_):
-    assert social_sign_in_internal.get_page_title() == "Social | Survey Data Collection"
+    assert social_sign_in_internal.get_page_title() == "Find a case | Social Survey Data Collection"
 
 
 @then('the user is notified that a username is required (social)')

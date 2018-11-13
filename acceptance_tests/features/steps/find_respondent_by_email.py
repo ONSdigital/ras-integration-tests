@@ -4,24 +4,24 @@ from acceptance_tests.features.pages import respondent
 from controllers.party_controller import get_party_by_email
 
 
-@given('the respondent account with email "{email_address}" has been created')
-def create_respondent_account(_, email_address):
-    respondent_party = get_party_by_email(email_address)
+@given('the respondent account with an email has been created')
+def create_respondent_account(context):
+    respondent_party = get_party_by_email(context.user_name)
 
-    assert respondent_party is not None, "No respondent with email example@example.com exists"
+    assert respondent_party is not None, f'No respondent with email {context.user_name} exists'
 
 
-@when('an internal user searches for respondent using their email address "{email_address}"')
-def search_respondent_by_email(_, email_address):
+@when('an internal user searches for respondent using their email address')
+def search_respondent_by_email(context):
     respondent.go_to_find_respondent()
-    respondent.search_respondent_by_email(email_address)
+    respondent.search_respondent_by_email(context.user_name)
 
 
-@then('the respondent details should be displayed, email "{email_address}"')
-def assert_respondent_details_displayed(_, email_address):
+@then('the respondent details should be displayed')
+def assert_respondent_details_displayed(context):
     respondent_details = respondent.get_respondent_details()
 
-    assert email_address in respondent_details['email'], "No respondent with email " + email_address
+    assert context.user_name in respondent_details['email'], "No respondent with email " + context.user_name
 
 
 @then('the internal user is given a message of no respondent for email')
