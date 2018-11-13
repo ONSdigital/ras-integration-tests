@@ -131,7 +131,7 @@ def get_different_respondent_email_address(respondent_email_address):
                     f"where email_address <> '{respondent_email_address}' " \
                     "LIMIT 1"
 
-    result = execute_sql(sql_string=sql_statement)
+    result = execute_sql(sql_string=sql_statement, database_uri=Config.PARTY_DATABASE_URI)
     email = None
     for row in result:
         email = row['email_address']
