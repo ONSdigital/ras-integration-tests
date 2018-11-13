@@ -28,8 +28,8 @@ def get_surveys():
     return surveys
 
 
-def click_qbs_survey_link():
-    link = browser.find_by_name('survey-link-QBS')
+def click_survey_link(context):
+    link = browser.find_by_name(f'survey-link-{context.short_name}')
     link.click()
 
 

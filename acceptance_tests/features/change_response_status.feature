@@ -1,3 +1,4 @@
+@business
 @standalone
 Feature: Change response status
   As an internal user

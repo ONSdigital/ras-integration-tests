@@ -1,3 +1,4 @@
+@business
 @standalone
 Feature: Internal user can search for a respondent via email
   As an internal user
