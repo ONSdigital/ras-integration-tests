@@ -246,6 +246,9 @@ def create_and_execute_social_collection_exercise(context, survey_id, period, us
 
     if short_name:
         create_social_action_rule(short_name, period)
+
+    # We are seeing intermittent test failures when executing the collex - HTTP 500
+    time.sleep(5)
     execute_collection_exercise(survey_id, period)
     iac = common.collection_exercise_utilities.poll_database_for_iac(survey_id, period, social=True)
 

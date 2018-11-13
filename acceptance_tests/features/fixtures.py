@@ -15,8 +15,16 @@ def setup_default_data(context):
 
 
 @fixture
+def setup_collection_exercise_to_closed_status(context):
+    """ Creates a collection exercise that has mandatory dates in the past """
+
+    context.period_offset_days = -365
+    setup_default_data(context)
+
+
+@fixture
 def setup_enrolled_respondent(context, generate_new_iac=False, wait_for_collection_exercise_state=None):
-    """ Creates default data + an enrolled Respondent in the default colelction exercise """
+    """ Creates default data + an enrolled Respondent in the default collection exercise """
     setup_default_data(context)
 
     create_enrolled_respondent_for_the_test_survey(context, generate_new_iac)

@@ -1,5 +1,6 @@
 from behave import given, when, then
 
+from acceptance_tests import browser
 from acceptance_tests.features.pages import social_view_case_details, social_search_by_postcode
 
 
@@ -11,7 +12,7 @@ def internal_user_searches_for_postcode(context):
 
 
 @when('they select the address')
-def internal_user_selects_the_address(context):
+def internal_user_selects_the_address(_):
     social_search_by_postcode.click_case_link()
 
 
@@ -34,3 +35,10 @@ def internal_sel_user_can_view_social_case_details(context):
         actual_social_address['town']
     assert context.address["postcode"] == actual_social_address['postcode'], \
         actual_social_address['postcode']
+
+
+@then('they can see that the collection exercise is closed')
+def internal_sel_user_is_shown_ce_closed(_):
+    assert browser.is_element_not_present_by_id('change-status-submit')
+    assert browser.is_element_not_present_by_id('generate-iac-submit')
+    assert browser.is_element_present_by_id('collection-exercise-closed-panel')

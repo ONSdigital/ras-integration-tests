@@ -35,6 +35,7 @@ make system_tests  # Will run the system tests
 make acceptance_tests  # Will run all acceptance
 make acceptance_sequential_tests  # Will run the acceptance tests not yet converted to run in parallel
 make acceptance_parallel_tests  # Will run the acceptance tests converted to run in parallel
+make acceptance_sequential_tests_all # Will run ALL the acceptance tests, sequentially, in case of race condition or load/contention failures with parallel tests
 make stop_services  # Bring down all the Docker services
 make test  # Will bring all the services up and run all the tests
 make TEST_TARGET=acceptance_tests/features/your.feature run_tests # Runs a single feature file WITHOUT 'make setup' first
