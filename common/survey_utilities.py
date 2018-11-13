@@ -41,7 +41,7 @@ def setup_sequential_data_for_test():
 
 # Parallel methods
 
-def create_data_for_survey(context, period_offset_days=0):
+def create_data_for_survey(context):
     """ Data used for creating a Survey """
     period_offset_days = getattr(context, 'period_offset_days', 0)
 

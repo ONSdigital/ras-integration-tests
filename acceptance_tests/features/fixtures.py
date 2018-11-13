@@ -109,7 +109,9 @@ def setup_data_2_enrolled_respondents(context):
     # Save 1st collection exercise details - will probably need more depending on use?
     ce1_short_name = context.short_name
 
-    survey_data = create_data_for_survey(context, -31)
+    context.period_offset_days = -31
+
+    survey_data = create_data_for_survey(context)
     period = survey_data['period']
     short_name = survey_data['short_name']
     survey_id = context.survey_id
