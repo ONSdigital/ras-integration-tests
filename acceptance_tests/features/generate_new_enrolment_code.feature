@@ -1,6 +1,6 @@
 @business
 @standalone
-@fixture.setup.data.unenrolled.respondent.generate.new.iac
+@fixture.setup.data.with.unenrolled.respondent.user.and.response.user
 Feature: Generate new enrolment code
   As an internal user
   I need to obtain a new enrolment code for a RU for a specific survey

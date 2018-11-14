@@ -46,8 +46,8 @@ def enrol_respondent(respondent_id):
     return respondent_id
 
 
-def make_respondent_user_name(left_part, right_part):
-    return survey_utilities.make_email_address(left_part, right_part)
+def make_respondent_user_name(short_name):
+    return survey_utilities.make_email_address(short_name, short_name)
 
 
 def create_respondent_user_login_account(user_name):

@@ -1,6 +1,6 @@
 @business
 @standalone
-@fixture.setup.data.default
+@fixture.setup.data.with.response.user
 Feature: Site navigation
   As a Product Owner
   I need my users to easily navigate through the internal system
