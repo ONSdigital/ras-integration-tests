@@ -22,9 +22,9 @@ def signed_in_internal(context):
     # Only attempt to sign in if not already signed in otherwise implicitly redirected to homepage
     if '/sign-in' in browser.url:
         # todo temp fix until all converted
-        response_user_name = getattr(context, 'response_user_name', Config.INTERNAL_USERNAME)
+        internal_user_name = getattr(context, 'internal_user_name', Config.INTERNAL_USERNAME)
 
-        sign_in_internal.enter_correct_username(response_user_name)
+        sign_in_internal.enter_correct_username(internal_user_name)
         sign_in_internal.enter_correct_password()
         sign_in_internal.click_internal_sign_in_button()
 
@@ -35,8 +35,8 @@ def signed_in_internal_social(context):
     # Only attempt to sign in if not already signed in otherwise implicitly redirected to homepage
     if '/sign-in' in browser.url:
         # todo temp fix until all converted
-        response_user_name = getattr(context, 'response_user_name', Config.INTERNAL_USERNAME)
+        internal_user_name = getattr(context, 'internal_user_name', Config.INTERNAL_USERNAME)
 
-        sign_in_internal.enter_correct_username(response_user_name)
+        sign_in_internal.enter_correct_username(internal_user_name)
         sign_in_internal.enter_correct_password()
         sign_in_internal.click_internal_sign_in_button()

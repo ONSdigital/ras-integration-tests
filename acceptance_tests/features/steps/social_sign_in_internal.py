@@ -28,7 +28,7 @@ def try_sign_out():
 
 @when('they enter the correct username and password (social)')
 def sign_in_correct_username_and_password(context):
-    social_sign_in_internal.enter_correct_username(context.response_user_name)
+    social_sign_in_internal.enter_correct_username(context.internal_user_name)
     social_sign_in_internal.enter_correct_password()
     social_sign_in_internal.click_internal_sign_in_button()
 
@@ -42,7 +42,7 @@ def sign_in_incorrect_username_and_correct_password(_):
 
 @when('they enter a correct username and incorrect password (social)')
 def sign_in_correct_username_and_incorrect_password(context):
-    social_sign_in_internal.enter_correct_username(context.response_user_name)
+    social_sign_in_internal.enter_correct_username(context.internal_user_name)
     social_sign_in_internal.enter_incorrect_password()
     social_sign_in_internal.click_internal_sign_in_button()
 
@@ -56,7 +56,7 @@ def sign_in_incorrect_username_and_password(_):
 
 @when('they enter a correct username and no password (social)')
 def sign_in_correct_username_and_no_password(context):
-    social_sign_in_internal.enter_correct_username(context.response_user_name)
+    social_sign_in_internal.enter_correct_username(context.internal_user_name)
     social_sign_in_internal.click_internal_sign_in_button()
 
 

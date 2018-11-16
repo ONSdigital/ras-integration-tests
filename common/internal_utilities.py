@@ -6,7 +6,7 @@ from common import survey_utilities
 from config import Config
 
 
-def create_response_user_login_account(user_name):
+def create_internal_user_login_account(user_name):
     tokenUrl = f'{Config.UAA_SERVICE}/oauth/token'
 
     access_token = generate_access_token(client_id=Config.UAA_CLIENT_ID, client_secret=Config.UAA_SECRET, url=tokenUrl)

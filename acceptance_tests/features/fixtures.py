@@ -1,6 +1,6 @@
 from behave import fixture
 
-from common import response_utilities
+from common import internal_utilities
 from common.survey_utilities import create_default_data, create_enrolled_respondent_for_the_test_survey, \
     COLLECTION_EXERCISE_STATUS_LIVE, create_unenrolled_respondent, create_data_for_survey, create_test_survey, \
     create_data_for_collection_exercise, \
@@ -9,7 +9,7 @@ from controllers import collection_exercise_controller
 
 
 @fixture
-def setup_with_response_user(context):
+def setup_with_internal_user(context):
     create_response_user(context)
 
 
@@ -20,7 +20,7 @@ def setup_data_with_response_user(context):
 
 
 @fixture
-def setup_data_with_response_user_and_social_collection_exercise_to_closed_status(context):
+def setup_data_with_internal_user_and_social_collection_exercise_to_closed_status(context):
     """ Creates a collection exercise that has mandatory dates in the past """
     context.period_offset_days = -365
     setup_default_data(context)
@@ -29,7 +29,7 @@ def setup_data_with_response_user_and_social_collection_exercise_to_closed_statu
 
 
 @fixture
-def setup_data_with_enrolled_respondent_user_and_response_user(context, generate_new_iac=False,
+def setup_data_with_enrolled_respondent_user_and_internal_user(context, generate_new_iac=False,
                                                                wait_for_collection_exercise_state=None):
     """ Creates default data + an enrolled Respondent in the default collection exercise """
     setup_default_data(context)
@@ -63,7 +63,7 @@ def setup_data_with_unenrolled_respondent_user(context, generate_new_iac=False,
 
 
 @fixture
-def setup_data_with_unenrolled_respondent_user_and_response_user(context):
+def setup_data_with_unenrolled_respondent_user_and_internal_user(context):
     setup_data_with_unenrolled_respondent_user(context)
 
     create_response_user(context)
@@ -76,7 +76,7 @@ def setup_data_with_unenrolled_respondent_user_and_new_iac(context):
 
 
 @fixture
-def setup_data_with_response_user_and_collection_exercise_to_created_status(context):
+def setup_data_with_internal_user_and_collection_exercise_to_created_status(context):
     """ Creates default survey + collection exercise state = created """
     survey_data = create_data_for_survey(context)
     period = survey_data['period']
@@ -110,19 +110,18 @@ def setup_data_with_unenrolled_respondent_user_and_new_iac_and_collection_exerci
                                                wait_for_collection_exercise_state=COLLECTION_EXERCISE_STATUS_LIVE)
 
 
-#todo shorten method names
 @fixture
-def setup_data_with_enrolled_respondent_user_and_response_user_and_new_iac_and_collection_exercise_to_live(context):
+def setup_data_with_enrolled_respondent_user_and_internal_user_and_new_iac_and_collection_exercise_to_live(context):
     """ Creates default data, an enrolled Respondent, generates a new unused iac
     and waits until collection exercise state = live """
-    setup_data_with_enrolled_respondent_user_and_response_user(context, generate_new_iac=True,
+    setup_data_with_enrolled_respondent_user_and_internal_user(context, generate_new_iac=True,
                                                                wait_for_collection_exercise_state=COLLECTION_EXERCISE_STATUS_LIVE)
 
 
 @fixture
-def setup_data_with_2_enrolled_respondent_users_and_response_user(context):
+def setup_data_with_2_enrolled_respondent_users_and_internal_user(context):
     """ Creates default survey + 2 enrolled respondents in 2 collection exercises """
-    setup_data_with_enrolled_respondent_user_and_response_user(context)
+    setup_data_with_enrolled_respondent_user_and_internal_user(context)
 
     # Save 1st collection exercise details - will probably need more depending on use?
     ce1_short_name = context.short_name
@@ -151,6 +150,6 @@ def setup_default_data(context):
 
 
 def create_response_user(context):
-    context.response_user_name = getattr(context, 'short_name', create_ru_reference())
+    context.internal_user_name = getattr(context, 'short_name', create_ru_reference())
 
-    response_utilities.create_response_user_login_account(context.response_user_name)
+    internal_utilities.create_internal_user_login_account(context.internal_user_name)

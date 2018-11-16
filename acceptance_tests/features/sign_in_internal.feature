@@ -1,6 +1,6 @@
 @business
 @standalone
-@fixture.setup.with.response.user
+@fixture.setup.with.internal.user
 Feature: Internal user signs in
   As an internal user
   I need to sign in to the SDC system
