@@ -17,7 +17,7 @@ from distutils.util import strtobool
 from multiprocessing import Process, Queue
 from subprocess import Popen, PIPE, check_output, CalledProcessError, TimeoutExpired
 
-from common.common_utilities import create_behave_tags
+from common.common_utilities import create_behave_tags, kill_all_processes, get_child_processes
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -163,11 +163,16 @@ def find_matching_features_and_scenarios(tags, acceptance_features_directory):
     cmd = f'behave -d --no-junit --f json --no-summary {tags} {acceptance_features_directory}'
 
     p = Popen(cmd, stdout=PIPE, shell=True)
+    time.sleep(3)
+    child_processes = get_child_processes(p.pid)
+
     out, err = p.communicate()
     try:
         json_all_features = json.loads(out.decode())
     except ValueError:
         json_all_features = []
+
+    kill_all_processes(child_processes)
 
     return json_all_features
 
@@ -199,7 +204,6 @@ def extract_scenarios_to_run(tags, acceptance_features_directory):
 
 
 def print_summary(start_time, end_time, total_scenarios_run, failure_queue):
-
     struct_time = time.strptime(str(end_time - start_time), "%H:%M:%S.%f")
 
     duration = f'{struct_time.tm_hour:02}:{struct_time.tm_min:02}:{struct_time.tm_sec:02}'
