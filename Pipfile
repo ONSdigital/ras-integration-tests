@@ -21,6 +21,7 @@ paramiko = "*"
 "psycopg2" = "*"
 pytz = "*"
 tzlocal = "*"
+psutil = "*"
 
 [requires]
 python_version = "3.6"
