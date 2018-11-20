@@ -25,7 +25,7 @@ def generate_access_token(client_id, client_secret, url):
                'response_type': 'token',
                'token_format': 'opaque'}
 
-    response = requests.post(url.format(url), headers=headers,
+    response = requests.post(url=url, headers=headers,
                              params=payload,
                              auth=(client_id, client_secret))
 
