@@ -13,7 +13,7 @@ class Config(object):
 
     RESPONDENT_PASSWORD = os.getenv('RESPONDENT_PASSWORD', 'password')
 
-    #todo delete when all converted
+    # todo delete when all converted
     INTERNAL_USERNAME = os.getenv('INTERNAL_USERNAME', 'uaa_user')
 
     INTERNAL_PASSWORD = os.getenv('INTERNAL_PASSWORD', 'password')

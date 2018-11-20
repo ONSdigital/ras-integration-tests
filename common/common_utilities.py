@@ -39,10 +39,11 @@ def create_behave_tags(tags):
 def get_child_processes(parent_pid):
     try:
         child_processes = psutil.Process(parent_pid).children(recursive=True)
-    except NoSuchProcess as e:
+    except NoSuchProcess:
         return
 
     return child_processes
+
 
 def kill_all_processes(children):
     if not children:
@@ -51,5 +52,5 @@ def kill_all_processes(children):
     try:
         for process in children:
             process.send_signal(signal.SIGTERM)
-    except Exception as e:
+    except NoSuchProcess:
         pass

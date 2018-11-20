@@ -81,6 +81,8 @@ def _run_scenario(q, feature_scenario, timeout, command_line_args):
 
     cmd = f'behave {command_line_args} --format progress2 {feature} --name \"{scenario}\"'
 
+    out_bytes = None
+
     try:
         check_output(cmd, shell=True, timeout=timeout)
         code = 0
@@ -131,8 +133,9 @@ def run_all_scenarios(scenarios_to_run, process_count, timeout, command_line_arg
 
                 logger.info(
                     f"Processing Feature [{scenario_index}] : [{feature}], Scenario [{scenario}] in [{process_index}]")
-                process_pool[process_index] = Process(target=_run_scenario, args=(
-                    failure_queue, scenarios_to_run[scenario_index], timeout, command_line_args))
+                process_pool[process_index] = Process(target=_run_scenario, args=(failure_queue,
+                                                                                  scenarios_to_run[scenario_index],
+                                                                                  timeout, command_line_args))
                 process_pool[process_index].start()
 
                 scenario_index += 1

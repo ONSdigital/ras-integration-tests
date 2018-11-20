@@ -30,7 +30,7 @@ def setup_data_with_internal_user_and_social_collection_exercise_to_closed_statu
 
 @fixture
 def setup_data_with_enrolled_respondent_user_and_internal_user(context, generate_new_iac=False,
-                                                               wait_for_collection_exercise_state=None):
+                                                               wait_ce_for_state=None):
     """ Creates default data + an enrolled Respondent in the default collection exercise """
     setup_default_data(context)
 
@@ -38,9 +38,9 @@ def setup_data_with_enrolled_respondent_user_and_internal_user(context, generate
 
     create_response_user(context)
 
-    if wait_for_collection_exercise_state:
+    if wait_ce_for_state:
         collection_exercise_controller.wait_for_collection_exercise_state(context.survey_id, context.period,
-                                                                          wait_for_collection_exercise_state)
+                                                                          wait_ce_for_state)
 
 
 @fixture
@@ -115,7 +115,7 @@ def setup_data_with_enrolled_respondent_user_and_internal_user_and_new_iac_and_c
     """ Creates default data, an enrolled Respondent, generates a new unused iac
     and waits until collection exercise state = live """
     setup_data_with_enrolled_respondent_user_and_internal_user(context, generate_new_iac=True,
-                                                               wait_for_collection_exercise_state=COLLECTION_EXERCISE_STATUS_LIVE)
+                                                               wait_ce_for_state=COLLECTION_EXERCISE_STATUS_LIVE)
 
 
 @fixture
