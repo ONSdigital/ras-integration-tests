@@ -35,3 +35,9 @@ def click_survey_link(context):
 
 def click_edit_survey_details_button():
     browser.click_link_by_id('edit-survey-details-199')
+
+
+# todo to support site_navigation rollback to sequential changes - delete and use click_survey_link(context) when fixed
+def click_qbs_survey_link():
+    link = browser.find_by_name('survey-link-QBS')
+    link.click()

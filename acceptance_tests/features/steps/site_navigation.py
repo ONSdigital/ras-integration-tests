@@ -14,15 +14,13 @@ def should_be_able_to_click_survey_link(_):
     assert survey.get_page_title() == "Surveys | Survey Data Collection"
 
 
-@then('the user can view and click on a link to the survey page')
-def should_be_able_to_click_survey_link(context):
-    survey.click_survey_link(context)
-    assert collection_exercise.get_page_title() == f'{context.short_name} | Surveys | Survey Data Collection'
+@then('the user can view and click on a link to the QBS survey page')
+def should_be_able_to_click_qbs_survey_link(_):
+    survey.click_qbs_survey_link()
+    assert collection_exercise.get_page_title() == 'QBS | Surveys | Survey Data Collection'
 
 
-@then('the user can view and click on a link to the collection exercise page')
-def should_be_able_to_click_collection_exercise_link(context):
-    collection_exercise.click_ce_link(context.period)
-    actual = collection_exercise_details.get_page_title()
-    expected = f'{context.survey_ref} {context.short_name} {context.period} | Surveys | Survey Data Collection'
-    assert actual == expected
+@then('the user can view and click on a link to the 1803 QBS collection exercise page')
+def should_be_able_to_click_qbs_collection_exercise_link(_):
+    collection_exercise.click_ce_link('1803')
+    assert collection_exercise_details.get_page_title() == '139 QBS 1803 | Surveys | Survey Data Collection'
