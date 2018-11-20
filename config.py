@@ -97,12 +97,12 @@ class Config(object):
     OAUTH_CLIENT_ID = os.getenv('OAUTH_CLIENT_ID', 'ons@ons.gov')
     OAUTH_CLIENT_SECRET = os.getenv('OAUTH_CLIENT_SECRET', 'password')
 
-    UAA_HOST = os.getenv('UAA_HOST', 'localhost')
     UAA_PORT = os.getenv('UAA_PORT', '9080')
     UAA_CLIENT_ID = os.getenv('UAA_CLIENT_ID', 'admin')
     UAA_SECRET = os.getenv('UAA_SECRET', 'admin_secret')
     UAA_DEFAULT_USER_PASSWORD = os.getenv('UAA_DEFAULT_USER_PASSWORD', 'password')
-    UAA_SERVICE = f'{PROTOCOL}://{UAA_HOST}:{UAA_PORT}'
+
+    UAA_SERVICE_URL = f'{os.getenv("UAA_SERVICE_URL", "http://localhost")}:{UAA_PORT}'
 
     DATABASE_URI = os.getenv('DATABASE_URI', "postgres://postgres:postgres@localhost:6432/postgres")
     AUTH_DATABASE_URI = os.getenv('AUTH_DATABASE_URI', DATABASE_URI)
