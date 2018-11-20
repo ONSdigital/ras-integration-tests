@@ -36,9 +36,9 @@ def generate_access_token(client_id, client_secret, url):
 
 def create_user(access_token, username, password, email, first_name, last_name, url):
     user = {
-        "userName": "{}".format(username),
+        "userName": username,
         "name": {
-            "formatted": "{0} {1}".format(first_name, last_name),
+            "formatted": f'{first_name} {last_name}',
             "givenName": first_name,
             "familyName": last_name
         },
@@ -53,7 +53,7 @@ def create_user(access_token, username, password, email, first_name, last_name, 
 
     headers = {'Content-Type': 'application/json',
                'Accept': 'application/json',
-               'Authorization': 'Bearer {}'.format(access_token)}
+               'Authorization': f'Bearer {access_token}'}
 
     response = requests.post(url, data=json.dumps(user),
                              headers=headers)
