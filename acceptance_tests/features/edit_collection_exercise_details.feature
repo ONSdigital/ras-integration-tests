@@ -1,4 +1,3 @@
-@wip
 Feature: As an internal user
   I need to be able to edit/amend collection exercise details
   So that I can change/update collection exercise details when required
