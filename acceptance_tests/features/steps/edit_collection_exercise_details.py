@@ -1,3 +1,4 @@
+import time
 from behave import given, when, then
 
 from acceptance_tests import browser
@@ -37,6 +38,7 @@ def check_collection_exercise_state(_):
 
 @then('they can view the updated details')
 def view_updated_collection_exercise_details(context):
+    time.sleep(15)
     collection_exercises = collection_exercise.get_collection_exercises()
     for row in context.table:
         collection_exercises_by_period = next(filter(lambda ce: ce['exercise_ref'] == row['period'],
