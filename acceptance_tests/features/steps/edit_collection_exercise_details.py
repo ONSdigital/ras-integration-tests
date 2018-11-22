@@ -25,8 +25,8 @@ def navigate_to_edit_collection_exercise_details_page(_):
 
 @when('they edit/amend the details')
 def edit_collection_exercise_details(_):
-    edit_collection_exercise_details_form.edit_period('201906')
-    edit_collection_exercise_details_form.edit_user_description('12 June 2019')
+    edit_collection_exercise_details_form.edit_period('202006')
+    edit_collection_exercise_details_form.edit_user_description('12 June 2020')
     edit_collection_exercise_details_form.click_save()
 
 
@@ -43,8 +43,8 @@ def view_updated_collection_exercise_details(context):
     for row in context.table:
         collection_exercises_by_period = next(filter(lambda ce: ce['exercise_ref'] == row['period'],
                                                      collection_exercises))
-        assert collection_exercises_by_period['exercise_ref'] == "201906"
-        assert collection_exercises_by_period['user_description'] == "12 June 2019"
+        assert collection_exercises_by_period['exercise_ref'] == "202006"
+        assert collection_exercises_by_period['user_description'] == "12 June 2020"
 
 
 @then('they cannot edit the collection exercise period')

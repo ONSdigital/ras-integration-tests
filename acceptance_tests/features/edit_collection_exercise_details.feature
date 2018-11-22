@@ -1,3 +1,4 @@
+@wip
 Feature: As an internal user
   I need to be able to edit/amend collection exercise details
   So that I can change/update collection exercise details when required
@@ -12,7 +13,7 @@ Feature: As an internal user
     And they edit/amend the details
     Then they can view the updated details
       | period | shown_to_respondent_as | status  |
-      | 201906   | 12 June 2019         | Scheduled |
+      | 202006   | 12 June 2020         | Scheduled |
 
   @us107-s02
   Scenario: Internal user cannot edit/amend collection exercise period
