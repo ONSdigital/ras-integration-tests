@@ -18,7 +18,7 @@ def respondent_is_enrolled_and_active(_, email):
 def open_edit_details_change_email(context):
     reporting_unit.go_to(context.short_name)
     reporting_unit.click_data_panel(context.short_name)
-    reporting_unit.click_edit_details(context.short_name, context.user_name)
+    reporting_unit.click_edit_details(context.short_name, context.respondent_user_name)
 
 
 @when('they choose to change the name of a respondent')
@@ -46,7 +46,7 @@ def edit_email_address(context):
 
 @when('they save an email address that is already in use')
 def save_email_already_in_use(context):
-    context.used_email_address = get_different_respondent_email_address(context.user_name)
+    context.used_email_address = get_different_respondent_email_address(context.respondent_user_name)
     edit_respondent_details_form.edit_email_address(context.used_email_address)
     edit_respondent_details_form.click_save()
 
@@ -90,8 +90,8 @@ def confirm_email_changes_saved(_):
 @then('they can see the old and the unverified new email')
 def view_pending_email(context):
     reporting_unit.click_data_panel(context.short_name)
-    respondent = reporting_unit.get_respondent(context.short_name, context.user_name)
-    assert respondent.get('email') == context.user_name
+    respondent = reporting_unit.get_respondent(context.short_name, context.respondent_user_name)
+    assert respondent.get('email') == context.respondent_user_name
     assert respondent.get('pending_email') == context.changed_email_address
 
 
@@ -106,7 +106,7 @@ def confirm_contact_number_unchanged(context):
 def confirm_email_unchanged(context):
     reporting_unit.click_data_panel(context.short_name)
     respondent = reporting_unit.get_associated_respondents(context.short_name)[0]
-    assert respondent.get('email') == context.user_name
+    assert respondent.get('email') == context.respondent_user_name
 
 
 @then('they are informed that the email address they have entered is already in use')

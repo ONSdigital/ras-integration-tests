@@ -1,6 +1,6 @@
 @social
 @standalone
-@fixture.setup.data.default
+@fixture.setup.data.with.internal.user
 Feature: Change Response Status to 'Partial interview achieved but respondent requested data be deleted'
   As a: Survey Enquiry Line User
   I need: To be able to disable all UACs for a case when the response status is changed to 'Partial interview achieved but respondent requested data be deleted'

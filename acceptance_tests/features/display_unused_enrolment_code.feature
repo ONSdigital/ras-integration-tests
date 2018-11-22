@@ -1,6 +1,6 @@
 @business
 @standalone
-@fixture.setup.data.default
+@fixture.setup.data.with.internal.user
 Feature: Display enrolment code
   As an internal user
   I need to display unused code for a RU for a specific survey

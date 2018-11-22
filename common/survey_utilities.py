@@ -99,7 +99,7 @@ def create_default_data(context):
     context.long_name = long_name
     context.survey_ref = survey_ref
     context.survey_id = survey_id
-    context.user_name = respondent_utilities.make_respondent_user_name(str(short_name), short_name)
+    context.respondent_user_name = respondent_utilities.make_respondent_user_name(short_name)
 
 
 # General methods
@@ -159,8 +159,7 @@ def create_test_business_collection_exercise(survey_id, period, ru_ref, ce_name,
 
 
 def create_enrolled_respondent_for_the_test_survey(context, generate_new_iac=False):
-    user_name = respondent_utilities.make_respondent_user_name(str(context.short_name),
-                                                               context.short_name)
+    user_name = respondent_utilities.make_respondent_user_name(context.short_name)
 
     context.phone_number = create_phone_number()
 

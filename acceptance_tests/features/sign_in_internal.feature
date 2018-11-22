@@ -1,10 +1,10 @@
 @business
 @standalone
+@fixture.setup.with.internal.user
 Feature: Internal user signs in
   As an internal user
   I need to sign in to the SDC system
   So that I can access my SDC account and carry out a number of actions
-
 
   Scenario: User signs in correctly
     Given the user has an active account and is assigned a username and password

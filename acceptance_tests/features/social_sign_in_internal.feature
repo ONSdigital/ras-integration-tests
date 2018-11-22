@@ -1,5 +1,6 @@
 @social
 @standalone
+@fixture.setup.with.internal.user
 Feature: Internal user signs in to social UI
   As an internal user
   I need to sign in to the social SDC system

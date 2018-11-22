@@ -1,6 +1,6 @@
 @social
 @standalone
-@fixture.setup.data.default
+@fixture.setup.data.with.internal.user
 Feature: Search social cases by postcode
   As a Survey Enquiry Line User
   I need to be able find a case by entering a postcode

@@ -2,7 +2,7 @@ from behave import given, when, then
 
 from acceptance_tests import browser
 from acceptance_tests.features.pages import enrolment_code, reporting_unit, home
-from common import respondent_utilities
+from acceptance_tests.features.pages.enrolment_code import generate_random_email_address
 
 
 @given("the respondent is ready to enrol in a survey")
@@ -41,7 +41,7 @@ def respondent_enters_enrolment_code(context):
 
 @when('they enter their account details')
 def complete_account_details(context):
-    context.email = respondent_utilities.make_respondent_user_name(str(context.short_name), context.short_name)
+    context.email = generate_random_email_address()
 
     browser.driver.find_element_by_id('first_name').send_keys('FirstName')
     browser.driver.find_element_by_id('last_name').send_keys('LastName')

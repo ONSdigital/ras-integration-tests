@@ -1,6 +1,6 @@
 @business
 @standalone
-@fixture.setup.data.default
+@fixture.setup.data.with.unenrolled.respondent.user.and.new.iac
 Feature: As an respondent user
   I need to enrol in a survey
 

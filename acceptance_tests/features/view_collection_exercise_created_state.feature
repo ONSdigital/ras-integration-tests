@@ -1,6 +1,6 @@
 @business
 @standalone
-@fixture.setup.data.collection.exercise.created
+@fixture.setup.data.with.internal.user.and.collection.exercise.to.created.status
 Feature: View created state of a collection exercise
   As a Collection Exercise Coordinator
   I need to be able to view the state of a collection exercise when it is 'Created'

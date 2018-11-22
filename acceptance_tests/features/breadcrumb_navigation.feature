@@ -8,19 +8,20 @@ Feature: Breadcrumb Navigation
   Background: Internal user is already signed in
     Given the internal user is already signed in
 
-  @fixture.setup.data.default
+  @fixture.setup.data.with.internal.user
   Scenario: User navigates to the surveys page from collection exercise
     Given a collection exercise has been created
     When the internal user navigates to the collection exercise details page
     And the user clicks the survey breadcrumb link
     Then the user is taken to the surveys page
 
+  @fixture.setup.with.internal.user
   Scenario: User navigates to the homepage
     Given the user accesses the system
     When the internal user navigates to the home page
     Then the user does not see a breadcrumbs trail
 
-  @fixture.setup.data.default
+  @fixture.setup.data.with.internal.user
   Scenario: User can tell which page they are on in the hierarchical structure
     Given a collection exercise has been created
     When the internal user navigates to the collection exercise details page

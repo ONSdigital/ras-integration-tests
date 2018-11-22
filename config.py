@@ -8,11 +8,14 @@ class Config(object):
     PROTOCOL = os.getenv('PROTOCOL', 'http')
     INFO = '/info'
 
+    # todo delete when all converted
     RESPONDENT_USERNAME = os.getenv('RESPONDENT_USERNAME', 'example@example.com')
 
     RESPONDENT_PASSWORD = os.getenv('RESPONDENT_PASSWORD', 'password')
 
+    # todo delete when all converted
     INTERNAL_USERNAME = os.getenv('INTERNAL_USERNAME', 'uaa_user')
+
     INTERNAL_PASSWORD = os.getenv('INTERNAL_PASSWORD', 'password')
 
     ACTION_SERVICE_HOST = os.getenv('ACTION_SERVICE_HOST', 'localhost')
@@ -93,6 +96,13 @@ class Config(object):
 
     OAUTH_CLIENT_ID = os.getenv('OAUTH_CLIENT_ID', 'ons@ons.gov')
     OAUTH_CLIENT_SECRET = os.getenv('OAUTH_CLIENT_SECRET', 'password')
+
+    UAA_PORT = os.getenv('UAA_PORT', '9080')
+    UAA_CLIENT_ID = os.getenv('UAA_CLIENT_ID', 'admin')
+    UAA_SECRET = os.getenv('UAA_SECRET', 'admin_secret')
+    UAA_DEFAULT_USER_PASSWORD = os.getenv('UAA_DEFAULT_USER_PASSWORD', 'password')
+
+    UAA_SERVICE_URL = f'{os.getenv("UAA_SERVICE_URL", "http://localhost")}:{UAA_PORT}'
 
     DATABASE_URI = os.getenv('DATABASE_URI', "postgres://postgres:postgres@localhost:6432/postgres")
     AUTH_DATABASE_URI = os.getenv('AUTH_DATABASE_URI', DATABASE_URI)

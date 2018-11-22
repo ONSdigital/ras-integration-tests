@@ -1,6 +1,6 @@
 @social
 @standalone
-@fixture.setup.data.collection.exercise.closed.social
+@fixture.setup.data.with.internal.user.and.social.collection.exercise.to.closed.status
 Feature: HAC cannot be generated if the collection exercise has closed
   As a Survey Enquiry Line User
   I need to ensure that a new code cannot be generated if the collection exercise has closed

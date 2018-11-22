@@ -1,5 +1,6 @@
 @social
 @standalone
+@fixture.setup.with.internal.user
 Feature: Internal user signs out from social
   As an internal user
   I need to sign out of the social SDC system

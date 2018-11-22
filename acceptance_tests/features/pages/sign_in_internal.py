@@ -10,8 +10,8 @@ def get_page_title():
     return browser.title
 
 
-def enter_correct_username():
-    browser.driver.find_element_by_id('username').send_keys(str(Config.INTERNAL_USERNAME))
+def enter_correct_username(user_name):
+    browser.driver.find_element_by_id('username').send_keys(user_name)
 
 
 def enter_incorrect_username():

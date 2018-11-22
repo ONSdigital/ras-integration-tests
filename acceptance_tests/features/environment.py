@@ -5,13 +5,17 @@ from behave import use_fixture
 from structlog import wrap_logger
 
 from acceptance_tests import browser
-from acceptance_tests.features import fixtures
 from acceptance_tests.features.fixtures import \
-    setup_enrolled_respondent, \
-    setup_unenrolled_respondent, setup_default_data, \
-    setup_unenrolled_respondent_generate_new_iac_collection_exercise_to_live_status, \
-    setup_unenrolled_respondent_generate_new_iac, \
-    setup_enrolled_respondent_generate_new_iac_collection_exercise_to_live_status, setup_data_2_enrolled_respondents
+    setup_data_with_enrolled_respondent_user_and_internal_user, \
+    setup_data_with_unenrolled_respondent_user, \
+    setup_data_with_unenrolled_respondent_user_and_new_iac_and_collection_exercise_to_live, \
+    setup_data_with_unenrolled_respondent_user_and_new_iac, \
+    setup_data_with_enrolled_respondent_user_and_internal_user_and_new_iac_and_collection_exercise_to_live, \
+    setup_data_with_2_enrolled_respondent_users_and_internal_user, \
+    setup_data_with_internal_user_and_social_collection_exercise_to_closed_status, \
+    setup_data_with_internal_user_and_collection_exercise_to_created_status, setup_data_with_response_user, \
+    setup_with_internal_user, \
+    setup_data_with_unenrolled_respondent_user_and_internal_user
 from common import survey_utilities
 from config import Config
 from exceptions import MissingFixtureError
@@ -26,19 +30,30 @@ logger = wrap_logger(getLogger(__name__))
 
 timings = {}
 
-fixture_scenario_registry = {
-    'fixture.setup.data.default': setup_default_data,
 
-    'fixture.setup.data.enrolled.respondent': setup_enrolled_respondent,
-    'fixture.setup.data.unenrolled.respondent': setup_unenrolled_respondent,
-    'fixture.setup.data.unenrolled.respondent.generate.new.iac': setup_unenrolled_respondent_generate_new_iac,
-    'fixture.setup.data.collection.exercise.created': fixtures.setup_collection_exercise_to_created_status,
-    'fixture.setup.data.collection.exercise.closed.social': fixtures.setup_collection_exercise_to_closed_status,
-    'fixture.setup.data.unenrolled.respondent.generate.new.iac.collection.exercise.live':
-        setup_unenrolled_respondent_generate_new_iac_collection_exercise_to_live_status,
-    'fixture.setup.data.enrolled.respondent.generate.new.iac.collection.exercise.live':
-        setup_enrolled_respondent_generate_new_iac_collection_exercise_to_live_status,
-    'fixture.setup.data.2.enrolled.respondents': setup_data_2_enrolled_respondents
+fixture_scenario_registry = {
+    'fixture.setup.with.internal.user':
+        setup_with_internal_user,
+    'fixture.setup.data.with.internal.user':
+        setup_data_with_response_user,
+    'fixture.setup.data.with.enrolled.respondent.user.and.internal.user':
+        setup_data_with_enrolled_respondent_user_and_internal_user,
+    'fixture.setup.data.with.unenrolled.respondent.user':
+        setup_data_with_unenrolled_respondent_user,
+    'fixture.setup.data.with.unenrolled.respondent.user.and.internal.user':
+        setup_data_with_unenrolled_respondent_user_and_internal_user,
+    'fixture.setup.data.with.unenrolled.respondent.user.and.new.iac':
+        setup_data_with_unenrolled_respondent_user_and_new_iac,
+    'fixture.setup.data.with.internal.user.and.collection.exercise.to.created.status':
+        setup_data_with_internal_user_and_collection_exercise_to_created_status,
+    'fixture.setup.data.with.internal.user.and.social.collection.exercise.to.closed.status':
+        setup_data_with_internal_user_and_social_collection_exercise_to_closed_status,
+    'fixture.setup.data.with.unenrolled.respondent.user.and.new.iac.and.collection.exercise.to.live':
+        setup_data_with_unenrolled_respondent_user_and_new_iac_and_collection_exercise_to_live,
+    'fixture.setup.data.with.enrolled.respondent.user.and.internal.user.and.new.iac.and.collection.exercise.to.live':
+        setup_data_with_enrolled_respondent_user_and_internal_user_and_new_iac_and_collection_exercise_to_live,
+    'fixture.setup.data.with.2.enrolled.respondent.users.and.internal.user':
+        setup_data_with_2_enrolled_respondent_users_and_internal_user
 }
 
 
@@ -73,7 +88,8 @@ def before_scenario(context, scenario):
     logger.info(f'Running Feature [{context.feature_name}], Scenario [{context.scenario_name}]')
 
     # Default to non-standalone fixed user name, standalone mode changes it
-    context.user_name = Config.RESPONDENT_USERNAME
+    context.respondent_user_name = Config.RESPONDENT_USERNAME
+    context.internal_user_name = Config.INTERNAL_USERNAME
 
     # Run any custom scenario setup from fixture tags
     process_scenario_fixtures(context)

@@ -1,4 +1,8 @@
+import signal
 from datetime import datetime
+
+import psutil
+from psutil import NoSuchProcess
 
 
 def create_utc_timestamp():
@@ -30,3 +34,23 @@ def create_behave_tags(tags):
         behave_tags += f' --tags={t}'
 
     return behave_tags
+
+
+def get_child_processes(parent_pid):
+    try:
+        child_processes = psutil.Process(parent_pid).children(recursive=True)
+    except NoSuchProcess:
+        return
+
+    return child_processes
+
+
+def kill_all_processes(children):
+    if not children:
+        return
+
+    try:
+        for process in children:
+            process.send_signal(signal.SIGTERM)
+    except NoSuchProcess:
+        pass

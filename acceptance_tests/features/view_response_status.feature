@@ -1,6 +1,6 @@
 @business
 @standalone
-@fixture.setup.data.enrolled.respondent
+@fixture.setup.data.with.enrolled.respondent.user.and.internal.user
 Feature: View response status
   As an internal user
   I need to view the case response status for an RU for a specific CE for a specific survey when completed

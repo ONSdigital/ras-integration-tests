@@ -9,7 +9,7 @@ Feature: Change response status
     Given the internal user is already signed in
 
   @us050_s01
-  @fixture.setup.data.enrolled.respondent
+  @fixture.setup.data.with.enrolled.respondent.user.and.internal.user
   Scenario: Internal user can change the response status to Completed by phone
     Given the internal user is on the reporting unit page
     And the collection exercise is in the "Not started" status
@@ -17,7 +17,7 @@ Feature: Change response status
     Then the collection exercise is in the "Completed by phone" status
 
   @us050_s02
-  @fixture.setup.data.enrolled.respondent
+  @fixture.setup.data.with.enrolled.respondent.user.and.internal.user
   Scenario: Internal user can change the response status to No Longer Required
     Given the internal user is on the reporting unit page
     And the collection exercise is in the "Not started" status
@@ -25,7 +25,7 @@ Feature: Change response status
     Then the collection exercise is in the "No longer required" status
 
   @us050_s03
-  @fixture.setup.data.enrolled.respondent.generate.new.iac.collection.exercise.live
+  @fixture.setup.data.with.enrolled.respondent.user.and.internal.user.and.new.iac.and.collection.exercise.to.live
   Scenario: Respondent can view response status change
     Given the respondent has had their response status changed to Completed by phone
     When the respondent goes to the history page
