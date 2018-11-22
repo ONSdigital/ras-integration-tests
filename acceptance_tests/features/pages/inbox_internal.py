@@ -2,12 +2,21 @@ from acceptance_tests import browser
 from config import Config
 
 
-def go_to():
-    browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/messages/Bricks")
+def go_to(context):
+    browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/messages/{context.short_name}")
 
 
 def go_to_closed():
     browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/messages/Bricks?is_closed=true")
+
+
+# todo delete above 2 methods when all tests use 2 below
+def go_to_using_context(context):
+    browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/messages/{context.short_name}")
+
+
+def go_to_closed_using_context(context):
+    browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/messages/{context.short_name}?is_closed=true")
 
 
 def go_to_select_survey():

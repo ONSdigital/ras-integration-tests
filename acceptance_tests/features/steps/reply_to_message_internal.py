@@ -1,7 +1,8 @@
-from acceptance_tests import browser
-from behave import given, when, then
 from datetime import datetime
 
+from behave import given, when, then
+
+from acceptance_tests import browser
 from acceptance_tests.features.pages import create_message_internal
 from acceptance_tests.features.pages import inbox_internal
 from acceptance_tests.features.pages.internal_conversation_view import go_to_thread
@@ -16,33 +17,33 @@ def internal_user_receive_message(context):
     create_message_external_to_internal(context)
 
     # Sending external to internal may sign out the internal user
-    signed_in_internal(None)
+    signed_in_internal(context)
 
 
 @given('the internal user has a conversation in their inbox')
 def create_conversation_internal(context):
     create_message_external_to_internal(context)
-    signed_in_internal(None)
-    inbox_internal.go_to()
+    signed_in_internal(context)
+    inbox_internal.go_to_using_context(context)
     go_to_thread()
     create_message_internal.enter_text_in_message_body('Body')
     create_message_internal.click_message_send_button()
 
 
 @given('the internal user has a closed conversation in their inbox')
-def create_and_close_conversation(_):
-    create_and_close_message_internal_to_external()
+def create_and_close_conversation(context):
+    create_and_close_message_internal_to_external(context)
 
 
 @when('they view the message')
-def internal_user_can_view_open_message(_):
-    inbox_internal.go_to()
+def internal_user_can_view_open_message(context):
+    inbox_internal.go_to_using_context(context)
     go_to_thread()
 
 
 @when('they view the closed message')
-def internal_user_can_view_closed_message(_):
-    inbox_internal.go_to_closed()
+def internal_user_can_view_closed_message(context):
+    inbox_internal.go_to_closed_using_context(context)
     go_to_thread()
 
 
@@ -66,8 +67,8 @@ def internal_user_can_reply(_):
 
 
 @then('they are to be navigated to the inbox of messages')
-def internal_user_navigated_to_inbox(_):
-    assert '/messages/Bricks' in get_current_url()
+def internal_user_navigated_to_inbox(context):
+    assert f'/messages/{context.short_name}' in get_current_url()
 
 
 @then('they receive confirmation that the message has been sent')
@@ -81,14 +82,14 @@ def internal_user_informed_that_conversation_is_closed(_):
 
 
 @then('the conversation appears in their closed list')
-def message_in_closed_list(_):
-    inbox_internal.go_to_closed()
-    assert len(inbox_internal.get_messages()) > 0
+def message_in_closed_list(context):
+    inbox_internal.go_to_closed_using_context(context)
+    assert len(inbox_internal.get_messages()) == 1
 
 
 @then('the conversation is not present in their closed list')
-def no_messages_in_closed_list(_):
-    inbox_internal.go_to_closed()
+def no_messages_in_closed_list(context):
+    inbox_internal.go_to_closed_using_context(context)
     assert inbox_internal.get_no_closed_conversations_text()
 
 
@@ -98,8 +99,8 @@ def internal_user_informed_that_conversation_has_been_reopened(_):
 
 
 @then('the conversation is present in their open list')
-def conversation_in_open_list(_):
-    inbox_internal.go_to()
+def conversation_in_open_list(context):
+    inbox_internal.go_to_using_context(context)
     assert len(inbox_internal.get_messages()) > 0
 
 

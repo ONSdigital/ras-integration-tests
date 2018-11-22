@@ -150,6 +150,6 @@ def setup_default_data(context):
 
 
 def create_response_user(context):
-    context.internal_user_name = getattr(context, 'short_name', create_ru_reference())
+    context.internal_user_name = create_ru_reference()
 
     internal_utilities.create_internal_user_login_account(context.internal_user_name)
