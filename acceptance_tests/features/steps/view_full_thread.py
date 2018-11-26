@@ -9,7 +9,7 @@ from controllers.messages_controller import create_message_internal_to_external
 
 @given('An internal user has conversations in their inbox')
 def populate_database_with_messages(context):
-    create_message_internal_to_external(context, "This is the subject of the message", \
+    create_message_internal_to_external(context, "This is the subject of the message",
                                         "This is the body of the message")
     assert len(inbox_internal.get_messages()) > 0
 
