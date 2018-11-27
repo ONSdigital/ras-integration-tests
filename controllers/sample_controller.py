@@ -17,8 +17,8 @@ def load_sample(survey_name, period, test_file):
 
 
 def upload_sample(collection_exercise_id, file, social=False, file_as_string=False):
-    logger.info('Uploading sample file',
-                collection_exercise_id=collection_exercise_id, sample_file=file)
+    logger.debug('Uploading sample file',
+                 collection_exercise_id=collection_exercise_id, sample_file=file)
     if social:
         sample_type = "SOCIAL"
     else:
@@ -39,14 +39,14 @@ def upload_sample(collection_exercise_id, file, social=False, file_as_string=Fal
         raise Exception('Failed to upload sample')
 
     response_json = response.json()
-    logger.info('Successfully uploaded sample file',
-                collection_exercise_id=collection_exercise_id, sample_file=file)
+    logger.debug('Successfully uploaded sample file',
+                 collection_exercise_id=collection_exercise_id, sample_file=file)
     return response_json
 
 
 def upload_unique_sample(collection_exercise_id, ru_ref, social=False):
-    logger.info('Uploading sample file',
-                collection_exercise_id=collection_exercise_id, ru_ref=ru_ref)
+    logger.debug('Uploading sample file',
+                 collection_exercise_id=collection_exercise_id, ru_ref=ru_ref)
     if social:
         sample_type = "SOCIAL"
     else:
@@ -67,8 +67,8 @@ def upload_unique_sample(collection_exercise_id, ru_ref, social=False):
         raise Exception('Failed to upload unique sample')
 
     response_json = response.json()
-    logger.info('Successfully uploaded unique sample',
-                collection_exercise_id=collection_exercise_id, sample_file=ru_ref)
+    logger.debug('Successfully uploaded unique sample',
+                 collection_exercise_id=collection_exercise_id, sample_file=ru_ref)
 
     upload_response = {
         'ru_ref': ru_ref,

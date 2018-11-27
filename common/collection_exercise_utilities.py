@@ -36,7 +36,7 @@ def execute_collection_exercises():
 
 
 def execute_collection_exercise(survey_id, period, ci_type='SEFT'):
-    logger.info('Executing collection exercise', survey_id=survey_id, period=period, ci_type=ci_type)
+    logger.debug('Executing collection exercise', survey_id=survey_id, period=period, ci_type=ci_type)
     collection_exercise = collection_exercise_controller.get_collection_exercise(survey_id, period)
 
     if ci_type == 'eQ':
@@ -54,17 +54,17 @@ def execute_collection_exercise(survey_id, period, ci_type='SEFT'):
                                                                               sample_summary['id'])
     poll_collection_exercise_until_state_changed(collection_exercise['id'], 'READY_FOR_REVIEW')
     collection_exercise_controller.execute_collection_exercise(survey_id, period)
-    logger.info('Successfully executed collection exercise', survey_id=survey_id, period=period, ci_type=ci_type)
+    logger.debug('Successfully executed collection exercise', survey_id=survey_id, period=period, ci_type=ci_type)
 
 
 def poll_database_for_iac(survey_id, period, social=False):
-    logger.info('Waiting for collection exercise execution process to finish',
-                survey_id=survey_id, period=period)
+    logger.debug('Waiting for collection exercise execution process to finish',
+                 survey_id=survey_id, period=period)
     collection_exercise_id = collection_exercise_controller.get_collection_exercise(survey_id, period)['id']
     while True:
         iac_code = database_controller.get_iac_for_collection_exercise(collection_exercise_id, social=social)
         if iac_code:
-            logger.info('Collection exercise finished executing', survey_id=survey_id, period=period)
+            logger.debug('Collection exercise finished executing', survey_id=survey_id, period=period)
             return iac_code
         time.sleep(3)
 

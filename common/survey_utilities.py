@@ -105,7 +105,7 @@ def create_default_data(context):
 # General methods
 
 def create_test_survey(long_name, short_name, survey_ref, survey_type, legal_basis):
-    logger.info('Creating survey', test_name=long_name)
+    logger.debug('Creating survey', test_name=long_name)
 
     response = survey_controller.create_survey(survey_type=survey_type, survey_ref=survey_ref,
                                                short_name=short_name,

@@ -8,7 +8,6 @@ from common.browser_utilities import is_text_present_with_retry
 from controllers import (collection_exercise_controller, sample_controller,
                          collection_instrument_controller)
 
-
 logger = wrap_logger(getLogger(__name__))
 
 
@@ -28,13 +27,13 @@ def prepare_collection_exercises(_, survey, period):
     state = collection_exercise_controller.get_collection_exercise(s_id, period)['state']
 
     if state == 'SCHEDULED':
-        logger.info('Loading sample', survey=survey, period=period)
+        logger.debug('Loading sample', survey=survey, period=period)
         ce = collection_exercise_controller.get_collection_exercise(s_id, period)
         sample_summary = sample_controller.upload_sample(ce['id'], sample_file)
 
         collection_exercise_controller.link_sample_summary_to_collection_exercise(ce['id'], sample_summary['id'])
 
-        logger.info('Loading collection instrument', survey=survey, period=period)
+        logger.debug('Loading collection instrument', survey=survey, period=period)
 
         # form type hard coded to 0001 for all ces to simplify testing
         collection_instrument_controller.upload_seft_collection_instrument(ce['id'], ci_path, '0001')

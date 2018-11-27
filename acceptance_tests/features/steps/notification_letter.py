@@ -53,7 +53,7 @@ def letter_is_received(context):
 
 
 def _get_sftp_client():
-    logger.info('Connecting to SFTP')
+    logger.debug('Connecting to SFTP')
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     ssh.connect(hostname=Config.SFTP_HOST,
@@ -68,7 +68,7 @@ def _get_sftp_client():
 @retry(retry_on_exception=lambda e: isinstance(e, FileNotFoundError),
        wait_fixed=5000, stop_max_attempt_number=24)
 def _check_notification_files_have_iacs(client, start_of_test, survey_ref, period, expected_iacs):
-    logger.info('Checking for files on SFTP server')
+    logger.debug('Checking for files on SFTP server')
     files = _get_files_filtered_by_name_and_modified_time(client, survey_ref, period, start_of_test)
     if len(files) == 0:
         raise FileNotFoundError

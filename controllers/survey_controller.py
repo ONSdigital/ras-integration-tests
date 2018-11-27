@@ -24,10 +24,10 @@ def get_survey_by_short_name(short_name):
 
 
 def create_survey(survey_ref, short_name, long_name, legal_basis, survey_type='Business'):
-    logger.info('Creating new survey',
-                survey_ref=survey_ref, short_name=short_name,
-                long_name=long_name, legal_basis=legal_basis,
-                survey_type=survey_type)
+    logger.debug('Creating new survey',
+                 survey_ref=survey_ref, short_name=short_name,
+                 long_name=long_name, legal_basis=legal_basis,
+                 survey_type=survey_type)
 
     url = f'{Config.SURVEY_SERVICE}/surveys'
 
@@ -47,13 +47,13 @@ def create_survey(survey_ref, short_name, long_name, legal_basis, survey_type='B
 
     create_classifiers(response_json['id'])
 
-    logger.info("Successfully created survey", short_name=short_name)
+    logger.debug("Successfully created survey", short_name=short_name)
 
     return response_json
 
 
 def create_classifiers(survey_id):
-    logger.info('Creating classifiers', survey_id=survey_id)
+    logger.debug('Creating classifiers', survey_id=survey_id)
 
     url = f'{Config.SURVEY_SERVICE}/surveys/{survey_id}/classifiers'
 
@@ -66,6 +66,6 @@ def create_classifiers(survey_id):
 
     response.raise_for_status()
 
-    logger.info("Classifier created", classifier_details=classifier_details, survey_id=survey_id)
+    logger.debug("Classifier created", classifier_details=classifier_details, survey_id=survey_id)
 
     return response.json()

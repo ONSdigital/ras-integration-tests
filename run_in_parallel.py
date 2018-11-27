@@ -14,20 +14,27 @@ import sys
 import time
 from datetime import datetime
 from distutils.util import strtobool
+from logging import getLogger
 from multiprocessing import Process, Queue
 from subprocess import Popen, PIPE, check_output, CalledProcessError, TimeoutExpired
 
-from common.common_utilities import create_behave_tags, kill_all_processes, get_child_processes
+from structlog import wrap_logger
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+from common.common_utilities import create_behave_tags_argument, create_behave_stop_argument, \
+    create_behave_show_skipped_tests_argument, create_behave_log_level_argument, create_behave_format_argument, \
+    create_behave_acceptance_feature_directory_argument
+from common.common_utilities import kill_all_processes, get_child_processes
 
-DEFAULT_COMMAND_LINE_ARGS = '--stop --no-summary'
+DEFAULT_STOP_ON_FAILURE = 'True'
+DEFAULT_SHOW_SKIPPED_TESTS = 'False'
+DEFAULT_LOG_LEVEL = 'INFO'
 DEFAULT_BEHAVE_FORMAT = 'progress2'
-DEFAULT_FEATURES_DIRECTORY = 'acceptance_tests/features'
+DEFAULT_TAGS = '@standalone'
+DEFAULT_FEATURE_DIRECTORY = 'acceptance_tests/features'
 DEFAULT_PROCESSES = 6  # Higher than 6 causes collex (and possibly other services) to fail intermittently
 
-DEFAULT_TAGS = 'standalone'
+logger = wrap_logger(getLogger(__name__))
+
 DELIMITER = '_BEHAVE_PARALLEL_BDD_'
 
 
@@ -45,21 +52,30 @@ def parse_arguments():
     Parses commandline arguments
     :return: Parsed arguments
     """
-    parser = argparse.ArgumentParser('Run behave in parallel mode for scenarios')
-    parser.add_argument('--command_line_args', '-a', help='Command line arguments', default=DEFAULT_COMMAND_LINE_ARGS)
+    parser = argparse.ArgumentParser('Run behave in sequential mode for scenarios')
+    parser.add_argument('--stop_on_failure', '-s', help='Stop on test failure', default=DEFAULT_STOP_ON_FAILURE)
+    parser.add_argument('--show_skipped_tests', '-k', help='Show skipped tests', default=DEFAULT_SHOW_SKIPPED_TESTS)
+    parser.add_argument('--log_level', '-l', help='Logging level', default=DEFAULT_LOG_LEVEL)
     parser.add_argument('--format', '-f', help='Behave format', default=DEFAULT_BEHAVE_FORMAT)
-    parser.add_argument('--acceptance_features_directory', '-d', help='specify directory containing features',
-                        default=DEFAULT_FEATURES_DIRECTORY)
-    parser.add_argument('--processes', '-p', type=int,
-                        help=f'Maximum number of processes. Default [{DEFAULT_PROCESSES}] ', default=DEFAULT_PROCESSES)
-    parser.add_argument('--test_tags', '-t', help='specify behave tags to run', default=DEFAULT_TAGS)
+    parser.add_argument('--test_tags', '-t', help='Behave tags to run', default=DEFAULT_TAGS)
+    parser.add_argument('--feature_directory', '-fd', help='Feature directory', default=DEFAULT_FEATURE_DIRECTORY)
+    parser.add_argument('--processes', '-p', type=int, help=f'Maximum number of processes. '
+                                                            f'Default [{DEFAULT_PROCESSES}] ',
+                        default=DEFAULT_PROCESSES)
     parser.add_argument('--timeout', '-tout', type=int,
                         help='Maximum seconds to execute each scenario. Default = 300', default=300)
 
     args = parser.parse_args()
 
-    # Handle Tag ANDing properly
-    args.tags = create_behave_tags(args.test_tags)
+    # Create behave command line arguments
+    args.behave_args = {
+        'stop_on_failure': create_behave_stop_argument(args.stop_on_failure),
+        'show_skipped_tests': create_behave_show_skipped_tests_argument(args.show_skipped_tests),
+        'log_level': create_behave_log_level_argument(args.log_level),
+        'format': create_behave_format_argument(args.format),
+        'tags': create_behave_tags_argument(args.test_tags),
+        'feature_directory': create_behave_acceptance_feature_directory_argument(args.feature_directory)
+    }
 
     return args
 
@@ -68,7 +84,7 @@ def is_process_running(process):
     return process is not None and process.is_alive()
 
 
-def _run_scenario(q, feature_scenario, timeout, command_line_args):
+def _run_scenario(q, feature_scenario, timeout, stop_on_failure, show_skipped_tests, log_level, format):
     """
     Runs features/scenarios
     :param feature_scenario: Feature/scenario that should be run
@@ -79,12 +95,17 @@ def _run_scenario(q, feature_scenario, timeout, command_line_args):
     execution_code = {0: 'OK', 1: 'FAILED', 2: 'TIMEOUT', 3: 'UNEXPECTED_ERROR'}
     feature, scenario = feature_scenario.split(DELIMITER)
 
-    cmd = f'behave {command_line_args} --format progress2 {feature} --name \"{scenario}\"'
+    cmd_line_args = f'{stop_on_failure} ' \
+                    f'{show_skipped_tests} ' \
+                    f'{log_level} ' \
+                    f'{format} ' \
+                    f'{feature} ' \
+                    f'--name \"{scenario}\"'
 
     out_bytes = None
 
     try:
-        check_output(cmd, shell=True, timeout=timeout)
+        check_output(f'behave {cmd_line_args}', shell=True, timeout=timeout)
         code = 0
     except CalledProcessError as e:
         out_bytes = e.output
@@ -107,7 +128,7 @@ def _run_scenario(q, feature_scenario, timeout, command_line_args):
     return feature, scenario, status
 
 
-def run_all_scenarios(scenarios_to_run, process_count, timeout, command_line_args):
+def run_all_scenarios(scenarios_to_run, process_count, timeout, stop_on_failure, show_skipped_tests, log_level, format):
     total_scenarios_to_run = len(scenarios_to_run)
 
     # Set number of threads needed
@@ -135,7 +156,9 @@ def run_all_scenarios(scenarios_to_run, process_count, timeout, command_line_arg
                     f"Processing Feature [{scenario_index}] : [{feature}], Scenario [{scenario}] in [{process_index}]")
                 process_pool[process_index] = Process(target=_run_scenario, args=(failure_queue,
                                                                                   scenarios_to_run[scenario_index],
-                                                                                  timeout, command_line_args))
+                                                                                  timeout, stop_on_failure,
+                                                                                  show_skipped_tests, log_level,
+                                                                                  format))
                 process_pool[process_index].start()
 
                 scenario_index += 1
@@ -235,13 +258,16 @@ def main():
     Runner
     """
     if not is_valid_parallel_environment():
-        logger.error(
-            "Error: Environment Variable(s) must be set as 'IGNORE_SEQUENTIAL_DATA_SETUP=True'")
+        logger.error("Error: Environment Variable(s) must be set as 'IGNORE_SEQUENTIAL_DATA_SETUP=True'")
         exit(1)
 
     args = parse_arguments()
 
-    scenarios_to_run = extract_scenarios_to_run(args.tags, args.acceptance_features_directory)
+    logging.basicConfig(level=args.log_level)
+
+    behave_args = args.behave_args
+
+    scenarios_to_run = extract_scenarios_to_run(behave_args['tags'], behave_args['feature_directory'])
 
     logger.info(f"Running [{len(scenarios_to_run)}] Scenarios in [{args.processes}] Processes")
 
@@ -249,8 +275,14 @@ def main():
         sys.exit(0)
 
     start_time = datetime.now()
-    total_scenarios_run, failure_queue = run_all_scenarios(scenarios_to_run, args.processes, args.timeout,
-                                                           args.command_line_args)
+
+    total_scenarios_run, failure_queue = run_all_scenarios(scenarios_to_run,
+                                                           args.processes,
+                                                           args.timeout,
+                                                           behave_args['stop_on_failure'],
+                                                           behave_args['show_skipped_tests'],
+                                                           behave_args['log_level'],
+                                                           behave_args['format'])
 
     exit_code = print_summary(start_time, datetime.now(), total_scenarios_run, failure_queue)
 

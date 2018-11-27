@@ -40,29 +40,45 @@ system_tests: run_tests
 
 acceptance_tests: acceptance_sequential_tests acceptance_parallel_tests
 
+# run_in_sequence.py overridable parameters
+#	--stop_on_failure : Stop on test failure : Defaults to 'True'
+#	--show_skipped_tests : Show skipped tests : Defaults to 'False'
+#	--log_level : Logging level : Defaults to 'INFO'
+#	--format : Behave format : Defaults to 'progress2'
+#	--test_tags : Behave tags to run : Defaults to '~@standalone'
+#	--feature_directory : Feature directory : Defaults to 'acceptance_tests/features'
 acceptance_sequential_tests: setup
 	export IGNORE_SEQUENTIAL_DATA_SETUP=False; \
-	pipenv run python run_in_sequence.py --command_line_args="${TEST_ARGS}"
+	pipenv run python run_in_sequence.py
 
+# run_in_parallel.py overridable parameters
+#	--stop_on_failure : Stop on test failure : Defaults to 'True'
+#	--show_skipped_tests : Show skipped tests : Defaults to 'False'
+#	--log_level : Logging level : Defaults to 'INFO'
+#	--format : Behave format : Defaults to 'progress2'
+#	--test_tags : Behave tags to run : Defaults to '~@standalone'
+#	--feature_directory : Feature directory : Defaults to 'acceptance_tests/features'
+#	--processes : Maximum number of processes : Defaults to 6
+#	--timeout : Maximum seconds to execute each scenario : Defaults to 300
 acceptance_parallel_tests:
 	export IGNORE_SEQUENTIAL_DATA_SETUP=True; \
-	pipenv run python run_in_parallel.py --command_line_args="${TEST_ARGS}"
+	pipenv run python run_in_parallel.py
 
 acceptance_sequential_tests_all: setup
 	export IGNORE_SEQUENTIAL_DATA_SETUP=False; \
-	pipenv run python run_in_sequence.py --command_line_args="${TEST_ARGS}" --test_tags="~donotskipany"
+	pipenv run python run_in_sequence.py --test_tags="~donotskipany"
 
 rasrm_acceptance_tests: rasrm_acceptance_sequential_tests rasrm_acceptance_parallel_tests
 
 rasrm_acceptance_sequential_tests: TEST_TAGS = ~@secure_messaging ~@standalone
 rasrm_acceptance_sequential_tests:
 	export IGNORE_SEQUENTIAL_DATA_SETUP=False; \
-	pipenv run python run_in_sequence.py --command_line_args="${TEST_ARGS}" --test_tags "${TEST_TAGS}"
+	pipenv run python run_in_sequence.py --test_tags "${TEST_TAGS}"
 
 rasrm_acceptance_parallel_tests: TEST_TAGS = ~@secure_messaging @standalone
 rasrm_acceptance_parallel_tests:
 	export IGNORE_SEQUENTIAL_DATA_SETUP=True; \
-	pipenv run python run_in_parallel.py --command_line_args="${TEST_ARGS}" --test_tags "${TEST_TAGS}"
+	pipenv run python run_in_parallel.py --test_tags "${TEST_TAGS}"
 
 rasrm_business_acceptance_tests: TEST_TARGET = acceptance_tests/features
 rasrm_business_acceptance_tests: TEST_TAGS = ~@secure_messaging ~@social
