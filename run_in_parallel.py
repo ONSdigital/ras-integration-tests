@@ -12,12 +12,13 @@ import logging
 import os
 import sys
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 from distutils.util import strtobool
-from multiprocessing import Process, Queue
-from subprocess import Popen, PIPE, check_output, CalledProcessError, TimeoutExpired
+from multiprocessing import Queue
+from subprocess import CalledProcessError, PIPE, Popen, TimeoutExpired, check_output
 
-from common.common_utilities import create_behave_tags, kill_all_processes, get_child_processes
+from common.common_utilities import create_behave_tags, get_child_processes, kill_all_processes
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -55,6 +56,8 @@ def parse_arguments():
     parser.add_argument('--test_tags', '-t', help='specify behave tags to run', default=DEFAULT_TAGS)
     parser.add_argument('--timeout', '-tout', type=int,
                         help='Maximum seconds to execute each scenario. Default = 300', default=300)
+    parser.add_argument('--parallel-stop', '-s', help='Gracefully stop parallel test execution on a failure',
+                        action='store_true')
 
     args = parser.parse_args()
 
@@ -68,16 +71,16 @@ def is_process_running(process):
     return process is not None and process.is_alive()
 
 
-def _run_scenario(q, feature_scenario, timeout, command_line_args):
+def _run_scenario(scenario, failure_queue: Queue, timeout, command_line_args):
     """
     Runs features/scenarios
-    :param feature_scenario: Feature/scenario that should be run
-    :type feature_scenario: str
     :return: Feature/scenario and status
     """
 
+    feature, scenario = scenario.split(DELIMITER)
+    logger.info(f'Running feature: {feature}, scenario: {scenario}')
+
     execution_code = {0: 'OK', 1: 'FAILED', 2: 'TIMEOUT', 3: 'UNEXPECTED_ERROR'}
-    feature, scenario = feature_scenario.split(DELIMITER)
 
     cmd = f'behave {command_line_args} --format progress2 {feature} --name \"{scenario}\"'
 
@@ -98,7 +101,7 @@ def _run_scenario(q, feature_scenario, timeout, command_line_args):
     logger.info(f"{feature:50}: {scenario} --> {status}")
 
     if status == 'FAILED':
-        q.put(f'FAILED - Feature: [{feature}], Scenario [{scenario}]"')
+        failure_queue.put(f'FAILED - Feature: [{feature}], Scenario [{scenario}]"')
         logger.error(out_bytes.decode())
 
     # To give time for postgres connections to close before starting the next Scenario
@@ -107,59 +110,41 @@ def _run_scenario(q, feature_scenario, timeout, command_line_args):
     return feature, scenario, status
 
 
-def run_all_scenarios(scenarios_to_run, process_count, timeout, command_line_args):
-    total_scenarios_to_run = len(scenarios_to_run)
+def run_all_scenarios(scenarios_to_run, max_threads, timeout, command_line_args, stop_on_failure):
+    total_scenarios_run = 0
 
-    # Set number of threads needed
-    if total_scenarios_to_run < process_count:
-        process_pool_size = total_scenarios_to_run
+    thread_pool_size = get_thread_pool_size(max_threads, len(scenarios_to_run))
+
+    failure_queue = Queue()
+
+    with ThreadPoolExecutor(max_workers=thread_pool_size) as executor:
+        future_to_scenario = {executor.submit(_run_scenario, scenario, failure_queue, timeout, command_line_args)
+                              : scenario for scenario in scenarios_to_run}
+
+        aborting = False
+        for future in as_completed(future_to_scenario):
+            if not future.cancelled():
+                if not aborting and not failure_queue.empty() and stop_on_failure:
+                    aborting = True
+                    logger.info('Test failure, aborting')
+                    for future_to_cancel in future_to_scenario:
+                        future_to_cancel.cancel()
+                try:
+                    future.result()
+                except Exception:
+                    logger.exception('System Error')
+                    failure_queue.put('System Error')
+                total_scenarios_run += 1
+
+    return total_scenarios_run, failure_queue
+
+
+def get_thread_pool_size(max_threads, number_of_scenarios_to_run):
+    if number_of_scenarios_to_run < max_threads:
+        thread_pool_size = number_of_scenarios_to_run
     else:
-        process_pool_size = process_count
-
-    process_pool = [None] * process_pool_size
-    scenario_index = 0
-    processes_running = True
-    failure_queue = Queue(maxsize=0)
-
-    # Run every scenario
-    while processes_running:
-
-        # Find a 'Free' Thread slot
-        for process_index in range(process_pool_size):
-
-            # Found one
-            if not is_process_running(process_pool[process_index]):
-                feature, scenario = scenarios_to_run[scenario_index].split(DELIMITER)
-
-                logger.info(
-                    f"Processing Feature [{scenario_index}] : [{feature}], Scenario [{scenario}] in [{process_index}]")
-                process_pool[process_index] = Process(target=_run_scenario, args=(failure_queue,
-                                                                                  scenarios_to_run[scenario_index],
-                                                                                  timeout, command_line_args))
-                process_pool[process_index].start()
-
-                scenario_index += 1
-
-                if scenario_index == total_scenarios_to_run:
-                    break
-
-        # If last Scenario has started, wait for it to finish
-        if scenario_index == total_scenarios_to_run:
-
-            while processes_running:
-
-                # Assume all finished
-                processes_running = False
-
-                for process in process_pool:
-                    if is_process_running(process):
-                        processes_running = True
-                        time.sleep(3)
-                        break
-        else:
-            time.sleep(3)
-
-    return total_scenarios_to_run, failure_queue
+        thread_pool_size = max_threads
+    return thread_pool_size
 
 
 def find_matching_features_and_scenarios(tags, acceptance_features_directory):
@@ -250,7 +235,7 @@ def main():
 
     start_time = datetime.now()
     total_scenarios_run, failure_queue = run_all_scenarios(scenarios_to_run, args.processes, args.timeout,
-                                                           args.command_line_args)
+                                                           args.command_line_args, args.parallel_stop)
 
     exit_code = print_summary(start_time, datetime.now(), total_scenarios_run, failure_queue)
 
