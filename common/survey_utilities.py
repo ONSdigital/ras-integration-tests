@@ -69,7 +69,6 @@ def create_data_for_survey(context):
 
 def create_data_for_collection_exercise():
     """ Data used for creating a Collection Exercise """
-
     return {
         'survey_ref': create_survey_reference()
     }

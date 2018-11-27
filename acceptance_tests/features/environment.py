@@ -8,7 +8,7 @@ from acceptance_tests import browser
 from acceptance_tests.features.fixtures import setup_data_new_survey, \
                setup_data_with_2_enrolled_respondent_users_and_internal_user, \
                setup_data_with_enrolled_respondent_user_and_internal_user, \
-               setup_data_with_enrolled_respondent_user_and_internal_user_and_new_iac_and_collection_exercise_to_live, \
+               setup_data_with_enrolled_respondent_user_and_internal_user_and_new_iac_and_collection_exercise_to_live,\
                setup_with_internal_user, \
                setup_data_with_internal_user_and_social_collection_exercise_to_closed_status, \
                setup_data_with_internal_user_and_collection_exercise_to_created_status, \

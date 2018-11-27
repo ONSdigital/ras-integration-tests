@@ -43,4 +43,3 @@ def survey_survey_details_match_updated_values(context):
     test_survey = next(filter(lambda s: s['id'] == context.survey_ref, surveys))
     assert test_survey['short_name'] == context.expected_short_name
     assert test_survey['name'] == context.expected_long_name
-
