@@ -56,7 +56,7 @@ def parse_arguments():
     parser.add_argument('--test_tags', '-t', help='specify behave tags to run', default=DEFAULT_TAGS)
     parser.add_argument('--timeout', '-tout', type=int,
                         help='Maximum seconds to execute each scenario. Default = 300', default=300)
-    parser.add_argument('--parallel-stop', '-s', help='Gracefully stop parallel test execution on a failure',
+    parser.add_argument('--no-parallel-stop', '-ns', help='Do not stop parallel execution on failure',
                         action='store_true')
 
     args = parser.parse_args()
@@ -84,25 +84,24 @@ def _run_scenario(scenario, failure_queue: Queue, timeout, command_line_args):
 
     cmd = f'behave {command_line_args} --format progress2 {feature} --name \"{scenario}\"'
 
-    out_bytes = None
-
     try:
         check_output(cmd, shell=True, timeout=timeout)
         code = 0
     except CalledProcessError as e:
         out_bytes = e.output
         code = 1
+        failure_queue.put(f'FAILED - Feature: [{feature}], Scenario [{scenario}]"')
+        logger.error(out_bytes.decode())
     except TimeoutExpired:
         code = 2
+        failure_queue.put(f'TIMEOUT - Feature: [{feature}], Scenario [{scenario}]"')
     except Exception:
         code = 3
+        failure_queue.put(f'ERROR - Feature: [{feature}], Scenario [{scenario}]"')
+        logger.exception(f'Unexpected exception in Feature: [{feature}], Scenario [{scenario}]"')
 
     status = execution_code[code]
     logger.info(f"{feature:50}: {scenario} --> {status}")
-
-    if status == 'FAILED':
-        failure_queue.put(f'FAILED - Feature: [{feature}], Scenario [{scenario}]"')
-        logger.error(out_bytes.decode())
 
     # To give time for postgres connections to close before starting the next Scenario
     time.sleep(10)
@@ -118,16 +117,16 @@ def run_all_scenarios(scenarios_to_run, max_threads, timeout, command_line_args,
     failure_queue = Queue()
 
     with ThreadPoolExecutor(max_workers=thread_pool_size) as executor:
-        future_to_scenario = {executor.submit(_run_scenario, scenario, failure_queue, timeout, command_line_args)
-                              : scenario for scenario in scenarios_to_run}
+        scenario_futures = [executor.submit(_run_scenario, scenario, failure_queue, timeout, command_line_args)
+                            for scenario in scenarios_to_run]
 
         aborting = False
-        for future in as_completed(future_to_scenario):
+        for future in as_completed(scenario_futures):
             if not future.cancelled():
                 if not aborting and not failure_queue.empty() and stop_on_failure:
                     aborting = True
                     logger.info('Test failure, aborting')
-                    for future_to_cancel in future_to_scenario:
+                    for future_to_cancel in scenario_futures:
                         future_to_cancel.cancel()
                 try:
                     future.result()
@@ -235,7 +234,7 @@ def main():
 
     start_time = datetime.now()
     total_scenarios_run, failure_queue = run_all_scenarios(scenarios_to_run, args.processes, args.timeout,
-                                                           args.command_line_args, args.parallel_stop)
+                                                           args.command_line_args, not args.no_parallel_stop)
 
     exit_code = print_summary(start_time, datetime.now(), total_scenarios_run, failure_queue)
 
