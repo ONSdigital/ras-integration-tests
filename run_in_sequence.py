@@ -23,7 +23,6 @@ logger = wrap_logger(getLogger(__name__))
 
 
 def is_valid_sequential_environment():
-
     return not strtobool(os.getenv('IGNORE_SEQUENTIAL_DATA_SETUP', 'False'))
 
 

@@ -11,6 +11,6 @@ Feature: As an internal user
   Scenario: Internal user is able to edit/amend survey details
     Given the internal user is on the survey list page
     When they request to edit/amend a specific surveys details
-    And they edit/amend the survey details
+      And they edit/amend the survey details
     Then the survey details match the updated values
 
