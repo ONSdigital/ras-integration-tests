@@ -45,6 +45,13 @@ def enrolment_is_disabled(_, email):
     assert respondent['enrolmentStatus'] == 'Disabled'
 
 
+@then('"{email}"\'s enrolment appears disabled on the ru details page')
+def enrolment_is_disabled(_, email):
+    reporting_unit.click_data_panel('Bricks')
+    respondent = reporting_unit.get_respondent('Bricks', email)
+    assert respondent['enrolmentStatus'] == 'Disabled'
+
+
 @then('the respondent should not be able to view the disabled enrolment')
 def respondent_enrolment_is_disabled(_):
     surveys_list = surveys_todo.get_surveys_list()

@@ -33,7 +33,7 @@ setup: clean
 # If you want to run a single feature file WITH setup first use:
 # make TEST_TARGET=acceptance_tests/features/your.feature acceptance_tests
 BEHAVE_FORMAT = progress2
-TEST_ARGS = 
+TEST_ARGS = --stop
 
 system_tests: TEST_TARGET = system_tests/features  # This will only run the system tests
 system_tests: run_tests
