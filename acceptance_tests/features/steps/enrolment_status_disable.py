@@ -20,12 +20,14 @@ def internal_user_disables_enrolment(_, email):
 
 
 @when('the internal clicks on the disable button for "{email}"')
-def click_disable_respondent_enrolment(_, email):
+@when('the internal clicks on the re-enable button for "{email}"')
+def click_change_respondent_enrolment(_, email):
     reporting_unit.click_data_panel('Bricks')
-    reporting_unit.click_disable_enrolment(email)
+    reporting_unit.click_change_enrolment(email)
 
 
 @when('the internal user confirms they want to disable the account')
+@when('the internal user confirms they want to re-enable the account')
 def confirm_disable_respondent_enrolment(_):
     change_enrolment_status.confirm_change_enrolment_status()
 

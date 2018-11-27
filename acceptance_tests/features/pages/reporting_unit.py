@@ -86,7 +86,7 @@ def click_generate_new_code(code):
     browser.find_by_id('generate-new-code-' + code).click()
 
 
-def click_disable_enrolment(email):
+def click_change_enrolment(email):      # Clicks the disable or enable link
     respondents_table = browser.find_by_name('tbl-respondents-for-survey')
     rows = respondents_table.find_by_tag('tbody').find_by_tag('tr')
     for row in rows:
