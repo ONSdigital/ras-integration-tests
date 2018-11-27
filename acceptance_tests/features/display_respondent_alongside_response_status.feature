@@ -1,5 +1,4 @@
 @standalone
-@wip
 Feature: Internal user can search for a respondent via email
   As an internal user
   I need to be able to search for a registered respondent via their email
