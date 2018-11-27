@@ -6,6 +6,7 @@ from structlog import wrap_logger
 
 from acceptance_tests import browser
 from acceptance_tests.features.fixtures import \
+    setup_data_new_survey, \
     setup_data_with_enrolled_respondent_user_and_internal_user, \
     setup_data_with_unenrolled_respondent_user, \
     setup_data_with_unenrolled_respondent_user_and_new_iac_and_collection_exercise_to_live, \
@@ -14,8 +15,9 @@ from acceptance_tests.features.fixtures import \
     setup_data_with_2_enrolled_respondent_users_and_internal_user, \
     setup_data_with_internal_user_and_social_collection_exercise_to_closed_status, \
     setup_data_with_internal_user_and_collection_exercise_to_created_status, setup_data_with_response_user, \
-    setup_with_internal_user, \
-    setup_data_with_unenrolled_respondent_user_and_internal_user
+    setup_data_with_unenrolled_respondent_user_and_internal_user, \
+    setup_with_internal_user
+
 from common import survey_utilities
 from config import Config
 from exceptions import MissingFixtureError
@@ -32,6 +34,8 @@ timings = {}
 
 
 fixture_scenario_registry = {
+    'fixture.setup.data.create_survey':
+        setup_data_new_survey,
     'fixture.setup.with.internal.user':
         setup_with_internal_user,
     'fixture.setup.data.with.internal.user':

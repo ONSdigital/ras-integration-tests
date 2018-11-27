@@ -4,9 +4,30 @@ from acceptance_tests.features.pages.inbox_internal import after_scenario_cleanu
 from common import internal_utilities
 from common.survey_utilities import create_default_data, create_enrolled_respondent_for_the_test_survey, \
     COLLECTION_EXERCISE_STATUS_LIVE, create_unenrolled_respondent, create_data_for_survey, create_test_survey, \
-    create_data_for_collection_exercise, \
+    create_data_for_collection_exercise, create_survey_reference, \
     create_test_business_collection_exercise, COLLECTION_EXERCISE_STATUS_CREATED, create_ru_reference
 from controllers import collection_exercise_controller
+
+
+@fixture
+def setup_data_new_survey(context):
+    """ Creates test survey """
+    survey_data = create_data_for_survey(context)
+    period = survey_data['period']
+    short_name = survey_data['short_name']
+    legal_basis = survey_data['legal_basis']
+    long_name = survey_data['long_name']
+
+    survey_type = context.survey_type
+
+    survey_ref = create_survey_reference()
+
+    survey_id = create_test_survey(long_name, short_name, survey_ref, survey_type, legal_basis)
+
+    context.survey_id = survey_id
+    context.short_name = short_name
+    context.period = period
+    context.survey_ref = survey_ref
 
 
 @fixture
