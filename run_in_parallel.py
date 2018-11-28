@@ -71,13 +71,8 @@ def is_process_running(process):
     return process is not None and process.is_alive()
 
 
-def _run_scenario(failure_queue: Queue, scenario, timeout, command_line_args):
-    """
-    Runs features/scenarios
-    :return: Feature/scenario and status
-    """
-
-    feature, scenario = scenario.split(DELIMITER)
+def _run_scenario(failure_queue: Queue, feature_scenario: str, timeout, command_line_args):
+    feature, scenario = feature_scenario.split(DELIMITER)
     logger.info(f'Starting Feature: [{feature}], Scenario [{scenario}]')
 
     execution_code = {0: 'OK', 1: 'FAILED', 2: 'TIMEOUT', 3: 'UNEXPECTED_ERROR'}
@@ -138,7 +133,7 @@ def run_all_scenarios(scenarios_to_run, max_threads, timeout, command_line_args,
     return total_scenarios_run, failure_queue
 
 
-def get_thread_pool_size(max_threads, number_of_scenarios_to_run):
+def get_thread_pool_size(max_threads: int, number_of_scenarios_to_run: int) -> int:
     return max_threads if number_of_scenarios_to_run > max_threads else number_of_scenarios_to_run
 
 
