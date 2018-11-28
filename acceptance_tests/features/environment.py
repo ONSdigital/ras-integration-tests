@@ -4,7 +4,7 @@ from logging import getLogger
 from behave import use_fixture
 from structlog import wrap_logger
 
-from acceptance_tests import browser
+from acceptance_tests import browser, driver
 from acceptance_tests.features.fixtures import \
     setup_data_with_enrolled_respondent_user_and_internal_user, \
     setup_data_with_unenrolled_respondent_user, \
@@ -107,6 +107,8 @@ def after_scenario(_, scenario):
 def after_step(context, step):
     if step.status == "failed":
         logger.exception('Failed step', scenario=context.scenario.name, step=step.name)
+        step_str = step.name
+        driver.save_screenshot('fail_shot_' + step_str)
 
 
 def after_all(_):
@@ -130,3 +132,4 @@ def get_survey_type(tags):
         return "Social"
 
     return 'Business'
+

@@ -38,18 +38,12 @@ def view_surveys_todo(_, email):
     surveys_todo.go_to()
 
 
-@then('"{email}"\'s enrolment appears disabled on the ru details page')
-def enrolment_is_disabled(_, email):
+@then('"{email}"\'s enrolment appears "{status}" on the ru details page')
+def enrolment_is_disabled(_, email, status):
     reporting_unit.click_data_panel('Bricks')
     respondent = reporting_unit.get_respondent('Bricks', email)
-    assert respondent['enrolmentStatus'] == 'Disabled'
-
-
-@then('"{email}"\'s enrolment appears disabled on the ru details page')
-def enrolment_is_disabled(_, email):
-    reporting_unit.click_data_panel('Bricks')
-    respondent = reporting_unit.get_respondent('Bricks', email)
-    assert respondent['enrolmentStatus'] == 'Disabled'
+    
+    assert respondent['enrolmentStatus'] == status
 
 
 @then('the respondent should not be able to view the disabled enrolment')
