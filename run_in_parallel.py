@@ -78,7 +78,7 @@ def _run_scenario(failure_queue: Queue, scenario, timeout, command_line_args):
     """
 
     feature, scenario = scenario.split(DELIMITER)
-    logger.info(f'Running feature: {feature}, scenario: {scenario}')
+    logger.info(f'Starting Feature: [{feature}], Scenario [{scenario}]')
 
     execution_code = {0: 'OK', 1: 'FAILED', 2: 'TIMEOUT', 3: 'UNEXPECTED_ERROR'}
 
