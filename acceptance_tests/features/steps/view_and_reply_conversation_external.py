@@ -1,9 +1,10 @@
-from acceptance_tests import browser
 from behave import given, then, when
+
 import acceptance_tests.features.pages.view_and_reply_conversation_external as page_helpers
+from acceptance_tests import browser
 from acceptance_tests.features.pages.create_message_internal import get_first_flashed_message
 from acceptance_tests.features.pages.external_conversation import go_to_closed
-from acceptance_tests.features.pages.inbox_internal import go_to as go_to_internal_bricks_messages
+from acceptance_tests.features.pages.inbox_internal import go_to_using_context
 from acceptance_tests.features.pages.internal_conversation_view import go_to_thread as go_to_thread_internal
 from acceptance_tests.features.pages.reply_to_message_internal import get_current_url
 from acceptance_tests.features.pages.reply_to_message_internal import \
@@ -20,8 +21,8 @@ def external_user_has_sent_ONS_a_message(context):
 
 @when('an internal user responds')
 def internal_user_replies_to_last_message(context):
-    signed_in_internal(None)
-    reply_to_last_message_internal()
+    signed_in_internal(context)
+    reply_to_last_message_internal(context)
 
     # sign in again as respondent
     signed_in_respondent(context)
@@ -83,15 +84,15 @@ def external_user_is_anchored_to_latest_message_in_conversation(_):
 @given('the external user has a conversation')
 def external_user_has_a_conversation(context):
     create_message_external_to_internal(context, 'Message to ONS', 'Message body to ONS')
-    signed_in_internal(None)
-    reply_to_last_message_internal()
+    signed_in_internal(context)
+    reply_to_last_message_internal(context)
     signed_in_respondent(context)
     page_helpers.go_to_first_conversation_in_message_box()
 
 
 @given('the external user has a closed conversation')
-def external_user_has_a_closed_conversation(_):
-    create_and_close_message_internal_to_external('Message to ONS', 'Message body to ONS')
+def external_user_has_a_closed_conversation(context):
+    create_and_close_message_internal_to_external(context, 'Message to ONS', 'Message body to ONS')
 
 
 @when('they view that conversation')
@@ -126,9 +127,9 @@ def external_user_able_to_reply_to_conversation_no_setup(_):
 
 
 @then('the reply will be sent to the correct team')
-def external_user_reply_sent_to_correct_team(_):
-    signed_in_internal(None)
-    go_to_internal_bricks_messages()
+def external_user_reply_sent_to_correct_team(context):
+    signed_in_internal(context)
+    go_to_using_context(context)
     go_to_thread_internal()
     latest_message_body = page_helpers.get_body_from_last_message()
     assert latest_message_body == 'Reply body from respondent'

@@ -3,8 +3,6 @@ from behave import given, when, then
 from acceptance_tests import browser
 from acceptance_tests.features.pages import create_message_internal, external_conversation, inbox_internal, \
     internal_conversation_view
-from config import Config
-from controllers import database_controller
 from controllers.messages_controller import create_and_close_message_internal_to_external
 
 
@@ -16,13 +14,12 @@ def messages_tab_is_present(_):
 @given('the external user has conversations in their list')
 def external_user_has_two_conversations(context):
     external_conversation.send_message_from_external(context)
-    external_conversation.send_message_from_internal()
+    external_conversation.send_message_from_internal(context)
 
 
 @given('the external user has no conversations to view')
 def no_conversations_to_view(_):
-    database_controller.execute_sql('resources/database/database_reset_secure_message.sql',
-                                    database_uri=Config.SECURE_MESSAGE_DATABASE_URI)
+    pass
 
 
 @given('they receive a message body with over 80 characters')
@@ -31,9 +28,9 @@ def external_user_sent_message_with_over_80_characters(context):
 
 
 @given('a closed conversation has been reopened')
-def close_and_reopen_a_conversation(_):
-    create_and_close_message_internal_to_external('Message to ONS', 'Message body to ONS')
-    inbox_internal.go_to_closed()
+def close_and_reopen_a_conversation(context):
+    create_and_close_message_internal_to_external(context, 'Message to ONS', 'Message body to ONS')
+    inbox_internal.go_to_closed_using_context(context)
     internal_conversation_view.go_to_thread()
     create_message_internal.click_reopen_conversation_button()
 

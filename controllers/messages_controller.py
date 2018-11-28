@@ -8,28 +8,25 @@ from acceptance_tests.features.pages import create_message_internal, create_mess
 from acceptance_tests.features.pages.internal_conversation_view import go_to_thread
 from acceptance_tests.features.pages.reporting_unit import click_data_panel
 from acceptance_tests.features.steps.authentication import signed_in_respondent, signed_in_internal
-from controllers import database_controller
 from config import Config
-
 
 logger = wrap_logger(logging.getLogger(__name__))
 
 
-def go_to_create_message():
-    browser.visit(f'{Config.RESPONSE_OPERATIONS_UI}'
-                  "/reporting-units/49900000001")
-    click_data_panel('Bricks')
+def go_to_create_message(context):
+    browser.visit(f'{Config.RESPONSE_OPERATIONS_UI}/reporting-units/{context.short_name}')
+    click_data_panel(context.short_name)
     browser.find_by_id("create-message-button-1").click()
     assert "messages/create-message" in browser.url
 
 
-def create_message_internal_to_external(subject='Subject', body='Body'):
+def create_message_internal_to_external(context, subject='Subject', body='Body'):
     # Send a message from a respondent in the context of a Bricks survey
     # Note that external users may have to be signed in again after calling this function
 
     # Navigate to sent a message
-    signed_in_internal(())
-    go_to_create_message()
+    signed_in_internal(context)
+    go_to_create_message(context)
 
     # Create message
     create_message_internal.enter_text_in_message_subject(subject)
@@ -58,11 +55,9 @@ def create_message_external_to_internal(context, subject='Subject', body='Body')
     logger.debug("Message from external to internal created")
 
 
-def create_and_close_message_internal_to_external(subject='Subject', body='Body'):
-    database_controller.execute_sql('resources/database/database_reset_secure_message.sql',
-                                    database_uri=Config.SECURE_MESSAGE_DATABASE_URI)
-    create_message_internal_to_external(subject=subject, body=body)
-    inbox_internal.go_to()
+def create_and_close_message_internal_to_external(context, subject='Subject', body='Body'):
+    create_message_internal_to_external(context, subject=subject, body=body)
+    inbox_internal.go_to_using_context(context)
     go_to_thread()
     create_message_internal.click_close_conversation_button()
     create_message_internal.click_confirm_close_conversation_button()

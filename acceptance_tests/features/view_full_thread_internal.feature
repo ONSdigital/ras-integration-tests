@@ -1,4 +1,7 @@
+@business
+@standalone
 @secure_messaging
+@fixture.setup.data.with.enrolled.respondent.user.and.internal.user
 Feature: View conversation thread
   As an internal user
   I need to see all of the previous messages in a conversation
@@ -7,12 +10,11 @@ Feature: View conversation thread
   Background: Internal user is already signed in
     Given the internal user is already signed in
 
-
   @sm124_s01
   Scenario: The user select one conversation from the inbox.
     Given An internal user has conversations in their inbox
-    When  The internal user selects a conversation
-    Then  the internal user can see all messages in the conversation
+    When The internal user selects a conversation
+    Then the internal user can see all messages in the conversation
 
   @sm124_s02
   Scenario: The date and time of messages should be visible in each item of the conversation
