@@ -71,7 +71,7 @@ def is_process_running(process):
     return process is not None and process.is_alive()
 
 
-def _run_scenario(scenario, failure_queue: Queue, timeout, command_line_args):
+def _run_scenario(failure_queue: Queue, scenario, timeout, command_line_args):
     """
     Runs features/scenarios
     :return: Feature/scenario and status
@@ -117,7 +117,7 @@ def run_all_scenarios(scenarios_to_run, max_threads, timeout, command_line_args,
     failure_queue = Queue()
 
     with ThreadPoolExecutor(max_workers=thread_pool_size) as executor:
-        scenario_futures = [executor.submit(_run_scenario, scenario, failure_queue, timeout, command_line_args)
+        scenario_futures = [executor.submit(_run_scenario, failure_queue, scenario, timeout, command_line_args)
                             for scenario in scenarios_to_run]
 
         aborting = False
@@ -139,11 +139,7 @@ def run_all_scenarios(scenarios_to_run, max_threads, timeout, command_line_args,
 
 
 def get_thread_pool_size(max_threads, number_of_scenarios_to_run):
-    if number_of_scenarios_to_run < max_threads:
-        thread_pool_size = number_of_scenarios_to_run
-    else:
-        thread_pool_size = max_threads
-    return thread_pool_size
+    return max_threads if number_of_scenarios_to_run > max_threads else number_of_scenarios_to_run
 
 
 def find_matching_features_and_scenarios(tags, acceptance_features_directory):
