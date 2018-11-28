@@ -5,7 +5,6 @@ from behave import given, when, then
 from acceptance_tests.features.pages import home, inbox_internal
 from acceptance_tests.features.pages.internal_conversation_view import go_to_thread
 from acceptance_tests.features.steps.authentication import signed_in_internal
-from acceptance_tests.features.steps.sign_out_internal import sign_out
 from controllers import messages_controller
 
 
@@ -125,8 +124,3 @@ def pagination_links_available(_):
 @then('they can see the closed tab')
 def closed_tab_is_visible(_):
     assert inbox_internal.closed_tab_present()
-
-
-@then('the internal user signs out successfully')
-def internal_user_signs_out(_):
-    sign_out(_)

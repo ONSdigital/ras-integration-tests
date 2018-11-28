@@ -15,25 +15,21 @@ Feature: View conversation thread
     Given An internal user has conversations in their inbox
     When The internal user selects a conversation
     Then the internal user can see all messages in the conversation
-    And the internal user signs out successfully
 
   @sm124_s02
   Scenario: The date and time of messages should be visible in each item of the conversation
     Given An internal user has conversations in their inbox
     When  The internal user selects a conversation
     Then  The internal user can see the date and time for each message in the conversation
-    And the internal user signs out successfully
 
   @sm124_s03
   Scenario: User is able to differentiate between ONS messages and external messages in a conversation
     Given An internal user has conversations in their inbox
     When  The internal user selects a conversation
     Then  The internal user can see which messages have been sent by ONS users and which are an external users messages
-    And the internal user signs out successfully
 
   @sm124_s04
   Scenario: Opening a conversation, the user is taken to the latest message in that conversation
     Given An internal user has conversations in their inbox
     When  The internal user selects a conversation
     Then  They are taken to the latest message in that conversation
-    And the internal user signs out successfully

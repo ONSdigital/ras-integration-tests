@@ -16,7 +16,6 @@ Feature: Internal inbox
     And the user has no messages in their inbox
     When they navigate to the inbox messages
     Then they are informed that there are no messages
-    And the internal user signs out successfully
 
   @sm111_s02
   @fixture.setup.data.with.enrolled.respondent.user.and.internal.user.and.new.iac.and.collection.exercise.to.live
@@ -24,7 +23,6 @@ Feature: Internal inbox
     Given the user has got messages in their inbox
     When they navigate to the inbox messages
     Then they are able to view all received messages
-    And the internal user signs out successfully
 
   @sm111_s03
   @fixture.setup.data.with.enrolled.respondent.user.and.internal.user.and.new.iac.and.collection.exercise.to.live
@@ -33,7 +31,6 @@ Feature: Internal inbox
     And the user has got messages in their inbox
     When they navigate to the inbox messages
     Then they are able to view the RU Ref, Subject, From, To, Date and time for each message
-    And the internal user signs out successfully
 
   @sm111_s04
   @fixture.setup.data.with.enrolled.respondent.user.and.internal.user.and.new.iac.and.collection.exercise.to.live
@@ -41,7 +38,6 @@ Feature: Internal inbox
     Given the user has got '2' messages in their inbox
     When they navigate to the inbox messages
     Then they are able to view all received messages in reverse chronological order/latest first
-    And the internal user signs out successfully
 
   @sm139_s01
   @fixture.setup.with.internal.user
@@ -49,7 +45,6 @@ Feature: Internal inbox
     Given the user has access to secure messaging
     When they navigate to the select survey page
     Then they are able to view a dropdown list of surveys
-    And the internal user signs out successfully
 
   @sm114_s01
   @fixture.setup.data.with.enrolled.respondent.user.and.internal.user.and.new.iac.and.collection.exercise.to.live
@@ -58,7 +53,6 @@ Feature: Internal inbox
     When the user has an unread message in their inbox
     And they navigate to the inbox messages
     Then they are able to distinguish that the message is unread
-    And the internal user signs out successfully
 
   @sm114_s02
   @fixture.setup.data.with.enrolled.respondent.user.and.internal.user.and.new.iac.and.collection.exercise.to.live
@@ -69,7 +63,6 @@ Feature: Internal inbox
     And they view the unread message
     And they navigate to the inbox messages
     Then the message is no longer marked as unread
-    And the internal user signs out successfully
 
   @sm127_s01
   @fixture.setup.data.with.enrolled.respondent.user.and.internal.user.and.new.iac.and.collection.exercise.to.live
@@ -78,7 +71,6 @@ Feature: Internal inbox
     And the user has got '5' messages in their inbox
     When they navigate to the inbox messages
     Then they are able to view '5' messages
-    And the internal user signs out successfully
 
   @sm127_s02
   @fixture.setup.data.with.enrolled.respondent.user.and.internal.user.and.new.iac.and.collection.exercise.to.live
@@ -88,7 +80,6 @@ Feature: Internal inbox
     When they navigate to the inbox messages
     Then they are able to view '10' messages
     And the pagination links are available
-    And the internal user signs out successfully
 
   @sm123_s03
   @fixture.setup.data.with.unenrolled.respondent.user.and.internal.user
@@ -97,7 +88,6 @@ Feature: Internal inbox
     And the user has no messages in their inbox
     When they navigate to closed conversations
     Then they are informed that there are no closed conversations
-    And the internal user signs out successfully
 
   @sm123_s04
   @fixture.setup.data.with.unenrolled.respondent.user.and.internal.user
@@ -105,4 +95,3 @@ Feature: Internal inbox
     Given the user has access to secure messaging
     When they navigate to the inbox messages
     Then they can see the closed tab
-    And the internal user signs out successfully

@@ -1,4 +1,5 @@
 from acceptance_tests import browser
+from acceptance_tests.features.steps.sign_out_internal import sign_out
 from config import Config
 
 
@@ -87,3 +88,9 @@ def get_message_link_index(number_of_messages):
 
 def closed_tab_present():
     return browser.driver.find_element_by_link_text('Closed')
+
+
+def after_scenario_cleanup(_):
+    # Sign out Internal user if possible
+    if browser.find_by_id('sign-out-btn'):
+        sign_out(_)
