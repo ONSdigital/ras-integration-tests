@@ -71,9 +71,9 @@ def is_process_running(process):
     return process is not None and process.is_alive()
 
 
-def _run_scenario(failure_queue: Queue, feature_scenario: str, timeout, command_line_args):
+def _run_scenario(failure_queue: Queue, feature_scenario: str, scenario_index, timeout, command_line_args):
     feature, scenario = feature_scenario.split(DELIMITER)
-    logger.info(f'Starting Feature: [{feature}], Scenario [{scenario}]')
+    logger.info(f'Starting Scenario [{scenario_index}] : Feature [{feature}], Scenario [{scenario}]')
 
     execution_code = {0: 'OK', 1: 'FAILED', 2: 'TIMEOUT', 3: 'UNEXPECTED_ERROR'}
 
@@ -96,7 +96,7 @@ def _run_scenario(failure_queue: Queue, feature_scenario: str, timeout, command_
         logger.exception(f'Unexpected exception in Feature: [{feature}], Scenario [{scenario}]"')
 
     status = execution_code[code]
-    logger.info(f"{feature:50}: {scenario} --> {status}")
+    logger.info(f"Finished Scenario [{scenario_index}] : Feature [{feature}], Scenario [{scenario}] --> {status}")
 
     # To give time for postgres connections to close before starting the next Scenario
     time.sleep(10)
@@ -112,13 +112,14 @@ def run_all_scenarios(scenarios_to_run, max_threads, timeout, command_line_args,
     failure_queue = Queue()
 
     with ThreadPoolExecutor(max_workers=thread_pool_size) as executor:
-        scenario_futures = [executor.submit(_run_scenario, failure_queue, scenario, timeout, command_line_args)
-                            for scenario in scenarios_to_run]
+        scenario_futures = [executor.submit(_run_scenario, failure_queue, scenario, scenario_index, timeout,
+                                            command_line_args)
+                            for scenario_index, scenario in enumerate(scenarios_to_run)]
 
         aborting = False
         for future in as_completed(scenario_futures):
             if not future.cancelled():
-                if not aborting and not failure_queue.empty() and stop_on_failure:
+                if stop_on_failure and not aborting and not failure_queue.empty():
                     aborting = True
                     logger.info('Test failure, aborting')
                     for future_to_cancel in scenario_futures:
@@ -126,8 +127,8 @@ def run_all_scenarios(scenarios_to_run, max_threads, timeout, command_line_args,
                 try:
                     future.result()
                 except Exception:
-                    logger.exception('System Error')
-                    failure_queue.put('System Error')
+                    logger.exception('Parallel execution error')
+                    failure_queue.put('Parallel execution error')
                 total_scenarios_run += 1
 
     return total_scenarios_run, failure_queue
