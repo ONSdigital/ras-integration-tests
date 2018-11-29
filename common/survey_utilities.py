@@ -27,7 +27,7 @@ RU_REFERENCE_END = 59999999999
 
 SURVEY_REFERENCE_PREFIX = '9'
 SURVEY_REFERENCE_START = 1001
-SURVEY_REFERENCE_END = 999999
+SURVEY_REFERENCE_END = 99999
 
 TELEPHONE_NUMBER_START = 0
 TELEPHONE_NUMBER_END = 99999999999
@@ -212,7 +212,7 @@ def make_email_address(local_part=None, domain=None):
     if not domain:
         domain = local_part
 
-    return concatenate_strings(concatenate_strings(local_part, '@'), concatenate_strings(domain, '.com'))
+    return f"{local_part}@{domain}.com"
 
 
 def format_survey_name(survey_name_in, social_survey, max_field_length):

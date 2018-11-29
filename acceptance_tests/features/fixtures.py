@@ -16,25 +16,22 @@ from common.survey_utilities import COLLECTION_EXERCISE_STATUS_CREATED, \
 from controllers import collection_exercise_controller
 
 
-@fixture
-def setup_data_new_survey(context):
+def setup_data_create_new_survey(context):
     """ Creates test survey """
-    survey_data = create_data_for_survey(context)
-    period = survey_data['period']
-    short_name = survey_data['short_name']
-    legal_basis = survey_data['legal_basis']
-    long_name = survey_data['long_name']
-
-    survey_type = context.survey_type
-
-    survey_ref = create_survey_reference()
-
-    survey_id = create_test_survey(long_name, short_name, survey_ref, survey_type, legal_basis)
-
+    setup_prepare_data_for_new_survey(context)
+    survey_id = create_test_survey(context.long_name, context.short_name, context.survey_ref, context.survey_type,
+                                   context.legal_basis)
     context.survey_id = survey_id
-    context.short_name = short_name
-    context.period = period
-    context.survey_ref = survey_ref
+
+
+def setup_prepare_data_for_new_survey(context):
+    survey_data = create_data_for_survey(context)
+
+    context.long_name = survey_data['long_name']
+    context.short_name = survey_data['short_name']
+    context.period = survey_data['period']
+    context.survey_ref = create_survey_reference()
+    context.legal_basis = survey_data['legal_basis']
 
 
 @fixture
@@ -187,3 +184,15 @@ def create_internal_user(context):
     context.internal_user_name = create_ru_reference()
 
     internal_utilities.create_internal_user_login_account(context.internal_user_name)
+
+
+def setup_prepare_data_for_new_survey_with_internal_user(context):
+    setup_with_internal_user(context)
+    setup_prepare_data_for_new_survey(context)
+
+
+def setup_data_create_new_survey_with_internal_user(context):
+    setup_prepare_data_for_new_survey_with_internal_user(context)
+    survey_id = create_test_survey(context.long_name, context.short_name, context.survey_ref, context.survey_type,
+                                   context.legal_basis)
+    context.survey_id = survey_id
