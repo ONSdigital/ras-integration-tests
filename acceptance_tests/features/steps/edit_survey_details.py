@@ -11,11 +11,6 @@ def check_user_on_surveys_page(_):
     assert "Surveys | Survey Data Collection" in browser.title
 
 
-@when('they request to edit/amend a surveys details')
-def user_navigates_to_edit_survey_details_page_for_nbs(_):
-    survey.click_edit_survey_details_button()
-
-
 @when('they request to edit/amend a specific surveys details')
 def user_clicks_to_edit_survey_details_page_for_survey_in_context(context):
     btn_id = f"edit-survey-details-{context.survey_ref}"
