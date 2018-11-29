@@ -114,3 +114,5 @@ tmp_ras_rm_docker_dev
 
 # shell
 setenvs.sh
+
+*_failed.png
