@@ -1,4 +1,7 @@
+@business
+@standalone
 @secure_messaging
+@fixture.setup.data.with.enrolled.respondent.user.and.internal.user.and.new.iac.and.collection.exercise.to.live
 Feature: External User Views a Conversation
   As an external User
   I need to be able to see all of the previous messages in a conversation

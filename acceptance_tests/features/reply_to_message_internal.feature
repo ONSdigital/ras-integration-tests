@@ -1,4 +1,7 @@
+@business
+@standalone
 @secure_messaging
+@fixture.setup.data.with.enrolled.respondent.user.and.internal.user.and.new.iac.and.collection.exercise.to.live
 Feature: Reply to message internal
   As an internal user
   I need to be able to reply to a secure message

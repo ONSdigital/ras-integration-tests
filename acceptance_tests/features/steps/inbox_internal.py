@@ -5,44 +5,42 @@ from behave import given, when, then
 from acceptance_tests.features.pages import home, inbox_internal
 from acceptance_tests.features.pages.internal_conversation_view import go_to_thread
 from acceptance_tests.features.steps.authentication import signed_in_internal
-from config import Config
-from controllers import messages_controller, database_controller
+from controllers import messages_controller
 
 
 @given('the user has access to secure messaging')
-def verify_messages_link_present(_):
+def verify_messages_link_present(context):
     assert home.verify_messages_link_present()
 
 
 @given('the user has got messages in their inbox')
-def populate_database_with_messages(_):
+def populate_database_with_messages(context):
 
     subject = "This is the subject of the message"
     body = "This is the body of the message"
-    messages_controller.create_message_internal_to_external(subject, body)
+    messages_controller.create_message_internal_to_external(context, subject, body)
 
-    inbox_internal.go_to()
+    inbox_internal.go_to_using_context(context)
 
 
 @given("the user has got '{number_of_messages}' messages in their inbox")
-def populate_database_with_number_of_messages(_, number_of_messages):
+def populate_database_with_number_of_messages(context, number_of_messages):
     for i in range(0, int(number_of_messages)):
         subject = str(i) + ": This is the subject of the message"
         body = str(i) + ": This is the body of the message"
-        messages_controller.create_message_internal_to_external(subject, body)
+        messages_controller.create_message_internal_to_external(context, subject, body)
 
-    inbox_internal.go_to()
+    inbox_internal.go_to_using_context(context)
 
 
 @given('the user has no messages in their inbox')
 def user_has_no_messages_in_inbox(_):
-    database_controller.execute_sql('resources/database/database_reset_secure_message.sql',
-                                    database_uri=Config.SECURE_MESSAGE_DATABASE_URI)
+    pass
 
 
 @when('they navigate to the inbox messages')
-def internal_user_views_messages(_):
-    inbox_internal.go_to()
+def internal_user_views_messages(context):
+    inbox_internal.go_to_using_context(context)
 
 
 @then('they are informed that there are no messages')
@@ -51,8 +49,8 @@ def informed_of_no_messages(_):
 
 
 @when('they navigate to closed conversations')
-def internal_user_views_closed_messages(_):
-    inbox_internal.go_to_closed()
+def internal_user_views_closed_messages(context):
+    inbox_internal.go_to_closed_using_context(context)
 
 
 @then('they are informed that there are no closed conversations')
@@ -99,7 +97,7 @@ def internal_user_has_unread_message_in_inbox(context):
     messages_controller.create_message_external_to_internal(context, 'message subject', 'message body')
 
     # Sending external to internal may sign out the internal user
-    signed_in_internal(None)
+    signed_in_internal(context)
 
 
 @then('they are able to distinguish that the message is unread')
