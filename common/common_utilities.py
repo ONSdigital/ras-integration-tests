@@ -59,8 +59,8 @@ def create_behave_log_level_argument(log_level):
     return f'--logging-level {log_level.upper()}'
 
 
-def create_behave_format_argument(format):
-    return f'--format {format}'
+def create_behave_format_argument(behave_format):
+    return f'--format {behave_format}'
 
 
 def create_behave_tags_argument(tags):

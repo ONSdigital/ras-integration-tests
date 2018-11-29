@@ -46,8 +46,8 @@ def parse_arguments():
 
     args = parser.parse_args()
 
-    # Create behave command line arguments
-    args.behave_args = {
+    # Create behave test commmand line arguments
+    args.behave_test_args = {
         'stop_on_failure': create_behave_stop_argument(args.stop_on_failure),
         'show_skipped_tests': create_behave_show_skipped_tests_argument(args.show_skipped_tests),
         'log_level': create_behave_log_level_argument(args.log_level),
@@ -71,7 +71,7 @@ def main():
 
     logging.basicConfig(level=args.log_level)
 
-    behave_args = args.behave_args
+    behave_args = args.behave_test_args
 
     cmd_line_args = f'{behave_args["stop_on_failure"]} ' \
                     f'{behave_args["show_skipped_tests"]} ' \

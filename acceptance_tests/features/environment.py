@@ -85,6 +85,7 @@ def before_scenario(context, scenario):
     context.scenario_name = scenario.name
     context.survey_type = get_survey_type(context.tags)
 
+    # todo kept at info for sequential tests, delete/move to debug when all converted to standalone
     logger.info(f'Running Feature [{context.feature_name}], Scenario [{context.scenario_name}]')
 
     # Default to non-standalone fixed user name, standalone mode changes it
@@ -96,6 +97,7 @@ def before_scenario(context, scenario):
 
 
 def after_feature(_, feature):
+    # todo kept at info for sequential tests, delete/move to debug when all converted to standalone
     logger.info('Finished Feature [' + feature.name + ']')
 
 
