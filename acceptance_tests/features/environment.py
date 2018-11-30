@@ -111,7 +111,7 @@ def after_scenario(_, scenario):
 def after_step(context, step):
     if step.status == "failed":
         logger.exception('Failed step', scenario=context.scenario.name, step=step.name)
-        if os.getenv('SCREENSHOT', 'True') == 'True':
+        if os.getenv('SCREENSHOT', 'False') == 'True':
             dir_name = os.path.join('..', '..', os.path.dirname(__file__))
             step_str = step.name
             browser.screenshot(os.path.join(dir_name, step_str + '_failed.png'))
