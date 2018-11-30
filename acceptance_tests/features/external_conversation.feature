@@ -1,4 +1,7 @@
+@business
+@standalone
 @secure_messaging
+@fixture.setup.data.with.enrolled.respondent.user.and.internal.user.and.new.iac.and.collection.exercise.to.live
 Feature: External conversations
   As an external user
   I need to view all external conversations
@@ -22,7 +25,7 @@ Feature: External conversations
   @sm112_s03
   Scenario: User is able to view a preview of the latest message in a conversation
     Given the external user has conversations in their list
-      And they receive a message body with over 80 characters
+    And they receive a message body with over 80 characters
     When they navigate to the external inbox messages
     Then they are able to preview the first 80 characters (respecting word boundaries) of the latest message in the conversation
 
@@ -59,6 +62,6 @@ Feature: External conversations
 
   @sm145_s04
   Scenario: When a conversation is reopened, the conversation appears in open conversations list
-  Given a closed conversation has been reopened
-  When they navigate to the external inbox messages
-  Then they are able to view the external conversation
+    Given a closed conversation has been reopened
+    When they navigate to the external inbox messages
+    Then they are able to view the external conversation

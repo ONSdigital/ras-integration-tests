@@ -105,7 +105,7 @@ def create_default_data(context):
 # General methods
 
 def create_test_survey(long_name, short_name, survey_ref, survey_type, legal_basis):
-    logger.info('Creating survey', test_name=long_name)
+    logger.debug('Creating survey', test_name=long_name)
 
     response = survey_controller.create_survey(survey_type=survey_type, survey_ref=survey_ref,
                                                short_name=short_name,
@@ -164,7 +164,7 @@ def create_enrolled_respondent_for_the_test_survey(context, generate_new_iac=Fal
     context.phone_number = create_phone_number()
 
     respondent_utilities.create_respondent(user_name=user_name, enrolment_code=context.iac,
-                                           phone_number=context.phone_number)['id']
+                                           phone_number=context.phone_number)
     respondent_utilities.create_respondent_user_login_account(user_name)
 
     if generate_new_iac:

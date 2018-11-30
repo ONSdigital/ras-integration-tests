@@ -33,8 +33,8 @@ def get_message_body_summary():
     return browser.find_by_id('message-summary-1').text
 
 
-def send_message_from_internal():
-    messages_controller.create_message_internal_to_external('Message received from ONS', 'Message body')
+def send_message_from_internal(context):
+    messages_controller.create_message_internal_to_external(context, 'Message received from ONS', 'Message body')
 
 
 def send_message_from_external(context):

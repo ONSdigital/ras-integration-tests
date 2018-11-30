@@ -1,13 +1,23 @@
 from acceptance_tests import browser
+from acceptance_tests.features.steps.sign_out_internal import sign_out
 from config import Config
 
 
-def go_to():
-    browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/messages/Bricks")
+def go_to(context):
+    browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/messages/{context.short_name}")
 
 
 def go_to_closed():
     browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/messages/Bricks?is_closed=true")
+
+
+# todo delete above 2 methods when all tests use 2 below
+def go_to_using_context(context):
+    browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/messages/{context.short_name}")
+
+
+def go_to_closed_using_context(context):
+    browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/messages/{context.short_name}?is_closed=true")
 
 
 def go_to_select_survey():
@@ -78,3 +88,9 @@ def get_message_link_index(number_of_messages):
 
 def closed_tab_present():
     return browser.driver.find_element_by_link_text('Closed')
+
+
+def after_scenario_cleanup(_):
+    # Sign out Internal user if possible
+    if browser.find_by_id('sign-out-btn'):
+        sign_out(_)

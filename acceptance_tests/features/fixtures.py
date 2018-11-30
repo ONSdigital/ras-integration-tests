@@ -1,5 +1,6 @@
 from behave import fixture
 
+from acceptance_tests.features.pages.inbox_internal import after_scenario_cleanup
 from common import internal_utilities
 from common.survey_utilities import create_default_data, create_enrolled_respondent_for_the_test_survey, \
     COLLECTION_EXERCISE_STATUS_LIVE, create_unenrolled_respondent, create_data_for_survey, create_test_survey, \
@@ -10,13 +11,14 @@ from controllers import collection_exercise_controller
 
 @fixture
 def setup_with_internal_user(context):
-    create_response_user(context)
+    create_internal_user(context)
+    context.add_cleanup(after_scenario_cleanup, context)
 
 
 @fixture
 def setup_data_with_response_user(context):
     create_default_data(context)
-    create_response_user(context)
+    create_internal_user(context)
 
 
 @fixture
@@ -25,7 +27,7 @@ def setup_data_with_internal_user_and_social_collection_exercise_to_closed_statu
     context.period_offset_days = -365
     setup_default_data(context)
 
-    create_response_user(context)
+    create_internal_user(context)
 
 
 @fixture
@@ -36,11 +38,12 @@ def setup_data_with_enrolled_respondent_user_and_internal_user(context, generate
 
     create_enrolled_respondent_for_the_test_survey(context, generate_new_iac)
 
-    create_response_user(context)
+    create_internal_user(context)
 
     if wait_ce_for_state:
         collection_exercise_controller.wait_for_collection_exercise_state(context.survey_id, context.period,
                                                                           wait_ce_for_state)
+    context.add_cleanup(after_scenario_cleanup, context)
 
 
 @fixture
@@ -60,13 +63,15 @@ def setup_data_with_unenrolled_respondent_user(context, generate_new_iac=False,
     if wait_for_collection_exercise_state:
         collection_exercise_controller.wait_for_collection_exercise_state(context.survey_id, context.period,
                                                                           wait_for_collection_exercise_state)
+    context.add_cleanup(after_scenario_cleanup, context)
 
 
 @fixture
 def setup_data_with_unenrolled_respondent_user_and_internal_user(context):
     setup_data_with_unenrolled_respondent_user(context)
 
-    create_response_user(context)
+    create_internal_user(context)
+    context.add_cleanup(after_scenario_cleanup, context)
 
 
 @fixture
@@ -99,7 +104,7 @@ def setup_data_with_internal_user_and_collection_exercise_to_created_status(cont
     create_test_business_collection_exercise(survey_id, period, short_name, ce_name, survey_type,
                                              stop_at_state=COLLECTION_EXERCISE_STATUS_CREATED)
 
-    create_response_user(context)
+    create_internal_user(context)
 
 
 @fixture
@@ -116,6 +121,7 @@ def setup_data_with_enrolled_respondent_user_and_internal_user_and_new_iac_and_c
     and waits until collection exercise state = live """
     setup_data_with_enrolled_respondent_user_and_internal_user(context, generate_new_iac=True,
                                                                wait_ce_for_state=COLLECTION_EXERCISE_STATUS_LIVE)
+    context.add_cleanup(after_scenario_cleanup, context)
 
 
 @fixture
@@ -149,7 +155,7 @@ def setup_default_data(context):
     create_default_data(context)
 
 
-def create_response_user(context):
-    context.internal_user_name = getattr(context, 'short_name', create_ru_reference())
+def create_internal_user(context):
+    context.internal_user_name = create_ru_reference()
 
     internal_utilities.create_internal_user_login_account(context.internal_user_name)

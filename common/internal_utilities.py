@@ -7,14 +7,14 @@ from config import Config
 
 
 def create_internal_user_login_account(user_name):
-    tokenUrl = f'{Config.UAA_SERVICE_URL}/oauth/token'
+    token_url = f'{Config.UAA_SERVICE_URL}/oauth/token'
 
-    access_token = generate_access_token(client_id=Config.UAA_CLIENT_ID, client_secret=Config.UAA_SECRET, url=tokenUrl)
+    access_token = generate_access_token(client_id=Config.UAA_CLIENT_ID, client_secret=Config.UAA_SECRET, url=token_url)
 
-    userUrl = f'{Config.UAA_SERVICE_URL}/Users'
+    user_url = f'{Config.UAA_SERVICE_URL}/Users'
     email = survey_utilities.make_email_address(user_name, user_name)
 
-    return create_user(access_token, user_name, Config.UAA_DEFAULT_USER_PASSWORD, email, user_name, user_name, userUrl)
+    return create_user(access_token, user_name, Config.UAA_DEFAULT_USER_PASSWORD, email, user_name, user_name, user_url)
 
 
 def generate_access_token(client_id, client_secret, url):

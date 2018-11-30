@@ -11,7 +11,7 @@ logger = wrap_logger(getLogger(__name__))
 
 
 def create_respondent(user_name, enrolment_code, phone_number):
-    logger.info('Creating a respondent', username=user_name, enrolment_code=enrolment_code, phone_number=phone_number)
+    logger.debug('Creating a respondent', username=user_name, enrolment_code=enrolment_code, phone_number=phone_number)
 
     # party_controller.register_respondent endpoint performs many tasks including survey enrolment (which is not always
     # needed and can be rolled back using the unenrol_respondent_in_survey() method)
@@ -25,7 +25,7 @@ def create_respondent(user_name, enrolment_code, phone_number):
 
     party_controller.change_respondent_status(respondent_id)
 
-    logger.info('Respondent created', respondent_id=respondent_id, username=user_name, enrolment_code=enrolment_code)
+    logger.debug('Respondent created', respondent_id=respondent_id, username=user_name, enrolment_code=enrolment_code)
 
     return respondent
 
@@ -35,13 +35,13 @@ def unenrol_respondent_in_survey(survey_id):
 
 
 def enrol_respondent(respondent_id):
-    logger.info('Enroling respondent', respondent_id=respondent_id)
+    logger.debug('Enroling respondent', respondent_id=respondent_id)
 
     case_id = database_controller.enrol_party(respondent_id)
 
     case_controller.post_case_event(case_id, respondent_id, "RESPONDENT_ENROLED")
 
-    logger.info('Respondent Enrolled', respondent_id=respondent_id, case_id=case_id)
+    logger.debug('Respondent Enrolled', respondent_id=respondent_id, case_id=case_id)
 
     return respondent_id
 
@@ -55,7 +55,7 @@ def create_respondent_user_login_account(user_name):
 
 
 def register_respondent(survey_id, period, username, ru_ref=None, verified=True):
-    logger.info('Registering respondent', survey_id=survey_id, period=period, ru_ref=ru_ref)
+    logger.debug('Registering respondent', survey_id=survey_id, period=period, ru_ref=ru_ref)
     collection_exercise_id = collection_exercise_controller.get_collection_exercise(survey_id, period)['id']
     if ru_ref:
         business_party = party_controller.get_party_by_ru_ref(ru_ref)
@@ -77,6 +77,6 @@ def register_respondent(survey_id, period, username, ru_ref=None, verified=True)
     respondent_id = respondent_party['id']
     if verified:
         party_controller.change_respondent_status(respondent_party['id'])
-    logger.info('Successfully registered respondent', survey_id=survey_id, period=period,
-                ru_ref=ru_ref, respondent_id=respondent_id)
+    logger.debug('Successfully registered respondent', survey_id=survey_id, period=period,
+                 ru_ref=ru_ref, respondent_id=respondent_id)
     return respondent_id

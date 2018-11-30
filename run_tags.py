@@ -1,9 +1,9 @@
 import os
 import sys
 from logging import getLogger
+
 from behave import __main__ as behave_executable
 from structlog import wrap_logger
-
 
 logger = wrap_logger(getLogger(__name__))
 
@@ -14,7 +14,7 @@ if __name__ == '__main__':
         print('You must supply at least one tag e.g acceptance_tests/features --tags=standalone')
         exit(1)
 
-    format = os.getenv('BEHAVE_FORMAT', 'progress2')
+    behave_format = os.getenv('BEHAVE_FORMAT', 'progress2')
 
     tags = sys.argv.copy()
 
@@ -28,4 +28,4 @@ if __name__ == '__main__':
 
     logger.warn('Running Acceptance Tests with ' + all_tags)
 
-    behave_executable.main(args=f'--format {format} acceptance_tests/features ' + all_tags)
+    behave_executable.main(args=f'--format {behave_format} acceptance_tests/features ' + all_tags)
