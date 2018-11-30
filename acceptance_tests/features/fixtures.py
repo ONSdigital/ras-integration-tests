@@ -191,7 +191,7 @@ def setup_prepare_data_for_new_survey_with_internal_user(context):
     setup_prepare_data_for_new_survey(context)
 
 
-def setup_data_create_new_survey_with_internal_user(context):
+def setup_data_survey_with_internal_user(context):
     setup_prepare_data_for_new_survey_with_internal_user(context)
     survey_id = create_test_survey(context.long_name, context.short_name, context.survey_ref, context.survey_type,
                                    context.legal_basis)

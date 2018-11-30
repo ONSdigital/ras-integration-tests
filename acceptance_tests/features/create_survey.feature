@@ -1,3 +1,4 @@
+@business
 @standalone
 @fixture.setup.prepare.data.for.new.survey.with.internal.user
 Feature: As an internal user

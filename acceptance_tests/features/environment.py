@@ -5,7 +5,7 @@ from behave import use_fixture
 from structlog import wrap_logger
 
 from acceptance_tests import browser
-from acceptance_tests.features.fixtures import setup_data_create_new_survey_with_internal_user, \
+from acceptance_tests.features.fixtures import setup_data_survey_with_internal_user, \
                setup_data_with_2_enrolled_respondent_users_and_internal_user, \
                setup_data_with_enrolled_respondent_user_and_internal_user, \
                setup_data_with_enrolled_respondent_user_and_internal_user_and_new_iac_and_collection_exercise_to_live,\
@@ -36,8 +36,8 @@ timings = {}
 fixture_scenario_registry = {
     'fixture.setup.prepare.data.for.new.survey.with.internal.user':
         setup_prepare_data_for_new_survey_with_internal_user,
-    'fixture.setup.data.create.new.survey.with.internal.user':
-        setup_data_create_new_survey_with_internal_user,
+    'fixture.setup.data.survey.with.internal.user':
+        setup_data_survey_with_internal_user,
     'fixture.setup.with.internal.user':
         setup_with_internal_user,
     'fixture.setup.data.with.internal.user':

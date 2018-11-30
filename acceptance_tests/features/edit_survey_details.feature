@@ -1,3 +1,4 @@
+@business
 @standalone
 Feature: As an internal user
   I need to be able to edit/amend survey details
@@ -6,7 +7,7 @@ Feature: As an internal user
   Background: Internal user is already signed in
   Given the internal user is already signed in
 
-  @fixture.setup.data.create.new.survey.with.internal.user
+  @fixture.setup.data.survey.with.internal.user
   @us106-s01
   Scenario: Internal user is able to edit/amend survey details
     Given the internal user is on the survey list page
