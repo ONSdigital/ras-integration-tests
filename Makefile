@@ -40,6 +40,10 @@ system_tests: run_tests
 
 acceptance_tests: acceptance_sequential_tests acceptance_parallel_tests
 
+acceptance_tests_no_stop:
+	TEST_ARGS =
+	acceptance_tests
+
 acceptance_sequential_tests: setup
 	export IGNORE_SEQUENTIAL_DATA_SETUP=False; \
 	pipenv run python run_in_sequence.py --command_line_args="${TEST_ARGS}"
