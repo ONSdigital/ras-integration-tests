@@ -17,7 +17,7 @@ from acceptance_tests.features.fixtures import setup_data_survey_with_internal_u
                setup_data_with_unenrolled_respondent_user_and_internal_user, \
                setup_data_with_unenrolled_respondent_user_and_new_iac, \
                setup_data_with_unenrolled_respondent_user_and_new_iac_and_collection_exercise_to_live, \
-               setup_prepare_data_for_new_survey_with_internal_user
+               setup_survey_metadata_with_internal_user
 
 from common import survey_utilities
 from config import Config
@@ -34,8 +34,8 @@ logger = wrap_logger(getLogger(__name__))
 timings = {}
 
 fixture_scenario_registry = {
-    'fixture.setup.prepare.data.for.new.survey.with.internal.user':
-        setup_prepare_data_for_new_survey_with_internal_user,
+    'fixture.setup.survey.metadata.with.internal.user':
+        setup_survey_metadata_with_internal_user,
     'fixture.setup.data.survey.with.internal.user':
         setup_data_survey_with_internal_user,
     'fixture.setup.with.internal.user':

@@ -16,14 +16,6 @@ from common.survey_utilities import COLLECTION_EXERCISE_STATUS_CREATED, \
 from controllers import collection_exercise_controller
 
 
-def setup_data_create_new_survey(context):
-    """ Creates test survey """
-    setup_prepare_data_for_new_survey(context)
-    survey_id = create_test_survey(context.long_name, context.short_name, context.survey_ref, context.survey_type,
-                                   context.legal_basis)
-    context.survey_id = survey_id
-
-
 def setup_prepare_data_for_new_survey(context):
     survey_data = create_data_for_survey(context)
 
@@ -186,13 +178,13 @@ def create_internal_user(context):
     internal_utilities.create_internal_user_login_account(context.internal_user_name)
 
 
-def setup_prepare_data_for_new_survey_with_internal_user(context):
+def setup_survey_metadata_with_internal_user(context):
     setup_with_internal_user(context)
     setup_prepare_data_for_new_survey(context)
 
 
 def setup_data_survey_with_internal_user(context):
-    setup_prepare_data_for_new_survey_with_internal_user(context)
+    setup_survey_metadata_with_internal_user(context)
     survey_id = create_test_survey(context.long_name, context.short_name, context.survey_ref, context.survey_type,
                                    context.legal_basis)
     context.survey_id = survey_id

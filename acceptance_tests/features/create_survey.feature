@@ -1,6 +1,6 @@
 @business
 @standalone
-@fixture.setup.prepare.data.for.new.survey.with.internal.user
+@fixture.setup.survey.metadata.with.internal.user
 Feature: As an internal user
   I need to be able to create new surveys
   So that new surveys can be handled by SDC
