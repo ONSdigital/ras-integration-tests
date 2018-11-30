@@ -1,3 +1,5 @@
+import os
+
 from datetime import datetime
 from logging import getLogger
 
@@ -107,8 +109,10 @@ def after_scenario(_, scenario):
 def after_step(context, step):
     if step.status == "failed":
         logger.exception('Failed step', scenario=context.scenario.name, step=step.name)
-        step_str = step.name
-        browser.driver.save_screenshot(step_str + '_failed.png')
+        if os.getenv('SCREENSHOT', 'True') == 'True':
+            dir_name = os.path.join('..', '..', os.path.dirname(__file__))
+            step_str = step.name
+            browser.screenshot(os.path.join(dir_name, step_str + '_failed.png'))
 
 
 def after_all(_):
