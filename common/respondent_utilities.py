@@ -50,7 +50,7 @@ def enrol_respondent(respondent_id):
 
     case_id = database_controller.enrol_party(respondent_id)
 
-    case_controller.post_case_event(case_id, respondent_id, "RESPONDENT_ENROLLED")
+    case_controller.post_case_event(case_id, respondent_id, "RESPONDENT_ENROLED")
 
     logger.debug('Respondent Enrolled', respondent_id=respondent_id, case_id=case_id)
 
