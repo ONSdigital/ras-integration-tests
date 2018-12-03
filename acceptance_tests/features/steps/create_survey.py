@@ -1,12 +1,12 @@
 import logging
 
-from behave import given, when, then
+from behave import given, then, when
 from structlog import wrap_logger
 
 from acceptance_tests import browser
 from acceptance_tests.features.pages import create_survey_form, survey
+from common.respondent_utilities import create_ru_reference
 from common.string_utilities import substitute_context_values
-from common.survey_utilities import create_ru_reference
 
 logger = wrap_logger(logging.getLogger(__name__))
 
@@ -22,7 +22,6 @@ def check_user_on_survey_create_page(_):
 @given("they enter new survey details with legal basis of '{legal_basis}'")
 @when("they enter new survey details with legal basis of '{legal_basis}'")
 def create_new_survey_details(context, legal_basis):
-
     create_survey_form.edit_survey_ref(context.survey_ref)
     create_survey_form.edit_short_name(context.short_name)
     create_survey_form.edit_long_name(context.long_name)
@@ -57,7 +56,7 @@ def the_new_survey_information_is_on_the_page(context):
     # We've checked it's length is greater than zero so this is safe
     matching_survey = matching[0]
 
-    assert matching_survey['id'] == context.survey_ref,\
+    assert matching_survey['id'] == context.survey_ref, \
         f"Unexpected survey id {matching_survey['id']} ({context.survey_ref} expected)"
     assert matching_survey['name'] == context.long_name, \
         f"Unexpected survey name {matching_survey['id']} ({context.long_name} expected)"

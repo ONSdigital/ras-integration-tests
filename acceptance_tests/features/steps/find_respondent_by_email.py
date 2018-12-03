@@ -6,23 +6,23 @@ from controllers.party_controller import get_party_by_email
 
 @given('the respondent account with an email has been created')
 def create_respondent_account(context):
-    respondent_party = get_party_by_email(context.respondent_user_name)
+    respondent_party = get_party_by_email(context.respondent_email)
 
-    assert respondent_party is not None, f'No respondent with email {context.respondent_user_name} exists'
+    assert respondent_party is not None, f'No respondent with email {context.respondent_email} exists'
 
 
 @when('an internal user searches for respondent using their email address')
 def search_respondent_by_email(context):
     respondent.go_to_find_respondent()
-    respondent.search_respondent_by_email(context.respondent_user_name)
+    respondent.search_respondent_by_email(context.respondent_email)
 
 
 @then('the respondent details should be displayed')
 def assert_respondent_details_displayed(context):
     respondent_details = respondent.get_respondent_details()
 
-    assert context.respondent_user_name in respondent_details[
-        'email'], "No respondent with email " + context.respondent_user_name
+    assert context.respondent_email in respondent_details[
+        'email'], "No respondent with email " + context.respondent_email
 
 
 @then('the internal user is given a message of no respondent for email')

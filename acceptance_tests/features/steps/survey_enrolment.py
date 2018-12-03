@@ -53,7 +53,7 @@ def complete_account_details(context):
 @then('they are sent a verification email')
 def confirm_verification_email(context):
     actual_email_confirmation = browser.find_by_id('email_confirmation_sent').value
-    assert context.email in actual_email_confirmation
+    assert context.respondent_email in actual_email_confirmation
 
 
 @given('the internal user views the reporting unit page for a sample unit')

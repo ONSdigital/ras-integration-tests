@@ -11,7 +11,7 @@ def signed_in_respondent(context):
     sign_in_respondent.go_to()
     # Only attempt to sign in if not already signed in otherwise implicitly redirected to homepage
     if '/sign-in' in browser.url:
-        browser.driver.find_element_by_id('username').send_keys(context.respondent_user_name)
+        browser.driver.find_element_by_id('username').send_keys(context.respondent_email)
         browser.driver.find_element_by_id('inputPassword').send_keys(Config.RESPONDENT_PASSWORD)
         browser.find_by_id('sign_in_button').click()
 
