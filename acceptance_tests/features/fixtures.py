@@ -2,11 +2,28 @@ from behave import fixture
 
 from acceptance_tests.features.pages.inbox_internal import after_scenario_cleanup
 from common import internal_utilities
-from common.survey_utilities import create_default_data, create_enrolled_respondent_for_the_test_survey, \
-    COLLECTION_EXERCISE_STATUS_LIVE, create_unenrolled_respondent, create_data_for_survey, create_test_survey, \
-    create_data_for_collection_exercise, \
-    create_test_business_collection_exercise, COLLECTION_EXERCISE_STATUS_CREATED, create_ru_reference
+from common.survey_utilities import COLLECTION_EXERCISE_STATUS_CREATED, \
+                                    COLLECTION_EXERCISE_STATUS_LIVE, \
+                                    create_data_for_collection_exercise, \
+                                    create_data_for_survey, \
+                                    create_default_data, \
+                                    create_enrolled_respondent_for_the_test_survey, \
+                                    create_ru_reference, \
+                                    create_survey_reference, \
+                                    create_test_business_collection_exercise, \
+                                    create_test_survey, \
+                                    create_unenrolled_respondent
 from controllers import collection_exercise_controller
+
+
+def setup_prepare_data_for_new_survey(context):
+    survey_data = create_data_for_survey(context)
+
+    context.long_name = survey_data['long_name']
+    context.short_name = survey_data['short_name']
+    context.period = survey_data['period']
+    context.survey_ref = create_survey_reference()
+    context.legal_basis = survey_data['legal_basis']
 
 
 @fixture
@@ -159,3 +176,15 @@ def create_internal_user(context):
     context.internal_user_name = create_ru_reference()
 
     internal_utilities.create_internal_user_login_account(context.internal_user_name)
+
+
+def setup_survey_metadata_with_internal_user(context):
+    setup_with_internal_user(context)
+    setup_prepare_data_for_new_survey(context)
+
+
+def setup_data_survey_with_internal_user(context):
+    setup_survey_metadata_with_internal_user(context)
+    survey_id = create_test_survey(context.long_name, context.short_name, context.survey_ref, context.survey_type,
+                                   context.legal_basis)
+    context.survey_id = survey_id

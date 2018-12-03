@@ -3,10 +3,17 @@ from logging import getLogger
 from random import randint
 
 from structlog import wrap_logger
-
-import common.collection_exercise_utilities
-from common import common_utilities
-from common import respondent_utilities
+from common.collection_exercise_utilities import execute_collection_exercises, \
+                                                 find_case_by_enrolment_code, \
+                                                 generate_collection_exercise_dates_from_period, \
+                                                 generate_new_enrolment_code, \
+                                                 make_user_description
+from common.common_utilities import concatenate_strings, compact_string, create_utc_timestamp
+from common.respondent_utilities import create_respondent, \
+                                        create_respondent_user_login_account, \
+                                        make_respondent_user_name, \
+                                        register_respondent, \
+                                        unenrol_respondent_in_survey
 from config import Config
 from controllers import collection_exercise_controller, survey_controller
 
@@ -20,7 +27,7 @@ RU_REFERENCE_END = 59999999999
 
 SURVEY_REFERENCE_PREFIX = '9'
 SURVEY_REFERENCE_START = 1001
-SURVEY_REFERENCE_END = 999999
+SURVEY_REFERENCE_END = 99999
 
 TELEPHONE_NUMBER_START = 0
 TELEPHONE_NUMBER_END = 99999999999
@@ -34,9 +41,9 @@ logger = wrap_logger(getLogger(__name__))
 # Sequential methods
 
 def setup_sequential_data_for_test():
-    common.collection_exercise_utilities.execute_collection_exercises()
-    common.respondent_utilities.register_respondent(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201801',
-                                                    username=Config.RESPONDENT_USERNAME, ru_ref=49900000001)
+    execute_collection_exercises()
+    register_respondent(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201801',
+                        username=Config.RESPONDENT_USERNAME, ru_ref=49900000001)
 
 
 # Parallel methods
@@ -62,7 +69,6 @@ def create_data_for_survey(context):
 
 def create_data_for_collection_exercise():
     """ Data used for creating a Collection Exercise """
-
     return {
         'survey_ref': create_survey_reference()
     }
@@ -99,7 +105,7 @@ def create_default_data(context):
     context.long_name = long_name
     context.survey_ref = survey_ref
     context.survey_id = survey_id
-    context.respondent_user_name = respondent_utilities.make_respondent_user_name(short_name)
+    context.respondent_user_name = make_respondent_user_name(short_name)
 
 
 # General methods
@@ -124,9 +130,8 @@ def create_test_social_collection_exercise(context, survey_id, period, ru_ref, c
 
     logger.debug('Creating Social Collection Exercise', survey_id=survey_id, period=period)
 
-    user_description = common.collection_exercise_utilities.make_user_description(ce_name,
-                                                                                  is_social_survey(survey_type), 50)
-    dates = common.collection_exercise_utilities.generate_collection_exercise_dates_from_period(period)
+    user_description = make_user_description(ce_name, is_social_survey(survey_type), 50)
+    dates = generate_collection_exercise_dates_from_period(period)
 
     iac = collection_exercise_controller.create_and_execute_social_collection_exercise(context, survey_id, period,
                                                                                        user_description, dates,
@@ -143,9 +148,8 @@ def create_test_business_collection_exercise(survey_id, period, ru_ref, ce_name,
 
     logger.debug('Creating Business Collection Exercise', survey_id=survey_id, period=period)
 
-    user_description = common.collection_exercise_utilities.make_user_description(ce_name,
-                                                                                  is_social_survey(survey_type), 50)
-    dates = common.collection_exercise_utilities.generate_collection_exercise_dates_from_period(period)
+    user_description = make_user_description(ce_name, is_social_survey(survey_type), 50)
+    dates = generate_collection_exercise_dates_from_period(period)
 
     iac = collection_exercise_controller.create_and_execute_collection_exercise_with_unique_sample(survey_id, period,
                                                                                                    user_description,
@@ -159,23 +163,22 @@ def create_test_business_collection_exercise(survey_id, period, ru_ref, ce_name,
 
 
 def create_enrolled_respondent_for_the_test_survey(context, generate_new_iac=False):
-    user_name = respondent_utilities.make_respondent_user_name(context.short_name)
+    user_name = make_respondent_user_name(context.short_name)
 
     context.phone_number = create_phone_number()
 
-    respondent_utilities.create_respondent(user_name=user_name, enrolment_code=context.iac,
-                                           phone_number=context.phone_number)
-    respondent_utilities.create_respondent_user_login_account(user_name)
+    create_respondent(user_name=user_name, enrolment_code=context.iac, phone_number=context.phone_number)
+    create_respondent_user_login_account(user_name)
 
     if generate_new_iac:
-        case = common.collection_exercise_utilities.find_case_by_enrolment_code(context.iac)
-        context.iac = common.collection_exercise_utilities.generate_new_enrolment_code(case['id'], case['partyId'])
+        case = find_case_by_enrolment_code(context.iac)
+        context.iac = generate_new_enrolment_code(case['id'], case['partyId'])
 
 
 def create_unenrolled_respondent(context, generate_new_iac=False):
     create_enrolled_respondent_for_the_test_survey(context, generate_new_iac)
 
-    respondent_utilities.unenrol_respondent_in_survey(context.survey_id)
+    unenrol_respondent_in_survey(context.survey_id)
 
 
 def is_social_survey(survey_type):
@@ -195,7 +198,7 @@ def create_social_survey_period(period_offset_days=0):
 
 
 def format_period(period_year, period_month):
-    return common_utilities.concatenate_strings(str(period_year), str(period_month).zfill(2))
+    return concatenate_strings(str(period_year), str(period_month).zfill(2))
 
 
 def create_ru_reference():
@@ -209,30 +212,23 @@ def make_email_address(local_part=None, domain=None):
     if not domain:
         domain = local_part
 
-    return common_utilities.concatenate_strings(common_utilities.concatenate_strings(local_part, '@'),
-                                                common_utilities.concatenate_strings(domain, '.com'))
+    return f"{local_part}@{domain}.com"
 
 
 def format_survey_name(survey_name_in, social_survey, max_field_length):
+    timestamp = create_utc_timestamp()
+
     if social_survey:
-        prefix = common_utilities.concatenate_strings(SURVEY_NAME_SOCIAL_PREFIX, '', FIELD_SEPARATOR)
+        name = f"{SURVEY_NAME_SOCIAL_PREFIX}{FIELD_SEPARATOR}{survey_name_in}{FIELD_SEPARATOR}{timestamp}"
     else:
-        prefix = common_utilities.concatenate_strings(SURVEY_NAME_BUSINESS_PREFIX, '', FIELD_SEPARATOR)
+        name = f"{SURVEY_NAME_BUSINESS_PREFIX}{FIELD_SEPARATOR}{survey_name_in}{FIELD_SEPARATOR}{timestamp}"
 
-    # Append timestamp
-    survey_name_out = common_utilities.concatenate_strings(survey_name_in, common_utilities.create_utc_timestamp(),
-                                                           FIELD_SEPARATOR)
-
-    survey_name_out = common_utilities.compact_string(survey_name_out, max_field_length - len(prefix))
-
-    # return with prefix
-    return common_utilities.concatenate_strings(prefix, survey_name_out)
+    return compact_string(name, max_field_length)
 
 
 def create_survey_reference():
     ref = str(randint(SURVEY_REFERENCE_START, SURVEY_REFERENCE_END))
-
-    return common_utilities.concatenate_strings(SURVEY_REFERENCE_PREFIX, ref)
+    return f"{SURVEY_REFERENCE_PREFIX}{ref}"
 
 
 def create_phone_number():
