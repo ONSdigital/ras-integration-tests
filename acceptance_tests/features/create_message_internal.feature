@@ -1,4 +1,7 @@
+@business
+@standalone
 @secure_messaging
+@fixture.setup.data.with.enrolled.respondent.user.and.internal.user.and.new.iac.and.collection.exercise.to.live
 Feature: Internal user to send message
   As an internal ONS user
   I need to be able to send a secure message
