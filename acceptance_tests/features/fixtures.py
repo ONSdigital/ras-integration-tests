@@ -1,18 +1,19 @@
 from behave import fixture
 
-from acceptance_tests.features.pages.inbox_internal import after_scenario_cleanup
+from acceptance_tests.features.pages import sign_out_internal
 from common import internal_utilities
+from common.collection_exercise_utilities import generate_new_enrolment_code_from_existing_code
 from common.survey_utilities import COLLECTION_EXERCISE_STATUS_CREATED, \
-                                    COLLECTION_EXERCISE_STATUS_LIVE, \
-                                    create_data_for_collection_exercise, \
-                                    create_data_for_survey, \
-                                    create_default_data, \
-                                    create_enrolled_respondent_for_the_test_survey, \
-                                    create_ru_reference, \
-                                    create_survey_reference, \
-                                    create_test_business_collection_exercise, \
-                                    create_test_survey, \
-                                    create_unenrolled_respondent
+    COLLECTION_EXERCISE_STATUS_LIVE, \
+    create_data_for_collection_exercise, \
+    create_data_for_survey, \
+    create_default_data, \
+    create_enrolled_respondent_for_the_test_survey, \
+    create_ru_reference, \
+    create_survey_reference, \
+    create_test_business_collection_exercise, \
+    create_test_survey, \
+    create_unenrolled_respondent
 from controllers import collection_exercise_controller
 
 
@@ -29,11 +30,11 @@ def setup_prepare_data_for_new_survey(context):
 @fixture
 def setup_with_internal_user(context):
     create_internal_user(context)
-    context.add_cleanup(after_scenario_cleanup, context)
+    context.add_cleanup(sign_out_internal.try_sign_out)
 
 
 @fixture
-def setup_data_with_response_user(context):
+def setup_data_with_internal_user(context):
     create_default_data(context)
     create_internal_user(context)
 
@@ -42,59 +43,46 @@ def setup_data_with_response_user(context):
 def setup_data_with_internal_user_and_social_collection_exercise_to_closed_status(context):
     """ Creates a collection exercise that has mandatory dates in the past """
     context.period_offset_days = -365
-    setup_default_data(context)
-
+    create_default_data(context)
     create_internal_user(context)
 
 
 @fixture
-def setup_data_with_enrolled_respondent_user_and_internal_user(context, generate_new_iac=False,
-                                                               wait_ce_for_state=None):
+def setup_data_with_enrolled_respondent_user_and_internal_user(context):
     """ Creates default data + an enrolled Respondent in the default collection exercise """
-    setup_default_data(context)
-
-    create_enrolled_respondent_for_the_test_survey(context, generate_new_iac)
-
+    create_default_data(context)
+    create_enrolled_respondent_for_the_test_survey(context)
     create_internal_user(context)
 
-    if wait_ce_for_state:
-        collection_exercise_controller.wait_for_collection_exercise_state(context.survey_id, context.period,
-                                                                          wait_ce_for_state)
-    context.add_cleanup(after_scenario_cleanup, context)
+    context.add_cleanup(sign_out_internal.try_sign_out)
 
 
 @fixture
-def setup_data_with_unenrolled_respondent_user(context, generate_new_iac=False,
-                                               wait_for_collection_exercise_state=None):
+def setup_data_with_unenrolled_respondent_user(context):
     """
     Creates default data + an unenrolled Respondent
     :param context:
-    :param generate_new_iac: generate a new unused iac
-    :param wait_for_collection_exercise_state: wait for collection exercise state = live
     :return:
     """
-    setup_default_data(context)
-
-    create_unenrolled_respondent(context, generate_new_iac)
-
-    if wait_for_collection_exercise_state:
-        collection_exercise_controller.wait_for_collection_exercise_state(context.survey_id, context.period,
-                                                                          wait_for_collection_exercise_state)
-    context.add_cleanup(after_scenario_cleanup, context)
+    create_default_data(context)
+    create_unenrolled_respondent(context)
 
 
 @fixture
 def setup_data_with_unenrolled_respondent_user_and_internal_user(context):
-    setup_data_with_unenrolled_respondent_user(context)
-
+    create_default_data(context)
+    create_unenrolled_respondent(context)
     create_internal_user(context)
-    context.add_cleanup(after_scenario_cleanup, context)
+
+    context.add_cleanup(sign_out_internal.try_sign_out)
 
 
 @fixture
 def setup_data_with_unenrolled_respondent_user_and_new_iac(context):
     """ Creates default data, an unenrolled Respondent and generates a new unused iac """
-    setup_data_with_unenrolled_respondent_user(context, generate_new_iac=True)
+    create_default_data(context)
+    create_unenrolled_respondent(context)
+    create_new_iac(context)
 
 
 @fixture
@@ -128,17 +116,34 @@ def setup_data_with_internal_user_and_collection_exercise_to_created_status(cont
 def setup_data_with_unenrolled_respondent_user_and_new_iac_and_collection_exercise_to_live(context):
     """ Creates default data, an unenrolled Respondent, generates a new unused iac
     and waits until collection exercise state = live """
-    setup_data_with_unenrolled_respondent_user(context, generate_new_iac=True,
-                                               wait_for_collection_exercise_state=COLLECTION_EXERCISE_STATUS_LIVE)
+    create_default_data(context)
+    create_unenrolled_respondent(context)
+    create_new_iac(context)
+    collection_exercise_controller.wait_for_collection_exercise_state(context.survey_id, context.period,
+                                                                      COLLECTION_EXERCISE_STATUS_LIVE)
 
 
 @fixture
 def setup_data_with_enrolled_respondent_user_and_internal_user_and_new_iac_and_collection_exercise_to_live(context):
     """ Creates default data, an enrolled Respondent, generates a new unused iac
     and waits until collection exercise state = live """
-    setup_data_with_enrolled_respondent_user_and_internal_user(context, generate_new_iac=True,
-                                                               wait_ce_for_state=COLLECTION_EXERCISE_STATUS_LIVE)
-    context.add_cleanup(after_scenario_cleanup, context)
+    create_default_data(context)
+    create_enrolled_respondent_for_the_test_survey(context)
+    create_internal_user(context)
+    create_new_iac(context)
+    collection_exercise_controller.wait_for_collection_exercise_state(context.survey_id, context.period,
+                                                                      COLLECTION_EXERCISE_STATUS_LIVE)
+    context.add_cleanup(sign_out_internal.try_sign_out)
+
+
+@fixture
+def setup_data_with_enrolled_respondent_user_and_collection_exercise_to_live(context):
+    """ Creates default data, an enrolled Respondent waits until collection exercise state = live """
+    create_default_data(context)
+    create_enrolled_respondent_for_the_test_survey(context)
+    collection_exercise_controller.wait_for_collection_exercise_state(context.survey_id, context.period,
+                                                                      COLLECTION_EXERCISE_STATUS_LIVE)
+    context.add_cleanup(sign_out_internal.try_sign_out)
 
 
 @fixture
@@ -167,15 +172,14 @@ def setup_data_with_2_enrolled_respondent_users_and_internal_user(context):
     context.short_name = ce1_short_name
 
 
-def setup_default_data(context):
-    """ Create the default Survey and Collection Exercise """
-    create_default_data(context)
-
-
 def create_internal_user(context):
     context.internal_user_name = create_ru_reference()
 
     internal_utilities.create_internal_user_login_account(context.internal_user_name)
+
+
+def create_new_iac(context):
+    context.iac = generate_new_enrolment_code_from_existing_code(context.iac)
 
 
 def setup_survey_metadata_with_internal_user(context):

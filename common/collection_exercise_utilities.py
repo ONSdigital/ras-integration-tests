@@ -74,6 +74,11 @@ def generate_new_enrolment_code(case_id, business_id):
     return iac
 
 
+def generate_new_enrolment_code_from_existing_code(existing_code):
+    case = find_case_by_enrolment_code(existing_code)
+    return generate_new_enrolment_code(case['id'], case['partyId'])
+
+
 def generate_social_collection_exercise_dates():
     """Generates and returns collection exercise dates."""
 
@@ -116,13 +121,13 @@ def generate_collection_exercise_dates(base_date):
 
 def make_user_description(user_description_in, is_social_survey, max_field_length):
     if is_social_survey:
-        prefix = common_utilities.concatenate_strings(USER_DESCRIPTION_SOCIAL_PREFIX, '', FIELD_SEPARATOR)
+        prefix = ''.join((USER_DESCRIPTION_SOCIAL_PREFIX, FIELD_SEPARATOR))
     else:
-        prefix = common_utilities.concatenate_strings(USER_DESCRIPTION_BUSINESS_PREFIX, '', FIELD_SEPARATOR)
+        prefix = ''.join((USER_DESCRIPTION_BUSINESS_PREFIX, FIELD_SEPARATOR))
 
     compacted_user_description = common_utilities.compact_string(user_description_in, max_field_length - len(prefix))
 
-    return common_utilities.concatenate_strings(prefix, compacted_user_description)
+    return ''.join((prefix, compacted_user_description))
 
 
 def enrol_respondent(party_id, survey_id, period):

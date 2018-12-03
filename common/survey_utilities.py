@@ -3,17 +3,13 @@ from logging import getLogger
 from random import randint
 
 from structlog import wrap_logger
+
 from common.collection_exercise_utilities import execute_collection_exercises, \
-                                                 find_case_by_enrolment_code, \
-                                                 generate_collection_exercise_dates_from_period, \
-                                                 generate_new_enrolment_code, \
-                                                 make_user_description
-from common.common_utilities import concatenate_strings, compact_string, create_utc_timestamp
-from common.respondent_utilities import create_respondent, \
-                                        create_respondent_user_login_account, \
-                                        make_respondent_user_name, \
-                                        register_respondent, \
-                                        unenrol_respondent_in_survey
+    generate_collection_exercise_dates_from_period, \
+    make_user_description
+from common.common_utilities import compact_string, create_utc_timestamp
+from common.respondent_utilities import create_respondent, create_respondent_email_address, \
+    create_respondent_user_login_account, register_respondent, unenrol_respondent_in_survey
 from config import Config
 from controllers import collection_exercise_controller, survey_controller
 
@@ -105,7 +101,7 @@ def create_default_data(context):
     context.long_name = long_name
     context.survey_ref = survey_ref
     context.survey_id = survey_id
-    context.respondent_user_name = make_respondent_user_name(short_name)
+    context.respondent_user_name = create_respondent_email_address(short_name)
 
 
 # General methods
@@ -162,21 +158,17 @@ def create_test_business_collection_exercise(survey_id, period, ru_ref, ce_name,
     return iac
 
 
-def create_enrolled_respondent_for_the_test_survey(context, generate_new_iac=False):
-    user_name = make_respondent_user_name(context.short_name)
-
+def create_enrolled_respondent_for_the_test_survey(context):
+    respondent_email = create_respondent_email_address(context.short_name)
+    context.respondent_email = respondent_email
     context.phone_number = create_phone_number()
 
-    create_respondent(user_name=user_name, enrolment_code=context.iac, phone_number=context.phone_number)
-    create_respondent_user_login_account(user_name)
-
-    if generate_new_iac:
-        case = find_case_by_enrolment_code(context.iac)
-        context.iac = generate_new_enrolment_code(case['id'], case['partyId'])
+    create_respondent(user_name=respondent_email, enrolment_code=context.iac, phone_number=context.phone_number)
+    create_respondent_user_login_account(respondent_email)
 
 
-def create_unenrolled_respondent(context, generate_new_iac=False):
-    create_enrolled_respondent_for_the_test_survey(context, generate_new_iac)
+def create_unenrolled_respondent(context):
+    create_enrolled_respondent_for_the_test_survey(context)
 
     unenrol_respondent_in_survey(context.survey_id)
 
@@ -198,7 +190,7 @@ def create_social_survey_period(period_offset_days=0):
 
 
 def format_period(period_year, period_month):
-    return concatenate_strings(str(period_year), str(period_month).zfill(2))
+    return f'{period_year}{str(period_month).zfill(2)}'
 
 
 def create_ru_reference():
@@ -219,9 +211,9 @@ def format_survey_name(survey_name_in, social_survey, max_field_length):
     timestamp = create_utc_timestamp()
 
     if social_survey:
-        name = f"{SURVEY_NAME_SOCIAL_PREFIX}{FIELD_SEPARATOR}{survey_name_in}{FIELD_SEPARATOR}{timestamp}"
+        name = FIELD_SEPARATOR.join((SURVEY_NAME_SOCIAL_PREFIX, survey_name_in, timestamp))
     else:
-        name = f"{SURVEY_NAME_BUSINESS_PREFIX}{FIELD_SEPARATOR}{survey_name_in}{FIELD_SEPARATOR}{timestamp}"
+        name = FIELD_SEPARATOR.join((SURVEY_NAME_BUSINESS_PREFIX, survey_name_in, timestamp))
 
     return compact_string(name, max_field_length)
 

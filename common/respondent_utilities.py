@@ -30,23 +30,27 @@ def create_respondent(user_name, enrolment_code, phone_number):
     return respondent
 
 
+def create_respondent_data(context):
+    context.respondent_user_name = create_respondent_email_address(context.short_name)
+
+
 def unenrol_respondent_in_survey(survey_id):
     database_controller.unenrol_respondent_in_survey(survey_id)
 
 
 def enrol_respondent(respondent_id):
-    logger.debug('Enroling respondent', respondent_id=respondent_id)
+    logger.debug('Enrolling respondent', respondent_id=respondent_id)
 
     case_id = database_controller.enrol_party(respondent_id)
 
-    case_controller.post_case_event(case_id, respondent_id, "RESPONDENT_ENROLED")
+    case_controller.post_case_event(case_id, respondent_id, "RESPONDENT_ENROLLED")
 
     logger.debug('Respondent Enrolled', respondent_id=respondent_id, case_id=case_id)
 
     return respondent_id
 
 
-def make_respondent_user_name(short_name):
+def create_respondent_email_address(short_name):
     return survey_utilities.make_email_address(short_name, short_name)
 
 

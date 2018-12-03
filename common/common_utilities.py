@@ -24,10 +24,6 @@ def compact_string(string_in, max_length):
     return string_out
 
 
-def concatenate_strings(left_part, right_part, separator=''):
-    return left_part + separator + right_part
-
-
 def create_behave_stop_argument(stop_on_failure):
     try:
         arg = strtobool(stop_on_failure)
