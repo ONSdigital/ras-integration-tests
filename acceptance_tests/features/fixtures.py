@@ -99,6 +99,17 @@ def setup_data_with_unenrolled_respondent_user_and_new_iac(context):
 
 @fixture
 def setup_data_with_internal_user_and_collection_exercise_to_created_status(context):
+    _setup_data_with_internal_user_and_collection_exercise_to_specific_status(context,
+                                                                              COLLECTION_EXERCISE_STATUS_CREATED)
+
+
+@fixture
+def setup_data_with_internal_user_and_collection_exercise_to_live_status(context):
+    _setup_data_with_internal_user_and_collection_exercise_to_specific_status(context,
+                                                                              COLLECTION_EXERCISE_STATUS_LIVE)
+
+
+def _setup_data_with_internal_user_and_collection_exercise_to_specific_status(context, stop_at_state):
     """ Creates default survey + collection exercise state = created """
     survey_data = create_data_for_survey(context)
     period = survey_data['period']
@@ -119,9 +130,13 @@ def setup_data_with_internal_user_and_collection_exercise_to_created_status(cont
     context.period = period
 
     create_test_business_collection_exercise(survey_id, period, short_name, ce_name, survey_type,
-                                             stop_at_state=COLLECTION_EXERCISE_STATUS_CREATED)
+                                             stop_at_state=stop_at_state)
 
     create_internal_user(context)
+
+
+
+
 
 
 @fixture

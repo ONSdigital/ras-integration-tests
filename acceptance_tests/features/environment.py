@@ -12,6 +12,7 @@ from acceptance_tests.features.fixtures import setup_data_survey_with_internal_u
                setup_with_internal_user, \
                setup_data_with_internal_user_and_social_collection_exercise_to_closed_status, \
                setup_data_with_internal_user_and_collection_exercise_to_created_status, \
+               setup_data_with_internal_user_and_collection_exercise_to_live_status, \
                setup_data_with_response_user, \
                setup_data_with_unenrolled_respondent_user, \
                setup_data_with_unenrolled_respondent_user_and_internal_user, \
@@ -52,6 +53,8 @@ fixture_scenario_registry = {
         setup_data_with_unenrolled_respondent_user_and_new_iac,
     'fixture.setup.data.with.internal.user.and.collection.exercise.to.created.status':
         setup_data_with_internal_user_and_collection_exercise_to_created_status,
+    'fixture.setup.data.with.internal.user.and.collection.exercise.to.live.status':
+        setup_data_with_internal_user_and_collection_exercise_to_live_status,
     'fixture.setup.data.with.internal.user.and.social.collection.exercise.to.closed.status':
         setup_data_with_internal_user_and_social_collection_exercise_to_closed_status,
     'fixture.setup.data.with.unenrolled.respondent.user.and.new.iac.and.collection.exercise.to.live':
