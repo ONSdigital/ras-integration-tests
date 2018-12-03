@@ -3,6 +3,7 @@ from datetime import date, timedelta
 
 from acceptance_tests.features.pages import edit_collection_exercise_details_form, collection_exercise_details, \
     collection_exercise
+from common.browser_utilities import wait_for
 
 
 @when('they request to edit/amend collection exercise details')
@@ -31,7 +32,7 @@ def check_collection_exercise_state(_):
 @then('the collection exercise details match the updated values')
 def view_updated_collection_exercise_details(context):
 
-    collection_exercises = collection_exercise.get_collection_exercises()
+    collection_exercises = wait_for(collection_exercise.get_collection_exercises, 15.0, 2.0)
 
     assert collection_exercises[0]['exercise_ref'] == context.expected_period
     assert collection_exercises[0]['user_description'] == context.expected_user_description
