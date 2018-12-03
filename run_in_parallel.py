@@ -42,12 +42,7 @@ DELIMITER = '_BEHAVE_PARALLEL_BDD_'
 
 
 def is_valid_parallel_environment():
-    if os.getenv('IGNORE_SEQUENTIAL_DATA_SETUP') is None:
-        return False
-
-    is_ignore_sequential_data_setup = strtobool(os.getenv('IGNORE_SEQUENTIAL_DATA_SETUP'))
-
-    return is_ignore_sequential_data_setup
+    return strtobool(os.getenv('IGNORE_SEQUENTIAL_DATA_SETUP', 'False'))
 
 
 def parse_arguments():
