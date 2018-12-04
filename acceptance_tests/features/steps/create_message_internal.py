@@ -14,13 +14,13 @@ def user_has_found_respondent(context):
     assert context.short_name is not None
 
 
-@when("they choose to send them a secure message and navigated to the 'send message' page")
+@when("they choose to send them a secure message and navigated to the send message page")
 @given("the user is on the send message page")
 def navigate_to_send_message(context):
     create_message_internal.go_to(context)
 
 
-@then("the \'To\' field is populated with the respondent's name")
+@then("the To field is populated with the respondent's name")
 def check_to_field(context):
     to_field = create_message_internal.get_ru_details_attributes().get('to')
     assert str(to_field) == create_message_internal.found_respondent_details(context).get('to')
