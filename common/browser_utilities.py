@@ -1,5 +1,6 @@
-import time
 from datetime import datetime, timedelta
+import time
+
 from acceptance_tests import browser
 
 
@@ -12,7 +13,7 @@ def is_text_present_with_retry(text, retries=3, delay=1):
 
 
 def wait_for(fn, timeout_secs, retry_secs=3.0):
-    """run function multiple times within a timeout window until it stops returning None
+    """run function multiple times within a timeout window until it returns a truthy value
     Not done as a decorator as fn could be called from several places"""
 
     ret_val = None
