@@ -2,23 +2,40 @@ from behave import fixture
 
 from acceptance_tests.features.pages.inbox_internal import after_scenario_cleanup
 from common import internal_utilities
-from common.survey_utilities import create_default_data, create_enrolled_respondent_for_the_test_survey, \
-    COLLECTION_EXERCISE_STATUS_LIVE, create_unenrolled_respondent, create_data_for_survey, create_test_survey, \
-    create_data_for_collection_exercise, \
-    create_test_business_collection_exercise, COLLECTION_EXERCISE_STATUS_CREATED, create_ru_reference
+from common.survey_utilities import COLLECTION_EXERCISE_STATUS_CREATED, \
+                                    COLLECTION_EXERCISE_STATUS_LIVE, \
+                                    create_data_for_collection_exercise, \
+                                    create_data_for_survey, \
+                                    create_default_data, \
+                                    create_enrolled_respondent_for_the_test_survey, \
+                                    create_ru_reference, \
+                                    create_survey_reference, \
+                                    create_test_business_collection_exercise, \
+                                    create_test_survey, \
+                                    create_unenrolled_respondent
 from controllers import collection_exercise_controller
+
+
+def setup_prepare_data_for_new_survey(context):
+    survey_data = create_data_for_survey(context)
+
+    context.long_name = survey_data['long_name']
+    context.short_name = survey_data['short_name']
+    context.period = survey_data['period']
+    context.survey_ref = create_survey_reference()
+    context.legal_basis = survey_data['legal_basis']
 
 
 @fixture
 def setup_with_internal_user(context):
-    create_response_user(context)
+    create_internal_user(context)
     context.add_cleanup(after_scenario_cleanup, context)
 
 
 @fixture
 def setup_data_with_response_user(context):
     create_default_data(context)
-    create_response_user(context)
+    create_internal_user(context)
 
 
 @fixture
@@ -27,7 +44,7 @@ def setup_data_with_internal_user_and_social_collection_exercise_to_closed_statu
     context.period_offset_days = -365
     setup_default_data(context)
 
-    create_response_user(context)
+    create_internal_user(context)
 
 
 @fixture
@@ -38,7 +55,7 @@ def setup_data_with_enrolled_respondent_user_and_internal_user(context, generate
 
     create_enrolled_respondent_for_the_test_survey(context, generate_new_iac)
 
-    create_response_user(context)
+    create_internal_user(context)
 
     if wait_ce_for_state:
         collection_exercise_controller.wait_for_collection_exercise_state(context.survey_id, context.period,
@@ -70,7 +87,7 @@ def setup_data_with_unenrolled_respondent_user(context, generate_new_iac=False,
 def setup_data_with_unenrolled_respondent_user_and_internal_user(context):
     setup_data_with_unenrolled_respondent_user(context)
 
-    create_response_user(context)
+    create_internal_user(context)
     context.add_cleanup(after_scenario_cleanup, context)
 
 
@@ -82,6 +99,17 @@ def setup_data_with_unenrolled_respondent_user_and_new_iac(context):
 
 @fixture
 def setup_data_with_internal_user_and_collection_exercise_to_created_status(context):
+    _setup_data_with_internal_user_and_collection_exercise_to_specific_status(context,
+                                                                              COLLECTION_EXERCISE_STATUS_CREATED)
+
+
+@fixture
+def setup_data_with_internal_user_and_collection_exercise_to_live_status(context):
+    _setup_data_with_internal_user_and_collection_exercise_to_specific_status(context,
+                                                                              COLLECTION_EXERCISE_STATUS_LIVE)
+
+
+def _setup_data_with_internal_user_and_collection_exercise_to_specific_status(context, stop_at_state):
     """ Creates default survey + collection exercise state = created """
     survey_data = create_data_for_survey(context)
     period = survey_data['period']
@@ -102,9 +130,13 @@ def setup_data_with_internal_user_and_collection_exercise_to_created_status(cont
     context.period = period
 
     create_test_business_collection_exercise(survey_id, period, short_name, ce_name, survey_type,
-                                             stop_at_state=COLLECTION_EXERCISE_STATUS_CREATED)
+                                             stop_at_state=stop_at_state)
 
-    create_response_user(context)
+    create_internal_user(context)
+
+
+
+
 
 
 @fixture
@@ -155,7 +187,19 @@ def setup_default_data(context):
     create_default_data(context)
 
 
-def create_response_user(context):
+def create_internal_user(context):
     context.internal_user_name = create_ru_reference()
 
     internal_utilities.create_internal_user_login_account(context.internal_user_name)
+
+
+def setup_survey_metadata_with_internal_user(context):
+    setup_with_internal_user(context)
+    setup_prepare_data_for_new_survey(context)
+
+
+def setup_data_survey_with_internal_user(context):
+    setup_survey_metadata_with_internal_user(context)
+    survey_id = create_test_survey(context.long_name, context.short_name, context.survey_ref, context.survey_type,
+                                   context.legal_basis)
+    context.survey_id = survey_id

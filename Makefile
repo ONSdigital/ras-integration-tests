@@ -33,37 +33,50 @@ setup: clean
 # If you want to run a single feature file WITH setup first use:
 # make TEST_TARGET=acceptance_tests/features/your.feature acceptance_tests
 BEHAVE_FORMAT = progress2
-TEST_ARGS = --stop
 
 system_tests: TEST_TARGET = system_tests/features  # This will only run the system tests
 system_tests: run_tests
 
+# Run sequentially & in parallel targets
 acceptance_tests: acceptance_sequential_tests acceptance_parallel_tests
 
+rasrm_acceptance_tests: rasrm_acceptance_sequential_tests rasrm_acceptance_parallel_tests
+
+
+# Run sequentially targets
 acceptance_sequential_tests: setup
 	export IGNORE_SEQUENTIAL_DATA_SETUP=False; \
-	pipenv run python run_in_sequence.py --command_line_args="${TEST_ARGS}"
+	pipenv run python run_in_sequence.py
 
-acceptance_parallel_tests:
-	export IGNORE_SEQUENTIAL_DATA_SETUP=True; \
-	pipenv run python run_in_parallel.py --command_line_args="${TEST_ARGS}"
-
+acceptance_sequential_tests_all: TEST_TAGS = ~donotskipany
 acceptance_sequential_tests_all: setup
 	export IGNORE_SEQUENTIAL_DATA_SETUP=False; \
-	pipenv run python run_in_sequence.py --command_line_args="${TEST_ARGS}" --test_tags="~donotskipany"
-
-rasrm_acceptance_tests: rasrm_acceptance_sequential_tests rasrm_acceptance_parallel_tests
+	pipenv run python run_in_sequence.py --test_tags "${TEST_TAGS}"
 
 rasrm_acceptance_sequential_tests: TEST_TAGS = ~@secure_messaging ~@standalone
 rasrm_acceptance_sequential_tests:
 	export IGNORE_SEQUENTIAL_DATA_SETUP=False; \
-	pipenv run python run_in_sequence.py --command_line_args="${TEST_ARGS}" --test_tags "${TEST_TAGS}"
+	pipenv run python run_in_sequence.py --test_tags "${TEST_TAGS}"
+
+
+# Run in parallel targets
+acceptance_parallel_tests:
+	export IGNORE_SEQUENTIAL_DATA_SETUP=True; \
+	pipenv run python run_in_parallel.py
 
 rasrm_acceptance_parallel_tests: TEST_TAGS = ~@secure_messaging @standalone
 rasrm_acceptance_parallel_tests:
 	export IGNORE_SEQUENTIAL_DATA_SETUP=True; \
-	pipenv run python run_in_parallel.py --command_line_args="${TEST_ARGS}" --test_tags "${TEST_TAGS}"
+	pipenv run python run_in_parallel.py --test_tags "${TEST_TAGS}"
 
+secure_messaging_acceptance_tests: TEST_TAGS = @secure_messaging
+secure_messaging_acceptance_tests:
+	export IGNORE_SEQUENTIAL_DATA_SETUP=True; \
+	pipenv run python run_in_parallel.py --test_tags "${TEST_TAGS}"
+
+
+# Run sequentially with behave targets
+#todo eventually these will be converted and moved above/deleted
 rasrm_business_acceptance_tests: TEST_TARGET = acceptance_tests/features
 rasrm_business_acceptance_tests: TEST_TAGS = ~@secure_messaging ~@social
 rasrm_business_acceptance_tests:
@@ -73,11 +86,6 @@ social_acceptance_tests: TEST_TARGET = acceptance_tests/features
 social_acceptance_tests: TEST_TAGS = @social
 social_acceptance_tests: setup
 social_acceptance_tests:
-	pipenv run behave --stop --format ${BEHAVE_FORMAT} --tags ${TEST_TAGS} ${TEST_TARGET}
-
-secure_messaging_acceptance_tests: TEST_TARGET = acceptance_tests/features
-secure_messaging_acceptance_tests: TEST_TAGS = @secure_messaging
-secure_messaging_acceptance_tests:
 	pipenv run behave --stop --format ${BEHAVE_FORMAT} --tags ${TEST_TAGS} ${TEST_TARGET}
 
 run_tests:

@@ -27,6 +27,7 @@ def survey_ce_state_is_created(context):
     assert collection_exercise.is_created(ce_state), ce_state
 
 
+@given('the internal user navigates to the collection exercise details page')
 @when('the internal user navigates to the collection exercise details page')
 def view_ce_details(context):
     collection_exercise_details.go_to(context.short_name, context.period)

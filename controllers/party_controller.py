@@ -5,7 +5,6 @@ from structlog import wrap_logger
 
 from config import Config
 
-
 logger = wrap_logger(logging.getLogger(__name__))
 
 
@@ -70,7 +69,7 @@ def get_party_by_email(email):
     url = f'{Config.PARTY_SERVICE}/party-api/v1/respondents/email'
     response = requests.get(url, auth=Config.BASIC_AUTH, json={"email": email})
     if response.status_code == 404:
-        logger.info('Respondent not found')
+        logger.debug('Respondent not found')
         return
     logger.debug('Successfully retrieved party')
     return response.json()

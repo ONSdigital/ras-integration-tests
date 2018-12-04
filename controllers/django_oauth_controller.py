@@ -22,4 +22,4 @@ def verify_user(email_address):
     response = requests.put(url, auth=(Config.OAUTH_CLIENT_ID, Config.OAUTH_CLIENT_SECRET), data=payload)
 
     if response.status_code != 201:
-        logger.error("Unable to set the user active on the OAuth2 server", status=response.status_code)
+        logger.debug("Unable to set the user active on the OAuth2 server", status=response.status_code)

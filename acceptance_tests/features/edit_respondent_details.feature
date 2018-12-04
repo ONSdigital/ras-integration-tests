@@ -1,3 +1,4 @@
+@business
 @standalone
 Feature: As an internal user
   I need to be able to change a respondents details

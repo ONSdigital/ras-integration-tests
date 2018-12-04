@@ -5,17 +5,21 @@ from behave import use_fixture
 from structlog import wrap_logger
 
 from acceptance_tests import browser
-from acceptance_tests.features.fixtures import \
-    setup_data_with_enrolled_respondent_user_and_internal_user, \
-    setup_data_with_unenrolled_respondent_user, \
-    setup_data_with_unenrolled_respondent_user_and_new_iac_and_collection_exercise_to_live, \
-    setup_data_with_unenrolled_respondent_user_and_new_iac, \
-    setup_data_with_enrolled_respondent_user_and_internal_user_and_new_iac_and_collection_exercise_to_live, \
-    setup_data_with_2_enrolled_respondent_users_and_internal_user, \
-    setup_data_with_internal_user_and_social_collection_exercise_to_closed_status, \
-    setup_data_with_internal_user_and_collection_exercise_to_created_status, setup_data_with_response_user, \
-    setup_with_internal_user, \
-    setup_data_with_unenrolled_respondent_user_and_internal_user
+from acceptance_tests.features.fixtures import setup_data_survey_with_internal_user, \
+               setup_data_with_2_enrolled_respondent_users_and_internal_user, \
+               setup_data_with_enrolled_respondent_user_and_internal_user, \
+               setup_data_with_enrolled_respondent_user_and_internal_user_and_new_iac_and_collection_exercise_to_live,\
+               setup_with_internal_user, \
+               setup_data_with_internal_user_and_social_collection_exercise_to_closed_status, \
+               setup_data_with_internal_user_and_collection_exercise_to_created_status, \
+               setup_data_with_internal_user_and_collection_exercise_to_live_status, \
+               setup_data_with_response_user, \
+               setup_data_with_unenrolled_respondent_user, \
+               setup_data_with_unenrolled_respondent_user_and_internal_user, \
+               setup_data_with_unenrolled_respondent_user_and_new_iac, \
+               setup_data_with_unenrolled_respondent_user_and_new_iac_and_collection_exercise_to_live, \
+               setup_survey_metadata_with_internal_user
+
 from common import survey_utilities
 from config import Config
 from exceptions import MissingFixtureError
@@ -30,8 +34,11 @@ logger = wrap_logger(getLogger(__name__))
 
 timings = {}
 
-
 fixture_scenario_registry = {
+    'fixture.setup.survey.metadata.with.internal.user':
+        setup_survey_metadata_with_internal_user,
+    'fixture.setup.data.survey.with.internal.user':
+        setup_data_survey_with_internal_user,
     'fixture.setup.with.internal.user':
         setup_with_internal_user,
     'fixture.setup.data.with.internal.user':
@@ -46,6 +53,8 @@ fixture_scenario_registry = {
         setup_data_with_unenrolled_respondent_user_and_new_iac,
     'fixture.setup.data.with.internal.user.and.collection.exercise.to.created.status':
         setup_data_with_internal_user_and_collection_exercise_to_created_status,
+    'fixture.setup.data.with.internal.user.and.collection.exercise.to.live.status':
+        setup_data_with_internal_user_and_collection_exercise_to_live_status,
     'fixture.setup.data.with.internal.user.and.social.collection.exercise.to.closed.status':
         setup_data_with_internal_user_and_social_collection_exercise_to_closed_status,
     'fixture.setup.data.with.unenrolled.respondent.user.and.new.iac.and.collection.exercise.to.live':
@@ -85,6 +94,7 @@ def before_scenario(context, scenario):
     context.scenario_name = scenario.name
     context.survey_type = get_survey_type(context.tags)
 
+    # todo kept at info for sequential tests, delete/move to debug when all converted to standalone
     logger.info(f'Running Feature [{context.feature_name}], Scenario [{context.scenario_name}]')
 
     # Default to non-standalone fixed user name, standalone mode changes it
@@ -96,6 +106,7 @@ def before_scenario(context, scenario):
 
 
 def after_feature(_, feature):
+    # todo kept at info for sequential tests, delete/move to debug when all converted to standalone
     logger.info('Finished Feature [' + feature.name + ']')
 
 
