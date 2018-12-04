@@ -25,9 +25,7 @@ def get_ru_details_attributes():
 
 def found_respondent_details(context):
     return {'ru_ref': context.short_name,
-            'to': 'first_name last_name',
-            'to_uuid': context.respondent_user_name,
-            'to_ru_id': context.party_id}
+            'to': 'first_name last_name'}
 
 
 def get_subject_and_body():
