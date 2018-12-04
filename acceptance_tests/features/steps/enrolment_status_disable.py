@@ -4,15 +4,15 @@ from acceptance_tests.features.pages import sign_in_respondent, change_enrolment
 
 
 @given('the internal user is on the ru details page')
+@when(u'the internal user is back on the ru details page')
 def internal_user_view_ru_details(_):
     reporting_unit.go_to('49900000001')
-
 
 @given('the internal user disables enrolment for respondent with email "{email}"')
 def internal_user_disables_enrolment(_, email):
     reporting_unit.go_to('49900000001')
     reporting_unit.click_data_panel('Bricks')
-    reporting_unit.click_disable_enrolment(email)
+    reporting_unit.click_change_enrolment(email)
     change_enrolment_status.confirm_change_enrolment_status()
     reporting_unit.click_data_panel('Bricks')
     respondent = reporting_unit.get_respondent('Bricks', email)
