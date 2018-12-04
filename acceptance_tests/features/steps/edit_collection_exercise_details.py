@@ -1,10 +1,10 @@
-from behave import then, when
 from datetime import date, timedelta
 
-from acceptance_tests.features.pages import collection_exercise, \
-                                            collection_exercise_details, \
-                                            edit_collection_exercise_details_form
+from behave import then, when
 
+from acceptance_tests.features.pages import collection_exercise, \
+    collection_exercise_details, \
+    edit_collection_exercise_details_form
 from common.browser_utilities import wait_for
 
 
