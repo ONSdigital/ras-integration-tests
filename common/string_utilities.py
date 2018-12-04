@@ -7,7 +7,7 @@ def substitute_context_values(context, raw_string):
     value from context. Will ignore spaces after '{' and before '}'
      """
     new_string = raw_string.replace('{context.', '{')
-    matches = re.findall('{[\sa-zA-Z0-9_]+}', raw_string)
+    matches = re.findall('{[ sa-zA-Z0-9_]+}', raw_string)
 
     for match_str in matches:
         context_attr = match_str.replace('{', '').replace('}', '').strip()
