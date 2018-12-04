@@ -19,9 +19,6 @@ SURVEY_REFERENCE_END = 99999
 logger = wrap_logger(getLogger(__name__))
 
 
-# Sequential method
-
-
 def is_social_survey(survey_type):
     return 'Social' == survey_type
 
