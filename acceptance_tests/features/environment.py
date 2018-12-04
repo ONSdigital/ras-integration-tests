@@ -66,6 +66,16 @@ fixture_scenario_registry = {
 
 
 def before_all(_):
+    # Clear up old screenshots if in screenshot mode
+    if os.getenv('SCREENSHOT', 'False') == 'True':
+        try:
+            os.unlink(os.path.join(get_screenshot_directory(), '*_failed.png'))
+        except FileNotFoundError:
+            # ignore if there were no previous screenshots to delete
+            print()
+        except Exception as e:
+            # Don't ignore other errors
+            raise e
 
     # Run all tests using original method - standalone tests run in sequence
     if not is_ignore_sequential_data_setup():
@@ -118,9 +128,15 @@ def after_step(context, step):
     if step.status == "failed":
         logger.exception('Failed step', scenario=context.scenario.name, step=step.name)
         if os.getenv('SCREENSHOT', 'False') == 'True':
-            dir_name = os.path.join('..', '..', os.path.dirname(__file__))
+            dir_name = get_screenshot_directory()
             step_str = step.name
-            browser.screenshot(os.path.join(dir_name, step_str + '_failed.png'))
+            file_name = os.path.join(dir_name, step_str + '_failed.png')
+            browser.screenshot(file_name)
+
+
+def get_screenshot_directory():
+    acceptance_tests_directory = os.path.join('..', '..')
+    return os.path.abspath(acceptance_tests_directory)
 
 
 def after_all(_):
