@@ -39,18 +39,17 @@ def user_completes_survey_by_telephone(context):
     change_response_status.update_response_status(mapped_status)
 
 
-@given('the status is set to "Completed by phone"')
-def survey_is_set_to_completed_by_telephone(context):
+@given('the status is set to "{status}"')
+def survey_set_to_longer_required(context, status):
     signed_in_respondent(context)
     go_to_history_tab()
-    assert browser.find_by_text('Completed by phone')
+    assert browser.find_by_text(status)
 
 
-@given('the status is set to "No longer required"')
-def survey_set_to_longer_required(context):
-    signed_in_respondent(context)
-    go_to_history_tab()
-    assert browser.find_by_text('No longer required')
+@given('the status is set to In Progress')
+def survey_set_to_in_progress(_):
+    surveys_todo.go_to()
+    assert browser.find_by_text('Downloaded')
 
 
 @given('an internal user has set a given survey to "No longer required" for a given respondent')
@@ -69,12 +68,6 @@ def respondent_partially_completes_survey(context):
     browser.click_link_by_id('access_survey_button_1')
     browser.click_link_by_id('download_survey_button')
     time.sleep(5)
-
-
-@given('the status is set to "In progress"')
-def survey_set_to_in_progress(_):
-    surveys_todo.go_to()
-    assert browser.find_by_text('Downloaded')
 
 
 @given('has not initiated any changes to the "Not started" status')
