@@ -4,7 +4,7 @@ from acceptance_tests.features.pages import sign_in_respondent, change_enrolment
 
 
 @given('the internal user is on the ru details page')
-@when(u'the internal user is back on the ru details page')
+@when('the internal user is back on the ru details page')
 def internal_user_view_ru_details(_):
     reporting_unit.go_to('49900000001')
 
