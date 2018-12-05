@@ -160,4 +160,3 @@ def get_survey_type(tags):
         return "Social"
 
     return 'Business'
-
