@@ -2,18 +2,26 @@ from behave import fixture
 
 from acceptance_tests.features.pages import sign_out_internal
 from common.collection_exercise_utilities import create_business_survey_period, create_social_survey_period, \
-    generate_collection_exercise_dates_from_period, generate_new_enrolment_code_from_existing_code, \
-    make_user_description
+    execute_collection_exercises, generate_collection_exercise_dates_from_period, \
+    generate_new_enrolment_code_from_existing_code, make_user_description
 from common.internal_user_utilities import create_internal_user_login_account
 from common.respondent_utilities import create_enrolled_respondent_for_the_test_survey, create_respondent, \
     create_respondent_data, create_respondent_email_address, create_respondent_user_login_account, \
-    create_ru_reference, create_unenrolled_respondent
+    create_ru_reference, create_unenrolled_respondent, register_respondent
 from common.survey_utilities import create_survey_reference, create_test_survey, format_survey_name, is_social_survey, \
     logger
+from config import Config
 from controllers import collection_exercise_controller
 
 COLLECTION_EXERCISE_STATUS_CREATED = 'CREATED'
 COLLECTION_EXERCISE_STATUS_LIVE = 'LIVE'
+
+
+def setup_sequential_data_for_test():
+    # Data setup for before sequential test run
+    execute_collection_exercises()
+    register_respondent(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201801',
+                        username=Config.RESPONDENT_USERNAME, ru_ref=49900000001)
 
 
 def setup_prepare_data_for_new_survey(context):
@@ -83,6 +91,17 @@ def setup_data_with_respondent_user_data_and_new_iac(context):
 
 @fixture
 def setup_data_with_internal_user_and_collection_exercise_to_created_status(context):
+    _setup_data_with_internal_user_and_collection_exercise_to_specific_status(context,
+                                                                              COLLECTION_EXERCISE_STATUS_CREATED)
+
+
+@fixture
+def setup_data_with_internal_user_and_collection_exercise_to_live_status(context):
+    _setup_data_with_internal_user_and_collection_exercise_to_specific_status(context,
+                                                                              COLLECTION_EXERCISE_STATUS_LIVE)
+
+
+def _setup_data_with_internal_user_and_collection_exercise_to_specific_status(context, stop_at_state):
     """ Creates default survey + collection exercise state = created """
     survey_data = create_data_for_survey(context)
     period = survey_data['period']
@@ -103,7 +122,7 @@ def setup_data_with_internal_user_and_collection_exercise_to_created_status(cont
     context.period = period
 
     create_test_business_collection_exercise(survey_id, period, short_name, ce_name, survey_type,
-                                             stop_at_state=COLLECTION_EXERCISE_STATUS_CREATED)
+                                             stop_at_state=stop_at_state)
 
     create_internal_user(context)
 

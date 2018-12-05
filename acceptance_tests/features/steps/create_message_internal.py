@@ -2,25 +2,28 @@ from behave import given, when, then
 
 from acceptance_tests import browser
 from acceptance_tests.features.pages import create_message_internal
+from common.collection_exercise_utilities import find_case_by_enrolment_code
 
 
 @given("The internal user has found the associated respondent")
-def user_has_found_respondent(_):
-    assert create_message_internal.RESPONDENT_DETAILS.get_respondent_id() is not None
-    assert create_message_internal.RESPONDENT_DETAILS.get_ru_id() is not None
-    assert create_message_internal.RESPONDENT_DETAILS.get_ru_ref() is not None
+def user_has_found_respondent(context):
+    context.party_id = find_case_by_enrolment_code(context.iac)['partyId']
+
+    assert context.respondent_user_name is not None
+    assert context.party_id is not None
+    assert context.short_name is not None
 
 
-@when("they choose to send them a secure message and navigated to the 'send message' page")
+@when("they choose to send them a secure message and navigated to the send message page")
 @given("the user is on the send message page")
-def navigate_to_send_message(_):
-    create_message_internal.go_to()
+def navigate_to_send_message(context):
+    create_message_internal.go_to(context)
 
 
-@then("the \'To\' field is populated with the respondent's name")
-def check_to_field(_):
+@then("the To field is populated with the respondent's name")
+def check_to_field(context):
     to_field = create_message_internal.get_ru_details_attributes().get('to')
-    assert str(to_field) == create_message_internal.found_respondent_details().get('to')
+    assert str(to_field) == create_message_internal.found_respondent_details(context).get('to')
 
 
 @when("they enter text in the subject of the message")
@@ -80,8 +83,8 @@ def user_cancels_sending_message(_):
 
 
 @then("they are navigated back to the page in which they navigated from")
-def user_is_navigated_back(_):
-    assert f"reporting-units/{create_message_internal.RESPONDENT_DETAILS.get_ru_ref()}" in browser.url
+def user_is_navigated_back(context):
+    assert f"reporting-units/{context.short_name}" in browser.url
 
 
 @then("they are navigated to the inbox of messages")

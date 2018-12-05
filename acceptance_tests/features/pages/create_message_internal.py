@@ -1,14 +1,13 @@
 from acceptance_tests import browser
 from acceptance_tests.features.pages.reporting_unit import click_data_panel
-from common.respondent_details import RESPONDENT_DETAILS
 from config import Config
 
 
-def go_to():
+def go_to(context):
     browser.visit(f'{Config.RESPONSE_OPERATIONS_UI}'
                   "/reporting-units/"
-                  f"{RESPONDENT_DETAILS.get_ru_ref()}")
-    click_data_panel('Bricks')
+                  f"{context.short_name}")
+    click_data_panel(context.short_name)
     browser.find_by_id("create-message-button-1").click()
     assert "messages/create-message" in browser.url
 
@@ -24,11 +23,9 @@ def get_ru_details_attributes():
     return ru_details_table_attributes
 
 
-def found_respondent_details():
-    return {'ru_ref': RESPONDENT_DETAILS.get_ru_ref(),
-            'to': 'first_name last_name',
-            'to_uuid': RESPONDENT_DETAILS.get_respondent_id(),
-            'to_ru_id': RESPONDENT_DETAILS.get_ru_id()}
+def found_respondent_details(context):
+    return {'ru_ref': context.short_name,
+            'to': 'first_name last_name'}
 
 
 def get_subject_and_body():
