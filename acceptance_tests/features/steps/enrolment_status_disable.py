@@ -8,6 +8,7 @@ from acceptance_tests.features.pages import sign_in_respondent, change_enrolment
 def internal_user_view_ru_details(_):
     reporting_unit.go_to('49900000001')
 
+
 @given('the internal user disables enrolment for respondent with email "{email}"')
 def internal_user_disables_enrolment(_, email):
     reporting_unit.go_to('49900000001')
