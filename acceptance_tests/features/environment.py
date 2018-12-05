@@ -72,7 +72,7 @@ def before_all(_):
             os.unlink(os.path.join(get_screenshot_directory(), '*_failed.png'))
         except FileNotFoundError:
             # ignore if there were no previous screenshots to delete
-            print()
+            pass
         except Exception as e:
             # Don't ignore other errors
             raise e
