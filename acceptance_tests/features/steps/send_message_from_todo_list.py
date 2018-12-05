@@ -1,8 +1,8 @@
 from behave import given, when, then
 
+import acceptance_tests.features.pages.view_and_reply_conversation_external as page_helpers
 from acceptance_tests import browser
 from acceptance_tests.features.pages import surveys_todo, create_message_external
-import acceptance_tests.features.pages.view_and_reply_conversation_external as page_helpers
 
 
 @given('the respondent is on their todo list')
@@ -17,7 +17,7 @@ def able_to_send_message_for_survey_ru(_):
 
 
 @given('the respondent chooses to send a message to ONS')
-@given('the respondent is sending a message in relation to bricks')
+@given('the respondent is sending a message')
 @when('the respondent chooses to send a message for a specific RU and survey')
 def select_create_message(_):
     surveys_todo.go_to()
@@ -47,10 +47,10 @@ def enter_valid_message(_):
     create_message_external.enter_valid_body('345')
 
 
-@then('the message will be sent to the internal Bricks mailbox')
-def message_sent_to_bricks_workgroup(_):
+@then('the message will be sent to the internal mailbox')
+def message_sent_to_bricks_workgroup(context):
     current_url = browser.driver.current_url
-    assert 'survey=cb8accda-6118-4d3b-85a3-149e28960c54' in current_url
+    assert context.survey_id in current_url
 
 
 @when('the respondent enters more than 96 characters in the subject field')

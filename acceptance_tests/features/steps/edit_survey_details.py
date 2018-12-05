@@ -2,7 +2,7 @@ from behave import given, when, then
 
 from acceptance_tests import browser
 from acceptance_tests.features.pages import edit_survey_details_form, survey
-from common.survey_utilities import create_data_for_survey
+from acceptance_tests.features.fixtures import create_data_for_survey
 
 
 @given('the internal user is on the survey list page')

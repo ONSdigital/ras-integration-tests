@@ -1,13 +1,13 @@
 @business
 @standalone
-@fixture.setup.data.with.unenrolled.respondent.user.and.new.iac
+@fixture.setup.data.with.respondent.user.data.and.new.iac
 Feature: As an respondent user
   I need to enrol in a survey
 
   Background: Respondent user has received an enrolment code
     Given the respondent is ready to enrol in a survey
 
-  Scenario: Frontstage can see the survey they are enrolling in
+  Scenario: Frontstage user can see the survey they are enrolling in
     Given a respondent has got their enrolment code
     When they enter their enrolment code
     Then they confirm the survey and organisation details

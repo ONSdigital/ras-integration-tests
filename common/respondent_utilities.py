@@ -1,11 +1,17 @@
 from logging import getLogger
+from random import randint
 
 from structlog import wrap_logger
 
-from common import survey_utilities
 from config import Config
-from controllers import party_controller, database_controller, case_controller, django_oauth_controller, \
-    collection_exercise_controller, iac_controller
+from controllers import case_controller, collection_exercise_controller, database_controller, django_oauth_controller, \
+    iac_controller, party_controller
+
+RU_REFERENCE_START = 50000000000
+RU_REFERENCE_END = 59999999999
+
+TELEPHONE_NUMBER_START = 0
+TELEPHONE_NUMBER_END = 99999999999
 
 logger = wrap_logger(getLogger(__name__))
 
@@ -30,12 +36,17 @@ def create_respondent(user_name, enrolment_code, phone_number):
     return respondent
 
 
+def create_respondent_data(context):
+    context.respondent_email = create_respondent_email_address(context.short_name)
+    context.phone_number = create_phone_number()
+
+
 def unenrol_respondent_in_survey(survey_id):
     database_controller.unenrol_respondent_in_survey(survey_id)
 
 
 def enrol_respondent(respondent_id):
-    logger.debug('Enroling respondent', respondent_id=respondent_id)
+    logger.debug('Enrolling respondent', respondent_id=respondent_id)
 
     case_id = database_controller.enrol_party(respondent_id)
 
@@ -46,8 +57,8 @@ def enrol_respondent(respondent_id):
     return respondent_id
 
 
-def make_respondent_user_name(short_name):
-    return survey_utilities.make_email_address(short_name, short_name)
+def create_respondent_email_address(short_name):
+    return make_email_address(short_name, short_name)
 
 
 def create_respondent_user_login_account(user_name):
@@ -80,3 +91,36 @@ def register_respondent(survey_id, period, username, ru_ref=None, verified=True)
     logger.debug('Successfully registered respondent', survey_id=survey_id, period=period,
                  ru_ref=ru_ref, respondent_id=respondent_id)
     return respondent_id
+
+
+def create_phone_number():
+    return format(randint(TELEPHONE_NUMBER_START, TELEPHONE_NUMBER_END), '011d')
+
+
+def create_enrolled_respondent_for_the_test_survey(context):
+    create_respondent_data(context)
+
+    create_respondent(user_name=context.respondent_email, enrolment_code=context.iac, phone_number=context.phone_number)
+    create_respondent_user_login_account(context.respondent_email)
+
+
+def create_unenrolled_respondent(context):
+    create_respondent_data(context)
+    create_respondent(user_name=context.respondent_email, enrolment_code=context.iac, phone_number=context.phone_number)
+    create_respondent_user_login_account(context.respondent_email)
+
+    unenrol_respondent_in_survey(context.survey_id)
+
+
+def make_email_address(local_part=None, domain=None):
+    if not local_part:
+        local_part = create_ru_reference()
+
+    if not domain:
+        domain = local_part
+
+    return f"{local_part}@{domain}.com"
+
+
+def create_ru_reference():
+    return str(randint(RU_REFERENCE_START, RU_REFERENCE_END))
