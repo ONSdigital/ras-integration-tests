@@ -1,4 +1,8 @@
+@business
+@standalone
 @secure_messaging
+@fixture.setup.data.with.enrolled.respondent.user.and.internal.user.and.new.iac.and.collection.exercise.to.live
+@wip
 Feature: Send message from todo list
   As a Respondent
   I need to be able to send a secure message in relation to an RU and a survey in my todo list
@@ -20,9 +24,9 @@ Feature: Send message from todo list
 
   @sm137-03
   Scenario: The message is to be sent to a selected survey team mailbox
-    Given the respondent is sending a message in relation to bricks
+    Given the respondent is sending a message
     When the respondent enters a valid message
-    Then the message will be sent to the internal Bricks mailbox
+    Then the message will be sent to the internal mailbox
 
   @sm137-04
   Scenario: Subject field can be max 96 characters long

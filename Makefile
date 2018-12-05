@@ -69,6 +69,11 @@ rasrm_acceptance_parallel_tests:
 	export IGNORE_SEQUENTIAL_DATA_SETUP=True; \
 	pipenv run python run_in_parallel.py --test_tags "${TEST_TAGS}"
 
+secure_messaging_acceptance_tests: TEST_TAGS = @secure_messaging
+secure_messaging_acceptance_tests:
+	export IGNORE_SEQUENTIAL_DATA_SETUP=True; \
+	pipenv run python run_in_parallel.py --test_tags "${TEST_TAGS}"
+
 
 # Run sequentially with behave targets
 #todo eventually these will be converted and moved above/deleted
@@ -81,11 +86,6 @@ social_acceptance_tests: TEST_TARGET = acceptance_tests/features
 social_acceptance_tests: TEST_TAGS = @social
 social_acceptance_tests: setup
 social_acceptance_tests:
-	pipenv run behave --stop --format ${BEHAVE_FORMAT} --tags ${TEST_TAGS} ${TEST_TARGET}
-
-secure_messaging_acceptance_tests: TEST_TARGET = acceptance_tests/features
-secure_messaging_acceptance_tests: TEST_TAGS = @secure_messaging
-secure_messaging_acceptance_tests:
 	pipenv run behave --stop --format ${BEHAVE_FORMAT} --tags ${TEST_TAGS} ${TEST_TARGET}
 
 run_tests:

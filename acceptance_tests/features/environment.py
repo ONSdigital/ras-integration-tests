@@ -8,20 +8,17 @@ from structlog import wrap_logger
 
 from acceptance_tests import browser
 from acceptance_tests.features.fixtures import setup_data_survey_with_internal_user, \
-               setup_data_with_2_enrolled_respondent_users_and_internal_user, \
-               setup_data_with_enrolled_respondent_user_and_internal_user, \
-               setup_data_with_enrolled_respondent_user_and_internal_user_and_new_iac_and_collection_exercise_to_live,\
-               setup_with_internal_user, \
-               setup_data_with_internal_user_and_social_collection_exercise_to_closed_status, \
-               setup_data_with_internal_user_and_collection_exercise_to_created_status, \
-               setup_data_with_response_user, \
-               setup_data_with_unenrolled_respondent_user, \
-               setup_data_with_unenrolled_respondent_user_and_internal_user, \
-               setup_data_with_unenrolled_respondent_user_and_new_iac, \
-               setup_data_with_unenrolled_respondent_user_and_new_iac_and_collection_exercise_to_live, \
-               setup_survey_metadata_with_internal_user
-
-from common import survey_utilities
+    setup_data_with_2_enrolled_respondent_users_and_internal_user, \
+    setup_data_with_enrolled_respondent_user_and_collection_exercise_to_live, \
+    setup_data_with_enrolled_respondent_user_and_internal_user, \
+    setup_data_with_enrolled_respondent_user_and_internal_user_and_new_iac_and_collection_exercise_to_live, \
+    setup_data_with_internal_user, setup_data_with_internal_user_and_collection_exercise_to_created_status, \
+    setup_data_with_internal_user_and_collection_exercise_to_live_status, \
+    setup_data_with_internal_user_and_social_collection_exercise_to_closed_status, \
+    setup_data_with_respondent_user_data_and_new_iac, setup_data_with_unenrolled_respondent_user, \
+    setup_data_with_unenrolled_respondent_user_and_internal_user, \
+    setup_data_with_unenrolled_respondent_user_and_new_iac_and_collection_exercise_to_live, \
+    setup_sequential_data_for_test, setup_survey_metadata_with_internal_user, setup_with_internal_user
 from config import Config
 from exceptions import MissingFixtureError
 
@@ -43,17 +40,19 @@ fixture_scenario_registry = {
     'fixture.setup.with.internal.user':
         setup_with_internal_user,
     'fixture.setup.data.with.internal.user':
-        setup_data_with_response_user,
+        setup_data_with_internal_user,
     'fixture.setup.data.with.enrolled.respondent.user.and.internal.user':
         setup_data_with_enrolled_respondent_user_and_internal_user,
     'fixture.setup.data.with.unenrolled.respondent.user':
         setup_data_with_unenrolled_respondent_user,
     'fixture.setup.data.with.unenrolled.respondent.user.and.internal.user':
         setup_data_with_unenrolled_respondent_user_and_internal_user,
-    'fixture.setup.data.with.unenrolled.respondent.user.and.new.iac':
-        setup_data_with_unenrolled_respondent_user_and_new_iac,
+    'fixture.setup.data.with.respondent.user.data.and.new.iac':
+        setup_data_with_respondent_user_data_and_new_iac,
     'fixture.setup.data.with.internal.user.and.collection.exercise.to.created.status':
         setup_data_with_internal_user_and_collection_exercise_to_created_status,
+    'fixture.setup.data.with.internal.user.and.collection.exercise.to.live.status':
+        setup_data_with_internal_user_and_collection_exercise_to_live_status,
     'fixture.setup.data.with.internal.user.and.social.collection.exercise.to.closed.status':
         setup_data_with_internal_user_and_social_collection_exercise_to_closed_status,
     'fixture.setup.data.with.unenrolled.respondent.user.and.new.iac.and.collection.exercise.to.live':
@@ -61,7 +60,9 @@ fixture_scenario_registry = {
     'fixture.setup.data.with.enrolled.respondent.user.and.internal.user.and.new.iac.and.collection.exercise.to.live':
         setup_data_with_enrolled_respondent_user_and_internal_user_and_new_iac_and_collection_exercise_to_live,
     'fixture.setup.data.with.2.enrolled.respondent.users.and.internal.user':
-        setup_data_with_2_enrolled_respondent_users_and_internal_user
+        setup_data_with_2_enrolled_respondent_users_and_internal_user,
+    'fixture.setup.data.with.enrolled.respondent.user.and.collection.exercise.to.live':
+        setup_data_with_enrolled_respondent_user_and_collection_exercise_to_live
 }
 
 
@@ -76,10 +77,10 @@ def before_all(_):
         except Exception as e:
             # Don't ignore other errors
             raise e
-
+            
     # Run all tests using original method - standalone tests run in sequence
     if not is_ignore_sequential_data_setup():
-        survey_utilities.setup_sequential_data_for_test()
+        setup_sequential_data_for_test()
 
 
 def before_feature(context, feature):
@@ -107,7 +108,7 @@ def before_scenario(context, scenario):
     logger.info(f'Running Feature [{context.feature_name}], Scenario [{context.scenario_name}]')
 
     # Default to non-standalone fixed user name, standalone mode changes it
-    context.respondent_user_name = Config.RESPONDENT_USERNAME
+    context.respondent_email = Config.RESPONDENT_USERNAME
     context.internal_user_name = Config.INTERNAL_USERNAME
 
     # Run any custom scenario setup from fixture tags

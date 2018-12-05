@@ -1,4 +1,7 @@
+@business
+@standalone
 @secure_messaging
+@fixture.setup.data.with.enrolled.respondent.user.and.internal.user.and.new.iac.and.collection.exercise.to.live
 Feature: Internal user to send message
   As an internal ONS user
   I need to be able to send a secure message
@@ -10,8 +13,8 @@ Feature: Internal user to send message
 
   @sm101_s01
   Scenario: 'To' field will be pre-populated with respondent name (up to 100 characters)
-    When they choose to send them a secure message and navigated to the 'send message' page
-    Then the 'To' field is populated with the respondent's name
+    When they choose to send them a secure message and navigated to the send message page
+    Then the To field is populated with the respondent's name
 
   @sm101_s02
   Scenario: User is able to enter free text in the subject field up to and including 96 characters

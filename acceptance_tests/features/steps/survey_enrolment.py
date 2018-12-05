@@ -1,8 +1,7 @@
-from behave import given, when, then
+from behave import given, then, when
 
 from acceptance_tests import browser
-from acceptance_tests.features.pages import enrolment_code, reporting_unit, home
-from acceptance_tests.features.pages.enrolment_code import generate_random_email_address
+from acceptance_tests.features.pages import enrolment_code, home, reporting_unit
 
 
 @given("the respondent is ready to enrol in a survey")
@@ -41,11 +40,9 @@ def respondent_enters_enrolment_code(context):
 
 @when('they enter their account details')
 def complete_account_details(context):
-    context.email = generate_random_email_address()
-
     browser.driver.find_element_by_id('first_name').send_keys('FirstName')
     browser.driver.find_element_by_id('last_name').send_keys('LastName')
-    browser.driver.find_element_by_id('email_address').send_keys(context.email)
+    browser.driver.find_element_by_id('email_address').send_keys(context.respondent_email)
     browser.driver.find_element_by_id('password').send_keys('A234567_')
     browser.driver.find_element_by_id('password_confirm').send_keys('A234567_')
     browser.driver.find_element_by_id('phone_number').send_keys('01172345678')
@@ -56,7 +53,7 @@ def complete_account_details(context):
 @then('they are sent a verification email')
 def confirm_verification_email(context):
     actual_email_confirmation = browser.find_by_id('email_confirmation_sent').value
-    assert context.email in actual_email_confirmation
+    assert context.respondent_email in actual_email_confirmation
 
 
 @given('the internal user views the reporting unit page for a sample unit')
