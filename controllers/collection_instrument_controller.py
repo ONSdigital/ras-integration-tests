@@ -78,3 +78,9 @@ def get_collection_instruments_by_classifier(survey_id=None, form_type=None):
 
     logger.debug('Successfully retrieved collection instruments', survey_id=survey_id, form_type=form_type)
     return json.loads(response.text)
+
+
+def load_and_link_eq_collection_instrument(survey_id, collection_exercise_id, form_type, eq_id):
+    upload_eq_collection_instrument(survey_id, form_type, eq_id)
+    collection_instrument_id = get_collection_instruments_by_classifier(survey_id, form_type)[0]['id']
+    link_collection_instrument_to_exercise(collection_instrument_id, collection_exercise_id)

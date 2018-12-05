@@ -1,8 +1,8 @@
 import logging
 import string
+import time
 from datetime import datetime
 from random import choice, randint
-import time
 
 import requests
 from structlog import wrap_logger
@@ -182,7 +182,7 @@ def create_and_execute_collection_exercise(survey_id, period, user_description, 
 
 
 def create_and_execute_collection_exercise_with_unique_sample(survey_id, period, user_description, dates, ru_ref,
-                                                              stop_at_state):
+                                                              stop_at_state, eq_ci=False):
     create_collection_exercise(survey_id, period, user_description)
 
     if stop_at_state == 'CREATED':
@@ -195,7 +195,11 @@ def create_and_execute_collection_exercise_with_unique_sample(survey_id, period,
                                       convert_datetime_for_event(dates['mps']))
     post_event_to_collection_exercise(collection_exercise_id, 'go_live',
                                       convert_datetime_for_event(dates['go_live']))
+    post_event_to_collection_exercise(collection_exercise_id, 'ref_period_start',
+                                      convert_datetime_for_event(dates['go_live']))
     post_event_to_collection_exercise(collection_exercise_id, 'return_by',
+                                      convert_datetime_for_event(dates['return_by']))
+    post_event_to_collection_exercise(collection_exercise_id, 'ref_period_end',
                                       convert_datetime_for_event(dates['return_by']))
     post_event_to_collection_exercise(collection_exercise_id, 'exercise_end',
                                       convert_datetime_for_event(dates['exercise_end']))
@@ -206,8 +210,12 @@ def create_and_execute_collection_exercise_with_unique_sample(survey_id, period,
 
     link_sample_summary_to_collection_exercise(collection_exercise['id'], sample_summary['id'])
 
-    ci_controller.upload_seft_collection_instrument(collection_exercise['id'],
-                                                    'resources/collection_instrument_files/064_201803_0001.xlsx')
+    if eq_ci:
+        ci_controller.load_and_link_eq_collection_instrument(survey_id, collection_exercise_id,
+                                                             form_type=ru_ref, eq_id=ru_ref)
+    else:
+        ci_controller.upload_seft_collection_instrument(collection_exercise['id'],
+                                                        'resources/collection_instrument_files/064_201803_0001.xlsx')
 
     time.sleep(5)
     execute_collection_exercise(survey_id, period)

@@ -172,6 +172,14 @@ def setup_data_with_2_enrolled_respondent_users_and_internal_user(context):
     context.used_email_address = create_respondent_email_address(second_ru_ref)
     create_respondent(context.used_email_address, new_iac, context.phone_number)
     create_respondent_user_login_account(context.used_email_address)
+    
+
+@fixture
+def setup_data_with_enrolled_respondent_user_and_eq_collection_exercise_live(context):
+    create_default_data(context, eq_ci=True)
+    collection_exercise_controller.wait_for_collection_exercise_state(context.survey_id, context.period,
+                                                                      expected_state=COLLECTION_EXERCISE_STATUS_LIVE)
+    create_enrolled_respondent_for_the_test_survey(context)
 
 
 def create_internal_user(context):
@@ -222,7 +230,7 @@ def create_data_for_collection_exercise():
     }
 
 
-def create_default_data(context):
+def create_default_data(context, eq_ci=False):
     logger.debug(
         f'Feature [{context.feature_name}], Scenario [{context.scenario_name}] creating default Survey & Exercise')
 
@@ -244,7 +252,7 @@ def create_default_data(context):
                                                              survey_type)
     else:
         context.iac = create_test_business_collection_exercise(survey_id, period, short_name, scenario_name,
-                                                               survey_type)
+                                                               survey_type, eq_ci=eq_ci)
 
     # Save values for later
     context.period = period
@@ -274,7 +282,8 @@ def create_test_social_collection_exercise(context, survey_id, period, ru_ref, c
     return iac
 
 
-def create_test_business_collection_exercise(survey_id, period, ru_ref, ce_name, survey_type, stop_at_state='LIVE'):
+def create_test_business_collection_exercise(survey_id, period, ru_ref, ce_name, survey_type, stop_at_state='LIVE',
+                                             eq_ci=False):
     """ Creates a new Collection Exercise for the survey supplied """
 
     logger.debug('Creating Business Collection Exercise', survey_id=survey_id, period=period)
@@ -285,7 +294,8 @@ def create_test_business_collection_exercise(survey_id, period, ru_ref, ce_name,
     iac = collection_exercise_controller.create_and_execute_collection_exercise_with_unique_sample(survey_id, period,
                                                                                                    user_description,
                                                                                                    dates, ru_ref,
-                                                                                                   stop_at_state)
+                                                                                                   stop_at_state,
+                                                                                                   eq_ci=eq_ci)
 
     logger.debug('Business Collection Exercise created - ', survey_id=survey_id, ru_ref=ru_ref,
                  user_description=user_description, period=period, dates=dates)

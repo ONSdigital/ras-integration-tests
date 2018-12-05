@@ -10,6 +10,7 @@ from acceptance_tests import browser
 from acceptance_tests.features.fixtures import setup_data_survey_with_internal_user, \
     setup_data_with_2_enrolled_respondent_users_and_internal_user, \
     setup_data_with_enrolled_respondent_user_and_collection_exercise_to_live, \
+    setup_data_with_enrolled_respondent_user_and_eq_collection_exercise_live, \
     setup_data_with_enrolled_respondent_user_and_internal_user, \
     setup_data_with_enrolled_respondent_user_and_internal_user_and_new_iac_and_collection_exercise_to_live, \
     setup_data_with_internal_user, setup_data_with_internal_user_and_collection_exercise_to_created_status, \
@@ -62,7 +63,9 @@ fixture_scenario_registry = {
     'fixture.setup.data.with.2.enrolled.respondent.users.and.internal.user':
         setup_data_with_2_enrolled_respondent_users_and_internal_user,
     'fixture.setup.data.with.enrolled.respondent.user.and.collection.exercise.to.live':
-        setup_data_with_enrolled_respondent_user_and_collection_exercise_to_live
+        setup_data_with_enrolled_respondent_user_and_collection_exercise_to_live,
+    'fixture.setup.data.with.enrolled.respondent.user.and.eq.collection.exercise.live':
+        setup_data_with_enrolled_respondent_user_and_eq_collection_exercise_live
 }
 
 
