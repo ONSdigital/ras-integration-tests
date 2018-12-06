@@ -1,4 +1,5 @@
 @standalone
+@business
 @fixture.setup.data.with.enrolled.respondent.user.and.internal.user.and.new.iac.and.collection.exercise.to.live
 Feature: Internal user can search for a respondent via email
   As an internal user
