@@ -1,4 +1,5 @@
 @standalone
+@business
 Feature: Respondent can access an eQ CE
   As a Respondent
   I need to be able to access an eQ CE
