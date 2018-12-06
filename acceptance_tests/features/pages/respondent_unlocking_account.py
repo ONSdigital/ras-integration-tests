@@ -11,14 +11,6 @@ def creating_unverified_account(username):
                             username=username, ru_ref=49900000001, verified=False)
 
 
-def create_locked_account(username):
-    email_in_use = get_party_by_email(username)
-    if not email_in_use:
-        register_respondent(survey_id='cb8accda-6118-4d3b-85a3-149e28960c54', period='201801',
-                            username=username, ru_ref=49900000005)
-        locking_respondent_out(username)
-
-
 def respondent_enters_wrong_password(username):
     sign_in_respondent.go_to()
     browser.driver.find_element_by_id('username').send_keys(username)
@@ -31,7 +23,7 @@ def locking_respondent_out(username):
         respondent_enters_wrong_password(username=username)
 
 
-def get_lockout_message(_):
+def get_lockout_message():
     return browser.find_by_text("You've tried to sign in a few times with the wrong details.")
 
 

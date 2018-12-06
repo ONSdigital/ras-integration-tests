@@ -47,6 +47,12 @@ def setup_data_with_internal_user(context):
 
 
 @fixture
+def setup_data_with_enrolled_respondent_user(context):
+    create_default_data(context)
+    create_enrolled_respondent_for_the_test_survey(context)
+
+
+@fixture
 def setup_data_with_internal_user_and_social_collection_exercise_to_closed_status(context):
     """ Creates a collection exercise that has mandatory dates in the past """
     context.period_offset_days = -365
