@@ -9,12 +9,11 @@ from controllers import party_controller
 
 @given('the respondent has a CE for an eQ available')
 def respondent_has_eq_ce_available(context):
-    pass
+    surveys_todo.go_to()
 
 
 @when('the respondent accesses the eQ CE')
 def respondent_accesses_eq_ce(context):
-    surveys_todo.go_to()
     surveys_todo.access_survey(context.long_name)
 
 
