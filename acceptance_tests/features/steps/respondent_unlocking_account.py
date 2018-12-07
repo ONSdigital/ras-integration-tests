@@ -6,9 +6,9 @@ from acceptance_tests.features.pages.respondent_unlocking_account import get_loc
 from acceptance_tests.features.steps.edit_respondent_details import create_respondent
 
 
-@given('the respondent has created an account which is unverified called "{username}"')
-def respondent_unverified_account(context, username):
-    locking_respondent_out(context.respdonent_email)
+@given('the respondent has locked themselves out of their account')
+def respondent_unverified_account(context):
+    locking_respondent_out(context.respondent_email)
 
 
 @given('the respondent has created an account which is verified called "{username}"')

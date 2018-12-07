@@ -80,6 +80,17 @@ def setup_data_with_unenrolled_respondent_user(context):
 
 
 @fixture
+def setup_data_with_enrolled_respondent_user(context):
+    """
+    Creates default data + an unenrolled Respondent
+    :param context:
+    :return:
+    """
+    create_default_data(context)
+    create_enrolled_respondent_for_the_test_survey(context)
+
+
+@fixture
 def setup_data_with_unenrolled_respondent_user_and_internal_user(context):
     setup_data_with_internal_user(context)
     create_unenrolled_respondent(context)
