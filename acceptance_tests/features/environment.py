@@ -7,7 +7,7 @@ from structlog import wrap_logger
 
 from acceptance_tests import browser
 from acceptance_tests.features.fixtures import setup_data_survey_with_internal_user, \
-    setup_data_with_2_enrolled_respondent_users_and_internal_user, \
+    setup_data_with_2_enrolled_respondent_users_and_internal_user, setup_data_with_enrolled_respondent_user, \
     setup_data_with_enrolled_respondent_user_and_collection_exercise_to_live, \
     setup_data_with_enrolled_respondent_user_and_internal_user, \
     setup_data_with_enrolled_respondent_user_and_internal_user_and_new_iac_and_collection_exercise_to_live, \
@@ -41,6 +41,8 @@ fixture_scenario_registry = {
         setup_with_internal_user,
     'fixture.setup.data.with.internal.user':
         setup_data_with_internal_user,
+    'fixture.setup.data.with.enrolled.respondent.user':
+        setup_data_with_enrolled_respondent_user,
     'fixture.setup.data.with.enrolled.respondent.user.and.internal.user':
         setup_data_with_enrolled_respondent_user_and_internal_user,
     'fixture.setup.data.with.unenrolled.respondent.user':

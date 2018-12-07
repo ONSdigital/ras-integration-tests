@@ -2,6 +2,7 @@ from behave import given, then, when
 
 from acceptance_tests import browser
 from acceptance_tests.features.pages import forgotten_password_respondent, sign_in_respondent
+from acceptance_tests.features.pages.forgotten_password_respondent import get_password_reset_url
 from common.generate_token import generate_email_token
 from config import Config
 
@@ -68,9 +69,7 @@ def password_reset_request_sent(_):
 
 @given('the user has received a link to reset password')
 def user_received_password_reset_link(context):
-    token = generate_email_token(context.respondent_email)
-    url = f'{Config.FRONTSTAGE_SERVICE}/passwords/reset-password/{token}'
-    context.respondent_password_reset_link = url
+    context.respondent_password_reset_link = get_password_reset_url(context)
 
 
 @when('the user clicks the link')

@@ -1,5 +1,5 @@
 from acceptance_tests import browser
-from common.generate_token import generate_expired_email_token
+from common.generate_token import generate_expired_email_token, generate_email_token
 from config import Config
 
 
@@ -28,6 +28,11 @@ def go_to_expired_password_request_url(context):
     expired_token = generate_expired_email_token(context.respondent_email)
     url = f'{Config.FRONTSTAGE_SERVICE}/passwords/reset-password/{expired_token}'
     browser.visit(url)
+
+
+def get_password_reset_url(context):
+    token = generate_email_token(context.respondent_email)
+    return f'{Config.FRONTSTAGE_SERVICE}/passwords/reset-password/{token}'
 
 
 def get_expired_message():
