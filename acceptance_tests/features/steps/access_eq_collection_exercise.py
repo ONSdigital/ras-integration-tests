@@ -17,7 +17,7 @@ def respondent_accesses_eq_ce(context):
     surveys_todo.access_survey(context.long_name)
 
 
-@then('the respondent lands on the correct eQ Homepage for the survey and CE and CI')
+@then('the respondent is redirected to eQ with a token')
 def respondent_redirected_to_eq(_):
     url = browser.url
     assert 'https://eq-test/session?token=' in url, url

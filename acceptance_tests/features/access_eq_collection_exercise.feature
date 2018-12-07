@@ -13,4 +13,4 @@ Feature: Respondent can access an eQ CE
   Scenario: Access eQ CE
     Given the respondent has a CE for an eQ available
     When the respondent accesses the eQ CE
-    Then the respondent lands on the correct eQ Homepage for the survey and CE and CI
+    Then the respondent is redirected to eQ with a token
