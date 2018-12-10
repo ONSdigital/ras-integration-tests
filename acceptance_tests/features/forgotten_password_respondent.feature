@@ -5,7 +5,7 @@ Feature: External user recovering their password
   I need to sign in to the retrieve my password
   So that I can access my SDC account and carry out a number of actions
 
-  Background: A respondent has to have locked themselves out of their
+  Background: A respondent has to have locked themselves out of their account
     Given the respondent has locked themselves out of their account
 
   @fixture.setup.data.with.enrolled.respondent.user
