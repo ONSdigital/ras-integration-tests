@@ -3,8 +3,6 @@ from behave import given, then, when
 from acceptance_tests import browser
 from acceptance_tests.features.pages import forgotten_password_respondent, sign_in_respondent
 from acceptance_tests.features.pages.forgotten_password_respondent import get_password_reset_url
-from common.generate_token import generate_email_token
-from config import Config
 
 
 @given('the user has an active account and they have forgotten their password')

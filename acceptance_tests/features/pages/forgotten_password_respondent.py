@@ -1,5 +1,5 @@
 from acceptance_tests import browser
-from common.generate_token import generate_expired_email_token, generate_email_token
+from common.generate_token import generate_email_token, generate_expired_email_token
 from config import Config
 
 

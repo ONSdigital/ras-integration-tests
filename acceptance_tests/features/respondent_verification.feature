@@ -1,6 +1,6 @@
 @standalone
 @business
-@fixture.setup.data.with.unverified.respondent
+@fixture.setup.data.with.unverified.respondent.user
 Feature: notifying respondent to verify their email address
   As an external user
   I need to be notified that I haven't verified my email
