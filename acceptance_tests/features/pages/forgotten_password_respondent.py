@@ -26,8 +26,7 @@ def check_email_error_message():
 
 def go_to_expired_password_request_url(context):
     expired_token = generate_expired_email_token(context.respondent_email)
-    url = f'{Config.FRONTSTAGE_SERVICE}/passwords/reset-password/{expired_token}'
-    browser.visit(url)
+    browser.visit(f'{Config.FRONTSTAGE_SERVICE}/passwords/reset-password/{expired_token}')
 
 
 def get_password_reset_url(context):
