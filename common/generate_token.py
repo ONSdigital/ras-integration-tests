@@ -22,10 +22,6 @@ def generate_email_token(email):
 
 
 class ExpiredTimestampSigner(TimestampSigner):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
     def get_timestamp(self):
         # Make the signature timestamp a year old
         return int(time.time()) - 60 * 60 * 24 * 365
