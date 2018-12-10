@@ -1,7 +1,7 @@
 import logging
 
-import time
 from behave import given, when, then
+from selenium.webdriver.support.wait import WebDriverWait
 from structlog import wrap_logger
 
 from acceptance_tests import browser
@@ -49,7 +49,15 @@ def survey_set_to_longer_required(context, status):
 @given('the status is set to In Progress')
 def survey_set_to_in_progress(_):
     surveys_todo.go_to()
-    assert browser.find_by_text('Downloaded')
+    status = WebDriverWait(browser, timeout=60, poll_frequency=10).until(wait_for_text_on_screen)
+    assert status[0].text == 'Downloaded'
+
+
+def wait_for_text_on_screen(browser):
+    browser.reload()
+    elem = browser.find_by_text('Downloaded')
+    if elem[0].text == 'Downloaded':
+        return elem
 
 
 @given('an internal user has set a given survey to "No longer required" for a given respondent')
@@ -67,7 +75,6 @@ def respondent_partially_completes_survey(context):
     signed_in_respondent(context)
     browser.click_link_by_id('access_survey_button_1')
     browser.click_link_by_id('download_survey_button')
-    time.sleep(5)
 
 
 @given('has not initiated any changes to the "Not started" status')
