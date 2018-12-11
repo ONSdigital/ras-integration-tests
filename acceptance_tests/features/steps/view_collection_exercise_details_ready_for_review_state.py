@@ -5,23 +5,16 @@ from acceptance_tests.features.pages import collection_exercise, collection_exer
 from common.browser_utilities import is_text_present_with_retry
 
 
-@given('the 201809 collection exercise for the RSI survey is Scheduled')
-def rsi_201809_exists_and_scheduled_displayed(_):
-    collection_exercise_details.go_to('RSI', '201809')
+@given('the collection exercise is Scheduled')
+def collection_exercise_exists_and_scheduled_displayed(context):
+    collection_exercise_details.go_to(context.short_name, context.period)
     ce_state = collection_exercise_details.get_status()
     assert collection_exercise.is_scheduled(ce_state), ce_state
 
 
-@given('the 201810 collection exercise for the RSI survey is Scheduled')
-def rsi_201810_exists_and_scheduled_displayed(_):
-    collection_exercise_details.go_to('RSI', '201810')
-    ce_state = collection_exercise_details.get_status()
-    assert collection_exercise.is_scheduled(ce_state), ce_state
-
-
-@given('the 201811 collection exercise has a loaded sample and collection instruments')
-def rsi_201811_exists_and_loaded_sample_cis(_):
-    collection_exercise_details.go_to('RSI', '201811')
+@given('the collection exercise has a loaded sample and collection instruments')
+def collection_exercise__exists_and_loaded_sample_cis(context):
+    collection_exercise_details.go_to(context.short_name, context.period)
     ce_state = collection_exercise_details.get_status()
     assert collection_exercise.is_scheduled(ce_state), ce_state
     collection_exercise_details.load_sample('resources/sample_files/business-survey-sample-date.csv')
@@ -33,17 +26,17 @@ def rsi_201811_exists_and_loaded_sample_cis(_):
     assert success_text == 'Collection instrument loaded'
 
 
-@when('the user navigates to the survey details for RSI')
-def navigate_to_rsi_details(_):
-    collection_exercise.go_to('RSI')
+@when('the user navigates to the survey details page')
+def navigate_to_collection_exercise_details(context):
+    collection_exercise.go_to(context.short_name)
 
 
-@then('the status of the 201811 collection exercise is Ready for Review')
-def rsi_201811_is_ready_for_review(_):
+@then('the status of the collection exercise is Ready for Review')
+def collection_exercise_is_ready_for_review(context):
     collection_exercises = collection_exercise.get_collection_exercises()
     # Status updated async so wait until updated
     assert is_text_present_with_retry('Ready for review', 10)
-    assert '201811' in (ce['exercise_ref'] for ce in collection_exercises)
+    assert context.period in (ce['exercise_ref'] for ce in collection_exercises)
 
 
 @given('the user has loaded the sample')
@@ -63,6 +56,6 @@ def load_collection_instruments(_):
     assert success_text == 'Collection instrument loaded'
 
 
-@then('the status of the collection exercise is Ready for Review')
+@then('the collection exercise is Ready for Review')
 def ce_details_state_is_ready_for_review(_):
     assert is_text_present_with_retry('Ready for review', 10)

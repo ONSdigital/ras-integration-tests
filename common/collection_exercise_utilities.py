@@ -7,6 +7,7 @@ from structlog import wrap_logger
 import common.string_utilities
 from controllers import case_controller, collection_exercise_controller, database_controller, party_controller, \
     sample_controller
+from controllers.collection_exercise_controller import post_event_to_collection_exercise, convert_datetime_for_event
 from controllers.collection_instrument_controller import get_collection_instruments_by_classifier, \
     link_collection_instrument_to_exercise, upload_seft_collection_instrument
 from controllers.database_controller import poll_collection_exercise_until_state_changed
@@ -106,6 +107,17 @@ def generate_collection_exercise_dates_from_period(period):
     return generate_collection_exercise_dates(base_date)
 
 
+def create_variable_collection_exercise_dates(collection_exercise_id, dates):
+    post_event_to_collection_exercise(collection_exercise_id, 'employment',
+                                      convert_datetime_for_event(dates['employment']))
+    post_event_to_collection_exercise(collection_exercise_id, 'reminder',
+                                      convert_datetime_for_event(dates['first_reminder']))
+    post_event_to_collection_exercise(collection_exercise_id, 'reminder2',
+                                      convert_datetime_for_event(dates['second_reminder']))
+    post_event_to_collection_exercise(collection_exercise_id, 'reminder3',
+                                      convert_datetime_for_event(dates['third_reminder']))
+
+
 def generate_collection_exercise_dates(base_date):
     """Generates and returns collection exercise event dates based on the base date supplied."""
 
@@ -113,7 +125,11 @@ def generate_collection_exercise_dates(base_date):
         'mps': base_date + timedelta(seconds=5),
         'go_live': base_date + timedelta(minutes=1),
         'return_by': base_date + timedelta(days=10),
-        'exercise_end': base_date + timedelta(days=11)
+        'exercise_end': base_date + timedelta(days=11),
+        'employment': base_date + timedelta(days=-30),
+        'first_reminder': base_date + timedelta(days=5),
+        'second_reminder': base_date + timedelta(days=6),
+        'third_reminder': base_date + timedelta(days=7)
     }
 
     return dates

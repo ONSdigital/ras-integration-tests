@@ -1,3 +1,6 @@
+@business
+@standalone
+@fixture.setup.data.with.internal.user.and.collection.exercise.to.scheduled.status
 Feature: View scheduled state of a collection exercise
   As a Collection Exercise Coordinator
   I need to be able to view the 'Scheduled' state of a collection exercise 
@@ -8,8 +11,8 @@ Feature: View scheduled state of a collection exercise
 
   @us041_s001
   Scenario: The 'Scheduled' state is displayed for a collection exercise that has event dates
-    Given the mandatory event dates collection exercise for 1803 exist
-    When the user navigates to the collection exercise details page for 1803
+    Given the mandatory event dates for a collection exercise exists
+    When the user navigates to the collection exercise details page
     Then the state of the collection exercise is Scheduled
 
   @us041_s002

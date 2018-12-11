@@ -1,3 +1,6 @@
+@business
+@standalone
+@fixture.setup.data.with.internal.user.and.collection.exercise.to.scheduled.status
 Feature: View collection exercise details
   As a Collection Exercise Coordinator
   I need to view the details for a single collection exercise
@@ -7,16 +10,16 @@ Feature: View collection exercise details
     Given the internal user is already signed in
 
   Scenario: View collection exercise details
-    Given the 1803 collection exercise for the QBS survey has been created
-    When the internal user navigates to the collection exercise details page for QBS 1803
+    Given a collection exercise exists
+    When the internal user navigates to the collection exercise details page
     Then the user is able to view the survey details and period for that survey
 
   Scenario: View collection exercise events
-    Given the 1803 collection exercise for the QBS survey has been created
-    When the internal user navigates to the collection exercise details page for QBS 1803
+    Given a collection exercise exists
+    When the internal user navigates to the collection exercise details page
     Then the user is able to view the event dates for that collection exercise
 
   Scenario: View collection exercise variable events
-    Given the 1803 collection exercise for the QBS survey has been created
-    When the internal user navigates to the collection exercise details page for QBS 1803
+    Given a collection exercise exists
+    When the internal user navigates to the collection exercise details page
     Then the user is able to view the variable event dates for that collection exercise
