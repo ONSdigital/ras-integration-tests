@@ -9,7 +9,6 @@ from acceptance_tests.features.pages import inbox_internal
 from acceptance_tests.features.pages.internal_conversation_view import go_to_thread
 from acceptance_tests.features.pages.reply_to_message_internal import get_current_url
 from acceptance_tests.features.steps.authentication import signed_in_internal
-from acceptance_tests.features.steps.inbox_internal import populate_database_with_number_of_messages
 from controllers.messages_controller import create_message_external_to_internal, \
     create_and_close_message_internal_to_external
 
