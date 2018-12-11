@@ -3,7 +3,7 @@ from config import Config
 
 
 def go_to_find_ru():
-    browser.visit('{}/reporting-units'.format(Config.RESPONSE_OPERATIONS_UI))
+    browser.visit(f'{Config.RESPONSE_OPERATIONS_UI}/reporting-units')
 
 
 def search_reporting_unit(query):

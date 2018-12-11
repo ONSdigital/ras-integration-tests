@@ -9,7 +9,7 @@ from common.collection_exercise_utilities import find_case_by_enrolment_code
 def user_has_found_respondent(context):
     context.party_id = find_case_by_enrolment_code(context.iac)['partyId']
 
-    assert context.respondent_user_name is not None
+    assert context.respondent_email is not None
     assert context.party_id is not None
     assert context.short_name is not None
 

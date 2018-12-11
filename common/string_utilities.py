@@ -1,5 +1,6 @@
-import nose
 import re
+
+import nose
 
 
 def substitute_context_values(context, raw_string):
@@ -16,3 +17,17 @@ def substitute_context_values(context, raw_string):
         new_string = re.sub(match_str, replacement, new_string)
 
     return new_string
+
+
+def compact_string(string_in, max_length):
+    string_out = string_in
+
+    # Retain as much of the string as possible, init cap all words, remove spaces and truncate if necessary
+    if len(string_in) > max_length:
+        string_out = string_out.title()
+        string_out = string_out.replace(' ', '')
+
+        if len(string_out) > max_length:
+            string_out = string_out[:max_length]
+
+    return string_out

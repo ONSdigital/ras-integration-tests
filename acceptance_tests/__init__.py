@@ -28,3 +28,4 @@ def create_browser():
 
 
 browser = create_browser()
+browser.driver.set_window_size(1920, 1080)

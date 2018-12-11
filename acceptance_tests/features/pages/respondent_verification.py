@@ -8,7 +8,7 @@ def enter_credentials(username, password):
     browser.driver.find_element_by_id('inputPassword').send_keys(password)
 
 
-def log_in_respondent():
+def click_sign_in_button():
     browser.find_by_id('sign_in_button').click()
 
 

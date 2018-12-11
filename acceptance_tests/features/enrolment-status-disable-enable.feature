@@ -12,7 +12,18 @@ Feature: Disable respondent enrolment status
     And the internal user is on the ru details page
     When the internal clicks on the disable button for "disable_respondent_1@email.com"
     And the internal user confirms they want to disable the account
-    Then "disable_respondent_1@email.com"'s enrolment appears disabled on the ru details page
+    Then "disable_respondent_1@email.com"'s enrolment appears "Disabled" on the ru details page
+  
+  @us023_s01
+  Scenario: Internal user must be able to re-enable a respondents enrolment
+    Given the respondent with email "reenable_respondent_1@email.com" is enrolled and active
+    And the internal user is on the ru details page
+    When the internal clicks on the disable button for "reenable_respondent_1@email.com"
+    And the internal user confirms they want to disable the account
+    And the internal user is back on the ru details page
+    When the internal clicks on the re-enable button for "reenable_respondent_1@email.com"
+    And the internal user confirms they want to re-enable the account
+    Then "reenable_respondent_1@email.com"'s enrolment appears "Enabled" on the ru details page
 
   @us022_s02
   Scenario: Internal user disables a respondents enrolment the respondent should no longer be able to view this enrolment

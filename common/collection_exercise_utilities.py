@@ -4,9 +4,9 @@ from logging import getLogger
 
 from structlog import wrap_logger
 
-from common import common_utilities
-from controllers import collection_exercise_controller, sample_controller, database_controller, party_controller, \
-    case_controller
+import common.string_utilities
+from controllers import case_controller, collection_exercise_controller, database_controller, party_controller, \
+    sample_controller
 from controllers.collection_instrument_controller import get_collection_instruments_by_classifier, \
     link_collection_instrument_to_exercise, upload_seft_collection_instrument
 from controllers.database_controller import poll_collection_exercise_until_state_changed
@@ -74,6 +74,11 @@ def generate_new_enrolment_code(case_id, business_id):
     return iac
 
 
+def generate_new_enrolment_code_from_existing_code(existing_code):
+    case = find_case_by_enrolment_code(existing_code)
+    return generate_new_enrolment_code(case['id'], case['partyId'])
+
+
 def generate_social_collection_exercise_dates():
     """Generates and returns collection exercise dates."""
 
@@ -116,13 +121,14 @@ def generate_collection_exercise_dates(base_date):
 
 def make_user_description(user_description_in, is_social_survey, max_field_length):
     if is_social_survey:
-        prefix = common_utilities.concatenate_strings(USER_DESCRIPTION_SOCIAL_PREFIX, '', FIELD_SEPARATOR)
+        prefix = ''.join((USER_DESCRIPTION_SOCIAL_PREFIX, FIELD_SEPARATOR))
     else:
-        prefix = common_utilities.concatenate_strings(USER_DESCRIPTION_BUSINESS_PREFIX, '', FIELD_SEPARATOR)
+        prefix = ''.join((USER_DESCRIPTION_BUSINESS_PREFIX, FIELD_SEPARATOR))
 
-    compacted_user_description = common_utilities.compact_string(user_description_in, max_field_length - len(prefix))
+    compacted_user_description = common.string_utilities.compact_string(user_description_in,
+                                                                        max_field_length - len(prefix))
 
-    return common_utilities.concatenate_strings(prefix, compacted_user_description)
+    return ''.join((prefix, compacted_user_description))
 
 
 def enrol_respondent(party_id, survey_id, period):
@@ -137,3 +143,19 @@ def find_case_by_enrolment_code(enrolment_code):
 
 def get_party_from_email(email):
     return party_controller.get_party_by_email(email)
+
+
+def create_business_survey_period(period_offset_days=0):
+    period_date = datetime.utcnow() + timedelta(days=period_offset_days)
+
+    return format_period(period_date.year, period_date.month)
+
+
+def create_social_survey_period(period_offset_days=0):
+    period_date = datetime.utcnow() + timedelta(days=period_offset_days)
+
+    return format_period(period_date.year, period_date.month)
+
+
+def format_period(period_year, period_month):
+    return f'{period_year}{str(period_month).zfill(2)}'

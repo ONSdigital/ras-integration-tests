@@ -1,3 +1,5 @@
+@standalone
+@business
 Feature: Respondent can access an eQ CE
   As a Respondent
   I need to be able to access an eQ CE
@@ -7,7 +9,8 @@ Feature: Respondent can access an eQ CE
     Given the respondent is signed into their account
 
   @us062-accessEqCE_s01
+  @fixture.setup.data.with.enrolled.respondent.user.and.eq.collection.exercise.live
   Scenario: Access eQ CE
     Given the respondent has a CE for an eQ available
     When the respondent accesses the eQ CE
-    Then the respondent lands on the correct eQ Homepage for the survey and CE and CI
+    Then the respondent is redirected to eQ with a token

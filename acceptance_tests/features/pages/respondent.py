@@ -3,7 +3,7 @@ from config import Config
 
 
 def go_to_find_respondent():
-    browser.visit('{}/respondents/'.format(Config.RESPONSE_OPERATIONS_UI))
+    browser.visit(f'{Config.RESPONSE_OPERATIONS_UI}/respondents/')
 
 
 def search_respondent_by_email(email):
