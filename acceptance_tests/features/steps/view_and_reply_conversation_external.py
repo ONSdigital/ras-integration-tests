@@ -105,13 +105,17 @@ def external_user_views_closed_conversation(_):
     page_helpers.go_to_first_closed_conversation_in_message_box()
 
 
-@then('they are able to reply (external)')
-@when('they reply in that conversation')
-def external_user_able_to_reply_to_conversation(_):
+@given('the external user replies to a message')
+def external_user_replies_to_a_message(_):
     page_helpers.go_to_first_conversation_in_message_box()
     page_helpers.enter_text_in_conversation_reply('Reply body from respondent')
     page_helpers.click_reply_send_button()
 
+
+@then('they are able to reply (external)')
+@when('they reply in that conversation')
+def external_user_able_to_reply_to_conversation(_):
+    external_user_replies_to_a_message(_)
     assert "Message sent." in get_first_flashed_message()
 
 
