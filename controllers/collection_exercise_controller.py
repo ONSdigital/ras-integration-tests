@@ -15,11 +15,11 @@ from controllers.action_controller import create_social_action_rule
 from controllers.collection_instrument_controller import get_collection_instruments_by_classifier
 from controllers.database_controller import poll_collection_exercise_until_state_changed
 
-COLLECTION_EXERCISE_STATUS_CREATED = 'CREATED'
-COLLECTION_EXERCISE_STATUS_SCHEDULED = 'SCHEDULED'
-COLLECTION_EXERCISE_STATUS_READY_FOR_REVIEW = 'READY_FOR_REVIEW'
-COLLECTION_EXERCISE_STATUS_READY_FOR_LIVE = "READY_FOR_LIVE"
-COLLECTION_EXERCISE_STATUS_LIVE = 'LIVE'
+COLLECTION_EXERCISE_CREATED = 'CREATED'
+COLLECTION_EXERCISE_SCHEDULED = 'SCHEDULED'
+COLLECTION_EXERCISE_READY_FOR_REVIEW = 'READY_FOR_REVIEW'
+COLLECTION_EXERCISE_READY_FOR_LIVE = 'READY_FOR_LIVE'
+COLLECTION_EXERCISE_LIVE = 'LIVE'
 
 logger = wrap_logger(logging.getLogger(__name__))
 
@@ -191,21 +191,21 @@ def create_and_execute_collection_exercise_with_unique_sample(survey_id, period,
                                                               stop_at_state, eq_ci=False):
     iac = None
 
-    if stop_at_state == COLLECTION_EXERCISE_STATUS_CREATED:
+    if stop_at_state == COLLECTION_EXERCISE_CREATED:
         collection_exercise = create_business_collection_exercise_to_created_state(survey_id, period, user_description)
-    elif stop_at_state == COLLECTION_EXERCISE_STATUS_SCHEDULED:
+    elif stop_at_state == COLLECTION_EXERCISE_SCHEDULED:
         collection_exercise = create_business_collection_exercise_to_scheduled_state(survey_id, period,
                                                                                      user_description, dates)
-    elif stop_at_state == COLLECTION_EXERCISE_STATUS_READY_FOR_REVIEW:
+    elif stop_at_state == COLLECTION_EXERCISE_READY_FOR_REVIEW:
         collection_exercise = create_business_collection_exercise_to_ready_for_review_state(survey_id, period,
                                                                                             user_description, dates,
                                                                                             ru_ref, eq_ci)
-    elif stop_at_state == COLLECTION_EXERCISE_STATUS_READY_FOR_LIVE:
+    elif stop_at_state == COLLECTION_EXERCISE_READY_FOR_LIVE:
         collection_exercise = create_and_execute_business_collection_exercise_to_ready_for_live_state(survey_id, period,
                                                                                                       user_description,
                                                                                                       dates,
                                                                                                       ru_ref, eq_ci)
-    elif stop_at_state == COLLECTION_EXERCISE_STATUS_LIVE:
+    elif stop_at_state == COLLECTION_EXERCISE_LIVE:
         response = create_and_execute_business_collection_exercise_to_live_state(survey_id, period,
                                                                                  user_description,
                                                                                  dates, ru_ref, eq_ci)

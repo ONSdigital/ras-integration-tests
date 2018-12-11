@@ -14,11 +14,11 @@ from common.survey_utilities import create_survey_reference, create_test_survey,
 from config import Config
 from controllers import collection_exercise_controller
 
-COLLECTION_EXERCISE_STATUS_CREATED = 'CREATED'
-COLLECTION_EXERCISE_STATUS_SCHEDULED = 'SCHEDULED'
-COLLECTION_EXERCISE_STATUS_READY_FOR_REVIEW = 'READY_FOR_REVIEW'
-COLLECTION_EXERCISE_STATUS_READY_FOR_LIVE = "READY_FOR_LIVE"
-COLLECTION_EXERCISE_STATUS_LIVE = 'LIVE'
+COLLECTION_EXERCISE_CREATED = 'CREATED'
+COLLECTION_EXERCISE_SCHEDULED = 'SCHEDULED'
+COLLECTION_EXERCISE_READY_FOR_REVIEW = 'READY_FOR_REVIEW'
+COLLECTION_EXERCISE_READY_FOR_LIVE = 'READY_FOR_LIVE'
+COLLECTION_EXERCISE_LIVE = 'LIVE'
 
 
 def setup_sequential_data_for_test():
@@ -102,13 +102,13 @@ def setup_data_with_respondent_user_data_and_new_iac(context):
 @fixture
 def setup_data_with_internal_user_and_collection_exercise_to_created_status(context):
     _setup_data_with_internal_user_and_collection_exercise_to_specific_status(context,
-                                                                              COLLECTION_EXERCISE_STATUS_CREATED)
+                                                                              COLLECTION_EXERCISE_CREATED)
 
 
 @fixture
 def setup_data_with_internal_user_and_collection_exercise_to_scheduled_status(context):
     _setup_data_with_internal_user_and_collection_exercise_to_specific_status(context,
-                                                                              COLLECTION_EXERCISE_STATUS_SCHEDULED)
+                                                                              COLLECTION_EXERCISE_SCHEDULED)
     create_variable_collection_exercise_dates(context.collection_exercise_id, context.dates)
     context.add_cleanup(sign_out_internal.try_sign_out)
 
@@ -116,20 +116,20 @@ def setup_data_with_internal_user_and_collection_exercise_to_scheduled_status(co
 @fixture
 def setup_data_with_internal_user_and_collection_exercise_to_ready_for_review_status(context):
     _setup_data_with_internal_user_and_collection_exercise_to_specific_status(context,
-                                                                              COLLECTION_EXERCISE_STATUS_READY_FOR_REVIEW)
+                                                                              COLLECTION_EXERCISE_READY_FOR_REVIEW)
 
 
 @fixture
 def setup_data_with_internal_user_and_collection_exercise_to_ready_for_live_status(context):
     _setup_data_with_internal_user_and_collection_exercise_to_specific_status(context,
-                                                                              COLLECTION_EXERCISE_STATUS_READY_FOR_LIVE)
+                                                                              COLLECTION_EXERCISE_READY_FOR_LIVE)
     context.add_cleanup(sign_out_internal.try_sign_out)
 
 
 @fixture
 def setup_data_with_internal_user_and_collection_exercise_to_live_status(context):
     _setup_data_with_internal_user_and_collection_exercise_to_specific_status(context,
-                                                                              COLLECTION_EXERCISE_STATUS_LIVE)
+                                                                              COLLECTION_EXERCISE_LIVE)
     context.add_cleanup(sign_out_internal.try_sign_out)
 
 
@@ -173,7 +173,7 @@ def setup_data_with_unenrolled_respondent_user_and_new_iac_and_collection_exerci
     create_unenrolled_respondent(context)
     create_new_iac(context)
     collection_exercise_controller.wait_for_collection_exercise_state(context.survey_id, context.period,
-                                                                      expected_state=COLLECTION_EXERCISE_STATUS_LIVE)
+                                                                      expected_state=COLLECTION_EXERCISE_LIVE)
 
 
 @fixture
@@ -184,7 +184,7 @@ def setup_data_with_enrolled_respondent_user_and_internal_user_and_new_iac_and_c
     create_enrolled_respondent_for_the_test_survey(context)
     create_new_iac(context)
     collection_exercise_controller.wait_for_collection_exercise_state(context.survey_id, context.period,
-                                                                      expected_state=COLLECTION_EXERCISE_STATUS_LIVE)
+                                                                      expected_state=COLLECTION_EXERCISE_LIVE)
     context.add_cleanup(sign_out_internal.try_sign_out)
 
 
@@ -194,7 +194,7 @@ def setup_data_with_enrolled_respondent_user_and_collection_exercise_to_live(con
     create_default_data(context)
     create_enrolled_respondent_for_the_test_survey(context)
     collection_exercise_controller.wait_for_collection_exercise_state(context.survey_id, context.period,
-                                                                      expected_state=COLLECTION_EXERCISE_STATUS_LIVE)
+                                                                      expected_state=COLLECTION_EXERCISE_LIVE)
     context.add_cleanup(sign_out_internal.try_sign_out)
 
 
@@ -216,7 +216,7 @@ def setup_data_with_2_enrolled_respondent_users_and_internal_user(context):
 def setup_data_with_enrolled_respondent_user_and_eq_collection_exercise_live(context):
     create_default_data(context, eq_ci=True)
     collection_exercise_controller.wait_for_collection_exercise_state(context.survey_id, context.period,
-                                                                      expected_state=COLLECTION_EXERCISE_STATUS_LIVE)
+                                                                      expected_state=COLLECTION_EXERCISE_LIVE)
     create_enrolled_respondent_for_the_test_survey(context)
 
 
@@ -333,20 +333,20 @@ def create_test_business_collection_exercise(survey_id, period, ru_ref, ce_name,
 
     logger.debug('Creating Business Collection Exercise', survey_id=survey_id, period=period)
 
-    user_description = make_user_description(ce_name, is_social_survey(survey_type), 50)
+    user_desc = make_user_description(ce_name, is_social_survey(survey_type), 50)
     dates = generate_collection_exercise_dates_from_period(period)
 
     response = collection_exercise_controller.create_and_execute_collection_exercise_with_unique_sample(survey_id,
                                                                                                         period,
-                                                                                                        user_description,
+                                                                                                        user_desc,
                                                                                                         dates, ru_ref,
                                                                                                         stop_at_state,
                                                                                                         eq_ci=eq_ci)
 
     logger.debug('Business Collection Exercise created - ', survey_id=survey_id, ru_ref=ru_ref,
-                 user_description=user_description, period=period, dates=dates)
+                 user_desc=user_desc, period=period, dates=dates)
 
     return {'collection_exercise': response['collection_exercise'],
             'iac': response['iac'],
-            'user_description': user_description,
+            'user_description': user_desc,
             'dates': dates}
