@@ -1,3 +1,4 @@
+import time
 from datetime import datetime
 
 from behave import given, when, then
@@ -8,6 +9,7 @@ from acceptance_tests.features.pages import inbox_internal
 from acceptance_tests.features.pages.internal_conversation_view import go_to_thread
 from acceptance_tests.features.pages.reply_to_message_internal import get_current_url
 from acceptance_tests.features.steps.authentication import signed_in_internal
+from acceptance_tests.features.steps.inbox_internal import populate_database_with_number_of_messages
 from controllers.messages_controller import create_message_external_to_internal, \
     create_and_close_message_internal_to_external
 
@@ -109,3 +111,19 @@ def messages_in_chronological_order(_):
     first_message_date = datetime.strptime(browser.find_by_id('sm-sent-date-1').value.split(' ')[2], '%H:%M')
     second_message_date = datetime.strptime(browser.find_by_id('sm-sent-date-2').value.split(' ')[2], '%H:%M')
     assert first_message_date <= second_message_date
+
+
+@given("the secure message user is on page '{page}'")
+def user_on_page(context, page):
+    inbox_internal.go_to_using_context(context)
+
+    for index in range(1, int(page)):
+        browser.driver.find_element_by_class_name('next').click()
+        time.sleep(5)
+
+    go_to_thread()
+
+
+@then("they are taken back to page '{page}'")
+def taken_back_to_page(context, page):
+    assert f'page={page}' in browser.url

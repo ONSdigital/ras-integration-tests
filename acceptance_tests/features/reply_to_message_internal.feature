@@ -67,3 +67,19 @@ Feature: Reply to message internal
     Given the internal user has a conversation in their inbox
     When they view the message
     Then they are able to see the messages in the conversation in chronological order
+
+  @sm599_s01
+  Scenario: When closing a conversation the user should be returned to the same page
+    Given the user has got '30' messages in their inbox
+    And the secure message user is on page '2'
+    When they close the conversation
+    Then they are taken back to page '2'
+    And they receive confirmation that the conversation is closed
+
+  @sm599_s02
+  Scenario: When closing the only conversation on the final page the user should be returned to the new final page
+    Given the user has got '21' messages in their inbox
+    And the secure message user is on page '3'
+    When they close the conversation
+    Then they are taken back to page '2'
+    And they receive confirmation that the conversation is closed
