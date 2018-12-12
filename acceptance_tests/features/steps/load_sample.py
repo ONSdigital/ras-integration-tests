@@ -10,11 +10,6 @@ def load_sample(_):
     assert success_text == 'Sample loaded successfully'
 
 
-@given('the internal user navigated to the collection exercise details page')
-def given_internal_user_views_2017_bres_collection_exercise(_):
-    collection_exercise_details.go_to('QBS', '1803')
-
-
 @when('the user selects a sample')
 def internal_user_selects_sample(_):
     collection_exercise_details.select_sample('resources/sample_files/business-survey-sample-date.csv')
@@ -25,9 +20,9 @@ def internal_user_presented_with_sample_details(_):
     assert collection_exercise_details.has_sample_preview()
 
 
-@given('the user is presented with sample details for QBS 1803')
-def given_internal_user_presented_with_sample_details_for_qbs_1803(_):
-    collection_exercise_details.go_to('QBS', '1803')
+@given('the user is presented with sample details')
+def given_internal_user_presented_with_sample_details(context):
+    collection_exercise_details.go_to(context.short_name, context.period)
     collection_exercise_details.select_sample('resources/sample_files/business-survey-sample-date.csv')
     assert collection_exercise_details.has_sample_preview()
 

@@ -15,6 +15,12 @@ from controllers.action_controller import create_social_action_rule
 from controllers.collection_instrument_controller import get_collection_instruments_by_classifier
 from controllers.database_controller import poll_collection_exercise_until_state_changed
 
+COLLECTION_EXERCISE_CREATED = 'CREATED'
+COLLECTION_EXERCISE_SCHEDULED = 'SCHEDULED'
+COLLECTION_EXERCISE_READY_FOR_REVIEW = 'READY_FOR_REVIEW'
+COLLECTION_EXERCISE_READY_FOR_LIVE = 'READY_FOR_LIVE'
+COLLECTION_EXERCISE_LIVE = 'LIVE'
+
 logger = wrap_logger(logging.getLogger(__name__))
 
 
@@ -183,12 +189,45 @@ def create_and_execute_collection_exercise(survey_id, period, user_description, 
 
 def create_and_execute_collection_exercise_with_unique_sample(survey_id, period, user_description, dates, ru_ref,
                                                               stop_at_state, eq_ci=False):
+    iac = None
+
+    if stop_at_state == COLLECTION_EXERCISE_CREATED:
+        collection_exercise = create_business_collection_exercise_to_created_state(survey_id, period, user_description)
+    elif stop_at_state == COLLECTION_EXERCISE_SCHEDULED:
+        collection_exercise = create_business_collection_exercise_to_scheduled_state(survey_id, period,
+                                                                                     user_description, dates)
+    elif stop_at_state == COLLECTION_EXERCISE_READY_FOR_REVIEW:
+        collection_exercise = create_business_collection_exercise_to_ready_for_review_state(survey_id, period,
+                                                                                            user_description, dates,
+                                                                                            ru_ref, eq_ci)
+    elif stop_at_state == COLLECTION_EXERCISE_READY_FOR_LIVE:
+        collection_exercise = create_and_execute_business_collection_exercise_to_ready_for_live_state(survey_id, period,
+                                                                                                      user_description,
+                                                                                                      dates,
+                                                                                                      ru_ref, eq_ci)
+    elif stop_at_state == COLLECTION_EXERCISE_LIVE:
+        response = create_and_execute_business_collection_exercise_to_live_state(survey_id, period,
+                                                                                 user_description,
+                                                                                 dates, ru_ref, eq_ci)
+        collection_exercise = response['collection_exercise']
+        iac = response['iac']
+
+    return {'collection_exercise': collection_exercise,
+            'iac': iac}
+
+
+def create_business_collection_exercise(survey_id, period, user_description):
     create_collection_exercise(survey_id, period, user_description)
 
-    if stop_at_state == 'CREATED':
-        return
+    return get_collection_exercise(survey_id, period)
 
-    collection_exercise = get_collection_exercise(survey_id, period)
+
+def create_business_collection_exercise_to_created_state(survey_id, period, user_description):
+    return create_business_collection_exercise(survey_id, period, user_description)
+
+
+def create_business_collection_exercise_to_scheduled_state(survey_id, period, user_description, dates):
+    collection_exercise = create_business_collection_exercise_to_created_state(survey_id, period, user_description)
     collection_exercise_id = collection_exercise['id']
 
     post_event_to_collection_exercise(collection_exercise_id, 'mps',
@@ -203,12 +242,20 @@ def create_and_execute_collection_exercise_with_unique_sample(survey_id, period,
                                       convert_datetime_for_event(dates['return_by']))
     post_event_to_collection_exercise(collection_exercise_id, 'exercise_end',
                                       convert_datetime_for_event(dates['exercise_end']))
+    return collection_exercise
 
-    upload_response = sample_controller.upload_unique_sample(collection_exercise['id'], ru_ref)
+
+def create_business_collection_exercise_to_ready_for_review_state(survey_id, period, user_description, dates, ru_ref,
+                                                                  eq_ci):
+    collection_exercise = create_business_collection_exercise_to_scheduled_state(survey_id, period, user_description,
+                                                                                 dates)
+    collection_exercise_id = collection_exercise['id']
+
+    upload_response = sample_controller.upload_unique_sample(collection_exercise_id, ru_ref)
 
     sample_summary = upload_response['upload_response']
 
-    link_sample_summary_to_collection_exercise(collection_exercise['id'], sample_summary['id'])
+    link_sample_summary_to_collection_exercise(collection_exercise_id, sample_summary['id'])
 
     if eq_ci:
         ci_controller.load_and_link_eq_collection_instrument(survey_id, collection_exercise_id,
@@ -217,11 +264,34 @@ def create_and_execute_collection_exercise_with_unique_sample(survey_id, period,
         ci_controller.upload_seft_collection_instrument(collection_exercise['id'],
                                                         'resources/collection_instrument_files/064_201803_0001.xlsx')
 
+    return collection_exercise
+
+
+def create_and_execute_business_collection_exercise_to_ready_for_live_state(survey_id, period, user_description, dates,
+                                                                            ru_ref, eq_ci):
+    collection_exercise = create_business_collection_exercise_to_ready_for_review_state(survey_id, period,
+                                                                                        user_description,
+                                                                                        dates, ru_ref, eq_ci)
     time.sleep(5)
     execute_collection_exercise(survey_id, period)
+    wait_for_collection_exercise_state(survey_id, period, COLLECTION_EXERCISE_READY_FOR_LIVE)
+
+    return collection_exercise
+
+
+def create_and_execute_business_collection_exercise_to_live_state(survey_id, period, user_description, dates, ru_ref,
+                                                                  eq_ci):
+    collection_exercise = create_and_execute_business_collection_exercise_to_ready_for_live_state(survey_id, period,
+                                                                                                  user_description,
+                                                                                                  dates,
+                                                                                                  ru_ref,
+                                                                                                  eq_ci)
+    wait_for_collection_exercise_state(survey_id, period, 'LIVE')
+
     iac = common.collection_exercise_utilities.poll_database_for_iac(survey_id, period)
 
-    return iac
+    return {'collection_exercise': collection_exercise,
+            'iac': iac}
 
 
 def create_and_execute_social_collection_exercise(context, survey_id, period, user_description, dates, short_name=None):
@@ -294,6 +364,14 @@ def generate_random_postcode() -> str:
 
 def convert_datetime_for_event(date_time):
     return datetime.strftime(date_time, '%Y-%m-%dT%H:%M:%S.000Z')
+
+
+def convert_event_for_datetime(date_time):
+    return datetime.strftime(date_time, '%A %d %b %Y %H:%M')
+
+
+def convert_event_for_date(date_time):
+    return datetime.strftime(date_time, '%A %d %b %Y')
 
 
 def map_ce_status(status):

@@ -15,9 +15,8 @@ Feature: As an internal user
     And they edit the collection exercise details
     Then the collection exercise details match the updated values
 
-
   @us107-s02
-  @fixture.setup.data.with.internal.user.and.collection.exercise.to.live.status
+  @fixture.setup.data.with.internal.user.and.collection.exercise.to.ready.for.live.status
   Scenario: Internal user cannot edit/amend collection exercise period
     Given the internal user navigates to the collection exercise details page
     When the state is at/after Ready for live

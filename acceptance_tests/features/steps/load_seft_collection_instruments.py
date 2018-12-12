@@ -3,14 +3,14 @@ from behave import given, when, then
 from acceptance_tests.features.pages import collection_exercise_details
 
 
-@given('the 201803 collection exercise for the QIFDI survey has been created')
-def qifdi_201803_exists(_):
+@given('the collection exercise has been created')
+def the_collection_exercise_exists(_):
     pass
 
 
-@when('the internal user navigates to the collection exercise details page for QIFDI 201803')
-def internal_user_views_collection_exercise(_):
-    collection_exercise_details.go_to('QIFDI', '201803')
+@when('the internal user navigates to the collection exercise details page')
+def internal_user_views_collection_exercise(context):
+    collection_exercise_details.go_to(context.short_name, context.period)
 
 
 @when('the internal user selects a non xlsx file')

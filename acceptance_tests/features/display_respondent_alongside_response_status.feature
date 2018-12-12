@@ -14,6 +14,7 @@ Feature: Internal user can search for a respondent via email
     When an internal user navigates to Reporting units for that Reference
     Then no Respondent name should be displayed in the Respondent field
 
+  @skip
   Scenario: Respondent field must be updated once an external user has completed a survey online
     Given  a user has completed a survey online
     And the status is set to Completed
