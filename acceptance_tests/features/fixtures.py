@@ -103,6 +103,7 @@ def setup_data_with_respondent_user_data_and_new_iac(context):
 def setup_data_with_internal_user_and_collection_exercise_to_created_status(context):
     _setup_data_with_internal_user_and_collection_exercise_to_specific_status(context,
                                                                               COLLECTION_EXERCISE_CREATED)
+    context.add_cleanup(sign_out_internal.try_sign_out)
 
 
 @fixture
@@ -210,7 +211,7 @@ def setup_data_with_2_enrolled_respondent_users_and_internal_user(context):
     context.used_email_address = create_respondent_email_address(second_ru_ref)
     create_respondent(context.used_email_address, new_iac, context.phone_number)
     create_respondent_user_login_account(context.used_email_address)
-    
+
 
 @fixture
 def setup_data_with_enrolled_respondent_user_and_eq_collection_exercise_live(context):
