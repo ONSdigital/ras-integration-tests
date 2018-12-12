@@ -274,7 +274,7 @@ def create_and_execute_business_collection_exercise_to_ready_for_live_state(surv
                                                                                         dates, ru_ref, eq_ci)
     time.sleep(5)
     execute_collection_exercise(survey_id, period)
-    time.sleep(1)
+    wait_for_collection_exercise_state(survey_id, period, COLLECTION_EXERCISE_READY_FOR_LIVE)
 
     return collection_exercise
 
