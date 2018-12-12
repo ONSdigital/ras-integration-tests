@@ -2,6 +2,7 @@ import logging
 
 from behave import given, when, then
 from selenium.webdriver.support.wait import WebDriverWait
+from splinter.exceptions import ElementDoesNotExist
 from structlog import wrap_logger
 
 from acceptance_tests import browser
@@ -31,7 +32,7 @@ def enrolled_respondent_but_not_completed(context):
 
 @given('a user has completed a survey via the telephone')
 def user_completes_survey_by_telephone(context):
-    signed_in_internal(())
+    signed_in_internal(context)
     go_to_reporting_unit_page(context)
     reporting_unit.click_data_panel(context.short_name)
     reporting_unit.click_change_response_status_link(survey=context.short_name, period=context.period)
@@ -49,7 +50,7 @@ def survey_set_to_longer_required(context, status):
 @given('the status is set to In Progress')
 def survey_set_to_in_progress(_):
     surveys_todo.go_to()
-    status = WebDriverWait(browser, timeout=60, poll_frequency=10).until(wait_for_text_on_screen)
+    status = WebDriverWait(browser, timeout=60, poll_frequency=5, ignored_exceptions=ElementDoesNotExist).until(wait_for_text_on_screen)
     assert status[0].text == 'Downloaded'
 
 
@@ -62,7 +63,7 @@ def wait_for_text_on_screen(browser):
 
 @given('an internal user has set a given survey to "No longer required" for a given respondent')
 def survey_is_set_to_no_longer_required(context):
-    signed_in_internal(())
+    signed_in_internal(context)
     go_to_reporting_unit_page(context)
     reporting_unit.click_data_panel(context.short_name)
     reporting_unit.click_change_response_status_link(survey=context.short_name, period=context.period)
@@ -91,7 +92,7 @@ def status_set_to_completed(_):
 
 @when('an internal user navigates to Reporting units for that Reference')
 def navigating_to_reporting_units(context):
-    signed_in_internal(())
+    signed_in_internal(context)
     go_to_reporting_unit_page(context)
     reporting_unit.click_data_panel(context.short_name)
     reporting_unit.click_change_response_status_link(survey=context.short_name, period=context.period)
@@ -99,7 +100,7 @@ def navigating_to_reporting_units(context):
 
 @when('an internal user navigates to Reporting Units for the no longer required reference')
 def collex_set_to_no_longer_required(context):
-    signed_in_internal(())
+    signed_in_internal(context)
     go_to_reporting_unit_page(context)
     reporting_unit.click_data_panel(context.short_name)
 
