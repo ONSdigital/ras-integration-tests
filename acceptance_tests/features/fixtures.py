@@ -174,6 +174,18 @@ def setup_data_with_2_enrolled_respondent_users_and_internal_user(context):
     create_respondent_user_login_account(context.used_email_address)
 
 
+@fixture
+def setup_data_with_enrolled_respondent_and_additional_iac(context):
+    """ Creates a new enrolled user and generates an additional IAC code """
+    setup_data_with_internal_user(context)
+    create_enrolled_respondent_for_the_test_survey(context)
+    create_new_iac(context)
+    collection_exercise_controller.wait_for_collection_exercise_state(context.survey_id, context.period,
+                                                                      expected_state=COLLECTION_EXERCISE_STATUS_LIVE)
+    context.add_cleanup(sign_out_internal.try_sign_out)
+    context.second_iac = generate_new_enrolment_code_from_existing_code(context.iac)
+
+
 def create_internal_user(context):
     context.internal_user_name = create_ru_reference()
 

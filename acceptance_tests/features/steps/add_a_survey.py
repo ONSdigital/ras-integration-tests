@@ -65,3 +65,19 @@ def click_cancel(context):
 def view_todo_list(context):
     browser.find_by_id('SURVEY_TODO_TAB')\
         .first.has_class('btn btn--secondary btn--border navigation-tabs__tab navigation-tabs__tab--active')
+
+
+@given('the user has entered a valid enrolment code for a survey they have already added')
+def enter_second_enrolment_code(context):
+    add_a_survey.go_to()
+    browser.driver.find_element_by_id('ENROLEMENT_CODE_FIELD').send_keys(context.second_iac)
+    browser.find_by_id('continue_button').click()
+
+
+@then('the user is notified they have already added the survey')
+def already_added_notification_presented_to_user(context):
+    assert browser.find_by_id('ALREADY_ADDED_NOTIF').text,\
+                'You have already added that survey'
+
+
+
