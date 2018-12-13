@@ -85,6 +85,10 @@ def load_collection_instrument(test_file):
     browser.find_by_id('btn-load-ci').click()
 
 
+def upload_collection_instrument(test_file):
+    browser.driver.find_element_by_id('selected-file').send_keys(abspath(test_file))
+
+
 def select_wrong_file_type(test_file):
     browser.driver.find_element_by_id('ciFile').send_keys(abspath(test_file))
 
