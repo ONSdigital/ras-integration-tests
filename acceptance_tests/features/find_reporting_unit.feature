@@ -1,3 +1,6 @@
+@standalone
+@business
+@fixture.setup.data.with.internal.user.and.collection.exercise.to.ready.for.live.status
 Feature: Find Reporting Unit
    As an internal user
    I need to be able to find a RU
