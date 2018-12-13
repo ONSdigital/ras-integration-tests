@@ -8,9 +8,9 @@ def ashe_201803_exists(_):
     pass
 
 
-@when('the internal user navigates to the collection exercise details page for ASHE 201803')
-def go_to_ashe_201803(_):
-    collection_exercise_details.go_to('ASHE', '201803')
+@when('the internal user navigates to the collection exercise details page for ASHE survey')
+def go_to_ashe(context):
+    collection_exercise_details.go_to(context.short_name, context.period)
 
 
 @then('the user is able to load the ASHE sample file')

@@ -1,3 +1,6 @@
+@business
+@standalone
+@fixture.setup.data.with.internal.user.and.collection.exercise.to.created.status
 Feature: Load ASHE sample
    As a Collection Exercise Coordinator
    I need to be able to load an ASHE sample
@@ -9,5 +12,5 @@ Feature: Load ASHE sample
   @us081_s001
   Scenario: Load ASHE sample
     Given the 201803 collection exercise for the ASHE survey has been created
-    When the internal user navigates to the collection exercise details page for ASHE 201803
+    When the internal user navigates to the collection exercise details page for ASHE survey
     Then the user is able to load the ASHE sample file
