@@ -1,3 +1,6 @@
+@business
+@standalone
+@fixture.setup.data.with.internal.user.and.collection.exercise.to.created.status
 Feature: As an internal user
   I need to be able to create a collection exercise
   So that I can add business events, collection instruments and sample
