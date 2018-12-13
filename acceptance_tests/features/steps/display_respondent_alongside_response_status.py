@@ -50,7 +50,8 @@ def survey_set_to_longer_required(context, status):
 @given('the status is set to In Progress')
 def survey_set_to_in_progress(_):
     surveys_todo.go_to()
-    status = WebDriverWait(browser, timeout=60, poll_frequency=5, ignored_exceptions=ElementDoesNotExist).until(wait_for_text_on_screen)
+    status = WebDriverWait(browser, timeout=60, poll_frequency=5, ignored_exceptions=ElementDoesNotExist). \
+        until(wait_for_text_on_screen)
     assert status[0].text == 'Downloaded'
 
 
