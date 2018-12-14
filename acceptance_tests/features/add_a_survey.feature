@@ -1,4 +1,3 @@
-@wip
 @business
 @standalone
 Feature: Add a survey
@@ -25,7 +24,7 @@ Feature: Add a survey
 
   @fixture.setup.data.with.unenrolled.respondent.user
   @us334-addSurvey_s02
-  Scenario: Enter the enrolment codegit
+  Scenario: Enter the enrolment code
     When they add a new survey
     Then they are able to enter an enrolment code
 
