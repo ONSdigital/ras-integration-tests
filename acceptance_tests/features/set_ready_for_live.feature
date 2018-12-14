@@ -9,8 +9,8 @@ Feature: Set a collection exercise as ready for live
   @us028_s001
   @us028_s008
   Scenario: Once the user is happy with the contents of the collection exercise, they are able to set the collection exercise as 'Ready for Live'
-    Given "rsi" "201812" is in the ready for review state
-    And the user has checked the contents of "rsi" "201812" and it is all correct
+    Given "rsi" "201912" is in the ready for review state
+    And the user has checked the contents of "rsi" "201912" and it is all correct
     When they confirm that the collection exercise is ready to go live
     Then the user is informed that the collection exercise is setting as ready for live
     And when refreshing the page once processing has completed, the status is changed to Ready for Live
