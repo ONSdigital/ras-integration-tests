@@ -128,6 +128,6 @@ def closed_tab_is_visible(_):
 
 
 @then('The To field should be the name of the internal user who sent the message')
-def to_filed_holds_name_of_internal_user_who_sent_the_message(context):
+def to_field_holds_name_of_internal_user_who_sent_the_message(context):
     first_message = inbox_internal.get_unread_messages()[0]
     assert f"{context.internal_user_name} {context.internal_user_name}" in first_message.text
