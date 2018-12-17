@@ -1,6 +1,7 @@
 @business
 @standalone
 @fixture.setup.data.with.internal.user.and.collection.exercise.to.ready.for.review.status
+  @wip
 Feature: Set a collection exercise as ready for live
   As a Collection Exercise Coordinator
   I need to be able to set the collection exercise as 'Ready for Live'
