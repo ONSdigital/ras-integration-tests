@@ -1,7 +1,6 @@
-from behave import given, when, then
+from behave import given, then, when
 
-from acceptance_tests import browser
-from acceptance_tests.features.pages import confirm_remove_sample, collection_exercise_details
+from acceptance_tests.features.pages import collection_exercise_details, confirm_remove_sample
 
 
 @given('user on the collection exercise details screen')
