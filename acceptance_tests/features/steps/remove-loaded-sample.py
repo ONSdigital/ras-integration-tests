@@ -1,22 +1,19 @@
-from behave import given, when, then
+from behave import given, then, when
 
-from acceptance_tests import browser
-from acceptance_tests.features.pages import confirm_remove_sample, collection_exercise_details
+from acceptance_tests.features.pages import collection_exercise_details, confirm_remove_sample
 
 
 @given('user on the collection exercise details screen')
 @given('user has proceeded to remove loaded sample')
-def check_user_is_on_collection_exercise_details_page(_):
-    collection_exercise_details.go_to('RSI', '201804')
-    assert "023 RSI 201804 | Surveys | Survey Data Collection" in browser.title
+def check_user_is_on_collection_exercise_details_page(context):
+    collection_exercise_details.go_to(context.short_name, context.period)
     collection_exercise_details.load_sample('resources/sample_files/business-survey-sample-date.csv')
     collection_exercise_details.get_sample_success_text()
 
 
 @given('user wants to remove a loaded sample from a collection exercise')
-def user_wants_to_remove_loaded_sample(_):
-    collection_exercise_details.go_to('QBS', '1809')
-    assert "139 QBS 1809 | Surveys | Survey Data Collection" in browser.title
+def user_wants_to_remove_loaded_sample(context):
+    collection_exercise_details.go_to(context.short_name, context.period)
 
 
 @when('they click on remove loaded sample')
