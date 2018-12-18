@@ -118,7 +118,7 @@ def _run_scenario(failure_queue: Queue, feature_scenario: str, scenario_index, t
     logger.info(f'Finished {run_info} --> {status}')
 
     # To give time for postgres connections to close before starting the next Scenario
-    #time.sleep(3)
+    time.sleep(2)
 
     return feature, scenario, status
 
