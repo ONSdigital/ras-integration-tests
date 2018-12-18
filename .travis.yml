@@ -24,7 +24,7 @@ script:
   - pipenv check --style . --max-line-length 120
   - make start_services
   - travis_wait 30 make wait_for_services
-  - make system_tests acceptance_tests stop_services
+  - travis_wait 45 make system_tests acceptance_tests stop_services
 
 after_failure:
   - cd tmp_ras_rm_docker_dev && docker-compose -f dev.yml -f ras-services.yml -f rm-services.yml logs
