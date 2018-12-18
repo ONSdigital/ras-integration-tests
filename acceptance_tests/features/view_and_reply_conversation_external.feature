@@ -76,3 +76,10 @@ Feature: External User Views a Conversation
     When  the user navigates to the external closed inbox messages
     And   they view the closed conversation
     Then they are informed that the conversation is closed
+
+  Scenario: When a respondent replies to a message it is sent to the same internal user that sent the original message
+    Given the external user has conversations in their list
+      And the external user replies to a message
+      And the internal user is already signed in
+    When  internal user navigate to the inbox messages
+    Then  The To field should be the name of the internal user who sent the message
