@@ -4,9 +4,6 @@ from behave import given, when, then
 from structlog import wrap_logger
 
 from acceptance_tests.features.pages import collection_exercise, collection_exercise_details  # NOQA
-from common.browser_utilities import is_text_present_with_retry
-from controllers import (collection_exercise_controller, sample_controller,
-                         collection_instrument_controller)
 
 logger = wrap_logger(getLogger(__name__))
 
@@ -18,40 +15,22 @@ def _get_survey_id(survey):
     }.get(survey.lower())
 
 
-@given('"{survey}" "{period}" is in the ready for review state')
-def prepare_collection_exercises(_, survey, period):
-    s_id = _get_survey_id(survey)
-    sample_file = 'resources/sample_files/business-survey-sample-date.csv'
-    ci_path = 'resources/collection_instrument_files/064_201803_0001.xlsx'
-
-    state = collection_exercise_controller.get_collection_exercise(s_id, period)['state']
-
-    if state == 'SCHEDULED':
-        logger.debug('Loading sample', survey=survey, period=period)
-        ce = collection_exercise_controller.get_collection_exercise(s_id, period)
-        sample_summary = sample_controller.upload_sample(ce['id'], sample_file)
-
-        collection_exercise_controller.link_sample_summary_to_collection_exercise(ce['id'], sample_summary['id'])
-
-        logger.debug('Loading collection instrument', survey=survey, period=period)
-
-        # form type hard coded to 0001 for all ces to simplify testing
-        collection_instrument_controller.upload_seft_collection_instrument(ce['id'], ci_path, '0001')
-
-    is_text_present_with_retry('Ready for review', 10)
+@given('a collection exercise is in the ready for review state')
+def prepare_collection_exercises(_):
+    pass
 
 
-@given('the user has confirmed that "{survey}" "{period}" is ready for go live')
-def confirmed_ready(_, survey, period):
-    collection_exercise_details.go_to(survey, period)
+@given('the user has confirmed that the collection exercise is ready for go live')
+def confirmed_ready(context):
+    collection_exercise_details.go_to(context.short_name, context.period)
     collection_exercise_details.click_ready_for_live_and_confirm()
     success_text = collection_exercise_details.get_success_panel_text()
     assert success_text == 'Collection exercise executed'
 
 
-@given('the user has checked the contents of "{survey}" "{period}" and it is all correct')
-def user_checks_ce_contents(_, survey, period):
-    collection_exercise_details.go_to(survey, period)
+@given('the user has checked the contents of the collection exercise and it is all correct')
+def user_checks_ce_contents(context):
+    collection_exercise_details.go_to(context.short_name, context.period)
     ce_state = collection_exercise_details.get_status()
     assert collection_exercise.is_ready_for_review(ce_state), ce_state
     assert collection_exercise_details.ready_for_live_button_exists()
@@ -62,9 +41,9 @@ def user_checks_ce_contents(_, survey, period):
     assert '1' in sample
 
 
-@when('they navigate to "{survey}" "{period}" details screen')
-def navigate_to_ce(_, survey, period):
-    collection_exercise_details.go_to(survey, period)
+@when('they navigate to the collection exercise details screen')
+def navigate_to_ce(context):
+    collection_exercise_details.go_to(context.short_name, context.period)
 
 
 @when('they confirm that the collection exercise is ready to go live')

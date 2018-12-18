@@ -38,6 +38,7 @@ def user_has_no_messages_in_inbox(_):
     pass
 
 
+@when('internal user navigate to the inbox messages')
 @when('they navigate to the inbox messages')
 def internal_user_views_messages(context):
     inbox_internal.go_to_using_context(context)
@@ -124,3 +125,9 @@ def pagination_links_available(_):
 @then('they can see the closed tab')
 def closed_tab_is_visible(_):
     assert inbox_internal.closed_tab_present()
+
+
+@then('The To field should be the name of the internal user who sent the message')
+def to_field_holds_name_of_internal_user_who_sent_the_message(context):
+    first_message = inbox_internal.get_unread_messages()[0]
+    assert f"{context.internal_user_name} {context.internal_user_name}" in first_message.text

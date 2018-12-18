@@ -118,6 +118,7 @@ def setup_data_with_internal_user_and_collection_exercise_to_scheduled_status(co
 def setup_data_with_internal_user_and_collection_exercise_to_ready_for_review_status(context):
     _setup_data_with_internal_user_and_collection_exercise_to_specific_status(context,
                                                                               COLLECTION_EXERCISE_READY_FOR_REVIEW)
+    context.add_cleanup(sign_out_internal.try_sign_out)
 
 
 @fixture
