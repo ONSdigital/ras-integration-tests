@@ -32,7 +32,7 @@ DEFAULT_LOG_LEVEL = 'INFO'
 DEFAULT_BEHAVE_FORMAT = 'progress2'
 DEFAULT_TAGS = '@standalone'
 DEFAULT_FEATURE_DIRECTORY = 'acceptance_tests/features'
-DEFAULT_THREADS = 12  # Higher than 6 causes collex (and possibly other services) to fail intermittently
+DEFAULT_THREADS = 9  # Higher than 6 causes collex (and possibly other services) to fail intermittently
 DEFAULT_SCENARIO_TIMEOUT = 1000
 DEFAULT_NO_PARALLEL_STOP = 'store_true'
 
@@ -118,7 +118,7 @@ def _run_scenario(failure_queue: Queue, feature_scenario: str, scenario_index, t
     logger.info(f'Finished {run_info} --> {status}')
 
     # To give time for postgres connections to close before starting the next Scenario
-    time.sleep(3)
+    #time.sleep(3)
 
     return feature, scenario, status
 
