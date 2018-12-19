@@ -1,5 +1,5 @@
 import logging
-from datetime import timedelta, datetime
+from datetime import datetime, timedelta
 
 import paramiko
 from behave import given, when, then
@@ -7,47 +7,26 @@ from retrying import retry
 from structlog import wrap_logger
 
 from config import Config
-from controllers import collection_exercise_controller
-from controllers.collection_exercise_controller import create_and_execute_collection_exercise
-from controllers.database_controller import get_all_iacs_for_collection_exercise, \
-    poll_collection_exercise_until_state_changed
+from controllers.database_controller import get_all_iacs_for_collection_exercise
 
 logger = wrap_logger(logging.getLogger(__name__))
 
 
 @given('a reporting unit has been enrolled in a survey')
 def reporting_unit_enrolled(context):
-    now = datetime.utcnow()
-    context.start = datetime.now()
-    dates = {
-        "mps": now + timedelta(seconds=5),
-        "go_live": now + timedelta(seconds=10),
-        "return_by": now + timedelta(days=10),
-        "exercise_end": now + timedelta(days=11),
-    }
-    # Create action rule
-    create_and_execute_collection_exercise('9b6872eb-28ee-4c09-b705-c3ab1bb0f9ec', '0718',
-                                           'Testing notification file', dates)
+    context.start = datetime.now() + timedelta(minutes=-1)
 
 
 @when('the survey goes live')
 def survey_is_live(context):
-    survey_id = '9b6872eb-28ee-4c09-b705-c3ab1bb0f9ec'
-    period = '0718'
-
-    collection_exercise_id = collection_exercise_controller.get_collection_exercise(survey_id, period)['id']
-    result = poll_collection_exercise_until_state_changed(collection_exercise_id, "LIVE")
-    if not result:
-        assert False, f"collection exercise failed to execute {collection_exercise_id}"
-
-    context.iac_codes = get_all_iacs_for_collection_exercise(collection_exercise_id)
+    context.iac_codes = get_all_iacs_for_collection_exercise(context.collection_exercise_id)
 
 
 @then('the reporting unit will receive a letter')
 def letter_is_received(context):
     with _get_sftp_client() as client:
         assert _check_notification_files_have_iacs(client, context.start,
-                                                   survey_ref='073', period='0718',
+                                                   survey_ref=context.survey_ref, period=context.period,
                                                    expected_iacs=context.iac_codes),\
             "Unable to find all expected iac codes in Notification files on SFTP server"
 

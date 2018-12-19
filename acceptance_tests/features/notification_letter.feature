@@ -1,3 +1,6 @@
+@business
+@standalone
+@fixture.setup.data.with.internal.user.and.collection.exercise.to.live.status
 Feature: Notification letter
    As a Business Survey Coordinator
    I need letters to be sent to reporting units
