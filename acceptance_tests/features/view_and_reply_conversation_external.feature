@@ -83,3 +83,11 @@ Feature: External User Views a Conversation
       And the internal user is already signed in
     When  internal user navigate to the inbox messages
     Then  The To field should be the name of the internal user who sent the message
+
+  Scenario: I need to be directed to the sign in page (if not signed in) when clicking on the link within the notification email
+    Given the internal user has sent a message
+    And the external user can see the message
+    And I am  not signed into the system
+    When I click on the link within the system
+    Then I am directed to the sign in page
+    And once signed in I am directed to the secure message

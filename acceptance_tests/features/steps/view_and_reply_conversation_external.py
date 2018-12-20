@@ -2,6 +2,7 @@ from behave import given, then, when
 
 import acceptance_tests.features.pages.view_and_reply_conversation_external as page_helpers
 from acceptance_tests import browser
+from acceptance_tests.features.pages import surveys_todo
 from acceptance_tests.features.pages.create_message_internal import get_first_flashed_message
 from acceptance_tests.features.pages.external_conversation import go_to_closed
 from acceptance_tests.features.pages.inbox_internal import go_to_using_context
@@ -9,9 +10,10 @@ from acceptance_tests.features.pages.internal_conversation_view import go_to_thr
 from acceptance_tests.features.pages.reply_to_message_internal import get_current_url
 from acceptance_tests.features.pages.reply_to_message_internal import \
     reply_to_first_message_in_message_box as reply_to_last_message_internal
-from acceptance_tests.features.steps.authentication import signed_in_internal, signed_in_respondent
+from acceptance_tests.features.steps.authentication import signed_in_internal, signed_in_respondent, \
+    sign_in_respondent_without_go_to
 from controllers.messages_controller import create_message_external_to_internal, \
-    create_and_close_message_internal_to_external
+    create_and_close_message_internal_to_external, create_message_internal_to_external
 
 
 @given('an external user has sent ONS a message')
@@ -168,3 +170,39 @@ def external_conversation_closed_message(_):
     assert browser.find_by_text('This conversation has now been closed. ')
     assert browser.driver.find_element_by_link_text('to do list')
     assert browser.driver.find_element_by_link_text('history')
+
+
+@given('the internal user has sent a message')
+def sending_external_message_from_internal(context):
+    subject = "This is the subject of the message"
+    body = "This is the body of the message"
+    create_message_internal_to_external(context, subject, body)
+
+
+@given('the external user can see the message')
+def external_user_can_see_message(context):
+    signed_in_respondent(context)
+    surveys_todo.go_to()
+    page_helpers.go_to_first_conversation_in_message_box()
+    context.browser_url = browser.url
+
+
+@given('I am  not signed into the system')
+def log_out_external_user(_):
+    browser.find_by_id('SIGN_OUT_BTN').click()
+
+
+@when('I click on the link within the system')
+def clicks_on_message_url(context):
+    browser.visit(context.browser_url)
+
+
+@then('I am directed to the sign in page')
+def user_on_external_sign_page(_):
+    assert 'sign-in/' in browser.url
+
+
+@then('once signed in I am directed to the secure message')
+def sign_in_and_goes_to_thread(context):
+    sign_in_respondent_without_go_to(context)
+    assert 'secure-message/thread' in browser.url
