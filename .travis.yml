@@ -21,7 +21,6 @@ install:
   - docker network create rasrmdockerdev_default
 
 script:
-  - pipenv check --style . --max-line-length 120
   - make style_tests start_services
   - travis_wait 15 make wait_for_services
   - make system_tests acceptance_tests stop_services
