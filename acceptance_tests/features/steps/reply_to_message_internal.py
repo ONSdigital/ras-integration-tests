@@ -37,6 +37,7 @@ def create_and_close_conversation(context):
 
 
 @when('they view the message')
+@when('the internal person views the message')
 def internal_user_can_view_open_message(context):
     inbox_internal.go_to_using_context(context)
     go_to_thread()
@@ -65,6 +66,11 @@ def internal_user_can_reply(_):
     create_message_internal.enter_text_in_message_body('Body')
     create_message_internal.click_message_send_button()
     assert 'Message sent' in create_message_internal.get_first_flashed_message()
+
+
+@when('the user selects back')
+def user_selects_back(_):
+    create_message_internal.click_back_lnk()
 
 
 @then('they are to be navigated to the inbox of messages')

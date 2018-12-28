@@ -13,13 +13,13 @@ Feature: External User Views a Conversation
   @sm128_s01
   Scenario: User needs to be able to view all of the previous messages in a conversation
     Given an external user has sent ONS a message
-    When an internal user responds
+    When  an internal user responds and respondent signs in
     Then the external user can see all messages in the conversation
 
   @sm128_s02
   Scenario: The date and time of messages should be visible in each item of the conversation
     Given an external user has sent ONS a message
-    When an internal user responds
+    When  an internal user responds and respondent signs in
     Then the external user can see the date and time for each message in the conversation
 
   @sm128_s03
@@ -31,7 +31,7 @@ Feature: External User Views a Conversation
   @sm128_s04
   Scenario: User is able to differentiate between ONS messages and external messages in a conversation
     Given an external user has sent ONS a message
-    When an internal user responds
+    When  an internal user responds and respondent signs in
     Then the external user can see which messages have been sent by ONS and which ones they have sent
 
   @sm128_s05
@@ -79,7 +79,7 @@ Feature: External User Views a Conversation
 
   Scenario: When a respondent replies to a message it is sent to the same internal user that sent the original message
     Given the external user has conversations in their list
-      And the external user replies to a message
+      And the respondent replies to first conversation
       And the internal user is already signed in
     When  internal user navigate to the inbox messages
     Then  The To field should be the name of the internal user who sent the message

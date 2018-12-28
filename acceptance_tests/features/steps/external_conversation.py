@@ -35,7 +35,8 @@ def close_and_reopen_a_conversation(context):
     create_message_internal.click_reopen_conversation_button()
 
 
-@when('they navigate to the external inbox messages')
+@when('the respondent navigates to their inbox')
+@given("the respondent navigates to their inbox")
 def go_to_messages_box(_):
     external_conversation.go_to()
 

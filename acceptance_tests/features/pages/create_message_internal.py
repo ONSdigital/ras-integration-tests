@@ -43,6 +43,10 @@ def click_cancel_button():
     browser.find_by_id('btn-cancel').click()
 
 
+def click_back_lnk():
+    browser.find_by_id('back-link').click()
+
+
 def enter_text_in_message_subject(text):
     browser.driver.find_element_by_id('secure-message-subject').send_keys(text)
 
