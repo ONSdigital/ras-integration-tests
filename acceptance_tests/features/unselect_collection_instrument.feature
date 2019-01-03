@@ -1,3 +1,6 @@
+@business
+@standalone
+@fixture.setup.data.with.internal.user.and.collection.exercise.to.scheduled.status
 Feature: Remove a loaded SEFT CI
   As a Collection Exercise Coordinator
   I need to be able to remove a  loaded SEFT CI
