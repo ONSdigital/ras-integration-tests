@@ -1,4 +1,5 @@
 from acceptance_tests import browser
+from common.generate_token import generate_email_token, generate_expired_email_token
 from config import Config
 
 
@@ -7,8 +8,8 @@ def go_to_forgot_password_url():
     browser.find_link_by_href('/passwords/forgot-password').click()
 
 
-def enter_username(username):
-    browser.driver.find_element_by_id('email_address').send_keys(username)
+def enter_email_address(email_address):
+    browser.driver.find_element_by_id('email_address').send_keys(email_address)
 
 
 def send_reset_link():
@@ -23,10 +24,14 @@ def check_email_error_message():
     return browser.find_by_text('Invalid email address')
 
 
-def go_to_expired_password_request_url():
-    url = f'{Config.FRONTSTAGE_SERVICE}/passwords/reset-password/InVudmVyaWZpZWQxQGVtYWlsLmNvbSI.DoOicQ.Fi4dkj3J1C' \
-          '41Ehd4qNhnOdsZELc'
-    browser.visit(url)
+def go_to_expired_password_request_url(context):
+    expired_token = generate_expired_email_token(context.respondent_email)
+    browser.visit(f'{Config.FRONTSTAGE_SERVICE}/passwords/reset-password/{expired_token}')
+
+
+def get_password_reset_url(context):
+    token = generate_email_token(context.respondent_email)
+    return f'{Config.FRONTSTAGE_SERVICE}/passwords/reset-password/{token}'
 
 
 def get_expired_message():

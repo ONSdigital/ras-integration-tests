@@ -1,4 +1,5 @@
 from acceptance_tests import browser
+from acceptance_tests.features.pages import sign_in_internal
 
 
 def signed_out_successfully_message():
@@ -10,5 +11,7 @@ def sign_out():
 
 
 def try_sign_out():
+    sign_in_internal.go_to()
+
     if browser.find_by_id('sign-out-btn'):
         sign_out()

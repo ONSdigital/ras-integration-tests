@@ -17,7 +17,7 @@ def respondent_views_bricks_201801(context):
 
 
 @then('the respondent is not displayed that collection exercise')
-def respondent_cant_view_bricks_201812(context):
+def respondent_cant_view_bricks_201912(context):
     ce_periods = get_collection_exercise_periods()
     ce_period_values = [ce.value for ce in ce_periods]
-    assert 'December 2018' not in ce_period_values
+    assert 'December 2019' not in ce_period_values

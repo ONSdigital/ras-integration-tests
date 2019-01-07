@@ -1,3 +1,6 @@
+@business
+@standalone
+@fixture.setup.data.with.internal.user.and.collection.exercise.to.ready.for.review.status
 Feature: View Collection Instruments
   As a Collection Exercise Coordinator
   I need to view the collection instruments that the system holds for the given collection exercise

@@ -1,21 +1,22 @@
-from behave import given, when, then
+from behave import given, then, when
 
 from acceptance_tests import browser
-from acceptance_tests.features.pages.respondent_verification import enter_credentials, \
-    log_in_respondent, get_verification_message, click_verification_link, get_unverified_message
-from common.generate_token import generate_email_token
+from acceptance_tests.features.pages import sign_in_respondent
+from acceptance_tests.features.pages.respondent_verification import click_sign_in_button, click_verification_link, \
+    enter_credentials, get_unverified_message
+from common.generate_token import generate_email_token, generate_expired_email_token
 from config import Config
 
 
-@given('an external "{user}" with unverified account tried to sign into their account')
-def enter_respondent_credentials(_, user):
-    enter_credentials(username=user, password=Config.RESPONDENT_PASSWORD)
+@given('the respondent with unverified account navigates to the sign in page')
+def navigate_to_sign_in_page(_):
+    sign_in_respondent.go_to()
 
 
 @when('they enter correct credentials')
-@given('they enter correct credentials')
-def log_in_attempt(_):
-    log_in_respondent()
+def log_in_attempt(context):
+    enter_credentials(username=context.respondent_email, password=Config.RESPONDENT_PASSWORD)
+    click_sign_in_button()
 
 
 @then('they are shown on-screen notification to verify their email')
@@ -28,26 +29,27 @@ def request_verification_link(_):
     assert click_verification_link()
 
 
-@given('a user has an expired verification link')
-@when('they click the expired verification link')
-def click_expired_verification_link(_):
-    url = f'{Config.FRONTSTAGE_SERVICE}/register/activate-account/InVudmVyaWZpZWQxQGVtYWlsLmNvbSI.DoOicQ.Fi4dkj3J1C' \
-          f'41Ehd4qNhnOdsZELc'
-    browser.visit(url)
+@when('the respondent clicks an expired verification link')
+@given('the respondent has clicked an expired account verification link')
+def user_clicks_expired_verification_link(context):
+    expired_token = generate_expired_email_token(context.respondent_email)
+    browser.visit(f'{Config.FRONTSTAGE_SERVICE}/register/activate-account/{expired_token}')
 
 
 @given('a user has received a verification link')
-def unverified_user_page(_):
-    assert get_verification_message()
+def receive_email_verification_link(context):
+    token = generate_email_token(context.respondent_email)
+    context.email_verification_link = f'{Config.FRONTSTAGE_SERVICE}/register/activate-account/{token}'
 
 
-@when('they select the verification link in the email "{email}"')
-def click_valid_verification_link(_, email):
-    return _click_verification_link(email)
+@when('the respondent clicks a valid verification link in the email')
+def click_valid_verification_link(context):
+    token = generate_email_token(context.respondent_email)
+    browser.visit(f'{Config.FRONTSTAGE_SERVICE}/register/activate-account/{token}')
 
 
 @then('the user is notified that their link has expired, and given the option to re-send a verification email')
-@given('a user has been notified their link has expired')
+@given('the user has been notified their link has expired')
 def get_expired_verification_message(_):
     assert browser.find_by_text("Your link has expired")
     assert browser.find_by_text("request another verification email")
@@ -67,9 +69,3 @@ def resend_verification_page(_):
 def verified_user_page(_):
     assert '/sign-in/?account_activated=True' in browser.url
     assert browser.find_by_text("You've activated your account")
-
-
-def _click_verification_link(email):
-    token = generate_email_token(email)
-    url = f'{Config.FRONTSTAGE_SERVICE}/register/activate-account/{token}'
-    browser.visit(url)

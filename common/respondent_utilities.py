@@ -16,8 +16,9 @@ TELEPHONE_NUMBER_END = 99999999999
 logger = wrap_logger(getLogger(__name__))
 
 
-def create_respondent(user_name, enrolment_code, phone_number):
-    logger.debug('Creating a respondent', username=user_name, enrolment_code=enrolment_code, phone_number=phone_number)
+def create_respondent(user_name, enrolment_code, phone_number, activate=True):
+    logger.debug('Creating a respondent', username=user_name, enrolment_code=enrolment_code, phone_number=phone_number,
+                 activate=activate)
 
     # party_controller.register_respondent endpoint performs many tasks including survey enrolment (which is not always
     # needed and can be rolled back using the unenrol_respondent_in_survey() method)
@@ -28,10 +29,11 @@ def create_respondent(user_name, enrolment_code, phone_number):
                                                       phone_number=phone_number,
                                                       enrolment_code=enrolment_code)
     respondent_id = respondent['id']
+    if activate:
+        party_controller.change_respondent_status(respondent_id)
 
-    party_controller.change_respondent_status(respondent_id)
-
-    logger.debug('Respondent created', respondent_id=respondent_id, username=user_name, enrolment_code=enrolment_code)
+    logger.debug('Respondent created', respondent_id=respondent_id, username=user_name, enrolment_code=enrolment_code,
+                 activate=activate)
 
     return respondent
 
@@ -110,6 +112,12 @@ def create_unenrolled_respondent(context):
     create_respondent_user_login_account(context.respondent_email)
 
     unenrol_respondent_in_survey(context.survey_id)
+
+
+def create_unverified_respondent(context):
+    create_respondent_data(context)
+    create_respondent(user_name=context.respondent_email, enrolment_code=context.iac, phone_number=context.phone_number,
+                      activate=False)
 
 
 def make_email_address(local_part=None, domain=None):

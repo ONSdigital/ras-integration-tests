@@ -40,3 +40,10 @@ def signed_in_internal_social(context):
         sign_in_internal.enter_correct_username(internal_user_name)
         sign_in_internal.enter_correct_password()
         sign_in_internal.click_internal_sign_in_button()
+
+
+def sign_in_respondent_without_go_to(context):
+    if '/sign-in' in browser.url:
+        browser.driver.find_element_by_id('username').send_keys(context.respondent_email)
+        browser.driver.find_element_by_id('inputPassword').send_keys(Config.RESPONDENT_PASSWORD)
+        browser.find_by_id('sign_in_button').click()
