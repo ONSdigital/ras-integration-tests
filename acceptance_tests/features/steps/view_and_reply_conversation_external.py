@@ -21,13 +21,20 @@ def external_user_has_sent_ONS_a_message(context):
     create_message_external_to_internal(context, 'Message to ONS', 'Message body to ONS')
 
 
-@when('an internal user responds')
-def internal_user_replies_to_last_message(context):
-    signed_in_internal(context)
-    reply_to_last_message_internal(context)
+@when('an internal user responds and respondent signs in')
+@given('an internal user responds and respondent signs in')
+def internal_user_replies_to_last_message_and_respondent_signs_in(context):
+    internal_user_replies_to_last_message(context)
 
     # sign in again as respondent
     signed_in_respondent(context)
+
+
+@when('an internal user responds')
+@given('an internal user responds')
+def internal_user_replies_to_last_message(context):
+    signed_in_internal(context)
+    reply_to_last_message_internal(context)
 
 
 @when('the user navigates to the external closed inbox messages')
@@ -107,7 +114,8 @@ def external_user_views_closed_conversation(_):
     page_helpers.go_to_first_closed_conversation_in_message_box()
 
 
-@given('the external user replies to a message')
+@given('the respondent replies to first conversation')
+@when('the respondent replies to first conversation')
 def external_user_replies_to_a_message(_):
     page_helpers.go_to_first_conversation_in_message_box()
     page_helpers.enter_text_in_conversation_reply('Reply body from respondent')

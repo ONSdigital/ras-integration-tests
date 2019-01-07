@@ -43,7 +43,6 @@ def view_surveys_todo(_, email):
 def enrolment_is_disabled(_, email, status):
     reporting_unit.click_data_panel('Bricks')
     respondent = reporting_unit.get_respondent('Bricks', email)
-    
     assert respondent['enrolmentStatus'] == status
 
 

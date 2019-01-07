@@ -41,6 +41,7 @@ def setup_prepare_data_for_new_survey(context):
 @fixture
 def setup_with_internal_user(context):
     create_internal_user(context)
+    create_alternate_internal_user(context)
     context.add_cleanup(sign_out_internal.try_sign_out)
 
 
@@ -48,6 +49,7 @@ def setup_with_internal_user(context):
 def setup_data_with_internal_user(context):
     create_default_data(context)
     create_internal_user(context)
+    create_alternate_internal_user(context)
 
 
 @fixture
@@ -165,6 +167,7 @@ def _setup_data_with_internal_user_and_collection_exercise_to_specific_status(co
     context.dates = response['dates']
 
     create_internal_user(context)
+    create_alternate_internal_user(context)
 
 
 @fixture
@@ -232,6 +235,12 @@ def create_internal_user(context):
     context.internal_user_name = create_ru_reference()
 
     create_internal_user_login_account(context.internal_user_name)
+
+
+def create_alternate_internal_user(context):
+    context.alternate_internal_user_name = create_ru_reference()
+
+    create_internal_user_login_account(context.alternate_internal_user_name)
 
 
 def create_new_iac(context):

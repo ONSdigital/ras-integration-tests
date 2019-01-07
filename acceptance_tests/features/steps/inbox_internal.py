@@ -94,6 +94,7 @@ def test_select_survey_page_view(_):
 
 
 @when('the user has an unread message in their inbox')
+@given('the user has an unread message in their inbox')
 def internal_user_has_unread_message_in_inbox(context):
     messages_controller.create_message_external_to_internal(context, 'message subject', 'message body')
 
