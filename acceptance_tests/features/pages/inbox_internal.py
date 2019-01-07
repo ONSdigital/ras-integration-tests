@@ -1,5 +1,4 @@
 from acceptance_tests import browser
-from acceptance_tests.features.steps.sign_out_internal import sign_out
 from config import Config
 
 
