@@ -19,6 +19,10 @@ def go_to_closed_using_context(context):
     browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/messages/{context.short_name}?is_closed=true")
 
 
+def go_to_my_conversations_using_context(context):
+    browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/messages/{context.short_name}?my_conversations=true")
+
+
 def go_to_select_survey():
     browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/messages/select-survey")
 
@@ -55,6 +59,10 @@ def get_no_messages_text():
 
 def get_no_closed_conversations_text():
     return browser.find_by_text('No closed conversations')
+
+
+def get_no_my_conversations_text():
+    return browser.find_by_text('There are currently no messages')
 
 
 def get_dropdown_list():

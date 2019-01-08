@@ -111,6 +111,18 @@ def conversation_in_open_list(context):
     assert len(inbox_internal.get_messages()) > 0
 
 
+@then('the conversation is present in their my_messages list')
+def conversation_in_my_messages_list(context):
+    inbox_internal.go_to_my_conversations_using_context(context)
+    assert len(inbox_internal.get_messages()) > 0
+
+
+@then('the no conversation message is displayed')
+def conversation_not_in_my_messages_list(context):
+    get_no_my_conversations_text()
+    assert len(inbox_internal.get_messages()) == 0
+
+
 @then('they are able to see the messages in the conversation in chronological order')
 def messages_in_chronological_order(_):
     first_message_date = datetime.strptime(browser.find_by_id('sm-sent-date-1').value.split(' ')[2], '%H:%M')

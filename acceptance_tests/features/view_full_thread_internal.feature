@@ -92,3 +92,40 @@ Feature: View conversation thread
       And the internal person views the message
       And the user selects back
     Then  they are able to distinguish that the message is unread
+
+  Scenario: Respondent sends to specific user. Internal user can see it in my messages
+    Given the internal user has received a message
+      And  an internal user responds and respondent signs in
+      And the respondent navigates to their inbox
+      And the respondent replies to first conversation
+    When The internal user is already signed in
+      And they navigate to my messages
+    Then the conversation is present in their my_messages list
+
+  Scenario: Respondent sends to specific user. Internal user sees it in open messages
+    Given the internal user has received a message
+      And  an internal user responds and respondent signs in
+      And the respondent navigates to their inbox
+      And the respondent replies to first conversation
+    When The internal user is already signed in
+      And they navigate to the inbox messages
+    Then the conversation is present in their my_messages list
+
+  Scenario: Respondent sends to specific internal user , Another internal user should not see it in my messages
+    Given the internal user has received a message
+      And  an internal user responds and respondent signs in
+      And the respondent navigates to their inbox
+      And the respondent replies to first conversation
+    When an alternate internal user signs in
+      And they navigate to my messages
+    Then they are informed that there are no my_messages
+
+  Scenario: Respondent sends to specific internal user , Another internal user should see it in open messages
+      Scenario: Respondent sends to specific internal user , Another internal user should not see it in my messages
+    Given the internal user has received a message
+      And  an internal user responds and respondent signs in
+      And the respondent navigates to their inbox
+      And the respondent replies to first conversation
+    When an alternate internal user signs in
+      And they navigate to the inbox messages
+    Then the conversation is present in their open list
