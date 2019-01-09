@@ -59,6 +59,7 @@ def internal_user_views_closed_messages(context):
     inbox_internal.go_to_closed_using_context(context)
 
 
+@given('they navigate to my messages')
 @when('they navigate to my messages')
 def internal_user_views_my_messages(context):
     inbox_internal.go_to_my_conversations_using_context(context)

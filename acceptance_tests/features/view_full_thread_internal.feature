@@ -129,3 +129,19 @@ Feature: View conversation thread
     When an alternate internal user signs in
       And they navigate to the inbox messages
     Then the conversation is present in their open list
+
+  Scenario: Message sent to group user opens message and clicks back , should go back to open messages
+    Given the internal user has received a message
+    When  the internal person views the message
+      And the user selects back
+    Then they are taken back to open messages
+
+  Scenario: Message sent to specific user opens message via my messages and clicks back , should go back to my messages
+    Given the internal user has received a message
+      And  an internal user responds and respondent signs in
+      And the respondent replies to first conversation
+    When  The internal user is already signed in
+      And  they navigate to my messages
+      And they view the unread message
+      And the user selects back
+    Then they are taken back to my_messages
