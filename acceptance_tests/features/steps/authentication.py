@@ -19,8 +19,6 @@ def signed_in_respondent(context):
 @given('The internal user is already signed in')
 @when('The internal user is already signed in')
 def signed_in_internal(context):
-
-    # todo temp fix until all converted
     internal_user_name = getattr(context, 'internal_user_name', Config.INTERNAL_USERNAME)
     _sign_in_internal_user(internal_user_name)
 
