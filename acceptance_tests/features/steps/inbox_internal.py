@@ -2,10 +2,12 @@ from datetime import datetime
 
 from behave import given, when, then
 
+from acceptance_tests import browser
 from acceptance_tests.features.pages import home, inbox_internal
 from acceptance_tests.features.pages.internal_conversation_view import go_to_thread
 from acceptance_tests.features.steps.authentication import signed_in_internal
 from controllers import messages_controller
+from common.browser_utilities import wait_for
 
 
 @given('the user has access to secure messaging')
@@ -115,7 +117,16 @@ def internal_user_has_unread_message_in_inbox(context):
 
 @then('they are able to distinguish that the message is unread')
 def internal_user_can_distinguish_the_message_is_unread(_):
+    wait_for(_validate_message_unread_on_page, 5, 1)
     assert len(inbox_internal.get_unread_messages()) > 0
+
+
+def _validate_message_unread_on_page():
+    try:
+        browser.find_by_name('message-unread')
+        return True
+    except Exception:
+        return False
 
 
 @when('they view the unread message')

@@ -46,7 +46,7 @@ def check_mark_as_unread_available(_):
 
 @then('They cannot see mark as unread')
 def check_mark_as_unread_unavailable(_):
-    assert browser.find_by_id('sm-mark-as-unread').is_empty()
+    assert not browser.find_by_id('sm-mark-as-unread')
 
 
 @when('they select mark unread')
