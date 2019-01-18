@@ -121,7 +121,6 @@ Feature: View conversation thread
     Then they are informed that there are no my_messages
 
   Scenario: Respondent sends to specific internal user , Another internal user should see it in open messages
-      Scenario: Respondent sends to specific internal user , Another internal user should not see it in my messages
     Given the internal user has received a message
       And  an internal user responds and respondent signs in
       And the respondent navigates to their inbox

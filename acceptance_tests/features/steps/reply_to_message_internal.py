@@ -70,7 +70,7 @@ def internal_user_can_reply(_):
 
 @when('the user selects back')
 def user_selects_back(_):
-    create_message_internal.click_back_lnk()
+    create_message_internal.click_back_link()
 
 
 @then('they are to be navigated to the inbox of messages')

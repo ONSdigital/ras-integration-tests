@@ -43,7 +43,7 @@ def click_cancel_button():
     browser.find_by_id('btn-cancel').click()
 
 
-def click_back_lnk():
+def click_back_link():
     browser.find_by_id('back-link').click()
 
 
