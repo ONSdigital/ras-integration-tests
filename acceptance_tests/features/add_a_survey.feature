@@ -8,6 +8,14 @@ Feature: Add a survey
   Background: User already logged in
     Given the respondent is signed into their account
 
+
+  @fixture.setup.data.with.enrolled.respondent.and.additional.iac
+  Scenario: User is trying to add a survey using a new iac code that they have previously added
+    Given the user has entered a valid enrolment code for a survey they have already added
+    When they continue and confirm that the organisation and survey that they are enrolling for is correct
+    Then the user is notified they have already added the survey
+
+
   @fixture.setup.data.with.unenrolled.respondent.user
   @us334-addSurvey_s01
   Scenario: Select to add new survey
@@ -47,3 +55,5 @@ Feature: Add a survey
     Given the user has entered a valid enrolment code
     When they navigate to the confirm organisation page and click cancel
     Then the user is navigated back to their "To do" list and they have not enrolled for that survey
+
+
