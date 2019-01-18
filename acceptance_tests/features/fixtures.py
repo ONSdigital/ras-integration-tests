@@ -228,7 +228,7 @@ def setup_data_with_enrolled_respondent_and_additional_iac(context):
     context.add_cleanup(sign_out_internal.try_sign_out)
     context.second_iac = generate_new_enrolment_code_from_existing_code(context.iac)
 
-    
+
 def setup_data_with_enrolled_respondent_user_and_eq_collection_exercise_live(context):
     create_default_data(context, eq_ci=True)
     collection_exercise_controller.wait_for_collection_exercise_state(context.survey_id, context.period,

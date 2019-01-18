@@ -136,7 +136,7 @@ def url_is_for_open_messages(_):
 
 
 @then('they are taken back to my_messages')
-def url_is_for_open_messages(_):
+def url_is_for_my_messages(_):
     assert 'my_conversations=true' in browser.url
 
 

@@ -78,6 +78,3 @@ def enter_second_enrolment_code(context):
 def already_added_notification_presented_to_user(context):
     assert browser.find_by_id('ALREADY_ADDED_NOTIF').text,\
                 'You have already added that survey'
-
-
-
