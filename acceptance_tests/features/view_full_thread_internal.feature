@@ -144,3 +144,11 @@ Feature: View conversation thread
       And they view the unread message
       And the user selects back
     Then they are taken back to my_messages
+
+  Scenario: Respondent sends to multiple messages to group, internal user marks 1 on page 2 as unread
+    Given Respondent sends '30' messages to ONS
+    And The internal user is already signed in
+    And the internal user goes to page '2'
+    When they view the unread message
+    And they select mark unread
+    Then they are taken back to page '2'

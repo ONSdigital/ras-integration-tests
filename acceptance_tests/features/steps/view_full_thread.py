@@ -5,6 +5,7 @@ from acceptance_tests.features.pages.internal_conversation_view import go_to_thr
     is_conversation_with_sent_and_received_messages, view_full_conversation_date_time_msg_details, \
     view_last_anchored_message
 from controllers.messages_controller import create_message_internal_to_external
+from controllers.messages_controller import create_multiple_messages_external_to_internal
 
 
 @given('An internal user has conversations in their inbox')
@@ -64,3 +65,8 @@ def message_marked_unread_message_displayed(context):
     assert browser.find_by_id('flashed-message-1')
     flash_message = browser.find_by_id('flashed-message-1')
     assert "marked unread" in flash_message.text
+
+
+@given("Respondent sends '{message_count}' messages to ONS")
+def respondent_sends_multiple_messages(context, message_count):
+    create_multiple_messages_external_to_internal(context, int(message_count), subject='Some subject', body='Some body')
