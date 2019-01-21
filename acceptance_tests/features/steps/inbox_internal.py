@@ -117,7 +117,7 @@ def internal_user_has_unread_message_in_inbox(context):
 
 @then('they are able to distinguish that the message is unread')
 def internal_user_can_distinguish_the_message_is_unread(_):
-    wait_for(named_element_on_page, 5, 1, 'message-unread')
+    wait_for(named_element_on_page, 8, 1, 'message-unread')
     assert len(inbox_internal.get_unread_messages()) > 0
 
 

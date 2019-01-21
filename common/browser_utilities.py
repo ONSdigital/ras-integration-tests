@@ -32,3 +32,11 @@ def named_element_on_page(name):
         return True
     except Exception:
         return False
+
+
+def element_by_id_on_page(element_id):
+    try:
+        browser.find_by_id(element_id)
+        return True
+    except Exception:
+        return False

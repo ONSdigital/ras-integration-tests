@@ -1,5 +1,7 @@
 from acceptance_tests import browser
 from acceptance_tests.features.pages.reporting_unit import click_data_panel
+from common.browser_utilities import element_by_id_on_page, wait_for
+
 from config import Config
 
 
@@ -44,6 +46,7 @@ def click_cancel_button():
 
 
 def click_back_link():
+    wait_for(element_by_id_on_page, 5, 1, 'back-link')
     browser.find_by_id('back-link').click()
 
 
