@@ -27,16 +27,9 @@ def wait_for(fn, timeout_secs, retry_secs=3.0, argv=[]):
 
 
 def named_element_on_page(name):
-    try:
-        browser.find_by_name(name)
-        return True
-    except Exception:
-        return False
+    return True if browser.find_by_name(name) else False
 
 
 def element_by_id_on_page(element_id):
-    try:
-        browser.find_by_id(element_id)
-        return True
-    except Exception:
-        return False
+    return True if browser.find_by_id(element_id) else False
+
