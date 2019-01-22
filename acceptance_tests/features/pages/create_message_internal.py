@@ -79,6 +79,7 @@ def clear_message_body_text():
 
 
 def get_first_flashed_message():
+    wait_for(element_by_id_on_page, 5, 1, "flashed-message-1")
     return browser.find_by_id("flashed-message-1").value
 
 
