@@ -2,7 +2,6 @@ from datetime import datetime
 
 from behave import given, when, then
 
-from acceptance_tests import browser
 from acceptance_tests.features.pages import home, inbox_internal
 from acceptance_tests.features.pages.internal_conversation_view import go_to_thread
 from acceptance_tests.features.steps.authentication import signed_in_internal

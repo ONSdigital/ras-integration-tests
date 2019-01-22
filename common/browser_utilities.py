@@ -32,4 +32,3 @@ def named_element_on_page(name):
 
 def element_by_id_on_page(element_id):
     return True if browser.find_by_id(element_id) else False
-

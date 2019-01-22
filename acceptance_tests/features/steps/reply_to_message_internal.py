@@ -1,4 +1,3 @@
-import time
 from datetime import datetime
 
 from behave import given, when, then
