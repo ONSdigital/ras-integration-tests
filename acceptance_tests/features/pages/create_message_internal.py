@@ -1,6 +1,6 @@
 from acceptance_tests import browser
 from acceptance_tests.features.pages.reporting_unit import click_data_panel
-from common.browser_utilities import element_by_id_on_page, wait_for
+from common.browser_utilities import wait_for_element_by_id
 
 from config import Config
 
@@ -46,7 +46,7 @@ def click_cancel_button():
 
 
 def click_back_link():
-    wait_for(element_by_id_on_page, 5, 1, 'back-link')
+    wait_for_element_by_id(element_id='back-link', timeout=5, retry=1)
     browser.find_by_id('back-link').click()
 
 
@@ -79,7 +79,7 @@ def clear_message_body_text():
 
 
 def get_first_flashed_message():
-    wait_for(element_by_id_on_page, 5, 1, "flashed-message-1")
+    wait_for_element_by_id(element_id="flashed-message-1", timeout=5, retry=1)
     return browser.find_by_id("flashed-message-1").value
 
 

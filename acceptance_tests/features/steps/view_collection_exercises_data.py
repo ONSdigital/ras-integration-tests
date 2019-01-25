@@ -1,6 +1,7 @@
 from behave import given, when, then
 
 from acceptance_tests.features.pages import collection_exercise
+from common.browser_utilities import wait_for
 
 
 @given('collection exercises for {survey} exist in the system')
@@ -36,7 +37,7 @@ def the_internal_user_can_view_all_collection_exercises_for_qbs(context):
     assert table_headers == ' '.join(required_headers)
 
     # Validate rows to ensure values are in the correct columns
-    collection_exercises = collection_exercise.get_collection_exercises()
+    collection_exercises = wait_for(collection_exercise.get_collection_exercises, 16, 2)
     for row in context.table:
         collection_exercises_by_period = next(filter(lambda ce: ce['exercise_ref'] == row['period'],
                                                      collection_exercises))
@@ -46,5 +47,5 @@ def the_internal_user_can_view_all_collection_exercises_for_qbs(context):
 
 @then('there is at least one collection exercise')
 def there_is_at_least_one_collection_exercise(_):
-    collection_exercises = collection_exercise.get_collection_exercises()
+    collection_exercises = wait_for(collection_exercise.get_collection_exercises, 16, 2)
     assert len(collection_exercises) > 0

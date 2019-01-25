@@ -6,7 +6,7 @@ from acceptance_tests.features.pages import home, inbox_internal
 from acceptance_tests.features.pages.internal_conversation_view import go_to_thread
 from acceptance_tests.features.steps.authentication import signed_in_internal
 from controllers import messages_controller
-from common.browser_utilities import named_element_on_page, wait_for
+from common.browser_utilities import wait_for_element_by_name
 
 
 @given('the user has access to secure messaging')
@@ -116,7 +116,7 @@ def internal_user_has_unread_message_in_inbox(context):
 
 @then('they are able to distinguish that the message is unread')
 def internal_user_can_distinguish_the_message_is_unread(_):
-    wait_for(named_element_on_page, 8, 1, 'message-unread')
+    wait_for_element_by_name(name="message-unread", timeout=8, retry=1)
     assert len(inbox_internal.get_unread_messages()) > 0
 
 

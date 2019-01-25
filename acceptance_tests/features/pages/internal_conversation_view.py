@@ -1,6 +1,6 @@
 from acceptance_tests import browser
 from config import Config
-from common.browser_utilities import element_by_id_on_page, wait_for
+from common.browser_utilities import wait_for_element_by_id
 
 
 def go_to():
@@ -8,7 +8,7 @@ def go_to():
 
 
 def go_to_thread():
-    wait_for(element_by_id_on_page, 8, 1, 'message-link-1')
+    wait_for_element_by_id(element_id='message-link-1', timeout=8, retry=1)
     thread_subject = browser.find_by_id('message-link-1')
     thread_subject.click()
 
