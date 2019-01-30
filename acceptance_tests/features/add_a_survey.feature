@@ -10,11 +10,11 @@ Feature: Add a survey
 
 
   @fixture.setup.data.with.enrolled.respondent.and.additional.iac
+  @skip
   Scenario: User is trying to add a survey using a new iac code that they have previously added
     Given the user has entered a valid enrolment code for a survey they have already added
     When they continue and confirm that the organisation and survey that they are enrolling for is correct
     Then the user is notified they have already added the survey
-
 
   @fixture.setup.data.with.unenrolled.respondent.user
   @us334-addSurvey_s01
