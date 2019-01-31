@@ -27,3 +27,20 @@ def get_respondent_details():
 
 def not_found():
     return 'No Respondent found' in browser.html
+
+
+def click_edit_contact_details():
+    browser.find_by_id('edit-contact-details').click()
+
+
+def click_resend_verification_email():
+    browser.find_by_id('resend-email-verification-btn').click()
+
+
+def click_change_enrolment_status(_):
+    browser.find_by_id('change-enrolment-status').click()
+
+
+def confirm_on_respondent_page(_):
+    assert 'Respondents | Survey Data Collection' in browser.title
+

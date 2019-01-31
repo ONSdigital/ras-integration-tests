@@ -1,12 +1,35 @@
 from behave import given, when, then
 
 from acceptance_tests.features.pages import sign_in_respondent, change_enrolment_status, reporting_unit, surveys_todo
+from acceptance_tests.features.pages.respondent import click_change_enrolment_status, go_to_find_respondent
+from acceptance_tests import browser
 
 
 @given('the internal user is on the ru details page')
 @when('the internal user is back on the ru details page')
 def internal_user_view_ru_details(_):
     reporting_unit.go_to('49900000001')
+
+
+@when('the user clicks either disable or re-enable')
+def click_enrolment_status_link(_):
+    browser.find_by_id('change-enrolment-status').click()
+
+
+@when('the user clicks the confirm button')
+def click_confirm_button(_):
+    browser.find_by_id('confirm-btn').click()
+
+
+@then('the user is redirected to a confirmation screen')
+def confirm_verification_screen(_):
+    assert 'Edit collection exercise details' in browser.title
+
+
+@then('the user is redirected to the respondents page and a success message is displayed')
+def confirm_success_message(_):
+    assert 'Respondents | Survey Data Collection' in browser.title
+    assert 'Enrolment status changed' in browser.find_by_id('success').text
 
 
 @given('the internal user disables enrolment for respondent with email "{email}"')

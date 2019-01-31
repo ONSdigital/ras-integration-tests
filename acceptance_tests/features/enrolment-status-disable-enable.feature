@@ -13,7 +13,7 @@ Feature: Disable respondent enrolment status
     When the internal clicks on the disable button for "disable_respondent_1@email.com"
     And the internal user confirms they want to disable the account
     Then "disable_respondent_1@email.com"'s enrolment appears "Disabled" on the ru details page
-  
+
   @us023_s01
   Scenario: Internal user must be able to re-enable a respondents enrolment
     Given the respondent with email "reenable_respondent_1@email.com" is enrolled and active
@@ -39,3 +39,20 @@ Feature: Disable respondent enrolment status
     And the internal user disables enrolment for respondent with email "disable_respondent_3@email.com"
     When the respondent with email "disable_respondent_4@email.com" views their survey todo list
     Then the respondent should see the survey in their todo list
+
+
+  @fixture.setup.data.with.enrolled.respondent.user.and.internal.user
+  Scenario: internal user clicks link to change enrolment status on respondent page
+    Given the internal user has navigated to a respondents details page
+    When the user clicks either disable or re-enable
+    Then the user is redirected to a confirmation screen
+
+
+  @fixture.setup.data.with.enrolled.respondent.user.and.internal.user
+   Scenario: internal user clicks confirm button on confirmation screen
+     Given the internal user has navigated to a respondents details page
+     When the user clicks either disable or re-enable
+     And the user clicks the confirm button
+     Then the user is redirected to the respondents page and a success message is displayed
+
+

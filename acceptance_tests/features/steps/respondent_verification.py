@@ -4,6 +4,7 @@ from acceptance_tests import browser
 from acceptance_tests.features.pages import sign_in_respondent
 from acceptance_tests.features.pages.respondent_verification import click_sign_in_button, click_verification_link, \
     enter_credentials, get_unverified_message
+from acceptance_tests.features.pages.respondent import click_resend_verification_email, go_to_find_respondent, confirm_on_respondent_page, search_respondent_by_email
 from common.generate_token import generate_email_token, generate_expired_email_token
 from config import Config
 
@@ -69,3 +70,40 @@ def resend_verification_page(_):
 def verified_user_page(_):
     assert '/sign-in/?account_activated=True' in browser.url
     assert browser.find_by_text("You've activated your account")
+
+
+@when('the internal user clicks re-send verification email')
+@given('the internal user clicks re-send verification email')
+def click_resend_verification(_):
+   browser.find_by_id('resend-verification-email-btn').click()
+
+
+@then('then they are redirected to a confirmation screen')
+def resend_confirmation_screen(_):
+    assert 'Re-send verification email' in browser.title
+
+
+@given('the user is already on the confirmation screen')
+def go_to_resend_confirmation(email):
+    go_to_find_respondent()
+    search_respondent_by_email(email)
+    browser.find_by_id('resend-verification-email-btn').click()
+
+
+@when('they press confirm')
+def click_confirm(_):
+    browser.find_by_id('confirm').click()
+
+
+@when('they press cancel')
+def click_confirm(_):
+    browser.find_by_id('cancel').click()
+
+
+@then('they are redirected to the respondents page and a confirmation message is displayed')
+def confirm_email_resend(_):
+    assert 'Verification email re-sent' in browser.find_by_id('success').text
+
+
+
+

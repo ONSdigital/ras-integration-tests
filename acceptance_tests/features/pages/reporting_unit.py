@@ -107,7 +107,7 @@ def click_edit_details(survey_short_name, email):
             break
 
 
-def get_confirm_contact_details_success_text():
+def get_confirm_contact_details_success_text(_):
     return browser.find_by_id('success').text
 
 

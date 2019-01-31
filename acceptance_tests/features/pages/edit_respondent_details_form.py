@@ -14,7 +14,7 @@ def clear_telephone_number():
 
 
 def edit_contact_number(number):
-    browser.find_by_id('telephone').fill(number)
+    browser.find_by_id('telephone').fill(number+'0')
 
 
 def click_save():
