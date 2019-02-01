@@ -10,7 +10,7 @@ from acceptance_tests.features.pages.reply_to_message_internal import get_curren
 from acceptance_tests.features.steps.authentication import signed_in_internal
 from controllers.messages_controller import create_message_external_to_internal, \
     create_and_close_message_internal_to_external
-from common.browser_utilities import wait_for_element_by_name
+from common.browser_utilities import wait_for_element_by_class_name
 
 
 @given('the internal user has received a message')
@@ -151,7 +151,7 @@ def internal_user_opens_first_message_on_page(context, page):
 def internal_user_taken_to_specific_page(context, page):
     inbox_internal.go_to_using_context(context)
     for page_num in range(1, int(page)):
-        wait_for_element_by_name(name='next', timeout=5, retry=1)
+        wait_for_element_by_class_name(name='next', timeout=5, retry=1)
         browser.driver.find_element_by_class_name('next').click()
 
 

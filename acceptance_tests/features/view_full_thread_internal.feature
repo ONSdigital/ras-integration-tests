@@ -55,7 +55,7 @@ Feature: View conversation thread
     When The internal user is already signed in
       And the internal person views the message
       Then  They can see mark as unread
-     
+
 
   Scenario: Message sent from internal, respondent replies , user different to who sent original message can not mark as unread
     Given the internal user has received a message
@@ -71,8 +71,8 @@ Feature: View conversation thread
     When  the internal person views the message
       And the user selects back
     Then  the message is no longer marked as unread
-    
-    
+
+
   Scenario: Message sent from internal, respondent replies , user who sent original opens and selects back, message marked as read
     Given the internal user has received a message
       And  an internal user responds and respondent signs in

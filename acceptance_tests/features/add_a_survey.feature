@@ -8,7 +8,7 @@ Feature: Add a survey
   Background: User already logged in
     Given the respondent is signed into their account
 
-
+  @skip
   @fixture.setup.data.with.enrolled.respondent.and.additional.iac
   @skip
   Scenario: User is trying to add a survey using a new iac code that they have previously added

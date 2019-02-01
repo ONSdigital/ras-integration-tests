@@ -13,7 +13,7 @@ def is_text_present_with_retry(text, retries=3, delay=1):
 
 
 def wait_for_element_by_name(name, timeout, retry):
-    """Waits for the named element to appear on the page
+    """Waits for the named element to appear on the page, asserts if not present after timeout
 
     Parameters:
         name (string): The name of the element to wait for
@@ -23,11 +23,35 @@ def wait_for_element_by_name(name, timeout, retry):
     Returns:
         boolean: True if element found else False
         """
-    return wait_for(_named_element_on_page, timeout, retry, name)
+
+    ret_val = wait_for(_named_element_on_page, timeout, retry, name)
+
+    assert ret_val
+
+    return ret_val
+
+
+def wait_for_element_by_class_name(name, timeout, retry):
+    """Waits for the named class to appear on the page, asserts if not present after timeout
+
+    Parameters:
+        name (string): The name of the element to wait for
+        timeout (int): Total amount of time in seconds to wait before returning a default of False
+        retry (int): Time in seconds after one attempt to check if element is on the screen.
+
+    Returns:
+        boolean: True if element found else False
+        """
+
+    ret_val = wait_for(_named_class_on_page, timeout, retry, name)
+
+    assert ret_val
+
+    return ret_val
 
 
 def wait_for_element_by_id(element_id, timeout, retry):
-    """Waits for the element with the specific id to appear on the page
+    """Waits for the element with the specific id to appear on the page, asserts if not present after timeout
 
     Parameters:
 
@@ -38,7 +62,10 @@ def wait_for_element_by_id(element_id, timeout, retry):
     Returns:
         boolean: True if element found else False
     """
-    return wait_for(_element_by_id_on_page, timeout, retry, element_id)
+    ret_val = wait_for(_element_by_id_on_page, timeout, retry, element_id)
+    assert ret_val
+
+    return ret_val
 
 
 def wait_for(fn, timeout, retry_after, *argv):
@@ -64,12 +91,18 @@ def wait_for(fn, timeout, retry_after, *argv):
         ret_val = fn(*argv) if argv else fn()
         if not ret_val:
             time.sleep(retry_after)
+
     return ret_val
 
 
 def _named_element_on_page(name):
     """Returns True if element of name:name is on current page, else False"""
     return True if browser.find_by_name(name) else False
+
+
+def _named_class_on_page(name):
+    """Returns True if class of name:name is on current page, else False"""
+    return True if browser.driver.find_element_by_class_name(name) else False
 
 
 def _element_by_id_on_page(element_id):
