@@ -2,6 +2,7 @@ from behave import given, when, then
 
 from acceptance_tests import browser
 from acceptance_tests.features.pages import surveys_todo, add_a_survey
+from common.browser_utilities import wait_for_element_by_id
 
 
 @when('the respondent views the survey list todo page')
@@ -53,7 +54,8 @@ def confirm_organisation_and_continue(context):
 
 @then('the new survey is to be listed in My Surveys and confirmation is presented to the user')
 def confirmation_presented_for_new_survey(context):
-    browser.find_by_id('NEW_SURVEY_NOTIF')
+    wait_for_element_by_id('NEW_SURVEY_NOTIF', timeout=20, retry=1)
+    assert browser.find_by_id('NEW_SURVEY_NOTIF')
 
 
 @when('they navigate to the confirm organisation page and click cancel')

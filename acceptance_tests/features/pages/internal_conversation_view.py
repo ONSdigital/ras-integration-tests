@@ -8,7 +8,7 @@ def go_to():
 
 
 def go_to_thread():
-    wait_for_element_by_id(element_id='message-link-1', timeout=8, retry=1)
+    wait_for_element_by_id(element_id='message-link-1', timeout=20, retry=1)
     thread_subject = browser.find_by_id('message-link-1')
     thread_subject.click()
 

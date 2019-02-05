@@ -46,7 +46,7 @@ def click_cancel_button():
 
 
 def click_back_link():
-    wait_for_element_by_id(element_id='back-link', timeout=5, retry=1)
+    wait_for_element_by_id(element_id='back-link', timeout=15, retry=1)
     browser.find_by_id('back-link').click()
 
 

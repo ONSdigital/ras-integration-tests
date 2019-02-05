@@ -12,7 +12,7 @@ def is_text_present_with_retry(text, retries=3, delay=1):
     return False
 
 
-def wait_for_element_by_name(name, timeout, retry):
+def wait_for_element_by_name(name, timeout=10, retry=1):
     """Waits for the named element to appear on the page, asserts if not present after timeout
 
     Parameters:
@@ -31,7 +31,7 @@ def wait_for_element_by_name(name, timeout, retry):
     return ret_val
 
 
-def wait_for_element_by_class_name(name, timeout, retry):
+def wait_for_element_by_class_name(name, timeout=10, retry=1):
     """Waits for the named class to appear on the page, asserts if not present after timeout
 
     Parameters:
@@ -50,7 +50,7 @@ def wait_for_element_by_class_name(name, timeout, retry):
     return ret_val
 
 
-def wait_for_element_by_id(element_id, timeout, retry):
+def wait_for_element_by_id(element_id, timeout=10, retry=1):
     """Waits for the element with the specific id to appear on the page, asserts if not present after timeout
 
     Parameters:

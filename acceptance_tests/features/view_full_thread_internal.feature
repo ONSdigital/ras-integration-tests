@@ -59,7 +59,9 @@ Feature: View conversation thread
 
   Scenario: Message sent from internal, respondent replies , user different to who sent original message can not mark as unread
     Given the internal user has received a message
-      And  an internal user responds and respondent signs in
+      And an internal user responds
+      And they click the sign out link
+      And the respondent is signed into their account
       And the respondent navigates to their inbox
       And the respondent replies to first conversation
     When an alternate internal user signs in
@@ -85,7 +87,9 @@ Feature: View conversation thread
 
   Scenario: Message sent from internal, respondent replies , user different to who sent original opens and selects back, message not marked as read
     Given the internal user has received a message
-      And  an internal user responds and respondent signs in
+      And an internal user responds
+      And they click the sign out link
+      And the respondent is signed into their account
       And the respondent navigates to their inbox
       And the respondent replies to first conversation
     When an alternate internal user signs in
@@ -113,7 +117,9 @@ Feature: View conversation thread
 
   Scenario: Respondent sends to specific internal user , Another internal user should not see it in my messages
     Given the internal user has received a message
-      And  an internal user responds and respondent signs in
+      And an internal user responds
+      And they click the sign out link
+      And the respondent is signed into their account
       And the respondent navigates to their inbox
       And the respondent replies to first conversation
     When an alternate internal user signs in
@@ -122,7 +128,9 @@ Feature: View conversation thread
 
   Scenario: Respondent sends to specific internal user , Another internal user should see it in open messages
     Given the internal user has received a message
-      And  an internal user responds and respondent signs in
+      And an internal user responds
+      And they click the sign out link
+      And the respondent is signed into their account
       And the respondent navigates to their inbox
       And the respondent replies to first conversation
     When an alternate internal user signs in
