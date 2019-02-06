@@ -1,6 +1,5 @@
 @business
 @standalone
-@wip
 
 Feature: As an internal user
   I need to be able to change a respondents details
@@ -9,20 +8,20 @@ Feature: As an internal user
   Background: Internal user is already signed in
     Given the internal user is already signed in
 
-#  @us057-s01
-#  @fixture.setup.data.with.enrolled.respondent.user.and.internal.user
-#  Scenario: The internal user is able to change a respondents first name, last name and contact number
-#    Given the internal user has found the respondents details
-#    When they choose to change the name of a respondent
-#    Then the respondent account details become editable
-#
-#  @us057-s02
-#  @fixture.setup.data.with.enrolled.respondent.user.and.internal.user
-#  Scenario: All fields are required to be populated
-#    Given the internal user chooses to change account details
-#    When they remove the old contact number
-#    And they click save
-#    Then the changes will not be saved and they are informed that all fields are required
+  @us057-s01
+  @fixture.setup.data.with.enrolled.respondent.user.and.internal.user
+  Scenario: The internal user is able to change a respondents first name, last name and contact number
+    Given the internal user has found the respondents details
+    When they choose to change the name of a respondent
+    Then the respondent account details become editable
+
+  @us057-s02
+  @fixture.setup.data.with.enrolled.respondent.user.and.internal.user
+  Scenario: All fields are required to be populated
+    Given the internal user chooses to change account details
+    When they remove the old contact number
+    And they click save
+    Then the changes will not be saved and they are informed that all fields are required
 
   @us057-s03
   @fixture.setup.data.with.enrolled.respondent.user.and.internal.user
