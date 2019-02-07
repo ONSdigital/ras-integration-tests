@@ -78,20 +78,20 @@ def sign_in_directed_to_home_page(_):
 
 @then('the user is notified that a username is required')
 def sign_in_username_required(_):
-    sign_in_internal.check_username_required()
+    assert sign_in_internal.check_username_required()
 
 
 @then('The user is notified that a password is required')
 def sign_in_password_required(_):
-    sign_in_internal.check_password_required()
+    assert sign_in_internal.check_password_required()
 
 
 @then('the user is notified that a username and password is required')
 def sign_in_username_and_password_required(_):
-    sign_in_internal.check_username_required()
-    sign_in_internal.check_password_required()
+    assert sign_in_internal.check_username_required()
+    assert sign_in_internal.check_password_required()
 
 
 @then('the user is notified that an authentication error has occurred')
 def authentication_error_occurred(_):
-    sign_in_internal.check_authentication_error_message()
+    assert sign_in_internal.check_authentication_error_message()
