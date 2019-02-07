@@ -3,6 +3,7 @@ import os
 
 from retrying import retry
 from selenium import webdriver
+import chromedriver_binary
 from splinter import Browser
 from structlog import configure
 from structlog.stdlib import LoggerFactory
