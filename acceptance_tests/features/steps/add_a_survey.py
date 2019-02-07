@@ -20,7 +20,7 @@ def add_a_new_survey(context):
 
 @then('they are able to enter an enrolment code')
 def enter_enrolment_code(context):
-    browser.find_by_id('ENROLMENT_CODE_FIELD')
+    assert browser.find_by_id('ENROLEMENT_CODE_FIELD')
 
 
 @given('the user has entered a valid enrolment code')
@@ -33,7 +33,7 @@ def enter_valid_enrolment_code(context):
 
 @then('they are to be presented with the survey and organisation that they are enrolling for')
 def view_confirmation_page(context):
-    browser.find_by_id('confirm-org-title')
+    assert browser.find_by_id('confirm-org-title')
 
 
 @when('they enter an invalid enrolment code')
@@ -44,7 +44,7 @@ def enter_invalid_enrolment_code(context):
 
 @then('they are to be notified')
 def invalid_enrolment_code_notification(context):
-    browser.find_by_id('error_notification')
+    assert browser.find_by_id('error_notification')
 
 
 @when('they continue and confirm that the organisation and survey that they are enrolling for is correct')
