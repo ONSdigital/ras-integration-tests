@@ -174,11 +174,17 @@ def _setup_data_with_internal_user_and_collection_exercise_to_specific_status(co
 def setup_data_with_unenrolled_respondent_user_and_new_iac_and_collection_exercise_to_live(context):
     """ Creates default data, an unenrolled Respondent, generates a new unused iac
     and waits until collection exercise state = live """
+    setup_data_with_unenrolled_respondent_user_and_new_iac(context)
+    collection_exercise_controller.wait_for_collection_exercise_state(context.survey_id, context.period,
+                                                                      expected_state=COLLECTION_EXERCISE_LIVE)
+
+
+@fixture
+def setup_data_with_unenrolled_respondent_user_and_new_iac(context):
+    """ Creates default data, an unenrolled Respondent, generates a new unused iac"""
     create_default_data(context)
     create_unenrolled_respondent(context)
     create_new_iac(context)
-    collection_exercise_controller.wait_for_collection_exercise_state(context.survey_id, context.period,
-                                                                      expected_state=COLLECTION_EXERCISE_LIVE)
 
 
 @fixture
