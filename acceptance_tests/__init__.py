@@ -25,7 +25,6 @@ def create_browser():
     if os.getenv('HEADLESS', 'True') == 'True':
         chromedriver_binary.add_chromedriver_to_path()
         chrome_options = webdriver.ChromeOptions()
-        chrome_options.headless = bool(strtobool(os.getenv('HEADLESS', 'True')))
         chrome_options.add_argument("--no-sandbox")
         return Browser('chrome', headless=True, options=chrome_options)
     else:
