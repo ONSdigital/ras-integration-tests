@@ -1,7 +1,6 @@
 import logging
 import os
 
-from distutils.util import strtobool
 from retrying import retry
 from selenium import webdriver
 import chromedriver_binary
