@@ -14,7 +14,7 @@ def upload_seft_collection_instrument(collection_exercise_id, file_path, form_ty
     url = f'{Config.COLLECTION_INSTRUMENT_SERVICE}/' \
           f'collection-instrument-api/1.0.2/upload/{collection_exercise_id}'
     mimetype = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    files = {"file": ('test_collection_instrument.xlxs', open(file_path, 'rb'), mimetype)}
+    files = {"file": ('test_collection_instrument.xlsx', open(file_path, 'rb'), mimetype)}
 
     params = dict()
     if form_type:
