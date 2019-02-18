@@ -29,7 +29,7 @@ def confirm_verification_screen(_):
 @then('the user is redirected to the respondents page and a success message is displayed')
 def confirm_success_message(_):
     assert 'Respondents | Survey Data Collection' in browser.title
-    assert 'Enrolment status changed' in browser.find_by_id('success').text
+    assert browser.find_by_text('Enrolment status changed')
 
 
 @given('the internal user disables enrolment for respondent with email "{email}"')
