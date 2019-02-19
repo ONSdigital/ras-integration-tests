@@ -103,7 +103,3 @@ def click_confirm(_):
 @then('they are redirected to the respondents page and a confirmation message is displayed')
 def confirm_email_resend(_):
     assert browser.find_by_text('Verification email re-sent')
-
-
-
-

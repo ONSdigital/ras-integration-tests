@@ -20,12 +20,6 @@ def open_edit_details_change_email(context):
     reporting_unit.click_edit_details(context.short_name, context.respondent_email)
 
 
-# @given('the internal user has navigated to a respondents details page')
-def go_to_respondent_details_page(context):
-    respondent.go_to_find_respondent()
-    respondent.search_respondent_by_email(context.email)
-
-
 @when('they choose to change the name of a respondent')
 @when('they change the first and last name')
 def edit_first_last_name(context):

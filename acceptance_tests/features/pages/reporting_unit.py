@@ -108,7 +108,7 @@ def click_edit_details(survey_short_name, email):
 
 
 def get_confirm_contact_details_success_text(_):
-    return browser.find_by_id('success').text
+    return browser.find_by_id('flashed-message-1').text
 
 
 def save_email_error():

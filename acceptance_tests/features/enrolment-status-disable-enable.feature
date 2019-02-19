@@ -54,5 +54,3 @@ Feature: Disable respondent enrolment status
      When the user clicks either disable or re-enable
      And the user clicks the confirm button
      Then the user is redirected to the respondents page and a success message is displayed
-
-

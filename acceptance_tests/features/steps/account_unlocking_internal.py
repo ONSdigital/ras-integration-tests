@@ -38,6 +38,6 @@ def confirm_unlock_account_internally(_):
 @then('the reporting unit page is reloaded with a change flag')
 @then('account status for the respondent is showing as active')
 def account_status_changed(context):
-    assert browser.find_by_id('success')[0].value == 'Account status changed'
+    assert browser.find_by_text('Account status changed')
     reporting_unit.click_data_panel(context.short_name)
     assert browser.find_by_id('account-status')[0].value == 'Active'

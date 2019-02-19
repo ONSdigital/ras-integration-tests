@@ -1,6 +1,5 @@
 @business
 @standalone
-
 Feature: As an internal user
   I need to be able to change a respondents details
   So that the data held in the system is correct
