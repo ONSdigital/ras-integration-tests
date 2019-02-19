@@ -15,7 +15,6 @@ Feature: Add a survey
     When they continue and confirm that the organisation and survey that they are enrolling for is correct
     Then the user is notified they have already added the survey
 
-
   @fixture.setup.data.with.unenrolled.respondent.user
   @us334-addSurvey_s01
   Scenario: Select to add new survey
@@ -28,7 +27,7 @@ Feature: Add a survey
     When they add a new survey
     Then they are able to enter an enrolment code
 
-  @fixture.setup.data.with.unenrolled.respondent.user
+  @fixture.setup.data.with.unenrolled.respondent.user.and.new.iac
   @us334-addSurvey_s03
   Scenario: View survey & organisation that they are enrolling for
     Given selects to add a new survey

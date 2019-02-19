@@ -2,6 +2,7 @@ from behave import given, when, then
 
 from acceptance_tests import browser
 from acceptance_tests.features.pages import surveys_todo, add_a_survey
+from common.browser_utilities import wait_for_element_by_id
 
 
 @when('the respondent views the survey list todo page')
@@ -19,7 +20,7 @@ def add_a_new_survey(context):
 
 @then('they are able to enter an enrolment code')
 def enter_enrolment_code(context):
-    browser.find_by_id('ENROLMENT_CODE_FIELD')
+    assert browser.find_by_id('ENROLEMENT_CODE_FIELD')
 
 
 @given('the user has entered a valid enrolment code')
@@ -32,7 +33,7 @@ def enter_valid_enrolment_code(context):
 
 @then('they are to be presented with the survey and organisation that they are enrolling for')
 def view_confirmation_page(context):
-    browser.find_by_id('confirm-org-title')
+    assert browser.find_by_id('confirm-org-title')
 
 
 @when('they enter an invalid enrolment code')
@@ -43,7 +44,7 @@ def enter_invalid_enrolment_code(context):
 
 @then('they are to be notified')
 def invalid_enrolment_code_notification(context):
-    browser.find_by_id('error_notification')
+    assert browser.find_by_id('error_notification')
 
 
 @when('they continue and confirm that the organisation and survey that they are enrolling for is correct')
@@ -53,7 +54,8 @@ def confirm_organisation_and_continue(context):
 
 @then('the new survey is to be listed in My Surveys and confirmation is presented to the user')
 def confirmation_presented_for_new_survey(context):
-    browser.find_by_id('NEW_SURVEY_NOTIF')
+    wait_for_element_by_id('NEW_SURVEY_NOTIF', timeout=20, retry=1)
+    assert browser.find_by_id('NEW_SURVEY_NOTIF')
 
 
 @when('they navigate to the confirm organisation page and click cancel')

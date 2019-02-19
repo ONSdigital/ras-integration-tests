@@ -55,6 +55,19 @@ def create_message_external_to_internal(context, subject='Subject', body='Body')
     logger.debug("Message from external to internal created")
 
 
+def create_multiple_messages_external_to_internal(context, number_of_messages, subject='Subject', body='Body'):
+    signed_in_respondent(context)
+
+    for i in range(number_of_messages):
+        surveys_todo.go_to()
+        surveys_todo.select_to_create_message()
+
+        create_message_external.enter_valid_subject(f"{subject}_{str(i)}")
+        create_message_external.enter_valid_body(f"{body}_{str(i)}")
+
+        create_message_external.send_message()
+
+
 def create_and_close_message_internal_to_external(context, subject='Subject', body='Body'):
     create_message_internal_to_external(context, subject=subject, body=body)
     inbox_internal.go_to_using_context(context)

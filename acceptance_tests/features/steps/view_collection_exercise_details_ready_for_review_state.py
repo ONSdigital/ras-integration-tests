@@ -2,7 +2,7 @@
 from behave import given, when, then
 
 from acceptance_tests.features.pages import collection_exercise, collection_exercise_details
-from common.browser_utilities import is_text_present_with_retry
+from common.browser_utilities import is_text_present_with_retry, wait_for
 
 
 @given('the collection exercise is Scheduled')
@@ -33,7 +33,7 @@ def navigate_to_collection_exercise_details(context):
 
 @then('the status of the collection exercise is Ready for Review')
 def collection_exercise_is_ready_for_review(context):
-    collection_exercises = collection_exercise.get_collection_exercises()
+    collection_exercises = wait_for(collection_exercise.get_collection_exercises, 16, 2)
     # Status updated async so wait until updated
     assert is_text_present_with_retry('Ready for review', 10)
     assert context.period in (ce['exercise_ref'] for ce in collection_exercises)

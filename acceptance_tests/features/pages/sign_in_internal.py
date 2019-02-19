@@ -1,9 +1,12 @@
+import time
+
 from acceptance_tests import browser
 from config import Config
 
 
 def go_to():
     browser.visit(Config.RESPONSE_OPERATIONS_UI + '/sign-in')
+    time.sleep(2)
 
 
 def get_page_title():
@@ -38,5 +41,5 @@ def check_password_required():
     browser.find_link_by_text('Please enter a password')
 
 
-def check_authentication_error_message():
-    browser.find_by_id('try-again-link')
+def authentication_retry_link():
+    return browser.find_by_id('try-again-link')

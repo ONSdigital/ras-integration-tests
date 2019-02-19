@@ -61,7 +61,7 @@ def trading_as_field_does_not_appear(_):
         'Found "trading as" for a business that does not have a trading as name in respondent todo page'
 
 
-def _get_last_QBS_collection_exercise_id():
+def _get_last_qbs_collection_exercise_id():
     return get_collection_exercise('02b9c366-7397-42f7-942a-76dc5876d86d', '1809')['id']
 
 

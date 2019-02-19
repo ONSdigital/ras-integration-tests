@@ -3,6 +3,8 @@ from functools import partial
 from acceptance_tests import browser
 from config import Config
 
+from common.browser_utilities import wait_for
+
 
 def _is_state(first_state, second_state):
     return first_state.lower() == second_state.lower()
@@ -60,6 +62,7 @@ def get_table_rows():
 
 
 def get_table_row_by_period(period):
+    wait_for(get_collection_exercises, 16, 2)
     for row in get_collection_exercises():
         if row['exercise_ref'] == period:
             return row

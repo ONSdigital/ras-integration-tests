@@ -114,7 +114,7 @@ def no_longer_required_set_for_collex(_):
 @then('no Respondent name should be displayed in the Respondent field')
 def respondent_name_is_not_displayed(_):
     assert 'Respondent:' in browser.html
-    assert browser.find_by_id('completed-respondent')[0].value is ''
+    assert browser.find_by_id('completed-respondent')[0].value == ''
 
 
 @then('the Respondent details must be displayed in the Respondent field')

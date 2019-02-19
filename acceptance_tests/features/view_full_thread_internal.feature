@@ -55,11 +55,13 @@ Feature: View conversation thread
     When The internal user is already signed in
       And the internal person views the message
       Then  They can see mark as unread
-     
+
 
   Scenario: Message sent from internal, respondent replies , user different to who sent original message can not mark as unread
     Given the internal user has received a message
-      And  an internal user responds and respondent signs in
+      And an internal user responds
+      And they click the sign out link
+      And the respondent is signed into their account
       And the respondent navigates to their inbox
       And the respondent replies to first conversation
     When an alternate internal user signs in
@@ -71,8 +73,8 @@ Feature: View conversation thread
     When  the internal person views the message
       And the user selects back
     Then  the message is no longer marked as unread
-    
-    
+
+
   Scenario: Message sent from internal, respondent replies , user who sent original opens and selects back, message marked as read
     Given the internal user has received a message
       And  an internal user responds and respondent signs in
@@ -85,7 +87,9 @@ Feature: View conversation thread
 
   Scenario: Message sent from internal, respondent replies , user different to who sent original opens and selects back, message not marked as read
     Given the internal user has received a message
-      And  an internal user responds and respondent signs in
+      And an internal user responds
+      And they click the sign out link
+      And the respondent is signed into their account
       And the respondent navigates to their inbox
       And the respondent replies to first conversation
     When an alternate internal user signs in
@@ -113,7 +117,9 @@ Feature: View conversation thread
 
   Scenario: Respondent sends to specific internal user , Another internal user should not see it in my messages
     Given the internal user has received a message
-      And  an internal user responds and respondent signs in
+      And an internal user responds
+      And they click the sign out link
+      And the respondent is signed into their account
       And the respondent navigates to their inbox
       And the respondent replies to first conversation
     When an alternate internal user signs in
@@ -122,7 +128,9 @@ Feature: View conversation thread
 
   Scenario: Respondent sends to specific internal user , Another internal user should see it in open messages
     Given the internal user has received a message
-      And  an internal user responds and respondent signs in
+      And an internal user responds
+      And they click the sign out link
+      And the respondent is signed into their account
       And the respondent navigates to their inbox
       And the respondent replies to first conversation
     When an alternate internal user signs in
@@ -144,3 +152,11 @@ Feature: View conversation thread
       And they view the unread message
       And the user selects back
     Then they are taken back to my_messages
+
+  Scenario: Respondent sends to multiple messages to group, internal user marks 1 on page 2 as unread
+    Given Respondent sends '30' messages to ONS
+    And The internal user is already signed in
+    And the internal user goes to page '2'
+    When they view the unread message
+    And they select mark unread
+    Then they are taken back to page '2'

@@ -1,4 +1,5 @@
 from acceptance_tests import browser
+from common.browser_utilities import wait_for_element_by_id
 from config import Config
 
 
@@ -20,6 +21,7 @@ def get_sender_from_conversation_message(conversation_message):
 
 def go_to_first_conversation_in_message_box():
     browser.visit(f"{Config.FRONTSTAGE_SERVICE}/secure-message/threads")
+    wait_for_element_by_id(element_id="open-conversation-link-1", timeout=5, retry=1)
     browser.driver.find_element_by_id("open-conversation-link-1").click()
 
 

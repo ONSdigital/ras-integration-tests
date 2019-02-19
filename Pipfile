@@ -9,7 +9,7 @@ nose = "*"
 requests = "*"
 structlog = "*"
 splinter = "*"
-chromedriver-installer = "*"
+chromedriver-binary = "*"
 itsdangerous = "*"
 testfixtures = "*"
 sqlalchemy = "*"
@@ -25,5 +25,3 @@ psutil = "*"
 
 [requires]
 python_version = "3.6"
-
-[packages]

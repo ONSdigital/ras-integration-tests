@@ -18,7 +18,7 @@ def check_no_mandatory_dates_for_ce(_, survey, period):
     survey = get_survey_by_short_name(survey)
     events = get_events_for_collection_exercise(survey['id'], period)
 
-    assert len(events) is 0
+    assert len(events) == 0
 
 
 @then('the user must be able to input the mandatory event dates into the CE "{period}" for a given "{survey}" survey')
