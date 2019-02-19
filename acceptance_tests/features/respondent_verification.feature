@@ -26,28 +26,17 @@ Feature: notifying respondent to verify their email address
     When the respondent clicks a valid verification link in the email
     Then the user is taken to a page stating their account has been activated
 
-
-  @fixture.setup.data.with.enrolled.respondent.user.and.internal.user
-  Scenario: an internal user is able to resend a respondents verification email
-    Given the respondent enters their password incorrectly 10 times in a row
-    And the internal user is already signed in
-    And the internal user has navigated to a respondents details page
-    When the internal user clicks re-send verification email
-    Then then they are redirected to a confirmation screen
-
-  @fixture.setup.data.with.enrolled.respondent.user.and.internal.user
+  @fixture.setup.data.with.unenrolled.respondent.user.and.internal.user
   Scenario: an internal user clicks confirm on the resend verification email confirmation page
-    Given the respondent enters their password incorrectly 10 times in a row
-    And the internal user is already signed in
+    Given the internal user is already signed in
     And the internal user has navigated to a respondents details page
     And the internal user clicks re-send verification email
     When they press confirm
     Then they are redirected to the respondents page and a confirmation message is displayed
 
-  @fixture.setup.data.with.enrolled.respondent.user.and.internal.user
+  @fixture.setup.data.with.unenrolled.respondent.user.and.internal.user
   Scenario: an internal user clicks cancel on the resend verification email confirmation page
-    Given the respondent enters their password incorrectly 10 times in a row
-    And the internal user is already signed in
+    Given the internal user is already signed in
     And the internal user has navigated to a respondents details page
     And the internal user clicks re-send verification email
     When they press cancel

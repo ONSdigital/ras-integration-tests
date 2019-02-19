@@ -55,3 +55,23 @@ def password_reset_complete(_):
 @when('they confirm their password reset')
 def submitting_password(_):
     forgotten_password_respondent.click_confirm_new_password()
+
+
+@when('they click the unlock button')
+def click_unlock(_):
+    browser.find_by_id('respondent-unlock-link').click()
+
+
+@when('they click unlock account')
+def click_unlock_account(_):
+    browser.find_by_id('confirm-btn').click()
+
+
+@when('they click cancel on the unlock account screen')
+def click_cancel_unlock_screen(_):
+    browser.find_by_id('cancel').click()
+
+
+@then('they are redirected and "Account status changed" displayed to user')
+def account_status_changed_msg(_):
+    assert browser.find_by_text('Account status changed')
