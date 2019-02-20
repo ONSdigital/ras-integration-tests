@@ -25,7 +25,7 @@ Feature: Respondent unlocking their account
     Then their password is reset and their account is unlocked and verified
 
   @fixture.setup.data.with.enrolled.respondent.user.and.internal.user
-  Scenario: an internal user clicks confirm on the resend verification email confirmation page
+  Scenario: an internal user unlocks a users account
     Given the respondent enters their password incorrectly 10 times in a row
     And the internal user is already signed in
     And the internal user has navigated to a respondents details page
@@ -34,7 +34,7 @@ Feature: Respondent unlocking their account
     Then they are redirected and "Account status changed" displayed to user
 
   @fixture.setup.data.with.enrolled.respondent.user.and.internal.user
-  Scenario: an internal user clicks cancel on the resend verification email confirmation page
+  Scenario: an internal user begins to unlock a users account and then cancels
     Given the respondent enters their password incorrectly 10 times in a row
     And the internal user is already signed in
     And the internal user has navigated to a respondents details page
