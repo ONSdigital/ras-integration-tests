@@ -62,7 +62,8 @@ def click_unlock(_):
     browser.find_by_id('respondent-unlock-link').click()
 
 
-@when('they click unlock account')
+@when('they click confirm unlock account')
+@given('they have clicked the unlock button')
 def click_unlock_account(_):
     browser.find_by_id('confirm-btn').click()
 

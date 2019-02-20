@@ -29,8 +29,8 @@ Feature: Respondent unlocking their account
     Given the respondent enters their password incorrectly 10 times in a row
     And the internal user is already signed in
     And the internal user has navigated to a respondents details page
-    And they click the unlock button
-    When they click unlock account
+    And they have clicked the unlock button
+    When they click confirm unlock account
     Then they are redirected and "Account status changed" displayed to user
 
   @fixture.setup.data.with.enrolled.respondent.user.and.internal.user
@@ -38,6 +38,6 @@ Feature: Respondent unlocking their account
     Given the respondent enters their password incorrectly 10 times in a row
     And the internal user is already signed in
     And the internal user has navigated to a respondents details page
-    And they click the unlock button
+    And they have clicked the unlock button
     When they click cancel on the unlock account screen
     Then they are redirected to the respondents page
