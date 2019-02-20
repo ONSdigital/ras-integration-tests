@@ -171,6 +171,14 @@ def _setup_data_with_internal_user_and_collection_exercise_to_specific_status(co
 
 
 @fixture
+def setup_data_with_internal_user_and_unverified_respondent(context):
+        create_default_data(context)
+        create_unverified_respondent(context)
+        context.internal_user_name = create_ru_reference()
+        create_internal_user_login_account(context.internal_user_name)
+
+
+@fixture
 def setup_data_with_unenrolled_respondent_user_and_new_iac_and_collection_exercise_to_live(context):
     """ Creates default data, an unenrolled Respondent, generates a new unused iac
     and waits until collection exercise state = live """

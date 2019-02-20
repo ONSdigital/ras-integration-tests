@@ -23,7 +23,7 @@ from acceptance_tests.features.fixtures import setup_data_survey_with_internal_u
     setup_with_internal_user, setup_data_with_internal_user_and_collection_exercise_to_scheduled_status, \
     setup_data_with_internal_user_and_collection_exercise_to_ready_for_live_status, \
     setup_data_with_internal_user_and_collection_exercise_to_ready_for_review_status, \
-    setup_data_with_enrolled_respondent_and_additional_iac
+    setup_data_with_enrolled_respondent_and_additional_iac, setup_data_with_internal_user_and_unverified_respondent
 from config import Config
 from exceptions import MissingFixtureError
 
@@ -83,7 +83,9 @@ fixture_scenario_registry = {
     'fixture.setup.data.with.enrolled.respondent.and.additional.iac':
         setup_data_with_enrolled_respondent_and_additional_iac,
     'fixture.setup.data.with.enrolled.respondent.user.and.eq.collection.exercise.live':
-        setup_data_with_enrolled_respondent_user_and_eq_collection_exercise_live
+        setup_data_with_enrolled_respondent_user_and_eq_collection_exercise_live,
+    'fixture.setup.data.with.internal.user.and.unverified.respondent':
+        setup_data_with_internal_user_and_unverified_respondent
 }
 
 
