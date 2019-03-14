@@ -7,7 +7,7 @@ def go_to_find_respondent():
 
 
 def search_respondent_by_email(email):
-    browser.find_by_id('query').fill(email)
+    browser.find_by_id('email_address').fill(email)
     browser.find_by_id('btn-search-respondent').click()
 
 
