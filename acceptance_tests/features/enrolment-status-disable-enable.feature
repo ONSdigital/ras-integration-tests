@@ -40,14 +40,14 @@ Feature: Disable respondent enrolment status
     When the respondent with email "disable_respondent_4@email.com" views their survey todo list
     Then the respondent should see the survey in their todo list
 
-
+  @standalone
   @fixture.setup.data.with.enrolled.respondent.user.and.internal.user
   Scenario: internal user clicks link to change enrolment status on respondent page
     Given the internal user has navigated to a respondents details page
     When the user clicks either disable or re-enable
     Then the user is redirected to a confirmation screen
 
-
+  @standalone
   @fixture.setup.data.with.enrolled.respondent.user.and.internal.user
    Scenario: internal user clicks confirm button on confirmation screen
      Given the internal user has navigated to a respondents details page

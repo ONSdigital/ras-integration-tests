@@ -102,7 +102,7 @@ def create_phone_number():
 def create_enrolled_respondent_for_the_test_survey(context):
     create_respondent_data(context)
 
-    create_respondent(user_name=context.respondent_email, enrolment_code=context.iac, phone_number=context.phone_number)
+    create_respondent(user_name=context.respondent_email, enrolment_code=context.iac, phone_number=context.phone_number, context=context)
     create_respondent_user_login_account(context.respondent_email)
 
 

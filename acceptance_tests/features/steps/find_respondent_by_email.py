@@ -12,10 +12,14 @@ def create_respondent_account(context):
 
 
 @when('an internal user searches for respondent using their email address')
-@given('the internal user has navigated to a respondents details page')
 def search_respondent_by_email(context):
     respondent.go_to_find_respondent()
     respondent.search_respondent_by_email(context.respondent_email)
+
+
+@given('the internal user has navigated to a respondents details page')
+def go_to_respondent_detail_page(context):
+    respondent.go_to_individual_respondent_page(context.respondent_id)
 
 
 @then('the respondent details should be displayed')
