@@ -71,8 +71,6 @@ def setup_data_with_enrolled_respondent_user_and_internal_user(context):
     setup_data_with_internal_user(context)
     respondent = create_enrolled_respondent_for_the_test_survey(context)
 
-    context.respondent_id = respondent['id']
-
     context.add_cleanup(sign_out_internal.try_sign_out)
 
 
@@ -174,7 +172,7 @@ def _setup_data_with_internal_user_and_collection_exercise_to_specific_status(co
 @fixture
 def setup_data_with_internal_user_and_unverified_respondent(context):
         create_default_data(context)
-        create_unverified_respondent(context)
+        respondent = create_unverified_respondent(context)
         context.internal_user_name = create_ru_reference()
         create_internal_user_login_account(context.internal_user_name)
 

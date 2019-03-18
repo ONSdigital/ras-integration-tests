@@ -102,22 +102,25 @@ def create_phone_number():
 def create_enrolled_respondent_for_the_test_survey(context):
     create_respondent_data(context)
 
-    create_respondent(user_name=context.respondent_email, enrolment_code=context.iac, phone_number=context.phone_number, context=context)
+    respondent = create_respondent(user_name=context.respondent_email, enrolment_code=context.iac, phone_number=context.phone_number)
+    context.respondent_id = respondent['id']
     create_respondent_user_login_account(context.respondent_email)
 
 
 def create_unenrolled_respondent(context):
     create_respondent_data(context)
-    create_respondent(user_name=context.respondent_email, enrolment_code=context.iac, phone_number=context.phone_number)
+    respondent = create_respondent(user_name=context.respondent_email, enrolment_code=context.iac, phone_number=context.phone_number)
     create_respondent_user_login_account(context.respondent_email)
+    context.respondent_id = respondent['id']
 
     unenrol_respondent_in_survey(context.survey_id)
 
 
 def create_unverified_respondent(context):
     create_respondent_data(context)
-    create_respondent(user_name=context.respondent_email, enrolment_code=context.iac, phone_number=context.phone_number,
+    respondent = create_respondent(user_name=context.respondent_email, enrolment_code=context.iac, phone_number=context.phone_number,
                       activate=False)
+    context.respondent_id = respondent['id']
 
 
 def make_email_address(local_part=None, domain=None):
