@@ -30,7 +30,7 @@ def get_respondent_details():
 
 
 def not_found():
-    return 'No Respondent found' in browser.html
+    return '0 respondents found' in browser.html
 
 
 def click_edit_contact_details():
