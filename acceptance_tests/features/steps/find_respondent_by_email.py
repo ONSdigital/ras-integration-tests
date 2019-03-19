@@ -11,11 +11,6 @@ def create_respondent_account(context):
     assert respondent_party is not None, f'No respondent with email {context.respondent_email} exists'
 
 
-
-# def search_respondent_by_email(context):
-#     respondent.go_to_find_respondent()
-#     respondent.search_respondent_by_email(context.respondent_email)
-
 @when('an internal user searches for respondent using their email address')
 @given('the internal user has navigated to a respondents details page')
 def go_to_respondent_detail_page(context):
