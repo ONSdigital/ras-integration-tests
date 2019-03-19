@@ -69,7 +69,7 @@ def setup_data_with_internal_user_and_social_collection_exercise_to_closed_statu
 def setup_data_with_enrolled_respondent_user_and_internal_user(context):
     """ Creates default data + an enrolled Respondent in the default collection exercise """
     setup_data_with_internal_user(context)
-    respondent = create_enrolled_respondent_for_the_test_survey(context)
+    create_enrolled_respondent_for_the_test_survey(context)
 
     context.add_cleanup(sign_out_internal.try_sign_out)
 
@@ -172,7 +172,7 @@ def _setup_data_with_internal_user_and_collection_exercise_to_specific_status(co
 @fixture
 def setup_data_with_internal_user_and_unverified_respondent(context):
         create_default_data(context)
-        respondent = create_unverified_respondent(context)
+        create_unverified_respondent(context)
         context.internal_user_name = create_ru_reference()
         create_internal_user_login_account(context.internal_user_name)
 
