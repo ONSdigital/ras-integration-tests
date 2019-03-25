@@ -2,6 +2,7 @@ import time
 from datetime import datetime, timedelta
 from logging import getLogger
 
+from dateutil import tz
 from structlog import wrap_logger
 
 import common.string_utilities
@@ -131,6 +132,9 @@ def generate_collection_exercise_dates(base_date):
         'second_reminder': base_date + timedelta(days=6),
         'third_reminder': base_date + timedelta(days=7)
     }
+    for key, date in dates.items():
+        new_time = date.replace(tzinfo=tz.gettz('Europe/London')).astimezone(tz.gettz('UTC'))
+        dates[key] = new_time
 
     return dates
 

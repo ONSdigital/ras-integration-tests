@@ -243,6 +243,15 @@ def create_business_collection_exercise_to_scheduled_state(survey_id, period, us
                                       convert_datetime_for_event(dates['return_by']))
     post_event_to_collection_exercise(collection_exercise_id, 'exercise_end',
                                       convert_datetime_for_event(dates['exercise_end']))
+
+    post_event_to_collection_exercise(collection_exercise_id, 'employment',
+                                      convert_datetime_for_event(dates['employment']))
+    post_event_to_collection_exercise(collection_exercise_id, 'reminder',
+                                      convert_datetime_for_event(dates['first_reminder']))
+    post_event_to_collection_exercise(collection_exercise_id, 'reminder2',
+                                      convert_datetime_for_event(dates['second_reminder']))
+    post_event_to_collection_exercise(collection_exercise_id, 'reminder3',
+                                      convert_datetime_for_event(dates['third_reminder']))
     return collection_exercise
 
 

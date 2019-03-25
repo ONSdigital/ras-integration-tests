@@ -1,9 +1,10 @@
 from behave import fixture
+from dateutil import tz
 
 from acceptance_tests.features.pages import sign_out_internal
 from common.collection_exercise_utilities import create_business_survey_period, create_social_survey_period, \
     execute_collection_exercises, generate_collection_exercise_dates_from_period, \
-    generate_new_enrolment_code_from_existing_code, make_user_description, create_variable_collection_exercise_dates
+    generate_new_enrolment_code_from_existing_code, make_user_description
 from common.internal_user_utilities import create_internal_user_login_account
 from common.respondent_utilities import create_enrolled_respondent_for_the_test_survey, create_respondent, \
     create_respondent_data, create_respondent_email_address, create_respondent_user_login_account, \
@@ -112,7 +113,6 @@ def setup_data_with_internal_user_and_collection_exercise_to_created_status(cont
 def setup_data_with_internal_user_and_collection_exercise_to_scheduled_status(context):
     _setup_data_with_internal_user_and_collection_exercise_to_specific_status(context,
                                                                               COLLECTION_EXERCISE_SCHEDULED)
-    create_variable_collection_exercise_dates(context.collection_exercise_id, context.dates)
     context.add_cleanup(sign_out_internal.try_sign_out)
 
 
@@ -161,6 +161,10 @@ def _setup_data_with_internal_user_and_collection_exercise_to_specific_status(co
 
     response = create_test_business_collection_exercise(survey_id, period, short_name, ce_name,
                                                         survey_type, stop_at_state=stop_at_state)
+
+    for key, date in response['dates'].items():
+        new_time = date.replace(tzinfo=tz.gettz('UTC')).astimezone(tz.gettz('Europe/London'))
+        response['dates'][key] = new_time
 
     context.collection_exercise_id = response['collection_exercise']['id']
     context.user_description = response['user_description']
