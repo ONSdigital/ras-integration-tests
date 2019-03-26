@@ -99,7 +99,7 @@ def generate_social_collection_exercise_dates():
 def generate_collection_exercise_dates_from_period(period):
     """Generates a collection exercise events base date from the period supplied."""
 
-    now = datetime.utcnow()
+    now = datetime.now()
     now = now.replace(tzinfo=tz.gettz('Europe/London')).astimezone(tz.gettz('UTC'))
     period_year = int(period[:4])
     period_month = int(period[-2:])
