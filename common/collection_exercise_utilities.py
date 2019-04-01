@@ -100,6 +100,7 @@ def generate_collection_exercise_dates_from_period(period):
     """Generates a collection exercise events base date from the period supplied."""
 
     now = datetime.utcnow()
+    now = now.replace(tzinfo=tz.gettz('Europe/London')).astimezone(tz.gettz('UTC'))
     period_year = int(period[:4])
     period_month = int(period[-2:])
 
@@ -132,9 +133,6 @@ def generate_collection_exercise_dates(base_date):
         'second_reminder': base_date + timedelta(days=6),
         'third_reminder': base_date + timedelta(days=7)
     }
-    for key, date in dates.items():
-        new_time = date.replace(tzinfo=tz.gettz('Europe/London')).astimezone(tz.gettz('UTC'))
-        dates[key] = new_time
 
     return dates
 
