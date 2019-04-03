@@ -78,7 +78,7 @@ def refresh_ready_for_live(_):
 @then('they are asked for confirmation before continuing')
 def check_confirmation(_):
     alert = collection_exercise_details.get_confirmation_alert()
-    assert alert.text == 'There\'s no going back...'
+    assert alert.text == "This action cannot be undone.  Press 'OK' to continue, or 'Cancel' to go back."
     alert.dismiss()
 
 

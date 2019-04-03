@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 from logging import getLogger
 
 from dateutil import tz
+from dateutil.tz import tzlocal
 from structlog import wrap_logger
 
 import common.string_utilities
@@ -100,7 +101,7 @@ def generate_collection_exercise_dates_from_period(period):
     """Generates a collection exercise events base date from the period supplied."""
 
     now = datetime.now()
-    now = now.replace(tzinfo=tz.gettz('Europe/London')).astimezone(tz.gettz('UTC'))
+    now = now.replace(tzinfo=tzlocal()).astimezone(tz.gettz('UTC'))
     period_year = int(period[:4])
     period_month = int(period[-2:])
 

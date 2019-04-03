@@ -1,3 +1,4 @@
+@standalone
 Feature: internal users can re-send the verification email
   as an internal user
   I need to be able to re-send respondents verification emails
