@@ -43,6 +43,7 @@ def complete_account_details(context):
     browser.driver.find_element_by_id('first_name').send_keys('FirstName')
     browser.driver.find_element_by_id('last_name').send_keys('LastName')
     browser.driver.find_element_by_id('email_address').send_keys(context.respondent_email)
+    browser.driver.find_element_by_id('email_address_confirm').send_keys(context.respondent_email)
     browser.driver.find_element_by_id('password').send_keys('A234567_')
     browser.driver.find_element_by_id('password_confirm').send_keys('A234567_')
     browser.driver.find_element_by_id('phone_number').send_keys('01172345678')
