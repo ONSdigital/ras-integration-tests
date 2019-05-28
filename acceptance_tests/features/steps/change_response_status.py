@@ -41,6 +41,5 @@ def respondent_goes_to_history_page(context):
 
 @then('the respondent is presented the status as "{status}"')
 def respondent_view_ce_status(context, status):
-    surveys_history.refresh_history_until_survey_for_ru_found(context.short_name)
     case = surveys_history.get_case(context.short_name)
     assert status == case.get('status'), case.get('status')

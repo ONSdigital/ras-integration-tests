@@ -1,12 +1,11 @@
-import time
-
 from acceptance_tests import browser
+from common.browser_utilities import try_wait_for_url_contains
 from config import Config
 
 
 def go_to():
     browser.visit(Config.RESPONSE_OPERATIONS_UI + '/sign-in')
-    time.sleep(2)
+    try_wait_for_url_contains(Config.RESPONSE_OPERATIONS_UI, timeout=2, retry=0.25)
 
 
 def get_page_title():

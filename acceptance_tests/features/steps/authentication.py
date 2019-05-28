@@ -7,6 +7,7 @@ from config import Config
 
 
 @given('the respondent is signed into their account')
+@when('the respondent is signed into their account')
 def signed_in_respondent(context):
     sign_in_respondent.go_to()
     # Only attempt to sign in if not already signed in otherwise implicitly redirected to homepage

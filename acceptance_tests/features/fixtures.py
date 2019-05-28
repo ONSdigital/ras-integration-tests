@@ -173,6 +173,7 @@ def _setup_data_with_internal_user_and_collection_exercise_to_specific_status(co
     create_internal_user(context)
     create_alternate_internal_user(context)
 
+
 @fixture
 def setup_data_with_internal_user_and_unverified_respondent(context):
         create_default_data(context)
