@@ -1,16 +1,19 @@
 from behave import given, when, then
+from time import sleep
+from datetime import datetime
 
 from acceptance_tests.features.pages import collection_exercise
 from common.browser_utilities import wait_for
 
+from logging import getLogger
+
+from structlog import wrap_logger
+
+logger = wrap_logger(getLogger(__name__))
+
 
 @given('collection exercises for {survey} exist in the system')
 def collection_exercises_for_a_survey_exist_in_the_system(_, survey):
-    pass
-
-
-@given('all surveys have collection exercises')
-def all_surveys_have_collection_exercises(_):
     pass
 
 
@@ -49,3 +52,4 @@ def the_internal_user_can_view_all_collection_exercises_for_qbs(context):
 def there_is_at_least_one_collection_exercise(_):
     collection_exercises = wait_for(collection_exercise.get_collection_exercises, 16, 2)
     assert len(collection_exercises) > 0
+

@@ -20,14 +20,19 @@ def web_driver_connection_error(e):
 
 @retry(retry_on_exception=web_driver_connection_error, wait_fixed=1000, stop_max_attempt_number=30)
 def create_browser():
+    driver_type = os.getenv('WEBDRIVER', 'firefox')
+    headless = os.getenv('HEADLESS', 'True') == 'True'
 
-    if os.getenv('HEADLESS', 'True') == 'True':
-        chromedriver_binary.add_chromedriver_to_path()
-        chrome_options = webdriver.ChromeOptions()
-        chrome_options.add_argument("--no-sandbox")
-        return Browser('chrome', headless=True, options=chrome_options)
+    if driver_type.lower() == 'firefox':
+        return Browser('firefox', headless=headless)
     else:
-        return Browser('chrome')
+        if headless:
+            chromedriver_binary.add_chromedriver_to_path()
+            chrome_options = webdriver.ChromeOptions()
+            chrome_options.add_argument("--no-sandbox")
+            return Browser('chrome', headless=True, options=chrome_options)
+        else:
+            return Browser('chrome')
 
 
 browser = create_browser()

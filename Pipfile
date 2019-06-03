@@ -28,3 +28,4 @@ python_version = "3.6"
 
 [packages]
 python-dateutil = "*"
+splinter = {extras = ["zope.testbrowser"],version = "*"}

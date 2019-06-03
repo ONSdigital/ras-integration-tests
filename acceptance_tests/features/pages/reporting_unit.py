@@ -1,6 +1,6 @@
 from acceptance_tests import browser
 from acceptance_tests.features.pages import scroll_to
-from common.browser_utilities import assert_url_contains, wait_for_element_by_id, wait_for_element_by_name
+from common.browser_utilities import wait_for_url_matches, wait_for_element_by_id, wait_for_element_by_name
 from config import Config
 
 from logging import getLogger
@@ -11,7 +11,7 @@ logger = wrap_logger(getLogger(__name__))
 def go_to(ru_ref):
     target_url = f"{Config.RESPONSE_OPERATIONS_UI}/reporting-units/{ru_ref}"
     browser.visit(target_url)
-    assert_url_contains(target_url, timeout=10, retry=0.2, post_change_delay=0.2)
+    wait_for_url_matches(target_url, timeout=10, retry=0.2, post_change_delay=0.2)
 
 
 def click_data_panel(short_name):

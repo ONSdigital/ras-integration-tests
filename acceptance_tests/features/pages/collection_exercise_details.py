@@ -6,14 +6,14 @@ from selenium.webdriver.support.ui import Select
 from acceptance_tests import browser
 from acceptance_tests.features.pages import collection_exercise
 from common.browser_utilities import is_text_present_with_retry, \
-    try_wait_for_url_contains, wait_for_element_by_name, wait_for_element_by_id
+    wait_for_url_matches, wait_for_element_by_name, wait_for_element_by_id
 from config import Config
 
 
 def go_to(survey, period):
     target_url = f'{Config.RESPONSE_OPERATIONS_UI}/surveys/{survey}/{period}'
     browser.visit(target_url)
-    try_wait_for_url_contains(target_url, timeout=4, retry=1)
+    wait_for_url_matches(target_url, timeout=4, retry=1)
 
 
 def get_page_title():
