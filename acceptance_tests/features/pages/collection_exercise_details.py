@@ -6,7 +6,7 @@ from selenium.webdriver.support.ui import Select
 from acceptance_tests import browser
 from acceptance_tests.features.pages import collection_exercise
 from common.browser_utilities import is_text_present_with_retry, \
-    wait_for_url_matches, wait_for_element_by_name, wait_for_element_by_id
+    wait_for_url_matches, wait_for_element_by_name, wait_for_element_by_id, wait_for_url_changed
 from config import Config
 
 
@@ -63,6 +63,7 @@ def get_loaded_sample():
 
 
 def get_success_panel_text():
+    wait_for_element_by_id("success-panel", timeout=10, retry=0.25)
     return browser.driver.find_element_by_id("success-panel").text
 
 
@@ -197,7 +198,10 @@ def click_edit_collection_exercise_user_description_button():
 
 
 def remove_ci():
+    entry_url = browser.url
+    wait_for_element_by_id('unlink-ci-1', timeout=10, retry=0.25)
     browser.click_link_by_id('unlink-ci-1')
+    wait_for_url_changed(entry_url, timeout=10, retry=0.25, post_change_delay=1)
 
 
 def get_collection_instrument_removed_success_text():

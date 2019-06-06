@@ -25,7 +25,6 @@ Feature: Disable respondent enrolment status
     And the internal user confirms they want to re-enable the account
     Then "reenable_respondent_1@email.com"'s enrolment appears "Enabled" on the ru details page
 
-  @skip
   @us022_s02
   Scenario: Internal user disables a respondents enrolment the respondent should no longer be able to view this enrolment
     Given the respondent with email "disable_respondent_2@email.com" is enrolled and active
@@ -35,7 +34,6 @@ Feature: Disable respondent enrolment status
       And the respondent with email "disable_respondent_2@email.com" views their survey todo list
     Then the respondent should not be able to view the disabled enrolment
 
-  @skip
   @us022_s03
   Scenario: Internal user disables a respondents enrolment the other respondent should still see survey
     Given the respondent with email "disable_respondent_3@email.com" is enrolled and active

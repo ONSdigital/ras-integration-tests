@@ -1,15 +1,22 @@
 import time
 from datetime import datetime, timedelta
-
-from acceptance_tests import browser
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException     # Only thrown if browser is a web driver type
 from logging import getLogger
 from structlog import wrap_logger
+from acceptance_tests import browser
 
 logger = wrap_logger(getLogger(__name__))
 
 
 def is_text_present_with_retry(text, retries=3, delay=1):
+    """Waits <delay> seconds to see if test is present, if not then issues browser reload.
+    will repeat this up to <retries> times or return if text found.
+     Parameters:
+         text: Text to look for
+         retries: The maximum number of reloads that may be attempted
+         delay: The amount of time to check if the text is present.
+    Returns: True if text found else False
+    """
     for attempt in range(retries):
         if browser.is_text_present(text, wait_time=delay):
             return True
@@ -32,7 +39,7 @@ def wait_for_text_present(search_text, timeout=10, retry=1):
 
 
 def wait_for_text_present_with_reloads(search_text, timeout=10, retry=1, reload_count=3):
-    """Waits for specific text in the body , returns True if found else asserts
+    """Waits for specific text in the body , returns True if found else asserts.
 
     Parameters:
         search_text (string): The text to look for
@@ -110,9 +117,41 @@ def wait_for_element_by_id(element_id, timeout=10, retry=1):
     return ret_val
 
 
+def wait_for_url_matches_one_of(desired_url, alternate_url=None, timeout=2, retry=1, post_change_delay=0.1):
+    """Waits for url to be either of two specific urls, for up to the timeout, asserts if it does not do this """
+    url_match = _wait_for_url_matches(desired_url=desired_url,
+                                      alternate_url=alternate_url,
+                                      timeout=timeout,
+                                      retry=retry,
+                                      post_change_delay=post_change_delay)
+
+    if alternate_url:
+        assert url_match, \
+            f"Url did not contain {desired_url} or {alternate_url} after {timeout} seconds current url={browser.url}"
+    else:
+        assert url_match, \
+            f"Url did not contain {desired_url} after {timeout} seconds current url={browser.url}"
+
+
+def wait_for_url_changed(initial_url, timeout=2, retry=1, post_change_delay=0.1):
+    """Waits for url to change from an initial value, for up to the timeout, asserts if it does not do this """
+    url_match = _wait_for_url_not_matches(initial_url=initial_url,
+                                          timeout=timeout,
+                                          retry=retry,
+                                          post_change_delay=post_change_delay)
+
+    assert url_match, \
+        f"Url did not change from {initial_url} after {timeout} seconds"
+
+
+def wait_for_url_matches(desired_url, timeout=2, retry=1, post_change_delay=0.1):
+    """waits for a specific url to be in the browser and page load complete"""
+    wait_for_url_matches_one_of(desired_url, alternate_url=None, timeout=timeout,
+                                retry=retry, post_change_delay=post_change_delay)
+
+
 def wait_for(fn, timeout, retry, *argv):
-    """run function multiple times within a timeout window until it returns a truthy value
-    Not done as a decorator as fn could be called from several places
+    """run function multiple times within a timeout window or until it returns a truthy value
 
     Parameters :
 
@@ -174,7 +213,7 @@ def _text_on_page(search_text):
 
 
 def _wait_for_url_matches(desired_url, alternate_url=None, timeout=2, retry=1, post_change_delay=0.1):
-    """ Waits for either timeout or for the url to get to a value that contains with the expected value,
+    """ Waits for either timeout or for the url to get to a value that matches the expected value,
     whichever comes first. If the browser gets to the url then waits a further post_change_delay
     ( intended to allow page load to complete)
     Intended to replace blind sleeps
@@ -203,31 +242,37 @@ def _wait_for_url_matches(desired_url, alternate_url=None, timeout=2, retry=1, p
     return ret_val
 
 
-def wait_for_url_matches_one_of(desired_url, alternate_url=None, timeout=2, retry=1, post_change_delay=0.1):
-    """Waits for url to be either of two specific urls, for up to the timeout, asserts if it does not do this """
-    url_match = _wait_for_url_matches(desired_url=desired_url,
-                                      alternate_url=alternate_url,
-                                      timeout=timeout,
-                                      retry=retry,
-                                      post_change_delay=post_change_delay)
+def _wait_for_url_not_matches(initial_url, timeout=2, retry=1, post_change_delay=0.1):
+    """ Waits for either timeout or for the url to get to change from an initial value,
+    whichever comes first. If the url changes then waits a further post_change_delay
+    ( intended to allow page load to complete)
+    Intended to replace blind sleeps
 
-    if alternate_url:
-        assert url_match, \
-            f"Url did not contain {desired_url} or {alternate_url} after {timeout} seconds current url={browser.url}"
-    else:
-        assert url_match, \
-            f"Url did not contain {desired_url} after {timeout} seconds current url={browser.url}"
+    Parameters :
 
+    initial_url (str): The url we wish to move from
+    timeout (int or float): Total amount of time in seconds to wait before returning a default of False
+    retry (int or float): Time in seconds after one attempt will execute function again.
+    post_change_delay (int or float): How long to delay after a change to allow for page load completion
 
-def wait_for_url_matches(desired_url, timeout=2, retry=1, post_change_delay=0.1):
-    """waits for a specific url to be in the browser and page load complete"""
-    wait_for_url_matches_one_of(desired_url, alternate_url=None, timeout=timeout,
-                                retry=retry, post_change_delay=post_change_delay)
+    Returns:
+    True if target url achieved within the time_to_wait , else False
+    """
+
+    if _does_url_not_match(initial_url):  # If already moved from initial value  then enforce post change delay
+        time.sleep(post_change_delay)
+        return True
+
+    ret_val = wait_for(_does_url_not_match, timeout, retry, initial_url)
+    if ret_val:
+        time.sleep(post_change_delay)
+
+    return ret_val
 
 
 def _does_url_match(target_url, alternate_url):
     """returns true if the current browser url matches either of the two urls supplied and page load is complete"""
-    # return target_url in browser.url
+
     if alternate_url:
         ret_val = (target_url == browser.url or alternate_url == browser.url) and browser.driver.execute_script(
             'return document.readyState;') == 'complete'
@@ -235,12 +280,9 @@ def _does_url_match(target_url, alternate_url):
         ret_val = target_url == browser.url and browser.driver.execute_script(
             'return document.readyState;') == 'complete'
 
-    if not ret_val:
-        if alternate_url:
-            logger.info(f'Still waiting for {target_url} or {alternate_url} but browser is at {browser.url}')
-        else:
-            logger.info(f'Still waiting for {target_url} but browser is at {browser.url}')
-    else:
-        logger.info(f'Achieved target browser at {browser.url}')
-
     return ret_val
+
+
+def _does_url_not_match(target_url):
+    return target_url != browser.url and browser.driver.execute_script(
+            'return document.readyState;') == 'complete'

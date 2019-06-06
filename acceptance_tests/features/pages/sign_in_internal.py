@@ -3,17 +3,15 @@ from common.browser_utilities import wait_for_url_matches_one_of
 from config import Config
 from logging import getLogger
 from structlog import wrap_logger
-from time import sleep
+
 
 logger = wrap_logger(getLogger(__name__))
 
 
 def go_to():
-    logger.info(f"At {browser.url} and about to attempt to attempt sign in")
     target_url = Config.RESPONSE_OPERATIONS_UI + '/sign-in'
     alternate_url = Config.RESPONSE_OPERATIONS_UI + '/'
     browser.visit(target_url)
-    sleep(4)
     wait_for_url_matches_one_of(target_url, alternate_url, timeout=10, retry=1, post_change_delay=0.5)
 
 

@@ -22,7 +22,6 @@ def web_driver_connection_error(e):
 def create_browser():
     driver_type = os.getenv('WEBDRIVER', 'firefox')
     headless = os.getenv('HEADLESS', 'True') == 'True'
-
     if driver_type.lower() == 'firefox':
         return Browser('firefox', headless=headless)
     else:

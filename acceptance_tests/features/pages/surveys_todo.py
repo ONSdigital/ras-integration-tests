@@ -1,11 +1,12 @@
 from acceptance_tests import browser
 from config import Config
-from common.browser_utilities import wait_for_element_by_name, wait_for_element_by_id
+from common.browser_utilities import wait_for_element_by_name, wait_for_element_by_id, wait_for_url_matches
 
 
 def go_to():
     target_url = Config.FRONTSTAGE_SERVICE + '/surveys/todo'
     browser.visit(target_url)
+    wait_for_url_matches(target_url, timeout=5, retry=0.25)
 
 
 def get_collection_exercise_periods():
