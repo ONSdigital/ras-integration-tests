@@ -1,6 +1,6 @@
 import time
 from datetime import datetime, timedelta
-from selenium.common.exceptions import NoSuchElementException     # Only thrown if browser is a web driver type
+from selenium.common.exceptions import NoSuchElementException    
 from logging import getLogger
 from structlog import wrap_logger
 from acceptance_tests import browser
