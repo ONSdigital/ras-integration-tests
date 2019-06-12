@@ -78,18 +78,18 @@ def sign_in_directed_to_home_page(_):
 
 @then('the user is notified that a username is required (social)')
 def sign_in_username_required(_):
-    assert social_sign_in_internal.check_username_required() == 'Please enter a username'
+    assert social_sign_in_internal.check_username_required()
 
 
 @then('The user is notified that a password is required (social)')
 def sign_in_password_required(_):
-    assert social_sign_in_internal.check_password_required() == 'Please enter a password'
+    assert social_sign_in_internal.check_password_required()
 
 
 @then('the user is notified that a username and password is required (social)')
 def sign_in_username_and_password_required(_):
-    assert social_sign_in_internal.check_username_required() == 'Please enter a username'
-    assert social_sign_in_internal.check_password_required() == 'Please enter a password'
+    assert social_sign_in_internal.check_username_required()
+    assert social_sign_in_internal.check_password_required()
 
 
 @then('the user is notified that an authentication error has occurred (social)')
