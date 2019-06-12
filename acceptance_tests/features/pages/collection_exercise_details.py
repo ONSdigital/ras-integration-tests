@@ -45,7 +45,7 @@ def get_sample_success_text():
 
 def has_sample_preview():
     element_ids = ['sample-preview-businesses', 'sample-preview-ci', 'sample-preview']
-    elements = [browser.find_by_id(element_id) for element_id in element_ids]
+    elements = [browser.driver.find_elements_by_id(element_id) for element_id in element_ids]
     return all(elements)
 
 

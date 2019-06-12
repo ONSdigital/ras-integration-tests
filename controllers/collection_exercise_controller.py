@@ -7,7 +7,7 @@ from random import choice, randint
 import requests
 from structlog import wrap_logger
 
-import common
+from common import collection_exercise_utilities
 from config import Config
 from controllers import collection_instrument_controller as ci_controller, \
     sample_controller
@@ -182,7 +182,7 @@ def create_and_execute_collection_exercise(survey_id, period, user_description, 
 
     poll_collection_exercise_until_state_changed(collection_exercise['id'], 'READY_FOR_REVIEW')
     execute_collection_exercise(survey_id, period)
-    iac = common.collection_exercise_utilities.poll_database_for_iac(survey_id, period)
+    iac = collection_exercise_utilities.poll_database_for_iac(survey_id, period)
 
     return iac
 
@@ -269,10 +269,11 @@ def create_business_collection_exercise_to_ready_for_review_state(survey_id, per
 
     if eq_ci:
         ci_controller.load_and_link_eq_collection_instrument(survey_id, collection_exercise_id,
-                                                             form_type=ru_ref, eq_id=ru_ref)
+                                                             form_type='0001', eq_id=ru_ref)
     else:
         ci_controller.upload_seft_collection_instrument(collection_exercise['id'],
-                                                        'resources/collection_instrument_files/064_201803_0001.xlsx')
+                                                        'resources/collection_instrument_files/064_201803_0001.xlsx',
+                                                        form_type="0001")
 
     return collection_exercise
 
@@ -298,7 +299,7 @@ def create_and_execute_business_collection_exercise_to_live_state(survey_id, per
                                                                                                   eq_ci)
     wait_for_collection_exercise_state(survey_id, period, 'LIVE')
 
-    iac = common.collection_exercise_utilities.poll_database_for_iac(survey_id, period)
+    iac = collection_exercise_utilities.poll_database_for_iac(survey_id, period)
 
     return {'collection_exercise': collection_exercise,
             'iac': iac}
@@ -338,7 +339,7 @@ def create_and_execute_social_collection_exercise(context, survey_id, period, us
     # We are seeing intermittent test failures when executing the collex - HTTP 500
     time.sleep(5)
     execute_collection_exercise(survey_id, period)
-    iac = common.collection_exercise_utilities.poll_database_for_iac(survey_id, period, social=True)
+    iac = collection_exercise_utilities.poll_database_for_iac(survey_id, period, social=True)
 
     return iac
 
@@ -397,7 +398,6 @@ def wait_for_collection_exercise_state(survey_id, period, expected_state):
 
     while True:
         collection_exercise = get_collection_exercise(survey_id, period)
-
         if collection_exercise['state'] == expected_state:
             logger.debug(f'Collection exercise is now [{expected_state}]')
             break

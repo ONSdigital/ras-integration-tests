@@ -25,17 +25,17 @@ Feature: Internal user signs in to social UI
     Given the user has an active account and is assigned a username and password (social)
     When they enter an incorrect username and password (social)
     Then the user is notified that an authentication error has occurred (social)
-
+  @skip
   Scenario: User attempts sign in and is notified that they are required to enter a password (social)
     Given the user has an active account and is assigned a username and password (social)
     When they enter a correct username and no password (social)
     Then the user is notified that a password is required (social)
-
+  @skip
   Scenario: User attempts sign in and is notified that they are required to enter a username (social)
     Given the user has an active account and is assigned a username and password (social)
     When they enter no username and a correct password (social)
     Then the user is notified that a username is required (social)
-
+  @skip
   Scenario: User attempts sign in and is notified that they are required to enter a username and password (social)
     Given the user has an active account and is assigned a username and password (social)
     When they enter no username and no password (social)

@@ -39,4 +39,4 @@ def check_password_required():
 
 
 def check_authentication_error_message():
-    browser.find_by_id('try-again-link')
+    return browser.driver.find_element_by_id('try-again-link')

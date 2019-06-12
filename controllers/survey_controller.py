@@ -31,12 +31,21 @@ def create_survey(survey_ref, short_name, long_name, legal_basis, survey_type='B
 
     url = f'{Config.SURVEY_SERVICE}/surveys'
 
+    if survey_type == 'Social':
+        classifiers = [{"name": "COLLECTION_INSTRUMENT", "classifierTypes": ["COLLECTION_EXERCISE"]}]
+    else:
+        classifiers = [
+            {"name": "COLLECTION_INSTRUMENT", "classifierTypes": ["FORM_TYPE"]},
+            {"name": "COMMUNICATION_TEMPLATE", "classifierTypes": ["LEGAL_BASIS", "REGION"]}
+        ]
+
     survey_details = {
         "surveyRef": survey_ref,
         "longName": long_name,
         "shortName": short_name,
         "legalBasisRef": legal_basis,
-        "surveyType": survey_type
+        "surveyType": survey_type,
+        "classifiers": classifiers
     }
 
     response = requests.post(url, json=survey_details, auth=Config.BASIC_AUTH)
@@ -44,8 +53,6 @@ def create_survey(survey_ref, short_name, long_name, legal_basis, survey_type='B
     response.raise_for_status()
 
     response_json = response.json()
-
-    create_classifiers(response_json['id'])
 
     logger.debug("Successfully created survey", short_name=short_name)
 
@@ -59,7 +66,8 @@ def create_classifiers(survey_id):
 
     classifier_details = {
         "name": 'COLLECTION_INSTRUMENT',
-        "classifierTypes": ['COLLECTION_EXERCISE']
+        "classifierTypes": ['FORM_TYPE',
+                            'LEGAL_BASIS']
     }
 
     response = requests.post(url, json=classifier_details, auth=Config.BASIC_AUTH)
