@@ -94,7 +94,7 @@ If you've got an old image hanging around it could cause failures. There are two
 When running the acceptance tests, it may get stuck on `resetting databases`. This happens because a process gets into a deadlock and after a few minutes the `make` command should terminate. There is a way of terminating
 the process before it hits a timeout and quits.
 
-If you run the sql statement below. It should terminate the process in the deadlock and carry on running the acceptance tests. If it stops running
+If you run the sql statement below, it should terminate the process in the deadlock and carry on running the acceptance tests. If it stops running
 the `make acceptance_tests` command, just run the `make` command again and it should work.
 ``` sql
 SELECT pg_terminate_backend(pid)
