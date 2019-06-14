@@ -32,7 +32,7 @@ DEFAULT_LOG_LEVEL = 'INFO'
 DEFAULT_BEHAVE_FORMAT = 'progress2'
 DEFAULT_TAGS = '@standalone'
 DEFAULT_FEATURE_DIRECTORY = 'acceptance_tests/features'
-DEFAULT_THREADS = 6  # Higher than 6 causes collex (and possibly other services) to fail intermittently
+DEFAULT_THREADS = 13  # Higher than 6 causes collex (and possibly other services) to fail intermittently
 DEFAULT_SCENARIO_TIMEOUT = 300
 DEFAULT_NO_PARALLEL_STOP = 'store_true'
 
