@@ -16,7 +16,7 @@ def go_to(ru_ref):
 
 def click_data_panel(short_name):
     element_id = f'survey-{short_name}'
-    wait_for_element_by_id(element_id, timeout=10, retry=0.5)
+    wait_for_element_by_id(element_id, timeout=10, retry=1)
     browser.find_by_id(element_id).click()
 
 

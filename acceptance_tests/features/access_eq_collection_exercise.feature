@@ -9,6 +9,7 @@ Feature: Respondent can access an eQ CE
     Given the respondent is signed into their account
 
 
+  # Should be a unit test, blows up on 'When' if using firefox.
   @skip
   @us062-accessEqCE_s01
   @fixture.setup.data.with.enrolled.respondent.user.and.eq.collection.exercise.live
