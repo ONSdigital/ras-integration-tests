@@ -9,6 +9,7 @@ from structlog import wrap_logger
 
 logger = wrap_logger(getLogger(__name__))
 
+
 def _is_state(first_state, second_state):
     return first_state.lower() == second_state.lower()
 
@@ -22,7 +23,6 @@ is_live = partial(_is_state, second_state='Live')
 
 
 def go_to(survey):
-
     target_url = f'{Config.RESPONSE_OPERATIONS_UI}/surveys/{survey}'
     logger.info(f'at {browser.url} and about to go to {target_url}')
 

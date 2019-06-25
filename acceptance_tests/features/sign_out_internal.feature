@@ -8,5 +8,5 @@ Feature: Internal user signs out
 
   Scenario: User signs out
     Given the internal user is already signed in
-    When they click the sign out link
+    When the internal user signs out
     Then the user is logged out and shown the sign in page and they see a successfully signed out message

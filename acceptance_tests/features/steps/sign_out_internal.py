@@ -8,8 +8,6 @@ def view_home_page(_):
     signed_out_successfully_message()
 
 
-@given('they click the sign out link')
-@when('they click the sign out link')
 @given('the internal user signs out')
 @when('the internal user signs out')
 @then('the internal user signs out')
