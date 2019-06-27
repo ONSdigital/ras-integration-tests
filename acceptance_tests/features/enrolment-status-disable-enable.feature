@@ -38,7 +38,6 @@ Feature: Disable respondent enrolment status
   Scenario: Internal user disables a respondents enrolment the other respondent should still see survey
     Given the respondent with email "disable_respondent_3@email.com" is enrolled and active
       And the respondent with email "disable_respondent_4@email.com" is enrolled and active
-      And the internal user signs out
       And the internal user is already signed in
       And the internal user disables enrolment for respondent with email "disable_respondent_3@email.com"
       And the internal user signs out
