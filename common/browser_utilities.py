@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 from selenium.common.exceptions import NoSuchElementException    
 from logging import getLogger
 from structlog import wrap_logger
+from urlparse import urlparse
 from acceptance_tests import browser
 
 logger = wrap_logger(getLogger(__name__))
@@ -274,15 +275,22 @@ def _does_url_match(target_url, alternate_url):
     """returns true if the current browser url matches either of the two urls supplied and page load is complete"""
 
     if alternate_url:
-        ret_val = (target_url == browser.url or alternate_url == browser.url) and browser.driver.execute_script(
-            'return document.readyState;') == 'complete'
+        ret_val = (_do_paths_match(target_url, browser.url) or _do_paths_match(alternate_url, browser.url)) \
+                  and browser.driver.execute_script('return document.readyState;') == 'complete'
     else:
-        ret_val = target_url == browser.url and browser.driver.execute_script(
+        ret_val = _do_paths_match(target_url, browser.url) and browser.driver.execute_script(
             'return document.readyState;') == 'complete'
 
     return ret_val
 
 
 def _does_url_not_match(target_url):
-    return target_url != browser.url and browser.driver.execute_script(
+    return (not _do_paths_match(target_url, browser.url)) and browser.driver.execute_script(
             'return document.readyState;') == 'complete'
+
+
+def _do_paths_match(a, b):
+    """returns true if the path part of the 2 urls are equal
+    a url being <scheme>:<location><path>"""
+
+    return urlparse(a).path == urlparse(b).path
