@@ -1,6 +1,4 @@
 from behave import given, when
-from datetime import datetime
-from time import sleep
 from acceptance_tests import browser
 from acceptance_tests.features.pages import sign_in_internal, social_sign_in_internal
 from acceptance_tests.features.pages import sign_in_respondent

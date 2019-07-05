@@ -6,14 +6,14 @@ from selenium.webdriver.support.ui import Select
 from acceptance_tests import browser
 from acceptance_tests.features.pages import collection_exercise
 from common.browser_utilities import is_text_present_with_retry, \
-    wait_for_url_matches, wait_for_element_by_name, wait_for_element_by_id, wait_for_url_changed
+    wait_for_url_matches, wait_for_element_by_name, wait_for_element_by_id, wait_for_url_path_or_query_changed
 from config import Config
 
 
 def go_to(survey, period):
     target_url = f'{Config.RESPONSE_OPERATIONS_UI}/surveys/{survey}/{period}'
     browser.visit(target_url)
-    wait_for_url_matches(target_url, timeout=4, retry=1)
+    wait_for_url_matches(target_url, timeout=10, retry=1, post_change_delay=0.25)
 
 
 def get_page_title():
@@ -85,8 +85,10 @@ def get_collection_exercise_events():
 
 
 def load_collection_instrument(test_file):
+    initial_url = browser.url
     browser.driver.find_element_by_id('ciFile').send_keys(abspath(test_file))
     browser.find_by_id('btn-load-ci').click()
+
 
 
 def upload_collection_instrument(test_file):
@@ -126,6 +128,7 @@ def get_error_header():
 
 
 def get_status():
+    wait_for_element_by_id('ce_status', timeout=3, retry=1)
     return browser.find_by_id('ce_status').text
 
 
@@ -138,8 +141,10 @@ def click_ready_for_live():
 
 
 def click_ready_for_live_and_confirm():
+    initial_url = browser.url
     browser.find_by_id('btn-ready-for-live').click()
     browser.get_alert().accept()
+    wait_for_url_path_or_query_changed(initial_url, timeout=10, retry=1)
 
 
 def get_execution_success():
@@ -155,7 +160,13 @@ def get_processing_info():
 
 
 def click_refresh_link():
-    browser.click_link_by_id('a-processing-refresh')
+    """"This used to be : browser.click_link_by_id('a-processing-refresh')
+    However we had the situation on some macs that the collex was set too live faster than expected
+    so the 'a-processing-refresh' was not displayed. Since the href in this link issues a refresh anyway
+    by being set to an empty string , its safer to show
+    """
+
+    browser.reload()
 
 
 def click_refresh_link_until_ready_for_live():
@@ -201,7 +212,7 @@ def remove_ci():
     entry_url = browser.url
     wait_for_element_by_id('unlink-ci-1', timeout=10, retry=0.25)
     browser.click_link_by_id('unlink-ci-1')
-    wait_for_url_changed(entry_url, timeout=10, retry=0.25, post_change_delay=1)
+    wait_for_url_path_or_query_changed(entry_url, timeout=10, retry=0.25, post_change_delay=1)
 
 
 def get_collection_instrument_removed_success_text():

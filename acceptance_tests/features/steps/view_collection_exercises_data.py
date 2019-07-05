@@ -1,7 +1,4 @@
 from behave import given, when, then
-from time import sleep
-from datetime import datetime
-
 from acceptance_tests.features.pages import collection_exercise
 from common.browser_utilities import wait_for
 

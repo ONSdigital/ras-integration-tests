@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from selenium.common.exceptions import NoSuchElementException    
 from logging import getLogger
 from structlog import wrap_logger
-from urlparse import urlparse
+from urllib.parse  import urlparse
 from acceptance_tests import browser
 
 logger = wrap_logger(getLogger(__name__))
@@ -134,12 +134,12 @@ def wait_for_url_matches_one_of(desired_url, alternate_url=None, timeout=2, retr
             f"Url did not contain {desired_url} after {timeout} seconds current url={browser.url}"
 
 
-def wait_for_url_changed(initial_url, timeout=2, retry=1, post_change_delay=0.1):
+def wait_for_url_path_or_query_changed(initial_url, timeout=2, retry=1, post_change_delay=0.1):
     """Waits for url to change from an initial value, for up to the timeout, asserts if it does not do this """
-    url_match = _wait_for_url_not_matches(initial_url=initial_url,
-                                          timeout=timeout,
-                                          retry=retry,
-                                          post_change_delay=post_change_delay)
+    url_match = _wait_for_path_or_query_not_matching(initial_url=initial_url,
+                                                     timeout=timeout,
+                                                     retry=retry,
+                                                     post_change_delay=post_change_delay)
 
     assert url_match, \
         f"Url did not change from {initial_url} after {timeout} seconds"
@@ -243,8 +243,8 @@ def _wait_for_url_matches(desired_url, alternate_url=None, timeout=2, retry=1, p
     return ret_val
 
 
-def _wait_for_url_not_matches(initial_url, timeout=2, retry=1, post_change_delay=0.1):
-    """ Waits for either timeout or for the url to get to change from an initial value,
+def _wait_for_path_or_query_not_matching(initial_url, timeout=2, retry=1, post_change_delay=0.1):
+    """ Waits for either timeout or for the url to get to change (path and query string) from an initial value based on
     whichever comes first. If the url changes then waits a further post_change_delay
     ( intended to allow page load to complete)
     Intended to replace blind sleeps
@@ -260,11 +260,11 @@ def _wait_for_url_not_matches(initial_url, timeout=2, retry=1, post_change_delay
     True if target url achieved within the time_to_wait , else False
     """
 
-    if _does_url_not_match(initial_url):  # If already moved from initial value  then enforce post change delay
+    if _does_path_and_query_not_match(initial_url):  # If url changed on entry then enforce post change delay
         time.sleep(post_change_delay)
         return True
 
-    ret_val = wait_for(_does_url_not_match, timeout, retry, initial_url)
+    ret_val = wait_for(_does_path_and_query_not_match, timeout, retry, initial_url)
     if ret_val:
         time.sleep(post_change_delay)
 
@@ -284,13 +284,19 @@ def _does_url_match(target_url, alternate_url):
     return ret_val
 
 
-def _does_url_not_match(target_url):
-    return (not _do_paths_match(target_url, browser.url)) and browser.driver.execute_script(
-            'return document.readyState;') == 'complete'
+def _does_path_and_query_not_match(target_url):
+    """Returns true if document is ready and either paths do not match or query strings do not match"""
+    return browser.driver.execute_script('return document.readyState;') == 'complete' and \
+           not (_do_paths_match(target_url, browser.url) and _do_query_strings_match(target_url, browser.url))
 
 
 def _do_paths_match(a, b):
     """returns true if the path part of the 2 urls are equal
-    a url being <scheme>:<location><path>"""
+    a url being <scheme>:<location><path>?<querystring>"""
 
     return urlparse(a).path == urlparse(b).path
+
+
+def _do_query_strings_match(a, b):
+    """returns true if the query strings of 2 urls match"""
+    return urlparse(a).query == urlparse(b).query
