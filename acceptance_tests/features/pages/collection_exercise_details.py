@@ -85,10 +85,8 @@ def get_collection_exercise_events():
 
 
 def load_collection_instrument(test_file):
-    initial_url = browser.url
     browser.driver.find_element_by_id('ciFile').send_keys(abspath(test_file))
     browser.find_by_id('btn-load-ci').click()
-
 
 
 def upload_collection_instrument(test_file):
