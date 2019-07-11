@@ -17,10 +17,9 @@ selenium = "*"
 retrying = "*"
 pyjwt = "*"
 paramiko = "*"
-"psycopg2-binary" = "*"
-"psycopg2" = "*"
 pytz = "*"
 tzlocal = "*"
+psycopg2-binary = "*"
 psutil = "*"
 
 [requires]
@@ -28,3 +27,4 @@ python_version = "3.6"
 
 [packages]
 python-dateutil = "*"
+

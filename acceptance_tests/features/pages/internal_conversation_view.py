@@ -16,7 +16,7 @@ def go_to_thread():
 def count_thread_message():
     internals = browser.find_by_name('sm-from-ons')
     external = browser.find_by_name('sm-from-respondent')
-    return len(internals + external)
+    return len(internals) + len(external)
 
 
 def is_conversation_with_sent_and_received_messages():
