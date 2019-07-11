@@ -21,7 +21,8 @@ def edit_collection_exercise_details(context):
     context.expected_user_description = period.strftime("%d %B %Y")
 
     edit_collection_exercise_details_form.edit_period(context.expected_period)
-    edit_collection_exercise_details_form.edit_user_description(context.expected_user_description)
+    # Line below _temporarily removed_ until temporary ticket to remove editing is reversed.
+    # edit_collection_exercise_details_form.edit_user_description(context.expected_user_description)
     edit_collection_exercise_details_form.click_save()
 
 
@@ -34,10 +35,10 @@ def check_collection_exercise_state(_):
 @then('the collection exercise details match the updated values')
 def view_updated_collection_exercise_details(context):
 
-    collection_exercises = wait_for(fn=collection_exercise.get_collection_exercises, timeout=15, retry_after=3)
+    collection_exercises = wait_for(fn=collection_exercise.get_collection_exercises, timeout=15, retry=3)
 
     assert collection_exercises[0]['exercise_ref'] == context.expected_period
-    assert collection_exercises[0]['user_description'] == context.expected_user_description
+    # assert collection_exercises[0]['user_description'] == context.expected_user_description
 
 
 @then('they cannot edit the collection exercise period')

@@ -28,16 +28,21 @@ Feature: Disable respondent enrolment status
   @us022_s02
   Scenario: Internal user disables a respondents enrolment the respondent should no longer be able to view this enrolment
     Given the respondent with email "disable_respondent_2@email.com" is enrolled and active
-    And the internal user disables enrolment for respondent with email "disable_respondent_2@email.com"
-    When the respondent with email "disable_respondent_2@email.com" views their survey todo list
+      And the internal user is already signed in
+      And the internal user disables enrolment for respondent with email "disable_respondent_2@email.com"
+    When the respondent is signed into their account
+      And the respondent with email "disable_respondent_2@email.com" views their survey todo list
     Then the respondent should not be able to view the disabled enrolment
 
   @us022_s03
   Scenario: Internal user disables a respondents enrolment the other respondent should still see survey
     Given the respondent with email "disable_respondent_3@email.com" is enrolled and active
-    And the respondent with email "disable_respondent_4@email.com" is enrolled and active
-    And the internal user disables enrolment for respondent with email "disable_respondent_3@email.com"
-    When the respondent with email "disable_respondent_4@email.com" views their survey todo list
+      And the respondent with email "disable_respondent_4@email.com" is enrolled and active
+      And the internal user is already signed in
+      And the internal user disables enrolment for respondent with email "disable_respondent_3@email.com"
+      And the internal user signs out
+    When the respondent is signed into their account
+      And the respondent with email "disable_respondent_4@email.com" views their survey todo list
     Then the respondent should see the survey in their todo list
 
   @standalone

@@ -1,12 +1,18 @@
-import time
-
 from acceptance_tests import browser
+from common.browser_utilities import wait_for_url_matches_one_of
 from config import Config
+from logging import getLogger
+from structlog import wrap_logger
+
+
+logger = wrap_logger(getLogger(__name__))
 
 
 def go_to():
-    browser.visit(Config.RESPONSE_OPERATIONS_UI + '/sign-in')
-    time.sleep(2)
+    target_url = Config.RESPONSE_OPERATIONS_UI + '/sign-in'
+    alternate_url = Config.RESPONSE_OPERATIONS_UI + '/'
+    browser.visit(target_url)
+    wait_for_url_matches_one_of(target_url, alternate_url, timeout=10, retry=1, post_change_delay=0.5)
 
 
 def get_page_title():

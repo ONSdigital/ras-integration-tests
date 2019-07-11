@@ -21,7 +21,6 @@ Feature: View Collection Exercise
 
 
   Scenario Outline: Ensure collection exercise exists for a survey
-    Given all surveys have collection exercises
     When the internal user views the collection exercise page for <survey_abbreviation>
     Then there is at least one collection exercise
 

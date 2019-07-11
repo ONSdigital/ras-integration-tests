@@ -32,14 +32,6 @@ Feature: Set a collection exercise as ready for live
     When they confirm that the collection exercise is ready to go live
     Then they are to be informed that the system is setting the status as Ready for Live
 
-  @us028_s007
-  Scenario: The user is able to refresh the page at any point
-    Given a collection exercise is in the ready for review state
-    And the user has confirmed that the collection exercise is ready for go live
-    When they navigate to the collection exercise details screen
-    And the system is setting the collection exercise as ready for live
-    Then the user is able to refresh the page to see if there are any updates to the status
-
   @us028_s011
   Scenario: When the user sets the collection exercise as 'Ready for Live' no further changes can be made to the collection exercise
     Given a collection exercise is in the ready for review state

@@ -1,8 +1,12 @@
 from behave import given, when, then
 
 from acceptance_tests.features.pages import sign_in_respondent, change_enrolment_status, reporting_unit, surveys_todo
-from acceptance_tests.features.pages.respondent import click_change_enrolment_status, go_to_find_respondent
 from acceptance_tests import browser
+
+
+from logging import getLogger
+from structlog import wrap_logger
+logger = wrap_logger(getLogger(__name__))
 
 
 @given('the internal user is on the ru details page')

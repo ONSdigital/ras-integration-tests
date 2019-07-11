@@ -74,6 +74,11 @@ secure_messaging_acceptance_tests:
 	export IGNORE_SEQUENTIAL_DATA_SETUP=True; \
 	pipenv run python run_in_parallel.py --test_tags "${TEST_TAGS}"
 
+single_test: TEST_TAGS=@single_test
+single_test:
+	export IGNORE_SEQUENTIAL_DATA_SETUP=True; \
+	pipenv run python run_in_sequence.py --test_tags "${TEST_TAGS}"
+
 
 # Run sequentially with behave targets
 #todo eventually these will be converted and moved above/deleted

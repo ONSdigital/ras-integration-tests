@@ -1,12 +1,17 @@
 from behave import given, when
-
 from acceptance_tests import browser
 from acceptance_tests.features.pages import sign_in_internal, social_sign_in_internal
 from acceptance_tests.features.pages import sign_in_respondent
 from config import Config
 
+from logging import getLogger
+from structlog import wrap_logger
+
+logger = wrap_logger(getLogger(__name__))
+
 
 @given('the respondent is signed into their account')
+@when('the respondent is signed into their account')
 def signed_in_respondent(context):
     sign_in_respondent.go_to()
     # Only attempt to sign in if not already signed in otherwise implicitly redirected to homepage
@@ -33,9 +38,12 @@ def _sign_in_internal_user(user_name):
     sign_in_internal.go_to()
     # Only attempt to sign in if not already signed in otherwise implicitly redirected to homepage
     if '/sign-in' in browser.url:
+        # logger.info(f"Detected being at sign in page , so sign in being attempted, url={browser.url}")
         sign_in_internal.enter_correct_username(user_name)
         sign_in_internal.enter_correct_password()
         sign_in_internal.click_internal_sign_in_button()
+    # else:
+    #     logger.info(f"at {browser.url} so sign in not needed")
 
 
 @given('The internal user is already signed in to social UI')

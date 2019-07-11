@@ -3,7 +3,11 @@ from functools import partial
 from acceptance_tests import browser
 from config import Config
 
-from common.browser_utilities import wait_for
+from common.browser_utilities import wait_for, wait_for_element_by_id, wait_for_url_matches
+from logging import getLogger
+from structlog import wrap_logger
+
+logger = wrap_logger(getLogger(__name__))
 
 
 def _is_state(first_state, second_state):
@@ -19,7 +23,11 @@ is_live = partial(_is_state, second_state='Live')
 
 
 def go_to(survey):
-    browser.visit(f'{Config.RESPONSE_OPERATIONS_UI}/surveys/{survey}')
+    target_url = f'{Config.RESPONSE_OPERATIONS_UI}/surveys/{survey}'
+    logger.info(f'at {browser.url} and about to go to {target_url}')
+
+    browser.visit(target_url)
+    wait_for_url_matches(target_url, timeout=10, retry=1, post_change_delay=0.5)
 
 
 def get_page_title():
@@ -27,7 +35,9 @@ def get_page_title():
 
 
 def get_survey_attributes():
-    survey_data = browser.find_by_id('survey-attributes').first
+    target_url = 'survey-attributes'
+    wait_for_element_by_id(target_url, timeout=5, retry=1)
+    survey_data = browser.find_by_id(target_url).first
     survey_attributes = {
         'survey_id': survey_data.find_by_name('survey-id').value,
         'survey_title': survey_data.find_by_name('survey-title').value,
@@ -50,6 +60,7 @@ def get_collection_exercises():
 
 
 def get_table():
+    wait_for_element_by_id('tbl-collection-exercise', timeout=5, retry=1)
     return browser.find_by_id('tbl-collection-exercise').first
 
 

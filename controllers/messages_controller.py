@@ -8,6 +8,7 @@ from acceptance_tests.features.pages import create_message_internal, create_mess
 from acceptance_tests.features.pages.internal_conversation_view import go_to_thread
 from acceptance_tests.features.pages.reporting_unit import click_data_panel
 from acceptance_tests.features.steps.authentication import signed_in_respondent, signed_in_internal
+from acceptance_tests.features.pages.sign_out_internal import try_sign_out
 from config import Config
 
 logger = wrap_logger(logging.getLogger(__name__))
@@ -25,6 +26,7 @@ def create_message_internal_to_external(context, subject='Subject', body='Body')
     # Note that external users may have to be signed in again after calling this function
 
     # Navigate to sent a message
+    try_sign_out()
     signed_in_internal(context)
     go_to_create_message(context)
 

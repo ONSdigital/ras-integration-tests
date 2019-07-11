@@ -1,14 +1,23 @@
 from acceptance_tests import browser
 from acceptance_tests.features.pages import scroll_to
+from common.browser_utilities import wait_for_url_matches, wait_for_element_by_id, wait_for_element_by_name
 from config import Config
+
+from logging import getLogger
+from structlog import wrap_logger
+logger = wrap_logger(getLogger(__name__))
 
 
 def go_to(ru_ref):
-    browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/reporting-units/{ru_ref}")
+    target_url = f"{Config.RESPONSE_OPERATIONS_UI}/reporting-units/{ru_ref}"
+    browser.visit(target_url)
+    wait_for_url_matches(target_url, timeout=10, retry=0.2, post_change_delay=0.2)
 
 
 def click_data_panel(short_name):
-    browser.find_by_id(f'survey-{short_name}').click()
+    element_id = f'survey-{short_name}'
+    wait_for_element_by_id(element_id, timeout=10, retry=1)
+    browser.find_by_id(element_id).click()
 
 
 def get_ru_details():
@@ -26,8 +35,16 @@ def get_associated_surveys():
 
 
 def get_associated_collection_exercises(survey_short_name):
-    ce_table = browser.find_by_id(f'survey-{survey_short_name}').find_by_name('tbl-ce-for-survey')
+    survey_element_id = f'survey-{survey_short_name}'
+    wait_for_element_by_id(survey_element_id, timeout=10, retry=1)
+    ce_table = browser.find_by_id(survey_element_id).find_by_name('tbl-ce-for-survey')
+
+    assert ce_table, f"Could not retrieve ce_table for {survey_element_id}"
+
     ce_rows = ce_table.find_by_tag('tbody').find_by_tag('tr')
+
+    assert ce_rows, f"could not find ce_rows in ce_table for {survey_element_id}"
+
     exercises = [{
         "exercise_ref": row.find_by_name('tbl-ce-period').value,
         "company_name": row.find_by_name('tbl-ce-company-name').value,
@@ -87,6 +104,7 @@ def click_generate_new_code(code):
 
 
 def click_change_enrolment(email):      # Clicks the disable or enable link
+    wait_for_element_by_name('tbl-respondents-for-survey', timeout=3, retry=1)
     respondents_table = browser.find_by_name('tbl-respondents-for-survey')
     rows = respondents_table.find_by_tag('tbody').find_by_tag('tr')
     for row in rows:

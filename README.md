@@ -89,3 +89,21 @@ The tests may be failing because you have teared down postgres recently
 If you've got an old image hanging around it could cause failures. There are two things to try
 1. Firstly run `make pull` within tmp_ras_rm_docker_dev and then re-run `make test`
 2. Secondly if that doesn't work run `docker kill $(docker ps -qa) ; docker rm $(docker ps -qa) ; docker rmi $(docker images -qa)` to delete all images and then re-run `make test`
+#### Failing setup
+##### Resetting databases bug
+When running the acceptance tests, it may get stuck on `resetting databases`. This happens because a process gets into a deadlock and after a few minutes the `make` command should terminate. There is a way of terminating
+the process before it hits a timeout and quits.
+
+If you run the sql statement below, it should terminate the process in the deadlock and carry on running the acceptance tests. If it stops running
+the `make acceptance_tests` command, just run the `make` command again and it should work.
+``` sql
+SELECT pg_terminate_backend(pid)
+FROM pg_stat_activity
+where state = 'idle in transaction' AND query like '%actioncase%'	
+``` 
+
+Another way of terminating the deadlock is by going into pgadmin and terminating it there
+1. Go to `localhost:80` and log in using details specified in [ras-rm-docker-dev](https://github.com/ONSdigital/ras-rm-docker-dev#pgadmin-4)
+2. Click on the database and it should show you a dashboard displaying server activity
+3. You'll notice that a some of the processes are deadlocked on a single process (usually the lowest PID in Blocking PIDs column). Terminate that process and the acceptance
+tests will either resume or terminate. If they terminate, running it again should work. 
