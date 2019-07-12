@@ -25,6 +25,8 @@ Feature: Internal user signs in to social UI
     Given the user has an active account and is assigned a username and password (social)
     When they enter an incorrect username and password (social)
     Then the user is notified that an authentication error has occurred (social)
+    
+""" Social tests being skipped, not in scope at the moment """    
   @skip
   Scenario: User attempts sign in and is notified that they are required to enter a password (social)
     Given the user has an active account and is assigned a username and password (social)
