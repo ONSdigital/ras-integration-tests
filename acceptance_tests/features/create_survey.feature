@@ -29,5 +29,5 @@ Feature: As an internal user
      And they enter new survey details with legal basis of 'Statistics of Trade Act 1947'
      And the internal user has entered the create survey URL
     When they enter new survey details with legal basis of 'Statistics of Trade Act 1947' and new short name
-    Then they get an error message of 'Survey with ID {survey_ref} already exists'
+    Then they get an error message of 'Survey with reference {survey_ref} already exists'
 
