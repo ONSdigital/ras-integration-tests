@@ -71,4 +71,4 @@ def check_error_message_matches(context, match_string):
     actual_error_message = create_survey_form.save_error()
     expected_error_message = substitute_context_values(context, match_string)
     assert expected_error_message == actual_error_message, \
-        "expected:{expected_error_message} does not match {actual_error_message}"
+        f"expected:{expected_error_message} does not match {actual_error_message}"
