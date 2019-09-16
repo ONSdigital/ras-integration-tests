@@ -95,3 +95,9 @@ Feature: Internal inbox
     Given the user has access to secure messaging
     When they navigate to the inbox messages
     Then they can see the closed tab
+
+  @fixture.setup.data.with.enrolled.respondent.user.and.internal.user.and.new.iac.and.collection.exercise.to.live
+  Scenario: Internal User views new conversations
+    Given both the internal and external users have started '3' conversations
+    When they navigate to initial conversations
+    Then they are able to view '3' messages

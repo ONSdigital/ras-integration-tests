@@ -17,7 +17,7 @@ from controllers.messages_controller import create_message_external_to_internal,
 
 
 @given('an external user has sent ONS a message')
-def external_user_has_sent_ONS_a_message(context):
+def external_user_has_sent_ons_a_message(context):
     create_message_external_to_internal(context, 'Message to ONS', 'Message body to ONS')
 
 

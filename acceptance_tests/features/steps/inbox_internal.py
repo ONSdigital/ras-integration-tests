@@ -66,6 +66,12 @@ def internal_user_views_my_messages(context):
     inbox_internal.go_to_my_conversations_using_context(context)
 
 
+@given('they navigate to initial conversations')
+@when('they navigate to initial conversations')
+def internal_user_views_initial_conversations(context):
+    inbox_internal.go_to_initial_conversations_using_context(context)
+
+
 @then('they are informed that there are no closed conversations')
 def informed_of_no_closed_conversations(_):
     assert inbox_internal.get_no_closed_conversations_text()

@@ -11,10 +11,20 @@ def messages_tab_is_present(_):
     assert browser.find_by_id('SURVEY_MESSAGES_TAB')
 
 
-@given('the external user has conversations in their list')
+@given("both the internal and external users have started '{conversation_count}' conversations")
+def external_user_has_two_conversations(context, conversation_count):
+    _external_and_internal_have_multiple_conversations(context, int(conversation_count))
+
+
+@given("the external user has conversations in their list")
 def external_user_has_two_conversations(context):
-    external_conversation.send_message_from_external(context)
-    external_conversation.send_message_from_internal(context)
+    _external_and_internal_have_multiple_conversations(conversation_count=1)
+
+
+def _external_and_internal_have_multiple_conversations(context, conversation_count=1):
+    for x in range(0, conversation_count):
+        external_conversation.send_message_from_external(context)
+        external_conversation.send_message_from_internal(context)
 
 
 @given('the external user has no conversations to view')
