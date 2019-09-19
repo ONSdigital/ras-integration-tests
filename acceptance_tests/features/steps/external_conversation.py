@@ -18,7 +18,7 @@ def external_user_has_two_conversations(context, conversation_count):
 
 @given("the external user has conversations in their list")
 def external_user_has_two_conversations(context):
-    _external_and_internal_have_multiple_conversations(conversation_count=1)
+    _external_and_internal_have_multiple_conversations(context, conversation_count=1)
 
 
 def _external_and_internal_have_multiple_conversations(context, conversation_count=1):

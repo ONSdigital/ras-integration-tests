@@ -27,7 +27,7 @@ def create_browser():
         chromedriver_binary.add_chromedriver_to_path()
         chrome_options = webdriver.ChromeOptions()
         chrome_options.add_argument("--no-sandbox")
-        return Browser(driver_type, headless=driver_type, options=chrome_options)
+        return Browser(driver_type, headless=headless, options=chrome_options)
 
     return Browser(driver_type, headless=headless)
 
