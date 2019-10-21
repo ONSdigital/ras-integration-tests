@@ -39,16 +39,17 @@ def create_and_close_conversation(context):
 @when('they view the message')
 @when('the internal person views the message')
 def internal_user_can_view_open_message(context):
-    inbox_internal.go_to_using_context(context)
+    inbox_internal.go_to_using_context(context, 'open')
     go_to_thread()
 
 
 @when('they view the closed message')
 def internal_user_can_view_closed_message(context):
-    inbox_internal.go_to_closed_using_context(context)
+    inbox_internal.go_to_using_context(context, 'closed')
     go_to_thread()
 
 
+@given('they close the conversation')
 @when('they close the conversation')
 def close_a_conversation(_):
     create_message_internal.click_close_conversation_button()
@@ -83,20 +84,27 @@ def internal_user_receives_confirmation(_):
     assert 'Message sent' in create_message_internal.get_first_flashed_message()
 
 
+@given('they receive confirmation that the conversation is closed')
 @then('they receive confirmation that the conversation is closed')
 def internal_user_informed_that_conversation_is_closed(_):
     assert 'Conversation closed.' in create_message_internal.get_first_flashed_message()
 
 
+@when('they view the conversation via the flash message')
+def internal_user_view_conversation_via_flash_message(_):
+    create_message_internal.get_first_flashed_message()
+    browser.find_by_id("flashed-message-1").click()
+
+
 @then('the conversation appears in their closed list')
 def message_in_closed_list(context):
-    inbox_internal.go_to_closed_using_context(context)
+    inbox_internal.go_to_using_context(context, 'closed')
     assert len(inbox_internal.get_messages()) == 1
 
 
 @then('the conversation is not present in their closed list')
 def no_messages_in_closed_list(context):
-    inbox_internal.go_to_closed_using_context(context)
+    inbox_internal.go_to_using_context(context, 'closed')
     assert inbox_internal.get_no_closed_conversations_text()
 
 
@@ -107,13 +115,13 @@ def internal_user_informed_that_conversation_has_been_reopened(_):
 
 @then('the conversation is present in their open list')
 def conversation_in_open_list(context):
-    inbox_internal.go_to_using_context(context)
+    inbox_internal.go_to_using_context(context, 'open')
     assert len(inbox_internal.get_messages()) > 0
 
 
 @then('the conversation is present in their my_messages list')
 def conversation_in_my_messages_list(context):
-    inbox_internal.go_to_my_conversations_using_context(context)
+    inbox_internal.go_to_using_context(context, 'my messages')
     assert len(inbox_internal.get_messages()) > 0
 
 
@@ -132,24 +140,33 @@ def messages_in_chronological_order(_):
 
 @then('they are taken back to open messages')
 def url_is_for_open_messages(_):
-    assert 'my_conversations=false' in browser.url
+    assert 'conversation_tab=open' in browser.url
 
 
 @then('they are taken back to my_messages')
 def url_is_for_my_messages(_):
-    assert 'my_conversations=true' in browser.url
+    assert 'conversation_tab=my+messages' in browser.url
 
 
 @given("the internal user opens first message on page '{page}'")
 def internal_user_opens_first_message_on_page(context, page):
-    internal_user_taken_to_specific_page(context, page)
+    internal_user_opens_first_message_on_tab_and_page(context, 'open', page)
 
+
+@given("the internal user opens first message in tab '{conversation_tab}' and page '{page}'")
+def internal_user_opens_first_message_on_tab_and_page(context, conversation_tab, page):
+    internal_user_taken_to_specific_tab_and_page(context, conversation_tab, page)
     go_to_thread()
 
 
 @given("the internal user goes to page '{page}'")
 def internal_user_taken_to_specific_page(context, page):
-    inbox_internal.go_to_using_context(context)
+    internal_user_taken_to_specific_tab_and_page(context, 'open', page)
+
+
+@given("the internal user goes to tab '{conversation_tab}' and page '{page}'")
+def internal_user_taken_to_specific_tab_and_page(context, conversation_tab, page):
+    inbox_internal.go_to_using_context(context, conversation_tab)
     for page_num in range(1, int(page)):
         wait_for_element_by_class_name(name='next', timeout=5, retry=1)
         browser.driver.find_element_by_class_name('next').click()

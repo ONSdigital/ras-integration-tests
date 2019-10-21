@@ -160,3 +160,13 @@ Feature: View conversation thread
     When they view the unread message
     And they select mark unread
     Then they are taken back to page '2'
+
+  Scenario: When closing a conversation and selecting view conversation in flash message, pressing back goes to correct tab
+    Given the user has got '3' messages in their inbox
+      And they navigate to my messages
+      And the internal user opens first message in tab 'my messages' and page '1'
+      And they close the conversation
+      And they receive confirmation that the conversation is closed
+    When they view the conversation via the flash message
+      And the user selects back
+    Then they are taken back to my_messages

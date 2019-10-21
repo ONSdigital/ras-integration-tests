@@ -40,7 +40,7 @@ def external_user_sent_message_with_over_80_characters(context):
 @given('a closed conversation has been reopened')
 def close_and_reopen_a_conversation(context):
     create_and_close_message_internal_to_external(context, 'Message to ONS', 'Message body to ONS')
-    inbox_internal.go_to_closed_using_context(context)
+    inbox_internal.go_to_using_context(context, 'closed')
     internal_conversation_view.go_to_thread()
     create_message_internal.click_reopen_conversation_button()
 

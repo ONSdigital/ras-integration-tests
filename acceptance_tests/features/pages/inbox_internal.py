@@ -3,35 +3,18 @@ from common.browser_utilities import wait_for_url_matches
 from config import Config
 
 
-def go_to(context):
-    browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/messages/{context.short_name}")
+# def go_to(context):
+#     browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/messages/{context.short_name}")
 
 
-def go_to_closed():
-    browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/messages/Bricks?is_closed=true")
-
-
+# def go_to_closed():
+#     browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/messages/Bricks?conversation_tab=closed")
 # todo delete above 2 methods when all tests use 2 below
-def go_to_using_context(context):
-    target_url = f"{Config.RESPONSE_OPERATIONS_UI}/messages/{context.short_name}"
-    browser.visit(target_url)
-    wait_for_url_matches(target_url, timeout=3, retry=0.5, post_change_delay=0.1)
 
 
-def go_to_closed_using_context(context):
-    target_url = f"{Config.RESPONSE_OPERATIONS_UI}/messages/{context.short_name}?is_closed=true"
-    browser.visit(target_url)
-    wait_for_url_matches(target_url, timeout=3, retry=0.5, post_change_delay=0.1)
-
-
-def go_to_my_conversations_using_context(context):
-    target_url = f"{Config.RESPONSE_OPERATIONS_UI}/messages/{context.short_name}?my_conversations=true"
-    browser.visit(target_url)
-    wait_for_url_matches(target_url, timeout=3, retry=0.5, post_change_delay=0.1)
-
-
-def go_to_initial_conversations_using_context(context):
-    target_url = f"{Config.RESPONSE_OPERATIONS_UI}/messages/{context.short_name}?new_respondent_conversations=true"
+def go_to_using_context(context, conversation_tab='open'):
+    tab = conversation_tab.replace(' ', '+')
+    target_url = f"{Config.RESPONSE_OPERATIONS_UI}/messages/{context.short_name}?conversation_tab={tab}"
     browser.visit(target_url)
     wait_for_url_matches(target_url, timeout=3, retry=0.5, post_change_delay=0.1)
 

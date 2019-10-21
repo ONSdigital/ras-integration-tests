@@ -21,7 +21,7 @@ def populate_database_with_messages(context):
     body = "This is the body of the message"
     messages_controller.create_message_internal_to_external(context, subject, body)
 
-    inbox_internal.go_to_using_context(context)
+    inbox_internal.go_to_using_context(context, 'open')
 
 
 @given("the user has got '{number_of_messages}' messages in their inbox")
@@ -31,7 +31,7 @@ def populate_database_with_number_of_messages(context, number_of_messages):
         body = str(i) + ": This is the body of the message"
         messages_controller.create_message_internal_to_external(context, subject, body)
 
-    inbox_internal.go_to_using_context(context)
+    inbox_internal.go_to_using_context(context, 'open')
 
 
 @given('the user has no messages in their inbox')
@@ -42,7 +42,7 @@ def user_has_no_messages_in_inbox(_):
 @when('internal user navigate to the inbox messages')
 @when('they navigate to the inbox messages')
 def internal_user_views_messages(context):
-    inbox_internal.go_to_using_context(context)
+    inbox_internal.go_to_using_context(context, 'open')
 
 
 @then('they are informed that there are no messages')
@@ -57,19 +57,19 @@ def informed_of_no_my_messages(_):
 
 @when('they navigate to closed conversations')
 def internal_user_views_closed_messages(context):
-    inbox_internal.go_to_closed_using_context(context)
+    inbox_internal.go_to_using_context(context, 'closed')
 
 
 @given('they navigate to my messages')
 @when('they navigate to my messages')
 def internal_user_views_my_messages(context):
-    inbox_internal.go_to_my_conversations_using_context(context)
+    inbox_internal.go_to_using_context(context, 'my messages')
 
 
 @given('they navigate to initial conversations')
 @when('they navigate to initial conversations')
 def internal_user_views_initial_conversations(context):
-    inbox_internal.go_to_initial_conversations_using_context(context)
+    inbox_internal.go_to_using_context(context, 'initial')
 
 
 @then('they are informed that there are no closed conversations')
