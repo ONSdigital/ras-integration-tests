@@ -3,10 +3,26 @@ from datetime import datetime, timedelta
 from selenium.common.exceptions import NoSuchElementException    
 from logging import getLogger
 from structlog import wrap_logger
-from urllib.parse  import urlparse
+from urllib.parse import urlparse
 from acceptance_tests import browser
 
 logger = wrap_logger(getLogger(__name__))
+
+
+def is_text_present_with_action(text, action, retries=3, delay=1):
+    """Waits for text to be present, if not present after delay then perform an action
+         Parameters:
+         text: Text to look for
+         action: action function to call if not present after delay
+         retries: The maximum number of reloads that may be attempted
+         delay: The amount of time to check if the text is present.
+    Returns: True if text found else False"""
+
+    for attempt in range(retries):
+        if browser.is_text_present(text, wait_time=delay):
+            return True
+        action()
+    return False
 
 
 def is_text_present_with_retry(text, retries=3, delay=1):

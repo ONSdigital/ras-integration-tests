@@ -5,7 +5,7 @@ from selenium.webdriver.support.ui import Select
 
 from acceptance_tests import browser
 from acceptance_tests.features.pages import collection_exercise
-from common.browser_utilities import is_text_present_with_retry, \
+from common.browser_utilities import is_text_present_with_retry, is_text_present_with_action, \
     wait_for_url_matches, wait_for_element_by_name, wait_for_element_by_id, wait_for_url_path_or_query_changed
 from config import Config
 
@@ -41,9 +41,8 @@ def load_sample(sample_file_path):
 
 
 def get_sample_success_text():
-    while not is_text_present_with_retry('Sample loaded'):
-        click_refresh_link_for_sample_upload()
-    return browser.find_by_id('sample-success').first.text
+    if is_text_present_with_action('Sample loaded', click_refresh_link_for_sample_upload, retries=3, delay=3):
+        return browser.find_by_id('sample-success').first.text
 
 
 def has_sample_preview():
