@@ -3,15 +3,6 @@ from common.browser_utilities import wait_for_url_matches
 from config import Config
 
 
-# def go_to(context):
-#     browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/messages/{context.short_name}")
-
-
-# def go_to_closed():
-#     browser.visit(f"{Config.RESPONSE_OPERATIONS_UI}/messages/Bricks?conversation_tab=closed")
-# todo delete above 2 methods when all tests use 2 below
-
-
 def go_to_using_context(context, conversation_tab='open'):
     tab = conversation_tab.replace(' ', '+')
     target_url = f"{Config.RESPONSE_OPERATIONS_UI}/messages/{context.short_name}?conversation_tab={tab}"

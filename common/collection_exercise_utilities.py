@@ -62,14 +62,21 @@ def execute_collection_exercise(survey_id, period, ci_type='SEFT'):
 
 def poll_database_for_iac(survey_id, period, social=False):
     logger.info('Waiting for collection exercise execution process to finish',
-                 survey_id=survey_id, period=period)
+                survey_id=survey_id, period=period)
     collection_exercise_id = collection_exercise_controller.get_collection_exercise(survey_id, period)['id']
-    while True:
+    attempt = 1
+    while attempt <= 20:
+        logger.info("Getting iac code for collection exercise",
+                    collection_exercise_id=collection_exercise_id,
+                    social=social,
+                    attempt=attempt)
         iac_code = database_controller.get_iac_for_collection_exercise(collection_exercise_id, social=social)
         if iac_code:
             logger.info('Collection exercise finished executing', survey_id=survey_id, period=period)
             return iac_code
         time.sleep(3)
+        attempt += 1
+    raise Exception("Failed to get iac code for collection exercise")
 
 
 def generate_new_enrolment_code(case_id, business_id):
