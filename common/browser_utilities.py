@@ -193,6 +193,10 @@ def wait_for(fn, timeout, retry, *argv):
         if not ret_val:
             time.sleep(retry)
 
+    if not ret_val:
+        logger.info("ERROR - wait_for did not get true within the timeout",
+                    fn=fn.__name__, argv=argv)
+
     return ret_val
 
 
