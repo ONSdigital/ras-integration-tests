@@ -35,14 +35,14 @@ def get_page_title():
 
 
 def get_survey_attributes():
-    target_url = 'survey-attributes'
-    wait_for_element_by_id(target_url, timeout=5, retry=1)
-    survey_data = browser.find_by_id(target_url).first
+    target_id = 'survey-attributes'
+    wait_for_element_by_id(target_id, timeout=5, retry=1)
+    survey_data = browser.find_by_id(target_id).first
     survey_attributes = {
-        'survey_id': survey_data.find_by_name('survey-id').value,
-        'survey_title': survey_data.find_by_name('survey-title').value,
-        'survey_abbreviation': survey_data.find_by_name('survey-abbreviation').value,
-        'survey_legal_basis': survey_data.find_by_name('survey-legal-basis').value,
+        'survey_id': survey_data.find_by_id('survey-id').value,
+        'survey_title': survey_data.find_by_id('survey-title').value,
+        'survey_abbreviation': survey_data.find_by_id('survey-abbreviation').value,
+        'survey_legal_basis': survey_data.find_by_id('survey-legal-basis').value,
     }
     return survey_attributes
 
