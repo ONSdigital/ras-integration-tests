@@ -58,7 +58,7 @@ Its possible to use firefox as your browser instead of chrome.  Do the following
 
 - `brew install geckodriver`
 - Install Firefox on your machine (<https://www.mozilla.org/en-GB/firefox/>)
-- In [acceptance_tests/__init__.py](acceptance_tests/__init__.py), change the `driver_type` from chrome to firefox
+- `export WEBDRIVER=firefox`
 
 ### Debugging tests in Pycharm
 
