@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
 from behave import given, when, then
 
@@ -28,7 +28,7 @@ def user_navigate_to_survey_details(context):
 @when('the collection exercise go live date hits')
 def go_live_date_hits(context):
     while True:
-        if datetime.utcnow() > context.dates['go_live']:
+        if datetime.now(timezone.utc) > context.dates['go_live']:
             return
 
 
