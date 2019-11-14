@@ -238,15 +238,15 @@ def get_check_sample_contents():
     return browser.find_by_id('btn-check-sample-contents').text
 
 
-def select_add_mps_date():
-    browser.find_by_id("create-event-date-mps").click()
+def select_add_date(event):
+    browser.find_by_id(f"create-event-date-{event}").click()
 
 
 def add_ce_event_date(day, month, year):
-    browser.driver.find_element_by_id("day").send_keys(day)
-    select = Select(browser.driver.find_element_by_id("month"))
+    browser.driver.find_element_by_id("date-en-gb-day").send_keys(day)
+    select = Select(browser.driver.find_element_by_id("date-en-gb-month"))
     select.select_by_visible_text(month)
-    browser.driver.find_element_by_id("year").send_keys(year)
+    browser.driver.find_element_by_id("date-en-gb-year").send_keys(year)
 
 
 def confirm_ce_event_date():
