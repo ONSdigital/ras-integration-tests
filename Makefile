@@ -42,6 +42,7 @@ acceptance_tests: acceptance_sequential_tests acceptance_parallel_tests
 
 rasrm_acceptance_tests: rasrm_acceptance_sequential_tests rasrm_acceptance_parallel_tests
 
+all_acceptance_tests: acceptance_sequential_tests rasrm_acceptance_parallel_tests secure_messaging_acceptance_tests
 
 # Run sequentially targets
 acceptance_sequential_tests: setup

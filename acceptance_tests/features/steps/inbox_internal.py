@@ -72,11 +72,6 @@ def internal_user_views_initial_conversations(context):
     inbox_internal.go_to_using_context(context, 'initial')
 
 
-@then('they are informed that there are no closed conversations')
-def informed_of_no_closed_conversations(_):
-    assert inbox_internal.get_no_closed_conversations_text()
-
-
 @then('they are able to view all received messages')
 def test_presence_of_messages(_):
     assert len(inbox_internal.get_messages()) > 0
@@ -98,17 +93,6 @@ def test_message_order(_):
     first_message_date = datetime.strptime(messages[0].get('received').split(' ')[2], '%H:%M')
     second_message_date = datetime.strptime(messages[1].get('received').split(' ')[2], '%H:%M')
     assert first_message_date >= second_message_date
-
-
-@when('they navigate to the select survey page')
-def test_view_select_survey_page(_):
-    inbox_internal.go_to_select_survey()
-
-
-@then('they are able to view a dropdown list of surveys')
-def test_select_survey_page_view(_):
-    assert inbox_internal.get_filter_page_title()
-    assert inbox_internal.get_dropdown_list()
 
 
 @when('the user has an unread message in their inbox')
@@ -140,11 +124,6 @@ def message_is_no_longer_marked_unread_in_internal_inbox(_):
 def pagination_links_available(_):
     assert inbox_internal.get_pagination_previous_link()
     assert inbox_internal.get_pagination_next_link()
-
-
-@then('they can see the closed tab')
-def closed_tab_is_visible(_):
-    assert inbox_internal.closed_tab_present()
 
 
 @then('The To field should be the name of the internal user who sent the message')
