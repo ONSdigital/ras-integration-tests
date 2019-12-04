@@ -5,6 +5,7 @@ from acceptance_tests.features.pages import forgotten_password_respondent, repor
 from acceptance_tests.features.pages.forgotten_password_respondent import get_password_reset_url
 from acceptance_tests.features.pages.respondent_unlocking_account import get_lockout_message, locking_respondent_out, \
     respondent_password_reset_complete
+from common.browser_utilities import wait_for_url_matches
 
 
 @given('the respondent has locked themselves out of their account')
@@ -15,7 +16,9 @@ def respondent_unverified_account(context):
 @given('they click the password reset link')
 @when('they click the password reset link')
 def user_clicks_password_reset_link(context):
-    browser.visit(get_password_reset_url(context))
+    url = get_password_reset_url(context)
+    browser.visit(url)
+    wait_for_url_matches(url, timeout=3, post_change_delay=2)
 
 
 @given('the respondent enters their password incorrectly 10 times in a row')
