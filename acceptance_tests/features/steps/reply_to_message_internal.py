@@ -93,7 +93,8 @@ def internal_user_informed_that_conversation_is_closed(_):
 @when('they view the conversation via the flash message')
 def internal_user_view_conversation_via_flash_message(_):
     create_message_internal.get_first_flashed_message()
-    browser.find_by_id("flashed-message-1").click()
+    flashed_message = browser.find_by_id("flashed-message-1")
+    flashed_message.find_by_tag('a').click()
 
 
 @then('the conversation appears in their closed list')
