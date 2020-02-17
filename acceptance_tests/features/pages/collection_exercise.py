@@ -3,6 +3,10 @@ from functools import partial
 from acceptance_tests import browser
 from config import Config
 
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
 from common.browser_utilities import wait_for, wait_for_element_by_id, wait_for_url_matches
 from logging import getLogger
 from structlog import wrap_logger
@@ -90,9 +94,11 @@ def click_create_ce_link():
 
 
 def get_collection_exercise_created_banner():
-    return browser.find_by_id('newly_created_ce_link').text
+    return WebDriverWait(browser.driver, 10).until(
+        EC.presence_of_element_located((By.ID, 'newly_created_ce_link'))).text
 
 
 def click_collection_exercise_created_banner():
-    link = browser.find_by_id('newly_created_ce_link')
+    link = WebDriverWait(browser.driver, 60).until(
+        EC.presence_of_element_located((By.ID, 'newly_created_ce_link')))
     link.click()

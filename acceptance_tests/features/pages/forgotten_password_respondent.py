@@ -2,6 +2,9 @@ from acceptance_tests import browser
 from common.generate_token import generate_email_token, generate_expired_email_token
 from config import Config
 
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 def go_to_forgot_password_url():
     browser.visit(Config.FRONTSTAGE_SERVICE + '/sign-in')
@@ -67,8 +70,10 @@ def get_password_changed_message():
 
 
 def enter_in_passwords(password, confirm_password):
-    browser.driver.find_element_by_id('inputPassword').send_keys(password)
-    browser.driver.find_element_by_id('password_confirm').send_keys(confirm_password)
+    WebDriverWait(browser.driver, 10).until(
+        EC.presence_of_element_located((By.ID, "inputPassword"))).send_keys(password)
+    WebDriverWait(browser.driver, 10).until(
+        EC.presence_of_element_located((By.ID, "password_confirm"))).send_keys(confirm_password)
 
 
 def get_password_requirements_message():
