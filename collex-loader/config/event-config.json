@@ -1,0 +1,15 @@
+{
+    "inputFiles": ["data/2018_surveys_schedule.csv"],
+    "dryRun": false,
+    "api":{
+        "post-url": "http://localhost:8145/collectionexercises/{id}/events",
+        "get-url": "http://localhost:8145/collectionexercises/{exercise_ref}/survey/{survey_ref}",
+        "user": "admin",
+        "password": "secret"
+    },
+    "columnMappings": {
+        "survey_code": "surveyRef",
+        "survey_period": "exerciseRef"
+    }
+}
+

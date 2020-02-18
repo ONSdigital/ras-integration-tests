@@ -1,0 +1,15 @@
+{
+    "inputFiles": ["data/CE_Details_for_loading_into_RM.csv"],
+    "dryRun": false,
+    "api":{
+        "post-url": "http://localhost:8145/collectionexercises",
+        "user": "admin",
+        "password": "secret"
+    },
+    "columnMappings": {
+        "Survey_Id": "surveyRef",
+        "Survey_Name": "name",
+        "Collection_Period": "exerciseRef",
+        "Collection_Period_Label": "userDescription"
+    }
+}

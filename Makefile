@@ -1,4 +1,3 @@
-RM_TOOLS_REPO_URL = https://github.com/ONSdigital/rm-tools.git
 RAS_RM_REPO_URL = https://github.com/ONSdigital/ras-rm-docker-dev.git
 
 .PHONY: test system_tests acceptance_tests
@@ -25,7 +24,7 @@ clean:
 	pipenv run python reset_sftp_server.py
 
 setup: clean
-	./setup_data.sh ${RM_TOOLS_REPO_URL}
+	./setup_data.sh
 
 # If you want to run a single feature file WITHOUT setup first use:
 # make TEST_TARGET=acceptance_tests/features/your.feature run_tests
