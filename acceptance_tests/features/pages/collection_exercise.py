@@ -100,5 +100,5 @@ def get_collection_exercise_created_banner():
 
 def click_collection_exercise_created_banner():
     link = WebDriverWait(browser.driver, 60).until(
-        EC.presence_of_element_located((By.ID, 'newly_created_ce_link')))
+        EC.element_to_be_clickable((By.ID, 'newly_created_ce_link')))
     link.click()
