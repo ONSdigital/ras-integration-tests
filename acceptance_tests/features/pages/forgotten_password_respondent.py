@@ -20,7 +20,7 @@ def send_reset_link():
 
 
 def password_reset_sent():
-    return browser.find_by_text('Password reset request sent')
+    return browser.find_by_text('Check your email')
 
 
 def check_email_error_message():
