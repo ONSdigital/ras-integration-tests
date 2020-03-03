@@ -37,8 +37,8 @@ def user_creates_a_collection_exercise(context):
 
 @when('they have created the CE')
 def user_creates_another_collection_exercise(_):
-    create_collection_exercise.edit_period('202003')
-    create_collection_exercise.edit_user_description('1 March 2020')
+    create_collection_exercise.edit_period('202202')
+    create_collection_exercise.edit_user_description('1 February 2022')
     create_collection_exercise.click_save()
 
 
@@ -63,7 +63,7 @@ def check_new_collection_exercise_exists(context):
 @then('the CE must be associated to the specific survey')
 def check_new_collection_exercise_is_associated_to_the_survey(context):
     collection_exercise.click_collection_exercise_created_banner()
-    assert f'{context.survey_ref} {context.short_name} 202003 | Surveys | Survey Data Collection' in browser.title
+    assert f'{context.survey_ref} {context.short_name} 202202 | Surveys | Survey Data Collection' in browser.title
 
 
 @then('they are asked to use different details')

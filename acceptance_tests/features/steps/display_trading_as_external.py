@@ -2,6 +2,10 @@ from contextlib import suppress
 
 from behave import given, then, when
 
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
 from acceptance_tests import browser
 from acceptance_tests.features.pages.surveys_history import go_to_history_tab
 from acceptance_tests.features.pages.surveys_todo import go_to as go_to_todo
@@ -45,7 +49,8 @@ def respondent_has_completed_survey(context):
 
 @then('the trading name should be displayed below the business name for every survey')
 def trading_as_name_is_displayed_below_business_name_in_history(_):
-    assert 'PC LTD' in browser.driver.find_element_by_id('REPORTING_UNIT_DETAILS_49900000007').text,\
+    assert 'PC LTD' in WebDriverWait(browser.driver, 20).until(
+        EC.presence_of_element_located((By.ID, 'REPORTING_UNIT_DETAILS_49900000006'))).text,\
         'Could not find trading as name "PC LTD" in respondent history page'
 
 
