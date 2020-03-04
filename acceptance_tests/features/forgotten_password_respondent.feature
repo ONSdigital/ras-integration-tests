@@ -30,42 +30,42 @@ Feature: External user recovering their password
     Then the user is notified that the link has expired
     And can now request a new link
 
-  @fixture.setup.data.with.enrolled.respondent.user
-  Scenario: User re-sends reset password link
-    Given the user has clicked an expired password reset link
-    And the user has been notified that the link they used has expired
-    When they click the request new password link
-    Then the user is notified that they should check their email
+  # @fixture.setup.data.with.enrolled.respondent.user
+  # Scenario: User re-sends reset password link
+  #   Given the user has clicked an expired password reset link
+  #   And the user has been notified that the link they used has expired
+  #   When they click the request new password link
+  #   Then the user is notified that they should check their email
 
-  @fixture.setup.data.with.enrolled.respondent.user
-  Scenario: User clicks a reset password link
-    Given the user has received a link to reset password
-    When the user clicks the link
-    Then the user is taken to a reset password form
+  # @fixture.setup.data.with.enrolled.respondent.user
+  # Scenario: User clicks a reset password link
+  #   Given the user has received a link to reset password
+  #   When the user clicks the link
+  #   Then the user is taken to a reset password form
 
-  @fixture.setup.data.with.enrolled.respondent.user
-  Scenario: User attempts to reset password with incorrect confirmed password
-    Given the user has clicked a valid password reset link
-    When the user enters a new password and an incorrect confirmed password
-    And they submit the new password
-    Then the user is notified that the passwords don't match
+  # @fixture.setup.data.with.enrolled.respondent.user
+  # Scenario: User attempts to reset password with incorrect confirmed password
+  #   Given the user has clicked a valid password reset link
+  #   When the user enters a new password and an incorrect confirmed password
+  #   And they submit the new password
+  #   Then the user is notified that the passwords don't match
 
-  @fixture.setup.data.with.enrolled.respondent.user
-  Scenario: User attempts to reset password with password not meeting requirements
-    Given the user has clicked a valid password reset link
-    When the user enters and confirms a new password which does not meet requirements
-    And they submit the new password
-    Then the user is notified that the password does not meet requirements
+  # @fixture.setup.data.with.enrolled.respondent.user
+  # Scenario: User attempts to reset password with password not meeting requirements
+  #   Given the user has clicked a valid password reset link
+  #   When the user enters and confirms a new password which does not meet requirements
+  #   And they submit the new password
+  #   Then the user is notified that the password does not meet requirements
 
-  @fixture.setup.data.with.enrolled.respondent.user
-  Scenario: User attempts to reset password
-    Given the user has clicked a valid password reset link
-    When the user enters a new password and confirms the password
-    And they submit the new password
-    Then the user is notified that the password has been changed
+  # @fixture.setup.data.with.enrolled.respondent.user
+  # Scenario: User attempts to reset password
+  #   Given the user has clicked a valid password reset link
+  #   When the user enters a new password and confirms the password
+  #   And they submit the new password
+  #   Then the user is notified that the password has been changed
 
-  @fixture.setup.data.with.enrolled.respondent.user
-  Scenario: User logs in with new password
-    Given the user has reset their password
-    When the user enters their new credentials
-    Then they successfully log in to their account
+  # @fixture.setup.data.with.enrolled.respondent.user
+  # Scenario: User logs in with new password
+  #   Given the user has reset their password
+  #   When the user enters their new credentials
+  #   Then they successfully log in to their account

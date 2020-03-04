@@ -12,17 +12,17 @@ Feature: Respondent unlocking their account
   Scenario: Unverified user is informed if they exceed 10 failed sign in attempts
     Then The system is to inform the user that an email has been sent to a registered email
 
-  Scenario: User is sent an email after 10 failed sign in attempts, gets directed to the password reset page
-    Given an unverified user has received the unsuccessful sign in email
-    When they click the password reset link
-    Then they are directed to the reset password page
+  # Scenario: User is sent an email after 10 failed sign in attempts, gets directed to the password reset page
+  #   Given an unverified user has received the unsuccessful sign in email
+  #   When they click the password reset link
+  #   Then they are directed to the reset password page
 
-  Scenario: Account is unlocked and verified after confirming password reset
-    Given an unverified user has received the unsuccessful sign in email
-    And they click the password reset link
-    When the user enters a new password and confirms the password
-    And they submit the new password
-    Then their password is reset and their account is unlocked and verified
+  # Scenario: Account is unlocked and verified after confirming password reset
+  #   Given an unverified user has received the unsuccessful sign in email
+  #   And they click the password reset link
+  #   When the user enters a new password and confirms the password
+  #   And they submit the new password
+  #   Then their password is reset and their account is unlocked and verified
 
   @fixture.setup.data.with.enrolled.respondent.user.and.internal.user
   Scenario: an internal user unlocks a users account
