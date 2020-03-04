@@ -21,10 +21,10 @@ def no_results_found():
 
 def get_respondent_details():
     respondent_details = {
-        "email": browser.find_by_id('respondent-email').text,
-        "name": browser.find_by_id('respondent-name').text,
-        "telephone": browser.find_by_id('respondent-telephone').text,
-        "account_status": browser.find_by_id('respondent-account-status').text
+        "email": browser.find_by_id('respondent-email'),
+        "name": browser.find_by_id('respondent-name'),
+        "telephone": browser.find_by_id('respondent-phone'),
+        "account_status": browser.find_by_id('respondent-account-status')
     }
     return respondent_details
 
