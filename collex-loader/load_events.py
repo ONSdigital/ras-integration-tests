@@ -5,10 +5,9 @@ import json
 import requests
 from file_processing import process_files
 from datetime import datetime, timezone
-import re
 
 # Ignore these as they are the key for the collection exercise and don't represent event data
-ignore_columns = [ 'surveyRef', 'exerciseRef' ]
+ignore_columns = ['surveyRef', 'exerciseRef']
 
 
 def parse_args():
@@ -18,7 +17,7 @@ def parse_args():
     parser.add_argument("--geturl", help="URL to get collection exercises UUID", nargs='?')
     parser.add_argument("--user", help="User to load events", nargs='?')
     parser.add_argument("--password", help="Password to load events", nargs='?')
-    return parser.parse_args() 
+    return parser.parse_args()
 
 
 def post_event(collex_id, event_tag, date, url, user, password):
@@ -117,9 +116,9 @@ if __name__ == '__main__':
         event_handler = dump_event
     else:
         event_handler = partial(post_event,
-                user=api_config['user'],
-                password=api_config['password'],
-                url=api_config['post-url'])
+                                user=api_config['user'],
+                                password=api_config['password'],
+                                url=api_config['post-url'])
 
     row_handler = partial(row_handler, api_config=api_config, event_handler=event_handler)
 

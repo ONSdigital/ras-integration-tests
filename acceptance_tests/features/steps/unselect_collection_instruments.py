@@ -1,6 +1,6 @@
 from behave import given, when, then
 
-from acceptance_tests.features.pages import browser, collection_exercise_details
+from acceptance_tests.features.pages import collection_exercise_details
 from common.browser_utilities import is_text_present_with_retry
 
 

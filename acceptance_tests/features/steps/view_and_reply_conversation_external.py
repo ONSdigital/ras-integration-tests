@@ -51,8 +51,8 @@ def external_user_can_see_all_messages_in_conversation(_):
     original_message = page_helpers.get_body_from_conversation_message(conversation[0])
     internal_reply = page_helpers.get_body_from_conversation_message(conversation[1])
 
-    assert 'Message body to ONS' == original_message
-    assert 'Body of reply from ONS internal user' == internal_reply
+    assert original_message == 'Message body to ONS'
+    assert internal_reply == 'Body of reply from ONS internal user'
 
 
 @then('the external user can see the date and time for each message in the conversation')

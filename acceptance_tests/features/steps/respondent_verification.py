@@ -75,7 +75,7 @@ def verified_user_page(_):
 @when('the internal user clicks re-send verification email')
 @given('the internal user clicks re-send verification email')
 def click_resend_verification(_):
-   browser.find_by_id('resend-verification-email-btn').click()
+    browser.find_by_id('resend-verification-email-btn').click()
 
 
 @then('then they are redirected to a confirmation screen')
@@ -96,7 +96,7 @@ def click_confirm(_):
 
 
 @when('they press cancel')
-def click_confirm(_):
+def click_cancel(_):
     browser.find_by_id('cancel').click()
 
 

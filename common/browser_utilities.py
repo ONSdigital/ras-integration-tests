@@ -18,7 +18,7 @@ def is_text_present_with_action(text, action, retries=3, delay=1):
          delay: The amount of time to check if the text is present.
     Returns: True if text found else False"""
 
-    for attempt in range(retries):
+    for _ in range(retries):
         if browser.is_text_present(text, wait_time=delay):
             return True
         action()
@@ -34,7 +34,7 @@ def is_text_present_with_retry(text, retries=3, delay=1):
          delay: The amount of time to check if the text is present.
     Returns: True if text found else False
     """
-    for attempt in range(retries):
+    for _ in range(retries):
         if browser.is_text_present(text, wait_time=delay):
             return True
         browser.reload()

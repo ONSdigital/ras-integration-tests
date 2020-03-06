@@ -60,7 +60,7 @@ def internal_internal_user_presented_correct_associated_surveys(context):
 def internal_internal_user_presented_correct_associated_collection_exercises(context):
     associated_ces = reporting_unit.get_associated_collection_exercises(context.short_name)
     # Status updated async so wait until updated
-    for i in range(5):
+    for _ in range(5):
         if 'Not started' in associated_ces[0]['status']:
             break
         browser.reload()

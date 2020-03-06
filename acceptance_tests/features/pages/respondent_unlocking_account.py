@@ -19,7 +19,7 @@ def respondent_enters_wrong_password(username):
 
 
 def locking_respondent_out(username):
-    for i in range(0, 10):
+    for _ in range(0, 10):
         respondent_enters_wrong_password(username=username)
 
 

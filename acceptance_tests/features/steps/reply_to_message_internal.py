@@ -168,7 +168,7 @@ def internal_user_taken_to_specific_page(context, page):
 @given("the internal user goes to tab '{conversation_tab}' and page '{page}'")
 def internal_user_taken_to_specific_tab_and_page(context, conversation_tab, page):
     inbox_internal.go_to_using_context(context, conversation_tab)
-    for page_num in range(1, int(page)):
+    for _ in range(1, int(page)):
         wait_for_element_by_class_name(name='next', timeout=5, retry=1)
         browser.driver.find_element_by_class_name('next').click()
 

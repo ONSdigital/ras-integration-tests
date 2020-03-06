@@ -20,7 +20,7 @@ logger = wrap_logger(getLogger(__name__))
 
 
 def is_social_survey(survey_type):
-    return 'Social' == survey_type
+    return survey_type == 'Social'
 
 
 def format_survey_name(survey_name_in, social_survey, max_field_length):
