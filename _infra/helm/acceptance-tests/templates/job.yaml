@@ -59,7 +59,7 @@ spec:
             - name: SFTP_DIR
               value: "/sftp/files"
             - name: UAA_SERVICE_URL
-              value: "http://$(UAA_SERVICE_HOST):${UAA_SERVICE_PORT}"
+              value: "http://$(UAA_SERVICE_HOST):$(UAA_SERVICE_PORT)"
             - name: UAA_PORT
               value: "$(UAA_SERVICE_PORT)"
             - name: IGNORE_SEQUENTIAL_DATA_SETUP
