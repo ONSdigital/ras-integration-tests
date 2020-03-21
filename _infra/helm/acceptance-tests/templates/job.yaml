@@ -68,4 +68,4 @@ spec:
           command: ["/bin/bash", "-c"]
           args: ["make acceptance_tests"]
       restartPolicy: Never
-
+  backoffLimit: 0
