@@ -14,11 +14,6 @@ Feature: Load sample
     When the user selects a sample
     Then the user is presented with sample details
 
-  Scenario: Cancel preview sample
-    Given the user is presented with sample details
-    When the user cancels the sample
-    Then the sample details are reset
-
   Scenario: Load sample
     Given the collection exercise has been created
     When the internal user navigates to the collection exercise details page

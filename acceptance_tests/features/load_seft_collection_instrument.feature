@@ -14,15 +14,4 @@ Feature: Load SEFT collection instruments
     Given the collection exercise has been created
     When the internal user navigates to the collection exercise details page
     Then the user is able to load the collection instruments
-
-  Scenario: Load collection instrument wrong file type selected
-    Given the collection exercise has been created
-    When the internal user navigates to the collection exercise details page
-    And the internal user selects a non xlsx file
-    Then an error message is displayed to the user
-
-  Scenario: Load collection instrument wrong file type uploaded
-    Given the collection exercise has been created
-    When the internal user navigates to the collection exercise details page
-    And the internal user loads a non xlsx file
-    Then an error message is displayed to the user at the top of the screen
+    
