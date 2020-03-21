@@ -1,0 +1,6 @@
+env: sandbox
+namespace: test
+
+image:
+  name: eu.gcr.io/rm-ras-sandbox
+  pullPolicy: Always

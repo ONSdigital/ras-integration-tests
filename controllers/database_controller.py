@@ -15,16 +15,19 @@ def execute_sql(sql_script_file_path=None, sql_string=None, database_uri=Config.
     connection = engine.connect()
     trans = connection.begin()
 
-    if sql_script_file_path:
-        with open(sql_script_file_path, 'r') as sqlScriptFile:
-            sql = sqlScriptFile.read().replace('\n', '')
-    else:
-        sql = sql_string
+    try:
+        if sql_script_file_path:
+            with open(sql_script_file_path, 'r') as sqlScriptFile:
+                sql = sqlScriptFile.read().replace('\n', '')
+        else:
+            sql = sql_string
 
-    response = connection.execute(sql)
+        response = connection.execute(sql)
 
-    trans.commit()
-    logger.debug('Successfully executed SQL script', sql_script_file_path=sql_script_file_path)
+        trans.commit()
+        logger.debug('Successfully executed SQL script', sql_script_file_path=sql_script_file_path)
+    finally:
+        connection.close()
     return response
 
 

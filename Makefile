@@ -45,7 +45,7 @@ all_acceptance_tests: acceptance_sequential_tests rasrm_acceptance_parallel_test
 # Run sequentially targets
 acceptance_sequential_tests: setup
 	export IGNORE_SEQUENTIAL_DATA_SETUP=False; \
-	pipenv run python run_in_sequence.py
+	pipenv run python run_in_sequence.py --stop_on_failure=False
 
 acceptance_sequential_tests_all: TEST_TAGS = ~donotskipany
 acceptance_sequential_tests_all: setup

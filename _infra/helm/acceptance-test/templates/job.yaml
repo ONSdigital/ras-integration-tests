@@ -1,0 +1,70 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Chart.Name }}
+  labels:
+    env: {{ .Values.env }}
+spec:
+  template:
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.name }}/{{ .Chart.Name }}:{{ .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: DB_HOST
+              value: $(POSTGRES_SERVICE_HOST)
+            - name: DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: db-config
+                  key: db-port
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: db-config
+                  key: db-name
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials
+                  key: password
+            - name: DATABASE_URI
+              value: "postgres://$(DB_USERNAME):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)"
+            - name: ACTION_EXPORTER_HOST
+              value: "$(ACTION_EXPORTER_SERVICE_HOST)"
+            - name: ACTION_EXPORTER_PORT
+              value: "$(ACTION_EXPORTER_SERVICE_PORT)"
+            - name: RESPONSE_OPERATIONS_UI_HOST
+              value: "$(RESPONSE_OPERATIONS_UI_SERVICE_HOST)"
+            - name: RESPONSE_OPERATIONS_UI_PORT
+              value: "$(RESPONSE_OPERATIONS_UI_SERVICE_PORT)"
+            - name: RESPONDENT_HOME_UI_HOST
+              value: "$(RESPONDENT_HOME_UI_SERVICE_HOST)"
+            - name: RESPONDENT_HOME_UI_PORT
+              value: "$(RESPONDENT_HOME_UI_SERVICE_PORT)"
+            - name: SFTP_PORT
+              value: "$(SFTP_SERVICE_PORT)"
+            - name: SFTP_HOST
+              value: "$(SFTP_SERVICE_HOST)"
+            - name: SFTP_USERNAME
+              value: "demo"
+            - name: SFTP_PASSWORD
+              value: "demo"
+            - name: SFTP_DIR
+              value: "/sftp/files"
+            - name: UAA_SERVICE_URL
+              value: "http://$(UAA_SERVICE_HOST):${UAA_SERVICE_PORT}"
+            - name: UAA_PORT
+              value: "$(UAA_SERVICE_PORT)"
+            - name: IGNORE_SEQUENTIAL_DATA_SETUP
+              value: "False"
+          command: ["/bin/bash", "-c"]
+          args: ["make acceptance_tests"]
+      restartPolicy: Never
+
