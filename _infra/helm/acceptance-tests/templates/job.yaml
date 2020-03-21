@@ -4,6 +4,7 @@ metadata:
   name: {{ .Chart.Name }}
   labels:
     env: {{ .Values.env }}
+    app: {{ .Chart.Name }}
     namespace: {{ .Values.namespace }}
 spec:
   template:
