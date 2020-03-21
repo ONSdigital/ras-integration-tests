@@ -2,5 +2,5 @@ env: sandbox
 namespace: test
 
 image:
-  name: eu.gcr.io/rm-ras-sandbox
+  name: eu.gcr.io/ons-rasrmbs-management
   pullPolicy: Always
