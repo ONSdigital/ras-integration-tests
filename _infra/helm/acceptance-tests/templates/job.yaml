@@ -1,11 +1,11 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ .Chart.Name }}
+  name: "{{ .Chart.Name }}-{{ .Values.serviceID }}"
   labels:
     env: {{ .Values.env }}
     app: {{ .Chart.Name }}
-    namespace: {{ .Values.namespace }}
+    test-name: "{{ .Chart.Name }}-{{ .Values.serviceID }}"
 spec:
   template:
     spec:
