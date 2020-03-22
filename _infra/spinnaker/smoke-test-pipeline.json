@@ -1,4 +1,5 @@
 {
+  "appConfig": {},
   "expectedArtifacts": [
     {
       "defaultArtifact": {
@@ -25,22 +26,8 @@
   "limitConcurrent": true,
   "parameterConfig": [
     {
-      "default": "dev",
-      "description": "",
-      "hasOptions": false,
-      "label": "Namespace",
-      "name": "namespace",
-      "options": [
-        {
-          "value": ""
-        }
-      ],
-      "pinned": false,
-      "required": false
-    },
-    {
-      "default": "",
-      "description": "",
+      "default": "action",
+      "description": "This is only used for Finding unique jobs within pipelines, the service name is irrelevant",
       "hasOptions": true,
       "label": "Service",
       "name": "service",
@@ -96,6 +83,67 @@
       ],
       "pinned": true,
       "required": true
+    },
+    {
+      "default": "dev",
+      "description": "Launch test in this cluster",
+      "hasOptions": true,
+      "label": "Kubernetes cluster",
+      "name": "cluster",
+      "options": [
+        {
+          "value": "sandbox"
+        },
+        {
+          "value": "dev"
+        }
+      ],
+      "pinned": false,
+      "required": true
+    },
+    {
+      "default": "dev",
+      "description": "Launch test in this namespace",
+      "hasOptions": true,
+      "label": "Namespace",
+      "name": "namespace",
+      "options": [
+        {
+          "value": "dev"
+        },
+        {
+          "value": "staging"
+        },
+        {
+          "value": "terryj"
+        },
+        {
+          "value": "foxj"
+        },
+        {
+          "value": "sinnah"
+        },
+        {
+          "value": "baileyw"
+        },
+        {
+          "value": "manna"
+        },
+        {
+          "value": "wilkia"
+        },
+        {
+          "value": "khanm"
+        },
+        {
+          "value": "kentj"
+        },
+        {
+          "value": "crockerm"
+        }
+      ],
+      "pinned": true,
+      "required": true
     }
   ],
   "spelEvaluator": "v4",
@@ -136,7 +184,7 @@
       "type": "bakeManifest"
     },
     {
-      "account": "sandbox",
+      "account": "${parameters.cluster}",
       "cloudProvider": "kubernetes",
       "manifestArtifactAccount": "embedded-artifact",
       "manifestArtifactId": "69036044-bd66-4ef5-b549-23cd38b75f67",
@@ -162,7 +210,7 @@
       "type": "deployManifest"
     },
     {
-      "account": "sandbox",
+      "account": "${parameters.cluster}",
       "app": "acceptance-tests",
       "cloudProvider": "kubernetes",
       "kinds": [
@@ -191,5 +239,5 @@
     }
   ],
   "triggers": [],
-  "updateTs": "1584874974569"
+  "updateTs": "1584895679663"
 }
