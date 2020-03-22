@@ -1,0 +1,195 @@
+{
+  "expectedArtifacts": [
+    {
+      "defaultArtifact": {
+        "artifactAccount": "ons-rasrmbs-management",
+        "id": "62a6feda-2ac8-4d13-b1aa-817e84b6d9c0",
+        "name": "gs://ras-rm-artifacts/acceptance-tests/acceptance-tests-0.1.0.tgz",
+        "reference": "gs://ras-rm-artifacts/acceptance-tests/acceptance-tests-0.1.0.tgz",
+        "type": "gcs/object"
+      },
+      "displayName": "helm-chart",
+      "id": "0fc43ebd-8c84-4a12-bec5-639e8fc4cdff",
+      "matchArtifact": {
+        "artifactAccount": "ons-rasrmbs-management",
+        "id": "0c4ed9b4-5735-4840-bef6-a49746dfa327",
+        "name": "gs://ras-rm-artifacts/acceptance-tests/acceptance-tests-0.1.0.tgz",
+        "type": "gcs/object"
+      },
+      "useDefaultArtifact": true,
+      "usePriorArtifact": true
+    }
+  ],
+  "keepWaitingPipelines": false,
+  "lastModifiedBy": "john.terry@ons.gov.uk",
+  "limitConcurrent": true,
+  "parameterConfig": [
+    {
+      "default": "dev",
+      "description": "",
+      "hasOptions": false,
+      "label": "Namespace",
+      "name": "namespace",
+      "options": [
+        {
+          "value": ""
+        }
+      ],
+      "pinned": false,
+      "required": false
+    },
+    {
+      "default": "",
+      "description": "",
+      "hasOptions": true,
+      "label": "Service",
+      "name": "service",
+      "options": [
+        {
+          "value": "action"
+        },
+        {
+          "value": "action-exporter"
+        },
+        {
+          "value": "auth"
+        },
+        {
+          "value": "case"
+        },
+        {
+          "value": "collection-exercise"
+        },
+        {
+          "value": "collection-instrument"
+        },
+        {
+          "value": "comms-template"
+        },
+        {
+          "value": "frontstage"
+        },
+        {
+          "value": "iac"
+        },
+        {
+          "value": "notify-gateway"
+        },
+        {
+          "value": "party"
+        },
+        {
+          "value": "reporting"
+        },
+        {
+          "value": "sample"
+        },
+        {
+          "value": "sdx-gateway"
+        },
+        {
+          "value": "secure-message"
+        },
+        {
+          "value": "survey"
+        }
+      ],
+      "pinned": true,
+      "required": true
+    }
+  ],
+  "spelEvaluator": "v4",
+  "stages": [
+    {
+      "expectedArtifacts": [
+        {
+          "defaultArtifact": {
+            "customKind": true,
+            "id": "85e63da9-2081-445c-b9bb-346bdcb72e61"
+          },
+          "displayName": "test-job",
+          "id": "69036044-bd66-4ef5-b549-23cd38b75f67",
+          "matchArtifact": {
+            "id": "4208cf56-2fc6-4cdf-ae1c-ffad39fd2cc7",
+            "name": "test-job",
+            "type": "embedded/base64"
+          },
+          "useDefaultArtifact": false,
+          "usePriorArtifact": false
+        }
+      ],
+      "inputArtifacts": [
+        {
+          "account": "ons-rasrmbs-management",
+          "id": "0fc43ebd-8c84-4a12-bec5-639e8fc4cdff"
+        }
+      ],
+      "name": "Bake Test",
+      "namespace": "default",
+      "outputName": "acceptance-tests",
+      "overrides": {
+        "serviceID": "${parameters.service}"
+      },
+      "refId": "1",
+      "requisiteStageRefIds": [],
+      "templateRenderer": "HELM3",
+      "type": "bakeManifest"
+    },
+    {
+      "account": "sandbox",
+      "cloudProvider": "kubernetes",
+      "manifestArtifactAccount": "embedded-artifact",
+      "manifestArtifactId": "69036044-bd66-4ef5-b549-23cd38b75f67",
+      "moniker": {
+        "app": "acceptance-tests"
+      },
+      "name": "Run Test Job",
+      "namespaceOverride": "${parameters.namespace}",
+      "refId": "2",
+      "requisiteStageRefIds": [
+        "1",
+        "3"
+      ],
+      "skipExpressionEvaluation": false,
+      "source": "artifact",
+      "trafficManagement": {
+        "enabled": false,
+        "options": {
+          "enableTraffic": false,
+          "services": []
+        }
+      },
+      "type": "deployManifest"
+    },
+    {
+      "account": "sandbox",
+      "app": "acceptance-tests",
+      "cloudProvider": "kubernetes",
+      "kinds": [
+        "job"
+      ],
+      "labelSelectors": {
+        "selectors": [
+          {
+            "key": "test-name",
+            "kind": "EQUALS",
+            "values": [
+              "acceptance-tests-${parameters.service}"
+            ]
+          }
+        ]
+      },
+      "location": "${parameters.namespace}",
+      "mode": "label",
+      "name": "Delete previous test",
+      "options": {
+        "cascading": true
+      },
+      "refId": "3",
+      "requisiteStageRefIds": [],
+      "type": "deleteManifest"
+    }
+  ],
+  "triggers": [],
+  "updateTs": "1584874974569"
+}
