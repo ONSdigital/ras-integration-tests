@@ -38,18 +38,6 @@ spec:
                   key: password
             - name: DATABASE_URI
               value: "postgres://$(DB_USERNAME):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)"
-            - name: ACTION_EXPORTER_HOST
-              value: "$(ACTION_EXPORTER_SERVICE_HOST)"
-            - name: ACTION_EXPORTER_PORT
-              value: "$(ACTION_EXPORTER_SERVICE_PORT)"
-            - name: RESPONSE_OPERATIONS_UI_HOST
-              value: "$(RESPONSE_OPERATIONS_UI_SERVICE_HOST)"
-            - name: RESPONSE_OPERATIONS_UI_PORT
-              value: "$(RESPONSE_OPERATIONS_UI_SERVICE_PORT)"
-            - name: RESPONDENT_HOME_UI_HOST
-              value: "$(RESPONDENT_HOME_UI_SERVICE_HOST)"
-            - name: RESPONDENT_HOME_UI_PORT
-              value: "$(RESPONDENT_HOME_UI_SERVICE_PORT)"
             - name: SFTP_PORT
               value: "$(SFTP_SERVICE_PORT)"
             - name: SFTP_HOST
