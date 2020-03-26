@@ -2,6 +2,7 @@ from behave import given, when, then
 
 from acceptance_tests.features.pages import respondent
 from controllers.party_controller import get_party_by_email
+from common.survey_utilities import logger
 
 
 @given('the respondent account with an email has been created')
