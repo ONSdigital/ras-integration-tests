@@ -9,7 +9,7 @@ nose = "*"
 requests = "*"
 structlog = "*"
 # Pinned because of a bug introduced in later versions not yet fixed
-splinter = "0.11.0"
+splinter = "~=0.11.0"
 chromedriver-binary = "~=80.0"
 itsdangerous = "*"
 testfixtures = "*"
