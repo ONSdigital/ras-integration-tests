@@ -4,4 +4,5 @@ serviceID: action
 
 image:
   name: eu.gcr.io/ons-rasrmbs-management
-  pullPolicy: Always
+  tag: latest
+  pullPolicy: IfNotPresent
