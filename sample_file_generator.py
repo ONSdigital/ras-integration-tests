@@ -1,15 +1,8 @@
-import csv, sys, getopt
+import csv, sys
 
 with open("performance-test-sample.csv", "w") as csv_file:
         writer = csv.writer(csv_file, delimiter=':')
-        try:
-            opts, args = getopt.getopt(sys.argv, "n:")
-        except getopt.GetoptError:
-            print('Usage: make performance RESPONDENTS=<number of respondents>')
-            sys.exit(1)
-        for opt, arg in opts:
-            if opt == '-n':
-                sampleunits = int(arg)
+        sampleunits = int(sys.argv[2])
         formtype='0001'
         i = 1
         while i <= sampleunits:
