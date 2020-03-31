@@ -37,8 +37,8 @@ system_tests: run_tests
 
 # Run setup for performance testing
 performance: setup
-	pipenv run python sample_file_generator.py -n ${RESPONDENTS}
-	pipenv run python seed_performance_environment.py
+	pipenv run python sample_file_generator.py ${RESPONDENTS}
+	pipenv run python seed_performance_environment.py ${RESPONDENTS}
 
 # Run sequentially & in parallel targets
 acceptance_tests: acceptance_sequential_tests acceptance_parallel_tests

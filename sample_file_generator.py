@@ -2,7 +2,7 @@ import csv, sys
 
 with open("performance-test-sample.csv", "w") as csv_file:
         writer = csv.writer(csv_file, delimiter=':')
-        sampleunits = int(sys.argv[2])
+        sampleunits = int(sys.argv[1])
         formtype='0001'
         i = 1
         while i <= sampleunits:
