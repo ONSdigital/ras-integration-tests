@@ -117,3 +117,5 @@ tmp_ras_rm_docker_dev
 setenvs.sh
 
 *_failed.png
+performance_test_accounts.csv
+performance_test_sample.csv

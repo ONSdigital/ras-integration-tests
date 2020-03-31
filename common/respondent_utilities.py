@@ -7,6 +7,8 @@ from config import Config
 from controllers import case_controller, collection_exercise_controller, database_controller, django_oauth_controller, \
     iac_controller, party_controller
 
+import json
+
 RU_REFERENCE_START = 50000000000
 RU_REFERENCE_END = 59999999999
 
@@ -73,8 +75,7 @@ def register_respondent(survey_id, period, username, ru_ref=None, verified=True)
     if ru_ref:
         business_party = party_controller.get_party_by_ru_ref(ru_ref)
         b_case = case_controller.get_b_case(collection_exercise_id, business_party['id'])
-        is_iac_active = iac_controller.get_iac(b_case['iac'])['active']
-        if not is_iac_active:
+        if b_case['iac'] is None or not iac_controller.get_iac(b_case['iac'])['active']:
             enrolment_code = case_controller.generate_new_enrolment_code(b_case['id'], business_party['id'])
         else:
             enrolment_code = b_case['iac']

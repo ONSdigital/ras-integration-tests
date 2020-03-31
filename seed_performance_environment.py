@@ -14,8 +14,9 @@ def main():
     i = 1
     with open("performance-test-accounts.csv", "w") as csv_file:
         writer = csv.writer(csv_file, delimiter=',')
-        while i <= int(sys.argv[1]):
+        while i <= int(sys.argv[2]):
             sampleunitref = '499' + format(str(i), "0>8s")
+            print('Attempting to register user '+ sampleunitref + "@test.com")
             register_respondent(survey_id=survey_id, period=period,
                                 username=sampleunitref + "@test.com", ru_ref=sampleunitref)
             writer.writerow(sampleunitref)
