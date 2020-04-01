@@ -36,6 +36,8 @@ system_tests: TEST_TARGET = system_tests/features  # This will only run the syst
 system_tests: run_tests
 
 # Run setup for performance testing
+# Note that IAC provisioning is limited by Case service's case-distribution.retrieval-max setting, running this number every 30 seconds.
+# If 100/minute is too slow for you, consider changing this
 performance: setup
 	pipenv run python sample_file_generator.py -n ${RESPONDENTS}
 	pipenv run python seed_performance_environment.py -n ${RESPONDENTS}

@@ -44,25 +44,40 @@ def select_iac():
     return iac
 
 
-def get_iac_for_collection_exercise(collection_exercise_id, social=False):
+def get_iac_for_collection_exercise(collection_exercise_id, social=False, count=1):
 
     if social:
         sample_unit_type = "H"
     else:
         sample_unit_type = "B"
 
-    sql_statement = "SELECT a.iac FROM casesvc.caseiacaudit a " \
-                    "INNER JOIN casesvc.case c ON a.casefk = c.casepk " \
-                    "INNER JOIN iac.iac i ON a.iac = i.code " \
-                    "INNER JOIN casesvc.casegroup g ON c.casegroupfk = g.casegrouppk " \
-                    f"WHERE c.statefk = 'ACTIONABLE' AND c.SampleUnitType = '{sample_unit_type}'" \
-                    f"AND g.collectionexerciseid = '{collection_exercise_id}' " \
-                    "AND i.active = TRUE " \
-                    "ORDER BY c.createddatetime DESC LIMIT 1; "
+    if count == 1:
+        sql_statement = "SELECT a.iac FROM casesvc.caseiacaudit a " \
+                        "INNER JOIN casesvc.case c ON a.casefk = c.casepk " \
+                        "INNER JOIN iac.iac i ON a.iac = i.code " \
+                        "INNER JOIN casesvc.casegroup g ON c.casegroupfk = g.casegrouppk " \
+                        f"WHERE c.statefk = 'ACTIONABLE' AND c.SampleUnitType = '{sample_unit_type}'" \
+                        f"AND g.collectionexerciseid = '{collection_exercise_id}' " \
+                        "AND i.active = TRUE " \
+                        "ORDER BY c.createddatetime DESC LIMIT 1; "
+    else:
+        sql_statement = "SELECT COUNT(a.iac) AS iac FROM casesvc.caseiacaudit a " \
+                        "INNER JOIN casesvc.case c ON a.casefk = c.casepk " \
+                        "INNER JOIN iac.iac i ON a.iac = i.code " \
+                        "INNER JOIN casesvc.casegroup g ON c.casegroupfk = g.casegrouppk " \
+                        f"WHERE c.statefk = 'ACTIONABLE' AND c.SampleUnitType = '{sample_unit_type}'" \
+                        f"AND g.collectionexerciseid = '{collection_exercise_id}' " \
+                        "AND i.active = TRUE;"
     result = execute_sql(sql_string=sql_statement)
     iac = None
-    for row in result:
-        iac = row['iac']
+    if count == 1:
+        for row in result:
+            iac = row['iac']
+    else:
+        for row in result:
+            print('IAC count: ' + str(row['iac']))
+            if row['iac'] == count:
+                iac = count
     return iac
 
 
